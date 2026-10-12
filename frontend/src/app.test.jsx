@@ -7,22 +7,23 @@ import {packetIsFresh,useTelemetry} from './useTelemetry.js';
 
 vi.mock('recharts',()=>({ResponsiveContainer:({children})=><div>{children}</div>,LineChart:({children})=><div>{children}</div>,
   Line:()=>null,CartesianGrid:()=>null,XAxis:()=>null,YAxis:()=>null,Tooltip:()=>null,Legend:()=>null,ReferenceLine:()=>null}));
-let calls, telemetryData, telemetryFailure, savedConfigurations;
+let calls, telemetryData, telemetryFailure, savedConfigurations, bootstrapData;
 const clone=value=>JSON.parse(JSON.stringify(value));
 const emptyTelemetry=()=>({source:'hardware',device_id:null,streams:[],latest:null,history:[],age_seconds:null,
   availability:null,metadata:{},mqtt:{running:true,connected:true},outputs_enabled:false});
 const response=data=>({ok:true,json:async()=>clone(data)});
 
 beforeEach(()=>{
-  calls=[];telemetryData=emptyTelemetry();telemetryFailure='';savedConfigurations=[];location.hash='overview';
+  calls=[];telemetryData=emptyTelemetry();telemetryFailure='';savedConfigurations=[];bootstrapData=clone(fixture);location.hash='overview';
   vi.stubGlobal('fetch',vi.fn(async(url,options={})=>{
     calls.push({url,options});
     let data;
-    if(url==='/api/bootstrap') data=clone(fixture);
+    if(url==='/api/bootstrap') data=bootstrapData;
     else if(url.startsWith('/api/telemetry?')) {
       if(telemetryFailure) throw new Error(telemetryFailure);
       data=telemetryData;
     }
+    else if(url.startsWith('/api/camera-images?')) data={items:[],storage:{backend:'mongodb',configured:true,connected:true}};
     else if(url==='/api/snapshots/nutrition'||url==='/api/snapshots/run') data=[];
     else if(url==='/api/snapshots/config'&&options.method==='POST') {
       const payload=JSON.parse(options.body);
@@ -39,6 +40,14 @@ beforeEach(()=>{
       const plan={status:'optimal',daily,metrics:{shortfall_days:0,total_harvest_kg:0,min_reserve_days:7,total_water_l:900,total_power_kwh:270},warnings:[],consumption:{1:{ration:1}},planting:[]};
       const baseline={...clone(plan),status:'simulated',metrics:{...plan.metrics,shortfall_days:60,total_harvest_kg:3,total_water_l:1000},planting:[{crop:'Baseline crop',day:1,harvest_day:30,predicted_harvest_kg:3}],warnings:['Fixed plan has tracked target gaps.']};
       data={metadata:{created_at_utc:'2026-10-11T00:00:00Z',config,scenario,adaptive:plan,baseline},explanation:{facts:[]},history_id:'saved'};
+    } else if(url==='/api/plans/continue') {
+      const payload=JSON.parse(options.body),source=bootstrapData.last_run;
+      const profiles=payload.mission_change.crew_profiles,nextDay=payload.through_day+1;
+      const daily=source.metadata.adaptive.daily.map(row=>row.day<=payload.through_day?row:{...row,crew:profiles.length});
+      data={history_id:'interactive-continued',metadata:{...clone(source.metadata),
+        config:{...clone(source.metadata.config),planning_events:[{day:nextDay,crew:profiles.length,crew_profiles:profiles}]},
+        continuation:{through_day:payload.through_day,next_day:nextDay,mission_change:payload.mission_change,crew_profiles:profiles},
+        adaptive:{...clone(source.metadata.adaptive),daily}}};
     } else throw new Error('Unexpected request: '+url);
     return response(data);
   }));
@@ -48,8 +57,55 @@ afterEach(()=>{cleanup();vi.useRealTimers();vi.unstubAllGlobals();});
 const loadedOverview=()=>screen.findByRole('heading',{name:'Mission overview',level:1});
 function primaryLink(name) {return within(screen.getByRole('navigation',{name:'Workspace navigation'})).getByRole('link',{name});}
 function settingsLink() {return within(screen.getByRole('navigation',{name:'Workspace settings'})).getByRole('link',{name:'Workspace settings'});}
+function savedCrewMission(){
+  const config={...clone(fixture.config),planning_events:[{day:31,crew:6}],input_provenance:{simulation_continuation:'Continued after Day 30',rolling_demo:'Two crew arrive on Day 31',nutrition_source:'USDA FoodData Central'}};
+  const daily=Array.from({length:90},(_,index)=>({day:index+1,crew:index<30?4:6,energy_target:index<30?8800:13200,protein_target:index<30?360:540,vitamin_c_target:index<30?400:600,shortfall_normalized:0}));
+  const plan={status:'optimal',daily,metrics:{shortfall_days:0},warnings:[],planting:[],inventories:{47:Object.fromEntries(config.foods.map(food=>[food.id,10]))},consumption:{}};
+  return {history_id:'saved-six-crew-demo',metadata:{config,scenario:{event_day:1,extra_crew:0,name:'Saved mission'},continuation:{through_day:30,next_day:31},adaptive:plan,baseline:clone(plan)}};
+}
 
 describe('Mission planning workspace',()=>{
+  it('allows a crew change at an operator-selected day directly from the overview',async()=>{
+    bootstrapData.last_run=savedCrewMission();bootstrapData.config=clone(bootstrapData.last_run.metadata.config);
+    render(<App/>);await loadedOverview();
+    fireEvent.change(screen.getByLabelText('Explore mission day'),{target:{value:'47'}});
+    expect(within(screen.getByRole('group',{name:'Modeled ecosystem on day 47'})).getByText('6 crew')).toBeTruthy();
+    expect(calls.filter(call=>call.url==='/api/plans/continue')).toHaveLength(0);
+    fireEvent.click(screen.getByRole('button',{name:'Change crew at Day 47'}));
+    expect(screen.getByLabelText('Continue after completed Day').value).toBe('47');
+    expect(screen.getByRole('button',{name:'Play simulation'}).disabled).toBe(true);
+    fireEvent.click(screen.getByRole('button',{name:'Remove Sample Crew 6 from future crew'}));
+    fireEvent.click(screen.getByLabelText('Reviewed planning targets for this change'));
+    fireEvent.click(screen.getByRole('button',{name:'Apply change & replan from Day 48'}));
+    await screen.findByRole('region',{name:'Accepted mission change'});
+    const payload=JSON.parse(calls.find(call=>call.url==='/api/plans/continue').options.body);
+    expect(payload.through_day).toBe(47);
+    expect(payload.mission_change.crew_profiles).toHaveLength(5);
+    expect(payload.mission_change.replace_future_crew_changes).toBe(true);
+    expect(within(screen.getByRole('group',{name:'Modeled ecosystem on day 48'})).getByText('5 crew')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button',{name:'Close crew editor'}));
+    expect(screen.getByRole('button',{name:'Play simulation'}).disabled).toBe(false);
+  });
+
+  it('starts a fresh four-crew mission without replaying a saved six-crew arrival',async()=>{
+    bootstrapData.last_run=savedCrewMission();bootstrapData.config=clone(bootstrapData.last_run.metadata.config);
+    render(<App/>);await loadedOverview();
+    expect(await screen.findByRole('group',{name:'Modeled ecosystem on day 31'})).toBeTruthy();
+    fireEvent.click(primaryLink('What-if simulator'));
+    await screen.findByRole('heading',{name:'What-if simulator'});
+    fireEvent.click(screen.getByRole('button',{name:'Start a new mission'}));
+    await loadedOverview();
+    const submitted=JSON.parse(calls.find(call=>call.url==='/api/plans').options.body);
+    expect(submitted.config.crew).toBe(4);
+    expect(submitted.config.planning_events).toEqual([]);
+    expect(submitted.config.input_provenance).toEqual({nutrition_source:'USDA FoodData Central'});
+    expect(submitted.scenario).toMatchObject({event_day:91,extra_crew:0,water_factor:1,power_factor:1,target_factors:{},crop_yield_factors:{},failed_crop_ids:[]});
+    expect(screen.getByRole('group',{name:'Modeled ecosystem on day 1'})).toBeTruthy();
+    fireEvent.change(screen.getByLabelText('Explore mission day'),{target:{value:'50'}});
+    expect(within(screen.getByRole('group',{name:'Modeled ecosystem on day 50'})).getByText('4 crew')).toBeTruthy();
+    expect(screen.queryByRole('button',{name:/Reviewed crew: 6/})).toBeNull();
+    expect(calls.filter(call=>call.url==='/api/plans/continue')).toHaveLength(0);
+  });
   it('reads MongoDB telemetry independently of MQTT without starting the planner',async()=>{
     telemetryData={...emptyTelemetry(),storage:{backend:'mongodb',connected:true},mqtt:{connected:false}};
     render(<App/>);await loadedOverview();fireEvent.click(primaryLink('Live devices'));
@@ -64,7 +120,7 @@ describe('Mission planning workspace',()=>{
     render(<App/>);await loadedOverview();
     const navigation=screen.getByRole('navigation',{name:'Workspace navigation'});
     expect(within(navigation).getAllByRole('link').map(link=>link.textContent)).toEqual([
-      'Mission overview','Crew & nutrition','Crops & food','What-if simulator','Plant screening','Live devices',
+      'Mission overview','Crew & nutrition','Crops & food','What-if simulator','Plant overview','Live devices',
     ]);
     expect(within(navigation).queryByRole('link',{name:/research|model|saved/i})).toBeNull();
     expect(settingsLink()).toBeTruthy();
@@ -112,12 +168,12 @@ describe('Mission planning workspace',()=>{
     render(<App/>);await loadedOverview();
     fireEvent.click(screen.getByRole('button',{name:/Open what-if simulator/}));
     await screen.findByRole('heading',{name:'What-if simulator'});
-    fireEvent.change(screen.getByLabelText('Water remaining (%)'),{target:{value:'60'}});
+    fireEvent.change(screen.getByLabelText('Daily water allowance (%)'),{target:{value:'60'}});
     expect(calls.filter(call=>call.url==='/api/plans')).toHaveLength(0);
     fireEvent.click(screen.getByRole('button',{name:/Run comparison/}));
     await screen.findByText('Model run: optimal');
     expect(JSON.parse(calls.find(call=>call.url==='/api/plans').options.body).scenario.water_factor).toBe(.6);
-    fireEvent.change(screen.getByLabelText('Water remaining (%)'),{target:{value:'40'}});
+    fireEvent.change(screen.getByLabelText('Daily water allowance (%)'),{target:{value:'40'}});
     expect(calls.filter(call=>call.url==='/api/plans')).toHaveLength(1);
     expect(screen.getByText('Model run: optimal').parentElement.textContent).toContain('water 60%');
     fireEvent.click(screen.getByLabelText('Optional local Ollama fact selection'));
@@ -229,12 +285,15 @@ describe('Mission planning workspace',()=>{
   });
 
   it('skips to content without changing the current workspace',async()=>{
-    render(<App/>);await loadedOverview();fireEvent.click(primaryLink('Plant screening'));
-    await screen.findByRole('heading',{name:'Plant screening'});
+    render(<App/>);await loadedOverview();fireEvent.click(primaryLink('Plant overview'));
+    await screen.findByRole('heading',{name:'Plant overview'});
+    expect(screen.queryByRole('tab',{name:'Leaf screening'})).toBeNull();
+    expect(screen.queryByRole('tab',{name:'Fruit monitoring'})).toBeNull();
+    expect(document.querySelectorAll('input[type=file]')).toHaveLength(1);
     fireEvent.click(screen.getByRole('link',{name:'Skip to workspace'}));
     expect(document.activeElement.id).toBe('main-content');
     expect(location.hash).toBe('#vision');
-    expect(screen.getByRole('heading',{name:'Plant screening'})).toBeTruthy();
+    expect(screen.getByRole('heading',{name:'Plant overview'})).toBeTruthy();
   });
 
   it('keeps named configuration saving available under workspace settings',async()=>{
@@ -273,7 +332,7 @@ describe('Mission planning workspace',()=>{
     expect(Number(screen.getByLabelText('Target increase (%)').value)).toBe(40);
     fireEvent.click(screen.getByRole('button',{name:'Water shortage',exact:true}));
     expect(Number(screen.getByLabelText('Target increase (%)').value)).toBe(0);
-    expect(Number(screen.getByLabelText('Water remaining (%)').value)).toBe(60);
+    expect(Number(screen.getByLabelText('Daily water allowance (%)').value)).toBe(60);
     expect(calls.filter(call=>call.url==='/api/plans')).toHaveLength(0);
     fireEvent.click(screen.getByRole('button',{name:/Run comparison/}));await screen.findByText('Model run: optimal');
     const submitted=JSON.parse(calls.find(call=>call.url==='/api/plans').options.body).scenario;

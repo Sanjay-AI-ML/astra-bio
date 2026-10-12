@@ -163,8 +163,35 @@ def test_gateway_certificate_matches_lan_ip(tmp_path):
     mongo_runtime.ensure_tls("192.168.1.20", tmp_path)
     certificate = x509.load_pem_x509_certificate((tmp_path / "tls/server.crt").read_bytes())
     sans = certificate.extensions.get_extension_for_class(x509.SubjectAlternativeName).value
-    assert ipaddress.ip_address("192.168.1.20") in sans.get_values_for_type(x509.IPAddress)
+    assert set(sans.get_values_for_type(x509.IPAddress)) == {
+        ipaddress.ip_address("192.168.1.20"), ipaddress.ip_address("127.0.0.1")}
+    assert set(sans.get_values_for_type(x509.DNSName)) == {"192.168.1.20", "127.0.0.1", "localhost"}
+    assert len(sans) == 5
     assert certificate.not_valid_after_utc > datetime.now(timezone.utc)
+
+
+def test_gateway_certificate_regeneration_preserves_ca_and_exact_host_scope(tmp_path):
+    from cryptography import x509
+    from cryptography.hazmat.primitives.asymmetric import padding
+    import ipaddress
+    mongo_runtime.ensure_tls("192.168.1.20", tmp_path)
+    ca_bytes = (tmp_path / "tls/ca.crt").read_bytes()
+    ca_key_bytes = (tmp_path / "tls/ca.key").read_bytes()
+    first_server = (tmp_path / "tls/server.crt").read_bytes()
+    mongo_runtime.ensure_tls("172.16.58.241", tmp_path)
+    assert (tmp_path / "tls/ca.crt").read_bytes() == ca_bytes
+    assert (tmp_path / "tls/ca.key").read_bytes() == ca_key_bytes
+    assert (tmp_path / "tls/server.crt").read_bytes() != first_server
+    server = x509.load_pem_x509_certificate((tmp_path / "tls/server.crt").read_bytes())
+    ca = x509.load_pem_x509_certificate(ca_bytes)
+    assert server.issuer == ca.subject
+    ca.public_key().verify(server.signature, server.tbs_certificate_bytes,
+                           padding.PKCS1v15(), server.signature_hash_algorithm)
+    sans = server.extensions.get_extension_for_class(x509.SubjectAlternativeName).value
+    assert set(sans.get_values_for_type(x509.IPAddress)) == {
+        ipaddress.ip_address("172.16.58.241"), ipaddress.ip_address("127.0.0.1")}
+    assert set(sans.get_values_for_type(x509.DNSName)) == {"172.16.58.241", "127.0.0.1", "localhost"}
+    assert len(sans) == 5
 
 
 def test_software_probe_sends_identical_synthetic_packet_and_confirms_one_record(tmp_path, monkeypatch):

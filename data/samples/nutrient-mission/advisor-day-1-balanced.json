@@ -1,0 +1,625 @@
+{
+  "schema_version": 1,
+  "day": 1,
+  "priority": "balanced",
+  "area_m2": 0.25,
+  "units": {
+    "energy": "kcal",
+    "protein": "g",
+    "vitamin_c": "mg"
+  },
+  "weights": {
+    "energy": 0.0,
+    "protein": 1.0,
+    "vitamin_c": 0.0
+  },
+  "weight_basis": "Shares of future shortfall divided by each day's crew target.",
+  "scoring_basis": "For each tracked nutrient: edible yield \u00d7 composition \u00f7 growth days \u00f7 forecast daily crew target on harvest day (requested-day target if unavailable). Score is the weighted sum of normalized target shares per m\u00b2/day.",
+  "forecast": {
+    "available": true,
+    "nutrients": [
+      {
+        "nutrient": "energy",
+        "unit": "kcal",
+        "current_target": 8800.0,
+        "current_supply": 8800.0,
+        "current_shortfall": 0.0,
+        "earliest_gap_day": null,
+        "cumulative_future_shortfall": 0,
+        "normalized_future_gap": 0.0,
+        "gap_days": 0
+      },
+      {
+        "nutrient": "protein",
+        "unit": "g",
+        "current_target": 360.0,
+        "current_supply": 378.613881748072,
+        "current_shortfall": 0.0,
+        "earliest_gap_day": 55,
+        "cumulative_future_shortfall": 481.17598499294144,
+        "normalized_future_gap": 0.9547142559383759,
+        "gap_days": 12
+      },
+      {
+        "nutrient": "vitamin_c",
+        "unit": "mg",
+        "current_target": 400.0,
+        "current_supply": 400.0,
+        "current_shortfall": 0.0,
+        "earliest_gap_day": null,
+        "cumulative_future_shortfall": 0,
+        "normalized_future_gap": 0.0,
+        "gap_days": 0
+      }
+    ],
+    "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+  },
+  "recommendations": [
+    {
+      "crop_id": "arugula_600",
+      "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+      "actionable": true,
+      "blocked_reasons": [],
+      "score": 0.00969088669950739,
+      "score_components": {
+        "energy": 0.0,
+        "protein": 0.00969088669950739,
+        "vitamin_c": 0.0
+      },
+      "normalized_output_per_m2_day": {
+        "energy": 0.005378134796238245,
+        "protein": 0.00969088669950739,
+        "vitamin_c": 0.07099137931034483
+      },
+      "nutrients_per_100g": {
+        "energy": 25.0,
+        "protein": 2.58,
+        "vitamin_c": 15.0
+      },
+      "score_daily_targets": {
+        "energy": 8800.0,
+        "protein": 503.99999999999994,
+        "vitamin_c": 400.0
+      },
+      "nutrient_output_per_m2_day": {
+        "energy": 47.327586206896555,
+        "protein": 4.884206896551724,
+        "vitamin_c": 28.396551724137932
+      },
+      "estimated_harvest_kg": 1.3725,
+      "nutrients_at_harvest": {
+        "energy": 343.125,
+        "protein": 35.4105,
+        "vitamin_c": 205.875
+      },
+      "harvest_day": 30,
+      "grow_days": 29,
+      "gaps_before_harvest": {
+        "energy": 0.0,
+        "protein": 0.0,
+        "vitamin_c": 0.0
+      },
+      "harvest_day_fresh_limit_kg": 3.2,
+      "resources": {
+        "required_daily_water_l": 0.375,
+        "available_daily_water_l": 42.880673004255996,
+        "required_daily_power_kwh": 1.2375,
+        "available_daily_power_kwh": 39.765323575036795,
+        "required_area_m2": 0.25,
+        "available_area_m2": 19.920448669503998,
+        "cycle_water_l": 10.875,
+        "cycle_power_kwh": 35.8875,
+        "min_available_water_l_in_cycle": 40.137112415729916,
+        "min_available_power_kwh_in_cycle": 34.36965441760217,
+        "min_available_area_m2_in_cycle": 18.091408277153278
+      },
+      "provenance": {
+        "composition": {
+          "status": "usda_reference_proxy",
+          "source_url": "https://fdc.nal.usda.gov/food-details/169387/nutrients",
+          "fdc_id": 169387,
+          "food_form": "raw edible portion",
+          "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+        },
+        "growth": {
+          "status": "configured_planning_coefficients",
+          "detail": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table6; Arugula (cultivar not reported); eden_iss_2018_arugula_600; observed mean fresh edible harvest; cycle rounded up from 29.0 days."
+        },
+        "resources": {
+          "status": "planning_assumptions",
+          "detail": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 4.8 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported crop light setting at16cm. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response."
+        }
+      },
+      "warnings": [
+        "Harvest nutrients are potential production, not guaranteed consumption or gap closure.",
+        "A crop planted now supplies no food before its first harvest."
+      ],
+      "rank": 1
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "actionable": true,
+      "blocked_reasons": [],
+      "score": 0.008743333333333334,
+      "score_components": {
+        "energy": 0.0,
+        "protein": 0.008743333333333334,
+        "vitamin_c": 0.0
+      },
+      "normalized_output_per_m2_day": {
+        "energy": 0.003465909090909091,
+        "protein": 0.008743333333333334,
+        "vitamin_c": 0.04575
+      },
+      "nutrients_per_100g": {
+        "energy": 25.0,
+        "protein": 2.58,
+        "vitamin_c": 15.0
+      },
+      "score_daily_targets": {
+        "energy": 8800.0,
+        "protein": 360.0,
+        "vitamin_c": 400.0
+      },
+      "nutrient_output_per_m2_day": {
+        "energy": 30.5,
+        "protein": 3.1476,
+        "vitamin_c": 18.3
+      },
+      "estimated_harvest_kg": 0.7625,
+      "nutrients_at_harvest": {
+        "energy": 190.625,
+        "protein": 19.6725,
+        "vitamin_c": 114.375
+      },
+      "harvest_day": 26,
+      "grow_days": 25,
+      "gaps_before_harvest": {
+        "energy": 0.0,
+        "protein": 0.0,
+        "vitamin_c": 0.0
+      },
+      "harvest_day_fresh_limit_kg": 3.2,
+      "resources": {
+        "required_daily_water_l": 0.375,
+        "available_daily_water_l": 42.880673004255996,
+        "required_daily_power_kwh": 0.6975,
+        "available_daily_power_kwh": 39.765323575036795,
+        "required_area_m2": 0.25,
+        "available_area_m2": 19.920448669503998,
+        "cycle_water_l": 9.375,
+        "cycle_power_kwh": 17.4375,
+        "min_available_water_l_in_cycle": 40.51183420819774,
+        "min_available_power_kwh_in_cycle": 35.10660727612222,
+        "min_available_area_m2_in_cycle": 18.341222805465158
+      },
+      "provenance": {
+        "composition": {
+          "status": "usda_reference_proxy",
+          "source_url": "https://fdc.nal.usda.gov/food-details/169387/nutrients",
+          "fdc_id": 169387,
+          "food_form": "raw edible portion",
+          "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+        },
+        "growth": {
+          "status": "configured_planning_coefficients",
+          "detail": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table6; Arugula (cultivar not reported); eden_iss_2018_arugula_330; observed mean fresh edible harvest; cycle rounded up from 24.2 days."
+        },
+        "resources": {
+          "status": "planning_assumptions",
+          "detail": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 2.64 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported crop light setting at16cm. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response."
+        }
+      },
+      "warnings": [
+        "Harvest nutrients are potential production, not guaranteed consumption or gap closure.",
+        "A crop planted now supplies no food before its first harvest."
+      ],
+      "rank": 2
+    },
+    {
+      "crop_id": "kohlrabi",
+      "name": "Kohlrabi \u2014 EDEN ISS \u00b7 terrestrial reference",
+      "actionable": false,
+      "blocked_reasons": [
+        "Insufficient daily crop power after saved allocations."
+      ],
+      "score": 0.004636467581382836,
+      "score_components": {
+        "energy": 0.0,
+        "protein": 0.004636467581382836,
+        "vitamin_c": 0.0
+      },
+      "normalized_output_per_m2_day": {
+        "energy": 0.004217449922958398,
+        "protein": 0.004636467581382836,
+        "vitamin_c": 0.2130593220338983
+      },
+      "nutrients_per_100g": {
+        "energy": 27.0,
+        "protein": 1.7000000000000002,
+        "vitamin_c": 62.0
+      },
+      "score_daily_targets": {
+        "energy": 8800.0,
+        "protein": 503.99999999999994,
+        "vitamin_c": 400.0
+      },
+      "nutrient_output_per_m2_day": {
+        "energy": 37.1135593220339,
+        "protein": 2.336779661016949,
+        "vitamin_c": 85.22372881355932
+      },
+      "estimated_harvest_kg": 2.0275,
+      "nutrients_at_harvest": {
+        "energy": 547.425,
+        "protein": 34.4675,
+        "vitamin_c": 1257.05
+      },
+      "harvest_day": 60,
+      "grow_days": 59,
+      "gaps_before_harvest": {
+        "energy": 0.0,
+        "protein": 122.03101554918447,
+        "vitamin_c": 0.0
+      },
+      "harvest_day_fresh_limit_kg": 3.2,
+      "resources": {
+        "required_daily_water_l": 0.375,
+        "available_daily_water_l": 42.880673004255996,
+        "required_daily_power_kwh": 0.7374999999999999,
+        "available_daily_power_kwh": 39.765323575036795,
+        "required_area_m2": 0.25,
+        "available_area_m2": 19.920448669503998,
+        "cycle_water_l": 22.125,
+        "cycle_power_kwh": 43.512499999999996,
+        "min_available_water_l_in_cycle": 26.07067865902134,
+        "min_available_power_kwh_in_cycle": 0.0,
+        "min_available_area_m2_in_cycle": 8.713785772680893
+      },
+      "provenance": {
+        "composition": {
+          "status": "usda_reference_proxy",
+          "source_url": "https://fdc.nal.usda.gov/food-details/168424/nutrients",
+          "fdc_id": 168424,
+          "food_form": "raw edible portion",
+          "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+        },
+        "growth": {
+          "status": "configured_planning_coefficients",
+          "detail": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table9; Kohlrabi (cultivar not reported); eden_iss_2018_mixed_climate; observed mean fresh edible harvest; cycle rounded up from 58.71 days."
+        },
+        "resources": {
+          "status": "planning_assumptions",
+          "detail": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 2.8 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: midpoint of reported300\u2013400 PPFD range; engineering assumption. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response."
+        }
+      },
+      "warnings": [
+        "Harvest nutrients are potential production, not guaranteed consumption or gap closure.",
+        "A crop planted now supplies no food before its first harvest."
+      ],
+      "rank": 3
+    },
+    {
+      "crop_id": "lettuce_waldmann_nasa",
+      "name": "Lettuce \u2014 Waldmann's Green (NASA RLSS) \u00b7 terrestrial reference",
+      "actionable": true,
+      "blocked_reasons": [],
+      "score": 0.0024642108415693325,
+      "score_components": {
+        "energy": 0.0,
+        "protein": 0.0024642108415693325,
+        "vitamin_c": 0.0
+      },
+      "normalized_output_per_m2_day": {
+        "energy": 0.0015566037735849057,
+        "protein": 0.0024642108415693325,
+        "vitamin_c": 0.021003773584905662
+      },
+      "nutrients_per_100g": {
+        "energy": 15.0,
+        "protein": 1.3600000000000003,
+        "vitamin_c": 9.200000000000001
+      },
+      "score_daily_targets": {
+        "energy": 8800.0,
+        "protein": 503.99999999999994,
+        "vitamin_c": 400.0
+      },
+      "nutrient_output_per_m2_day": {
+        "energy": 13.69811320754717,
+        "protein": 1.2419622641509436,
+        "vitamin_c": 8.401509433962264
+      },
+      "estimated_harvest_kg": 0.6849056603773584,
+      "nutrients_at_harvest": {
+        "energy": 102.73584905660377,
+        "protein": 9.314716981132076,
+        "vitamin_c": 63.01132075471698
+      },
+      "harvest_day": 31,
+      "grow_days": 30,
+      "gaps_before_harvest": {
+        "energy": 0.0,
+        "protein": 0.0,
+        "vitamin_c": 0.0
+      },
+      "harvest_day_fresh_limit_kg": 3.2,
+      "resources": {
+        "required_daily_water_l": 0.375,
+        "available_daily_water_l": 42.880673004255996,
+        "required_daily_power_kwh": 0.7494999999999999,
+        "available_daily_power_kwh": 39.765323575036795,
+        "required_area_m2": 0.25,
+        "available_area_m2": 19.920448669503998,
+        "cycle_water_l": 11.25,
+        "cycle_power_kwh": 22.485,
+        "min_available_water_l_in_cycle": 37.80300002678594,
+        "min_available_power_kwh_in_cycle": 27.12430945995294,
+        "min_available_area_m2_in_cycle": 16.53533335119063
+      },
+      "provenance": {
+        "composition": {
+          "status": "usda_reference_proxy",
+          "source_url": "https://fdc.nal.usda.gov/food-details/169249/nutrients",
+          "fdc_id": 169249,
+          "food_form": "raw edible portion",
+          "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+        },
+        "growth": {
+          "status": "configured_planning_coefficients",
+          "detail": "https://ntrs.nasa.gov/citations/19930057552; NTRS abstract: two30day crop tests; Waldmann's Green; nasa_rlss_1992; observed mean fresh edible harvest; cycle rounded up from 30.0 days."
+        },
+        "resources": {
+          "status": "planning_assumptions",
+          "detail": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 2.848 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported average PPFD. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response."
+        }
+      },
+      "warnings": [
+        "Harvest nutrients are potential production, not guaranteed consumption or gap closure.",
+        "A crop planted now supplies no food before its first harvest."
+      ],
+      "rank": 4
+    },
+    {
+      "crop_id": "radish_raxe",
+      "name": "Radish \u2014 Raxe \u00b7 terrestrial reference",
+      "actionable": true,
+      "blocked_reasons": [],
+      "score": 0.0014946859903381645,
+      "score_components": {
+        "energy": 0.0,
+        "protein": 0.0014946859903381645,
+        "vitamin_c": 0.0
+      },
+      "normalized_output_per_m2_day": {
+        "energy": 0.0014387351778656129,
+        "protein": 0.0014946859903381645,
+        "vitamin_c": 0.02927826086956522
+      },
+      "nutrients_per_100g": {
+        "energy": 16.0,
+        "protein": 0.6800000000000002,
+        "vitamin_c": 14.8
+      },
+      "score_daily_targets": {
+        "energy": 8800.0,
+        "protein": 360.0,
+        "vitamin_c": 400.0
+      },
+      "nutrient_output_per_m2_day": {
+        "energy": 12.660869565217393,
+        "protein": 0.5380869565217392,
+        "vitamin_c": 11.711304347826088
+      },
+      "estimated_harvest_kg": 0.455,
+      "nutrients_at_harvest": {
+        "energy": 72.8,
+        "protein": 3.0940000000000003,
+        "vitamin_c": 67.34
+      },
+      "harvest_day": 24,
+      "grow_days": 23,
+      "gaps_before_harvest": {
+        "energy": 0.0,
+        "protein": 0.0,
+        "vitamin_c": 0.0
+      },
+      "harvest_day_fresh_limit_kg": 3.2,
+      "resources": {
+        "required_daily_water_l": 0.375,
+        "available_daily_water_l": 42.880673004255996,
+        "required_daily_power_kwh": 1.2375,
+        "available_daily_power_kwh": 39.765323575036795,
+        "required_area_m2": 0.25,
+        "available_area_m2": 19.920448669503998,
+        "cycle_water_l": 8.625,
+        "cycle_power_kwh": 28.462500000000002,
+        "min_available_water_l_in_cycle": 40.68432707816575,
+        "min_available_power_kwh_in_cycle": 35.44584325372598,
+        "min_available_area_m2_in_cycle": 18.4562180521105
+      },
+      "provenance": {
+        "composition": {
+          "status": "usda_reference_proxy",
+          "source_url": "https://fdc.nal.usda.gov/food-details/169276/nutrients",
+          "fdc_id": 169276,
+          "food_form": "raw edible portion",
+          "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+        },
+        "growth": {
+          "status": "configured_planning_coefficients",
+          "detail": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table9; Raxe; eden_iss_2018_mixed_climate; observed mean fresh edible harvest; cycle rounded up from 22.6 days."
+        },
+        "resources": {
+          "status": "planning_assumptions",
+          "detail": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 4.8 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported crop light setting at16cm. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response."
+        }
+      },
+      "warnings": [
+        "Harvest nutrients are potential production, not guaranteed consumption or gap closure.",
+        "A crop planted now supplies no food before its first harvest."
+      ],
+      "rank": 5
+    }
+  ],
+  "top_choice_crop_id": "arugula_600",
+  "bridge_foods": [
+    {
+      "food_id": "oats",
+      "name": "Oats (Includes foods for USDA's Food Distribution Program)",
+      "stock_kg": 140.0,
+      "available": true,
+      "expired": false,
+      "is_reserve": true,
+      "stock_source": "Configured initial stock",
+      "nutrients_per_100g": {
+        "energy": 389.0,
+        "protein": 16.89,
+        "vitamin_c": 0.0
+      },
+      "current_nutrients_per_100g": {
+        "energy": 389.0,
+        "protein": 16.89,
+        "vitamin_c": 0.0
+      },
+      "available_nutrients_in_stock": {
+        "energy": 544600.0,
+        "protein": 23646.0,
+        "vitamin_c": 0.0
+      },
+      "score": 65.68333333333334,
+      "protein_in_stock_g": 23646.0,
+      "provenance": {
+        "status": "usda_reference_proxy",
+        "source_url": "https://fdc.nal.usda.gov/food-details/169705/nutrients",
+        "fdc_id": 169705,
+        "food_form": "dry ingredient weight",
+        "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+      },
+      "warnings": [
+        "Edible stock is a simulation input/result; it has not been physically verified.",
+        "Reserve stock: review the protected reserve before changing planned consumption."
+      ]
+    },
+    {
+      "food_id": "lentils",
+      "name": "Lentils, raw",
+      "stock_kg": 45.0,
+      "available": true,
+      "expired": false,
+      "is_reserve": true,
+      "stock_source": "Configured initial stock",
+      "nutrients_per_100g": {
+        "energy": 352.0,
+        "protein": 24.63,
+        "vitamin_c": 4.5
+      },
+      "current_nutrients_per_100g": {
+        "energy": 352.0,
+        "protein": 24.63,
+        "vitamin_c": 4.5
+      },
+      "available_nutrients_in_stock": {
+        "energy": 158400.0,
+        "protein": 11083.5,
+        "vitamin_c": 2025.0
+      },
+      "score": 30.7875,
+      "protein_in_stock_g": 11083.5,
+      "provenance": {
+        "status": "usda_reference_proxy",
+        "source_url": "https://fdc.nal.usda.gov/food-details/172420/nutrients",
+        "fdc_id": 172420,
+        "food_form": "dry ingredient weight before cooking",
+        "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+      },
+      "warnings": [
+        "Edible stock is a simulation input/result; it has not been physically verified.",
+        "Reserve stock: review the protected reserve before changing planned consumption."
+      ]
+    },
+    {
+      "food_id": "peanut_butter",
+      "name": "Peanut butter, smooth style, without salt",
+      "stock_kg": 20.0,
+      "available": true,
+      "expired": false,
+      "is_reserve": true,
+      "stock_source": "Configured initial stock",
+      "nutrients_per_100g": {
+        "energy": 598.0,
+        "protein": 22.210000000000004,
+        "vitamin_c": 0.0
+      },
+      "current_nutrients_per_100g": {
+        "energy": 598.0,
+        "protein": 22.210000000000004,
+        "vitamin_c": 0.0
+      },
+      "available_nutrients_in_stock": {
+        "energy": 119600.0,
+        "protein": 4442.0,
+        "vitamin_c": 0.0
+      },
+      "score": 12.338888888888889,
+      "protein_in_stock_g": 4442.0,
+      "provenance": {
+        "status": "usda_reference_proxy",
+        "source_url": "https://fdc.nal.usda.gov/food-details/172470/nutrients",
+        "fdc_id": 172470,
+        "food_form": "smooth, unsalted",
+        "detail": "Generic USDA edible-food composition; not a measured habitat harvest."
+      },
+      "warnings": [
+        "Edible stock is a simulation input/result; it has not been physically verified.",
+        "Reserve stock: review the protected reserve before changing planned consumption."
+      ]
+    },
+    {
+      "food_id": "sample_vitamin_bridge",
+      "name": "Fortified bridge food (synthetic sample)",
+      "stock_kg": 5,
+      "available": true,
+      "expired": false,
+      "is_reserve": true,
+      "stock_source": "Configured initial stock",
+      "nutrients_per_100g": {
+        "energy": 100.0,
+        "protein": 0.0,
+        "vitamin_c": 500.0
+      },
+      "current_nutrients_per_100g": {
+        "energy": 100.0,
+        "protein": 0.0,
+        "vitamin_c": 500.0
+      },
+      "available_nutrients_in_stock": {
+        "energy": 5000.0,
+        "protein": 0.0,
+        "vitamin_c": 25000.0
+      },
+      "score": 0.0,
+      "protein_in_stock_g": 0.0,
+      "provenance": {
+        "status": "configured_assumption",
+        "source_url": null,
+        "fdc_id": null,
+        "food_form": "Configured edible food form; verify before applying.",
+        "detail": "Current configuration coefficients; no matching measured composition is established."
+      },
+      "warnings": [
+        "Edible stock is a simulation input/result; it has not been physically verified.",
+        "Reserve stock: review the protected reserve before changing planned consumption."
+      ]
+    }
+  ],
+  "limitations": [
+    "Only energy, protein and vitamin C are compared; this is not a complete diet or a clinical assessment.",
+    "Recommendations use submitted coefficients and a saved forecast; camera images do not measure nutrient content.",
+    "Actionable means remaining area and resources can accommodate an additional batch in the saved schedule; no planting or inventory is changed.",
+    "Growing time and yield still need calibration against the actual tray and cultivar.",
+    "New crops cannot resolve shortages before harvest; review stored food or recovery options for those days.",
+    "Fresh harvest is consumed or discarded on harvest day in the current planner; total batch nutrients are not guaranteed dietary intake."
+  ]
+}

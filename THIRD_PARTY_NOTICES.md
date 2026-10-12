@@ -16,6 +16,23 @@ PlantDoc fine-tuning attribution: [PlantDoc-Dataset](https://github.com/pratikka
 
 Measured lettuce-growth attribution: Saeed Karimzadeh and Md Shamim Ahamed, University of California, Davis, [Lettuce Dataset with RGB Canopy Images, Biomass, Nutrient Solution, and Environmental Variables for Machine Learning Model Development](https://zenodo.org/records/17041810), DOI `10.5281/zenodo.17041810`, CC-BY-4.0. Selected source XLSX/README files are unchanged. ASTRA-BIO extracts 540 plant/day fresh-mass observations and fits a source-specific age curve; changes and checksums are recorded in `data/research/growth/source_manifest.json`. The original figures are retained unchanged for attribution/context and are not training inputs. The separately referenced Wageningen light/temperature-treatment dataset was not downloaded successfully or fitted; its retrieval limitation remains explicit.
 
+## Pretrained fruit detectors
+
+ASTRA-BIO reuses these pinned publisher artifacts for local visible-produce observations:
+
+| App model ID | Publisher/source | Revision | Original file | Publisher card declaration |
+| --- | --- | --- | --- | --- |
+| `tomato-ripeness-3` | [pablofntdz/yolov8-tomato-detection](https://huggingface.co/pablofntdz/yolov8-tomato-detection) | `244eb93615708602716b57f2d09da479e2d899d4` | `model_hub_n.pt` | MIT |
+| `tomato-ripeness-6` | [afeefaazam/tomato-ripeness-detector](https://huggingface.co/afeefaazam/tomato-ripeness-detector) | `318c3e91578a748fa7020da80cbef00a357002e3` | `model.pt` | MIT |
+| `tomato-detection` | [AitorConS/tomatoACLv1](https://huggingface.co/AitorConS/tomatoACLv1) | `a228d44bdf24306cedec6d433da093242c4fb05d` | `tomatoACLv1.onnx` | MIT |
+| `produce-detection` | [Piyu12/fruit-veg-yolo11m-detector](https://huggingface.co/Piyu12/fruit-veg-yolo11m-detector) | `82c9865261175e778ba5641cf8560b5d10439ec6` | `best.pt` | AGPL-3.0 |
+
+All four installed ONNX graphs declare **AGPL-3.0** in their artifact metadata. The first three cards' MIT declarations are preserved separately from that artifact declaration. Ultralytics framework/model obligations also apply under its [AGPL-3.0 or Enterprise terms](https://www.ultralytics.com/license); an uploader's MIT tag alone does not resolve inherited framework, weight or dataset rights. This integration does not change the project's starter license or claim that every artifact is cleared for unrestricted distribution.
+
+Pinned original checkpoints and model cards are retained unchanged under ignored `runtime/fruit-models/`. ASTRA-BIO exports three checkpoints to ONNX, uses the existing fourth ONNX directly, and adds manifests, integrity/ordered-label verification, preprocessing, box suppression, crop filtering and the observation UI. Source and exported hashes, actual labels, revisions, preprocessing, package versions and license declarations are retained in each model's local `manifest.json`; setup source pins are tracked in `astra_bio/fruit_setup.py`. Original graph class order is preserved, including `Fully-ripe`, `Semi-ripe`, `Unripe` for the three-stage model despite its card's conflicting class-ID table.
+
+The unchanged local tomato smoke photograph comes from [afeefaazam's pinned publisher example](https://huggingface.co/afeefaazam/tomato-ripeness-detector/blob/318c3e91578a748fa7020da80cbef00a357002e3/examples/drone_example.jpg). Its source/hash are recorded alongside the ignored sample. No separate photograph license was verified; the sample is not redistributed or used as independent accuracy evidence. See [fruit monitoring](docs/FRUIT_MONITORING.md) for use and validation limits.
+
 ## Pyomo Gallery
 
 LICENSE

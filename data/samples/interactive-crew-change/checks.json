@@ -1,0 +1,32 @@
+{
+  "source_run": "78fca6287d174594ad2fa738788b7c1d",
+  "continued_run": "a72ddcd59f4f42d6940f5cef75f52535",
+  "through_day": 17,
+  "first_future_day": 18,
+  "checks": {
+    "elapsed_rows_preserved": true,
+    "boundary_food_inventory_preserved": true,
+    "four_crew_through_day17": true,
+    "five_crew_days18_to90": true,
+    "old_day31_and32_crew_events_removed": true,
+    "future_crew_changes_replaced": true,
+    "superseded_crew_days": true,
+    "boundary_water_preserved": true,
+    "boundary_electricity_preserved": true,
+    "growing_cohort_checkpoint_preserved": true
+  },
+  "growing_cohorts_carried": 20,
+  "boundary_food_kg": 175.06018993105255,
+  "boundary_water_l": 3780.8861540728076,
+  "boundary_electricity_kwh": 2599.196706269556,
+  "fresh_run": "7f2d28d62676408cb3d096cce1299ef5",
+  "fresh_mission_checks": {
+    "four_crew_all_days": true,
+    "no_scheduled_events": true,
+    "no_relative_arrivals": true,
+    "no_continuation_metadata": true,
+    "no_continuation_provenance": true,
+    "no_rolling_demo_provenance": true,
+    "scenario_beyond_horizon": true
+  }
+}

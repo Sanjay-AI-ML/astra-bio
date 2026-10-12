@@ -1,0 +1,28 @@
+{
+  "verified_at_utc": "2026-10-12T14:45:43.351383+00:00",
+  "sample_only": true,
+  "names": [
+    "Shree Ram Vishal",
+    "Shamyuktha",
+    "Sanjay",
+    "Vamshika"
+  ],
+  "fictional_iron_scenario": {
+    "name": "Vamshika",
+    "latest_sample_day": 30,
+    "hemoglobin_g_dl": 10.8,
+    "ferritin_ug_l": 8
+  },
+  "checks": {
+    "backend_affected_tests": 36,
+    "frontend_all_tests": 116,
+    "production_build_passed": true,
+    "named_profiles_visible_in_browser": true,
+    "metric_units_verified": true,
+    "food_log_day_change_recalculates": true,
+    "blood_time_independent_of_intake_day": true,
+    "three_discrete_ferritin_points_visible": true,
+    "extra_crew_have_no_invented_blood_results": true
+  },
+  "scope": "Reproducible fictional dashboard demonstration; not measured or clinically validated health data"
+}

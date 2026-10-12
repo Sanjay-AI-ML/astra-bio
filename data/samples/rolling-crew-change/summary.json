@@ -1,0 +1,950 @@
+{
+  "history_days_1_to_30_unchanged": true,
+  "boundary_food_inventory_unchanged": true,
+  "crew_before": 4,
+  "crew_after": 6,
+  "daily_targets_before": {
+    "energy": 8800.0,
+    "protein": 503.99999999999994,
+    "vitamin_c": 400.0
+  },
+  "daily_targets_after": {
+    "energy": 13200.0,
+    "protein": 704.0,
+    "vitamin_c": 600.0
+  },
+  "remaining_at_checkpoint": {
+    "water_l": 3801.0158082389116,
+    "energy_kwh": 2921.5679611530677
+  },
+  "remaining_at_mission_end": {
+    "water_remaining_l": 1764.6632001834969,
+    "energy_remaining_kwh": 854.9231054281411
+  },
+  "growing_batches_at_checkpoint": 17,
+  "future_gap_days_previous_schedule": 60,
+  "future_gap_days_replanned": 55,
+  "planned_crop_actions": [
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 31,
+      "planting_day": 31,
+      "harvest_day": 56,
+      "area_m2": 1.3114754098360657,
+      "estimated_harvest_kg": 4.0,
+      "predicted_harvest_kg": 4.0,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.0,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757576,
+        "protein": 0.1465909090909091,
+        "vitamin_c": 1.0
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_600",
+      "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+      "day": 31,
+      "planting_day": 31,
+      "harvest_day": 60,
+      "area_m2": 0.7285974499089253,
+      "estimated_harvest_kg": 4.0,
+      "predicted_harvest_kg": 4.0,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.0,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757576,
+        "protein": 0.1465909090909091,
+        "vitamin_c": 1.0
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "kohlrabi",
+      "name": "Kohlrabi \u2014 EDEN ISS \u00b7 terrestrial reference",
+      "day": 31,
+      "planting_day": 31,
+      "harvest_day": 90,
+      "area_m2": 0.08642954960375941,
+      "estimated_harvest_kg": 0.7009436472864888,
+      "predicted_harvest_kg": 0.7009436472864888,
+      "potential_nutrients_at_harvest": {
+        "energy": 189.254784767352,
+        "protein": 11.91604200387031,
+        "vitamin_c": 434.58506131762306
+      },
+      "nutrients_at_harvest": {
+        "energy": 189.254784767352,
+        "protein": 11.91604200387031,
+        "vitamin_c": 434.58506131762306
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 0.7009436472864888,
+      "planned_crop_day_nutrients": {
+        "energy": 189.254784767352,
+        "protein": 11.91604200387031,
+        "vitamin_c": 434.58506131762306
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.014337483694496363,
+        "protein": 0.01692619602822487,
+        "vitamin_c": 0.7243084355293717
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 32,
+      "planting_day": 32,
+      "harvest_day": 57,
+      "area_m2": 1.3114754098360657,
+      "estimated_harvest_kg": 4.0,
+      "predicted_harvest_kg": 4.0,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.0,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757576,
+        "protein": 0.1465909090909091,
+        "vitamin_c": 1.0
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_600",
+      "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+      "day": 32,
+      "planting_day": 32,
+      "harvest_day": 61,
+      "area_m2": 0.7285974499089253,
+      "estimated_harvest_kg": 4.0,
+      "predicted_harvest_kg": 4.0,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.0,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757576,
+        "protein": 0.1465909090909091,
+        "vitamin_c": 1.0
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 33,
+      "planting_day": 33,
+      "harvest_day": 58,
+      "area_m2": 1.3114754098360657,
+      "estimated_harvest_kg": 4.0,
+      "predicted_harvest_kg": 4.0,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.0,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757576,
+        "protein": 0.1465909090909091,
+        "vitamin_c": 1.0
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_600",
+      "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+      "day": 33,
+      "planting_day": 33,
+      "harvest_day": 62,
+      "area_m2": 0.7285974499089254,
+      "estimated_harvest_kg": 4.000000000000001,
+      "predicted_harvest_kg": 4.000000000000001,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.000000000000001,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757577,
+        "protein": 0.14659090909090913,
+        "vitamin_c": 1.0000000000000002
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 34,
+      "planting_day": 34,
+      "harvest_day": 59,
+      "area_m2": 0.2622950819672129,
+      "estimated_harvest_kg": 0.7999999999999993,
+      "predicted_harvest_kg": 0.7999999999999993,
+      "potential_nutrients_at_harvest": {
+        "energy": 199.99999999999983,
+        "protein": 20.639999999999983,
+        "vitamin_c": 119.99999999999989
+      },
+      "nutrients_at_harvest": {
+        "energy": 199.99999999999983,
+        "protein": 20.639999999999983,
+        "vitamin_c": 119.99999999999989
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 0.7999999999999993,
+      "planned_crop_day_nutrients": {
+        "energy": 199.99999999999983,
+        "protein": 20.639999999999983,
+        "vitamin_c": 119.99999999999989
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.015151515151515138,
+        "protein": 0.029318181818181795,
+        "vitamin_c": 0.19999999999999982
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_600",
+      "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+      "day": 34,
+      "planting_day": 34,
+      "harvest_day": 63,
+      "area_m2": 0.7285974499089254,
+      "estimated_harvest_kg": 4.000000000000001,
+      "predicted_harvest_kg": 4.000000000000001,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.000000000000001,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757577,
+        "protein": 0.14659090909090913,
+        "vitamin_c": 1.0000000000000002
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_600",
+      "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+      "day": 35,
+      "planting_day": 35,
+      "harvest_day": 64,
+      "area_m2": 0.7285974499089253,
+      "estimated_harvest_kg": 4.0,
+      "predicted_harvest_kg": 4.0,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.0,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0,
+        "protein": 103.2,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757576,
+        "protein": 0.1465909090909091,
+        "vitamin_c": 1.0
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_600",
+      "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+      "day": 36,
+      "planting_day": 36,
+      "harvest_day": 65,
+      "area_m2": 0.1829221249552214,
+      "estimated_harvest_kg": 1.0042424660041656,
+      "predicted_harvest_kg": 1.0042424660041656,
+      "potential_nutrients_at_harvest": {
+        "energy": 251.06061650104138,
+        "protein": 25.909455622907473,
+        "vitamin_c": 150.63636990062483
+      },
+      "nutrients_at_harvest": {
+        "energy": 251.06061650104138,
+        "protein": 25.909455622907473,
+        "vitamin_c": 150.63636990062483
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 1.0042424660041658,
+      "planned_crop_day_nutrients": {
+        "energy": 251.06061650104144,
+        "protein": 25.909455622907476,
+        "vitamin_c": 150.63636990062486
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.01901974367432132,
+        "protein": 0.036803204009811755,
+        "vitamin_c": 0.25106061650104144
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 55,
+      "planting_day": 55,
+      "harvest_day": 80,
+      "area_m2": 1.0491803278688536,
+      "estimated_harvest_kg": 3.2000000000000033,
+      "predicted_harvest_kg": 3.2000000000000033,
+      "potential_nutrients_at_harvest": {
+        "energy": 800.0000000000008,
+        "protein": 82.56000000000009,
+        "vitamin_c": 480.0000000000005
+      },
+      "nutrients_at_harvest": {
+        "energy": 800.0000000000008,
+        "protein": 82.56000000000009,
+        "vitamin_c": 480.0000000000005
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.2000000000000033,
+      "planned_crop_day_nutrients": {
+        "energy": 800.0000000000008,
+        "protein": 82.56000000000009,
+        "vitamin_c": 480.0000000000005
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.06060606060606066,
+        "protein": 0.1172727272727274,
+        "vitamin_c": 0.8000000000000008
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 56,
+      "planting_day": 56,
+      "harvest_day": 81,
+      "area_m2": 1.3114754098360653,
+      "estimated_harvest_kg": 3.9999999999999987,
+      "predicted_harvest_kg": 3.9999999999999987,
+      "potential_nutrients_at_harvest": {
+        "energy": 999.9999999999997,
+        "protein": 103.19999999999997,
+        "vitamin_c": 599.9999999999998
+      },
+      "nutrients_at_harvest": {
+        "energy": 999.9999999999997,
+        "protein": 103.19999999999997,
+        "vitamin_c": 599.9999999999998
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.9999999999999987,
+      "planned_crop_day_nutrients": {
+        "energy": 999.9999999999997,
+        "protein": 103.19999999999997,
+        "vitamin_c": 599.9999999999998
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757573,
+        "protein": 0.14659090909090905,
+        "vitamin_c": 0.9999999999999997
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 57,
+      "planting_day": 57,
+      "harvest_day": 82,
+      "area_m2": 1.3114754098360644,
+      "estimated_harvest_kg": 3.999999999999996,
+      "predicted_harvest_kg": 3.999999999999996,
+      "potential_nutrients_at_harvest": {
+        "energy": 999.999999999999,
+        "protein": 103.1999999999999,
+        "vitamin_c": 599.9999999999994
+      },
+      "nutrients_at_harvest": {
+        "energy": 999.999999999999,
+        "protein": 103.1999999999999,
+        "vitamin_c": 599.9999999999994
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.999999999999996,
+      "planned_crop_day_nutrients": {
+        "energy": 999.999999999999,
+        "protein": 103.1999999999999,
+        "vitamin_c": 599.9999999999994
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757568,
+        "protein": 0.14659090909090897,
+        "vitamin_c": 0.999999999999999
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 58,
+      "planting_day": 58,
+      "harvest_day": 83,
+      "area_m2": 1.311475409836066,
+      "estimated_harvest_kg": 4.000000000000001,
+      "predicted_harvest_kg": 4.000000000000001,
+      "potential_nutrients_at_harvest": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "nutrients_at_harvest": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 4.000000000000001,
+      "planned_crop_day_nutrients": {
+        "energy": 1000.0000000000002,
+        "protein": 103.20000000000003,
+        "vitamin_c": 600.0000000000001
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07575757575757577,
+        "protein": 0.14659090909090913,
+        "vitamin_c": 1.0000000000000002
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 59,
+      "planting_day": 59,
+      "harvest_day": 84,
+      "area_m2": 1.2964333979669789,
+      "estimated_harvest_kg": 3.954121863799285,
+      "predicted_harvest_kg": 3.954121863799285,
+      "potential_nutrients_at_harvest": {
+        "energy": 988.5304659498213,
+        "protein": 102.01634408602156,
+        "vitamin_c": 593.1182795698928
+      },
+      "nutrients_at_harvest": {
+        "energy": 988.5304659498213,
+        "protein": 102.01634408602156,
+        "vitamin_c": 593.1182795698928
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.954121863799285,
+      "planned_crop_day_nutrients": {
+        "energy": 988.5304659498213,
+        "protein": 102.01634408602156,
+        "vitamin_c": 593.1182795698928
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07488867166286525,
+        "protein": 0.14490957966764426,
+        "vitamin_c": 0.9885304659498214
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 60,
+      "planting_day": 60,
+      "harvest_day": 85,
+      "area_m2": 1.2926728949997062,
+      "estimated_harvest_kg": 3.9426523297491034,
+      "predicted_harvest_kg": 3.9426523297491034,
+      "potential_nutrients_at_harvest": {
+        "energy": 985.6630824372759,
+        "protein": 101.72043010752687,
+        "vitamin_c": 591.3978494623655
+      },
+      "nutrients_at_harvest": {
+        "energy": 985.6630824372759,
+        "protein": 101.72043010752687,
+        "vitamin_c": 591.3978494623655
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.9426523297491034,
+      "planned_crop_day_nutrients": {
+        "energy": 985.6630824372759,
+        "protein": 101.72043010752687,
+        "vitamin_c": 591.3978494623655
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07467144563918757,
+        "protein": 0.14448924731182794,
+        "vitamin_c": 0.9856630824372757
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 61,
+      "planting_day": 61,
+      "harvest_day": 86,
+      "area_m2": 1.292672894999706,
+      "estimated_harvest_kg": 3.942652329749103,
+      "predicted_harvest_kg": 3.942652329749103,
+      "potential_nutrients_at_harvest": {
+        "energy": 985.6630824372758,
+        "protein": 101.72043010752687,
+        "vitamin_c": 591.3978494623655
+      },
+      "nutrients_at_harvest": {
+        "energy": 985.6630824372758,
+        "protein": 101.72043010752687,
+        "vitamin_c": 591.3978494623655
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.942652329749103,
+      "planned_crop_day_nutrients": {
+        "energy": 985.6630824372758,
+        "protein": 101.72043010752687,
+        "vitamin_c": 591.3978494623655
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07467144563918755,
+        "protein": 0.14448924731182794,
+        "vitamin_c": 0.9856630824372757
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 62,
+      "planting_day": 62,
+      "harvest_day": 87,
+      "area_m2": 1.2926728949997068,
+      "estimated_harvest_kg": 3.9426523297491056,
+      "predicted_harvest_kg": 3.9426523297491056,
+      "potential_nutrients_at_harvest": {
+        "energy": 985.6630824372764,
+        "protein": 101.72043010752692,
+        "vitamin_c": 591.3978494623658
+      },
+      "nutrients_at_harvest": {
+        "energy": 985.6630824372764,
+        "protein": 101.72043010752692,
+        "vitamin_c": 591.3978494623658
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.942652329749105,
+      "planned_crop_day_nutrients": {
+        "energy": 985.6630824372763,
+        "protein": 101.72043010752692,
+        "vitamin_c": 591.3978494623658
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.0746714456391876,
+        "protein": 0.14448924731182802,
+        "vitamin_c": 0.9856630824372763
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 63,
+      "planting_day": 63,
+      "harvest_day": 88,
+      "area_m2": 1.2926728949997077,
+      "estimated_harvest_kg": 3.9426523297491083,
+      "predicted_harvest_kg": 3.9426523297491083,
+      "potential_nutrients_at_harvest": {
+        "energy": 985.6630824372771,
+        "protein": 101.720430107527,
+        "vitamin_c": 591.3978494623663
+      },
+      "nutrients_at_harvest": {
+        "energy": 985.6630824372771,
+        "protein": 101.720430107527,
+        "vitamin_c": 591.3978494623663
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.9426523297491083,
+      "planned_crop_day_nutrients": {
+        "energy": 985.6630824372771,
+        "protein": 101.720430107527,
+        "vitamin_c": 591.3978494623663
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07467144563918766,
+        "protein": 0.1444892473118281,
+        "vitamin_c": 0.9856630824372771
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 64,
+      "planting_day": 64,
+      "harvest_day": 89,
+      "area_m2": 1.2926728949997044,
+      "estimated_harvest_kg": 3.942652329749098,
+      "predicted_harvest_kg": 3.942652329749098,
+      "potential_nutrients_at_harvest": {
+        "energy": 985.6630824372745,
+        "protein": 101.72043010752674,
+        "vitamin_c": 591.3978494623647
+      },
+      "nutrients_at_harvest": {
+        "energy": 985.6630824372745,
+        "protein": 101.72043010752674,
+        "vitamin_c": 591.3978494623647
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 3.942652329749098,
+      "planned_crop_day_nutrients": {
+        "energy": 985.6630824372745,
+        "protein": 101.72043010752674,
+        "vitamin_c": 591.3978494623647
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.07467144563918747,
+        "protein": 0.14448924731182775,
+        "vitamin_c": 0.9856630824372744
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "arugula_330",
+      "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+      "day": 65,
+      "planting_day": 65,
+      "harvest_day": 90,
+      "area_m2": 0.32453925395281497,
+      "estimated_harvest_kg": 0.9898447245560856,
+      "predicted_harvest_kg": 0.9898447245560856,
+      "potential_nutrients_at_harvest": {
+        "energy": 247.46118113902142,
+        "protein": 25.53799389354701,
+        "vitamin_c": 148.47670868341285
+      },
+      "nutrients_at_harvest": {
+        "energy": 247.46118113902142,
+        "protein": 25.53799389354701,
+        "vitamin_c": 148.47670868341285
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 0.9898447245560856,
+      "planned_crop_day_nutrients": {
+        "energy": 247.46118113902142,
+        "protein": 25.53799389354701,
+        "vitamin_c": 148.47670868341285
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.018747059177198593,
+        "protein": 0.03627555950787928,
+        "vitamin_c": 0.2474611811390214
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "radish_raxe",
+      "name": "Radish \u2014 Raxe \u00b7 terrestrial reference",
+      "day": 66,
+      "planting_day": 66,
+      "harvest_day": 89,
+      "area_m2": 0.03193551580648693,
+      "estimated_harvest_kg": 0.05812263876780622,
+      "predicted_harvest_kg": 0.05812263876780622,
+      "potential_nutrients_at_harvest": {
+        "energy": 9.299622202848996,
+        "protein": 0.39523394362108233,
+        "vitamin_c": 8.602150537635321
+      },
+      "nutrients_at_harvest": {
+        "energy": 9.299622202848996,
+        "protein": 0.39523394362108233,
+        "vitamin_c": 8.602150537635321
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 0.058122638767806344,
+      "planned_crop_day_nutrients": {
+        "energy": 9.299622202849015,
+        "protein": 0.39523394362108316,
+        "vitamin_c": 8.602150537635339
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.0007045168335491678,
+        "protein": 0.0005614118517344931,
+        "vitamin_c": 0.014336917562725565
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    },
+    {
+      "crop_id": "radish_raxe",
+      "name": "Radish \u2014 Raxe \u00b7 terrestrial reference",
+      "day": 67,
+      "planting_day": 67,
+      "harvest_day": 90,
+      "area_m2": 0.0628832417543959,
+      "estimated_harvest_kg": 0.11444749999300054,
+      "predicted_harvest_kg": 0.11444749999300054,
+      "potential_nutrients_at_harvest": {
+        "energy": 18.311599998880087,
+        "protein": 0.7782429999524038,
+        "vitamin_c": 16.93822999896408
+      },
+      "nutrients_at_harvest": {
+        "energy": 18.311599998880087,
+        "protein": 0.7782429999524038,
+        "vitamin_c": 16.93822999896408
+      },
+      "forecast_daily_targets": {
+        "energy": 13200.0,
+        "protein": 704.0,
+        "vitamin_c": 600.0
+      },
+      "planned_crop_day_consumption_kg": 0.11444749999300055,
+      "planned_crop_day_nutrients": {
+        "energy": 18.311599998880087,
+        "protein": 0.7782429999524039,
+        "vitamin_c": 16.938229998964083
+      },
+      "planned_crop_day_target_shares": {
+        "energy": 0.0013872424241575824,
+        "protein": 0.0011054588067505736,
+        "vitamin_c": 0.028230383331606806
+      },
+      "reason": "Selected in the saved resource-constrained planting and meal plan; harvest timing and daily crew nutrient targets are considered together.",
+      "scope": "Already allocated in the saved plan; not an additional batch. Consumption is the crop/day total, shared by batches harvested together."
+    }
+  ],
+  "additional_crop_selection_reason": {
+    "type": "no_growing_capacity",
+    "text": "No additional batch fits the remaining horizon, tray space and resource allocations. Review the saved plan's selected crop actions."
+  },
+  "source_run_id": "3ce6630f521c4cba80303cb14f1988d6",
+  "continued_run_id": "833f5cb339fa4eab84d8adf8c2051df6",
+  "scope": "Software simulation using terrestrial references and fictional mission/crew inputs; not clinical or tray validation",
+  "water_l_conservation_error": 4.547473508864641e-13,
+  "power_kwh_conservation_error": 2.2737367544323206e-13
+}

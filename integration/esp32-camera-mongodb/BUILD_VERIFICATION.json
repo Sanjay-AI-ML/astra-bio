@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-12",
+  "stage": "placeholder-config-release-compile",
+  "passed": true,
+  "platformio_core": "6.2.0",
+  "espressif_platform": "7.1.3",
+  "arduino_framework": "2.0.17",
+  "arduino_json": "7.4.3",
+  "environment": "esp32-s3-camera-n16r8",
+  "memory_profile": "16 MB quad flash, 8 MB octal PSRAM (qio_opi)",
+  "ram_used_bytes": 50216,
+  "ram_total_bytes": 327680,
+  "application_flash_used_bytes": 945009,
+  "application_flash_total_bytes": 6553600,
+  "firmware_sha256": "1d0a400e27eea69d2ecdbbfbdd1acfda1d9c15b3b61cbc2bf9f71de27a8f755b",
+  "upload_performed_by_this_verification": false,
+  "camera_physical_capture_verified_by_this_verification": false,
+  "atlas_storage_verified_by_this_verification": false,
+  "note": "Checksum belongs only to the placeholder header build. Root task separately owns hardware flash, private configuration and camera-to-Atlas verification."
+}

@@ -1,0 +1,22 @@
+.plant-overview { padding:28px 0; }
+.plant-overview-heading p { max-width:850px; }
+.plant-overview-heading h2 { font-size:29px; margin:8px 0 15px; }
+.plant-overview-controls { display:grid; grid-template-columns:1.1fr 1fr 1.2fr; gap:25px; margin:30px 0; }
+.plant-overview-photos,.plant-overview-observations { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:30px 45px; }
+.plant-overview-photo { margin:20px 0; }
+.plant-overview-upload { max-width:850px; }
+.plant-overview-image-frame { position:relative; max-width:650px; }
+.plant-overview-photo img { display:block; width:100%; height:auto; background:var(--surface); border-radius:8px; }
+.plant-overview-fruit-markers { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.plant-overview-photo figcaption { color:var(--muted); font-size:12px; margin-top:7px; }
+.plant-overview-result { margin-top:40px; padding-top:30px; border-top:1px solid var(--line); }
+.plant-overview-brief { font-size:19px; line-height:1.75; max-width:980px; }
+.plant-overview-observations { margin:30px 0; }
+.plant-overview-observations section { padding-top:17px; border-top:1px solid var(--line); }
+.plant-overview-observations h3 { font-size:18px; margin:0 0 16px; }
+.plant-overview-observations li { margin-bottom:13px; }
+.plant-overview-evidence { display:flex; justify-content:space-between; gap:18px; padding:10px 0; border-bottom:1px solid var(--line-soft); font-size:13px; }
+.plant-overview-ai { display:flex; align-items:center; justify-content:space-between; gap:35px; padding:28px 0; margin:20px 0; border-top:1px solid var(--line); }
+.plant-overview-ai p { max-width:780px; font-size:13px; }
+.plant-overview-ai button { flex-shrink:0; }
+@media(max-width:780px){.plant-overview-controls,.plant-overview-photos,.plant-overview-observations{grid-template-columns:minmax(0,1fr);gap:20px}.plant-overview-ai{flex-direction:column;align-items:flex-start}.plant-overview-heading h2{font-size:25px}}

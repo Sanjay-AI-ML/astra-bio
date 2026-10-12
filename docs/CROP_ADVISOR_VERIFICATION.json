@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-10-12T13:25:46.586729+00:00",
+  "scope": "Reviewed simulation inputs, not physical crop validation",
+  "backend_affected_tests_passed": 92,
+  "frontend_suite_tests_passed": 98,
+  "production_build_passed": true,
+  "browser_checks": {
+    "mission_playback_advanced": true,
+    "protein_advisor_rendered": true,
+    "continued_from_day": 30,
+    "future_starts_on_day": 31,
+    "historical_daily_records_unchanged": true,
+    "day_30_crew_protein_target_g": 360,
+    "day_31_crew_protein_target_g": 432.0,
+    "original_run_retained": true
+  },
+  "limitations": [
+    "These are simulated planning targets and stocks.",
+    "No camera nutrient estimation or automatic hardware changes.",
+    "Configured soy and microgreens data remain synthetic."
+  ]
+}

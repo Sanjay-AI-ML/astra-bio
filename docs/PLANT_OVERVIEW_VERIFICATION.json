@@ -1,0 +1,21 @@
+{
+  "scope": "Software integration, not crop accuracy validation",
+  "backend_tests_passed": 33,
+  "frontend_tests_passed": 49,
+  "preview_build_passed": true,
+  "preview_url": "http://127.0.0.1:5173/#vision",
+  "main_app_restarted": false,
+  "actual_local_smoke": {
+    "image_source": "Existing public tomato publisher example",
+    "same_image_in_both_slots": true,
+    "leaf_status": "uncertain",
+    "fruit_visible_detections": 18,
+    "fruit_stage": "unripe"
+  },
+  "gemini_live_call_verified": true,
+  "gemini_result_mode": "gemini_fact_selection",
+  "gemini_model": "gemini-3.5-flash-lite",
+  "gemini_key_configured_privately": true,
+  "gemini_verification_date": "2026-10-12",
+  "key_required": true
+}

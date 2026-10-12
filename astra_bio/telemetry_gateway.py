@@ -12,12 +12,13 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .mongo_runtime import GatewaySettings, MongoConfigurationError, load_settings, telemetry_reader
 from .mongo_telemetry import MongoTelemetryUnavailable
 from .storage import FLAGS, RANGES, validate_observation
+from .camera_storage import MAX_CAMERA_BYTES, camera_reader
 
 MAX_PACKET_BYTES = 16384
 ALLOWED = {"device_id", "sample_id", "source", "ts_utc", *RANGES, *FLAGS}
 
 
-def create_app(settings: GatewaySettings | None = None, store=None) -> FastAPI:
+def create_app(settings: GatewaySettings | None = None, store=None, image_store=None) -> FastAPI:
     settings_supplied = settings is not None
     if settings is None:
         settings = load_settings()
@@ -55,10 +56,17 @@ def create_app(settings: GatewaySettings | None = None, store=None) -> FastAPI:
             raise MongoConfigurationError("MongoDB has not been configured.")
         return result
 
+    def image_repository():
+        result = image_store if image_store is not None else camera_reader()
+        if result is None:
+            raise MongoConfigurationError("MongoDB has not been configured.")
+        return result
+
     @gateway.exception_handler(MongoTelemetryUnavailable)
     @gateway.exception_handler(MongoConfigurationError)
     async def unavailable(request, error):
-        return JSONResponse({"detail": "MongoDB telemetry is unavailable. Retry this same sample later."},
+        noun = "camera storage" if request.url.path == "/v1/images" else "telemetry"
+        return JSONResponse({"detail": f"MongoDB {noun} is unavailable. Retry this same sample later."},
             status_code=503, headers={"Retry-After": "10"})
 
     @gateway.get("/v1/health")
@@ -99,6 +107,38 @@ def create_app(settings: GatewaySettings | None = None, store=None) -> FastAPI:
             raise HTTPException(422, str(error)) from None
         return JSONResponse({**result, "storage": "mongodb", "actuation_enabled": False},
             status_code=200 if result["duplicate"] else 201)
+
+    @gateway.post("/v1/images")
+    async def ingest_camera(request: Request):
+        device = authenticate(request)
+        if request.headers.get("x-device-id") != device:
+            raise HTTPException(403, "The device token may publish only its own images.")
+        if request.headers.get("content-type", "").split(";", 1)[0].strip().lower() != "image/jpeg":
+            raise HTTPException(415, "Send raw image/jpeg bytes.")
+        # Check declared length early, then still enforce the streamed limit.
+        try:
+            declared = int(request.headers.get("content-length", "0"))
+            if declared < 0:
+                raise ValueError()
+        except ValueError:
+            raise HTTPException(400, "Invalid content length.") from None
+        if declared > MAX_CAMERA_BYTES:
+            raise HTTPException(413, "Camera JPEG exceeds 2 MiB.")
+        body = bytearray()
+        async for chunk in request.stream():
+            if len(body) + len(chunk) > MAX_CAMERA_BYTES:
+                raise HTTPException(413, "Camera JPEG exceeds 2 MiB.")
+            body.extend(chunk)
+        try:
+            result = await run_in_threadpool(image_repository().ingest, bytes(body),
+                device_id=device, source=request.headers.get("x-source"),
+                sample_id=request.headers.get("x-sample-id"),
+                captured_at_utc=request.headers.get("x-captured-at"),
+                transport=request.headers.get("x-transport", "wifi_https"))
+        except ValueError as error:
+            raise HTTPException(422, str(error)) from None
+        return JSONResponse({**result, "storage": "mongodb", "automatic_analysis": False,
+                             "actuation_enabled": False}, status_code=200 if result["duplicate"] else 201)
 
     return gateway
 

@@ -1,0 +1,2508 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "profile_id": "crew-1",
+      "name": "Shree Ram Vishal",
+      "targets": {
+        "energy": 2400.0,
+        "protein": 100.0,
+        "vitamin_c": 100.0
+      },
+      "age": 22,
+      "sex": "male",
+      "targets_reviewed": false
+    },
+    {
+      "profile_id": "crew-2",
+      "name": "Shamyuktha",
+      "targets": {
+        "energy": 2000.0,
+        "protein": 75.0,
+        "vitamin_c": 90.0
+      },
+      "age": 21,
+      "sex": "female",
+      "targets_reviewed": false
+    },
+    {
+      "profile_id": "crew-3",
+      "name": "Sanjay",
+      "targets": {
+        "energy": 2300.0,
+        "protein": 90.0,
+        "vitamin_c": 100.0
+      },
+      "age": 22,
+      "sex": "male",
+      "targets_reviewed": false
+    },
+    {
+      "profile_id": "crew-4",
+      "name": "Vamshika",
+      "targets": {
+        "energy": 2100.0,
+        "protein": 85.0,
+        "vitamin_c": 100.0
+      },
+      "age": 22,
+      "sex": "female",
+      "targets_reviewed": false
+    }
+  ],
+  "entries": [
+    {
+      "profile_id": "crew-1",
+      "day": 1,
+      "food_key": "oats",
+      "grams": 220.9
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 1,
+      "food_key": "lentils",
+      "grams": 117.5
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 1,
+      "food_key": "peanut_butter",
+      "grams": 122.2
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 1,
+      "food_key": "tomato",
+      "grams": 169.2
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 1,
+      "food_key": "kale",
+      "grams": 75.2
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 2,
+      "food_key": "oats",
+      "grams": 239.7
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 2,
+      "food_key": "lentils",
+      "grams": 127.5
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 2,
+      "food_key": "peanut_butter",
+      "grams": 132.6
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 2,
+      "food_key": "tomato",
+      "grams": 183.6
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 2,
+      "food_key": "kale",
+      "grams": 81.6
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 3,
+      "food_key": "oats",
+      "grams": 230.3
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 3,
+      "food_key": "lentils",
+      "grams": 122.5
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 3,
+      "food_key": "peanut_butter",
+      "grams": 127.4
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 3,
+      "food_key": "tomato",
+      "grams": 176.4
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 3,
+      "food_key": "kale",
+      "grams": 78.4
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 4,
+      "food_key": "oats",
+      "grams": 249.1
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 4,
+      "food_key": "lentils",
+      "grams": 132.5
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 4,
+      "food_key": "peanut_butter",
+      "grams": 137.8
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 4,
+      "food_key": "tomato",
+      "grams": 190.8
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 4,
+      "food_key": "kale",
+      "grams": 84.8
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 5,
+      "food_key": "oats",
+      "grams": 225.6
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 5,
+      "food_key": "lentils",
+      "grams": 120.0
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 5,
+      "food_key": "peanut_butter",
+      "grams": 124.8
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 5,
+      "food_key": "tomato",
+      "grams": 172.8
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 5,
+      "food_key": "kale",
+      "grams": 76.8
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 6,
+      "food_key": "oats",
+      "grams": 242.05
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 6,
+      "food_key": "lentils",
+      "grams": 128.75
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 6,
+      "food_key": "peanut_butter",
+      "grams": 133.9
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 6,
+      "food_key": "tomato",
+      "grams": 185.4
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 6,
+      "food_key": "kale",
+      "grams": 82.4
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 7,
+      "food_key": "oats",
+      "grams": 235.0
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 7,
+      "food_key": "lentils",
+      "grams": 125.0
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 7,
+      "food_key": "peanut_butter",
+      "grams": 130.0
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 7,
+      "food_key": "tomato",
+      "grams": 180.0
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 7,
+      "food_key": "kale",
+      "grams": 80.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 1,
+      "food_key": "oats",
+      "grams": 198.9
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 1,
+      "food_key": "lentils",
+      "grams": 102.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 1,
+      "food_key": "peanut_butter",
+      "grams": 112.2
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 1,
+      "food_key": "tomato",
+      "grams": 142.8
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 1,
+      "food_key": "kale",
+      "grams": 56.1
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 2,
+      "food_key": "oats",
+      "grams": 191.1
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 2,
+      "food_key": "lentils",
+      "grams": 98.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 2,
+      "food_key": "peanut_butter",
+      "grams": 107.8
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 2,
+      "food_key": "tomato",
+      "grams": 137.2
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 2,
+      "food_key": "kale",
+      "grams": 53.9
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 3,
+      "food_key": "oats",
+      "grams": 206.7
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 3,
+      "food_key": "lentils",
+      "grams": 106.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 3,
+      "food_key": "peanut_butter",
+      "grams": 116.6
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 3,
+      "food_key": "tomato",
+      "grams": 148.4
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 3,
+      "food_key": "kale",
+      "grams": 58.3
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 4,
+      "food_key": "oats",
+      "grams": 187.2
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 4,
+      "food_key": "lentils",
+      "grams": 96.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 4,
+      "food_key": "peanut_butter",
+      "grams": 105.6
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 4,
+      "food_key": "tomato",
+      "grams": 134.4
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 4,
+      "food_key": "kale",
+      "grams": 52.8
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 5,
+      "food_key": "oats",
+      "grams": 200.85
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 5,
+      "food_key": "lentils",
+      "grams": 103.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 5,
+      "food_key": "peanut_butter",
+      "grams": 113.3
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 5,
+      "food_key": "tomato",
+      "grams": 144.2
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 5,
+      "food_key": "kale",
+      "grams": 56.65
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 6,
+      "food_key": "oats",
+      "grams": 195.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 6,
+      "food_key": "lentils",
+      "grams": 100.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 6,
+      "food_key": "peanut_butter",
+      "grams": 110.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 6,
+      "food_key": "tomato",
+      "grams": 140.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 6,
+      "food_key": "kale",
+      "grams": 55.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 7,
+      "food_key": "oats",
+      "grams": 183.3
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 7,
+      "food_key": "lentils",
+      "grams": 94.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 7,
+      "food_key": "peanut_butter",
+      "grams": 103.4
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 7,
+      "food_key": "tomato",
+      "grams": 131.6
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 7,
+      "food_key": "kale",
+      "grams": 51.7
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 1,
+      "food_key": "oats",
+      "grams": 220.5
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 1,
+      "food_key": "lentils",
+      "grams": 102.9
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 1,
+      "food_key": "peanut_butter",
+      "grams": 132.3
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 1,
+      "food_key": "tomato",
+      "grams": 156.8
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 1,
+      "food_key": "kale",
+      "grams": 63.7
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 2,
+      "food_key": "oats",
+      "grams": 238.5
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 2,
+      "food_key": "lentils",
+      "grams": 111.3
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 2,
+      "food_key": "peanut_butter",
+      "grams": 143.1
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 2,
+      "food_key": "tomato",
+      "grams": 169.6
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 2,
+      "food_key": "kale",
+      "grams": 68.9
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 3,
+      "food_key": "oats",
+      "grams": 216.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 3,
+      "food_key": "lentils",
+      "grams": 100.8
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 3,
+      "food_key": "peanut_butter",
+      "grams": 129.6
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 3,
+      "food_key": "tomato",
+      "grams": 153.6
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 3,
+      "food_key": "kale",
+      "grams": 62.4
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 4,
+      "food_key": "oats",
+      "grams": 231.75
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 4,
+      "food_key": "lentils",
+      "grams": 108.15
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 4,
+      "food_key": "peanut_butter",
+      "grams": 139.05
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 4,
+      "food_key": "tomato",
+      "grams": 164.8
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 4,
+      "food_key": "kale",
+      "grams": 66.95
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 5,
+      "food_key": "oats",
+      "grams": 225.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 5,
+      "food_key": "lentils",
+      "grams": 105.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 5,
+      "food_key": "peanut_butter",
+      "grams": 135.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 5,
+      "food_key": "tomato",
+      "grams": 160.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 5,
+      "food_key": "kale",
+      "grams": 65.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 6,
+      "food_key": "oats",
+      "grams": 211.5
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 6,
+      "food_key": "lentils",
+      "grams": 98.7
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 6,
+      "food_key": "peanut_butter",
+      "grams": 126.9
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 6,
+      "food_key": "tomato",
+      "grams": 150.4
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 6,
+      "food_key": "kale",
+      "grams": 61.1
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 7,
+      "food_key": "oats",
+      "grams": 229.5
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 7,
+      "food_key": "lentils",
+      "grams": 107.1
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 7,
+      "food_key": "peanut_butter",
+      "grams": 137.7
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 7,
+      "food_key": "tomato",
+      "grams": 163.2
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 7,
+      "food_key": "kale",
+      "grams": 66.3
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 1,
+      "food_key": "oats",
+      "grams": 196.1
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 1,
+      "food_key": "lentils",
+      "grams": 95.4
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 1,
+      "food_key": "peanut_butter",
+      "grams": 121.9
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 1,
+      "food_key": "tomato",
+      "grams": 127.2
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 1,
+      "food_key": "kale",
+      "grams": 42.4
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 2,
+      "food_key": "oats",
+      "grams": 177.6
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 2,
+      "food_key": "lentils",
+      "grams": 86.4
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 2,
+      "food_key": "peanut_butter",
+      "grams": 110.4
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 2,
+      "food_key": "tomato",
+      "grams": 115.2
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 2,
+      "food_key": "kale",
+      "grams": 38.4
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 3,
+      "food_key": "oats",
+      "grams": 190.55
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 3,
+      "food_key": "lentils",
+      "grams": 92.7
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 3,
+      "food_key": "peanut_butter",
+      "grams": 118.45
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 3,
+      "food_key": "tomato",
+      "grams": 123.6
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 3,
+      "food_key": "kale",
+      "grams": 41.2
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 4,
+      "food_key": "oats",
+      "grams": 185.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 4,
+      "food_key": "lentils",
+      "grams": 90.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 4,
+      "food_key": "peanut_butter",
+      "grams": 115.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 4,
+      "food_key": "tomato",
+      "grams": 120.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 4,
+      "food_key": "kale",
+      "grams": 40.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 5,
+      "food_key": "oats",
+      "grams": 173.9
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 5,
+      "food_key": "lentils",
+      "grams": 84.6
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 5,
+      "food_key": "peanut_butter",
+      "grams": 108.1
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 5,
+      "food_key": "tomato",
+      "grams": 112.8
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 5,
+      "food_key": "kale",
+      "grams": 37.6
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 6,
+      "food_key": "oats",
+      "grams": 188.7
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 6,
+      "food_key": "lentils",
+      "grams": 91.8
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 6,
+      "food_key": "peanut_butter",
+      "grams": 117.3
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 6,
+      "food_key": "tomato",
+      "grams": 122.4
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 6,
+      "food_key": "kale",
+      "grams": 40.8
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 7,
+      "food_key": "oats",
+      "grams": 181.3
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 7,
+      "food_key": "lentils",
+      "grams": 88.2
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 7,
+      "food_key": "peanut_butter",
+      "grams": 112.7
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 7,
+      "food_key": "tomato",
+      "grams": 117.6
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 7,
+      "food_key": "kale",
+      "grams": 39.2
+    }
+  ],
+  "complete_days": {
+    "crew-1:1": true,
+    "crew-1:2": true,
+    "crew-1:3": true,
+    "crew-1:4": true,
+    "crew-1:5": true,
+    "crew-1:6": true,
+    "crew-1:7": true,
+    "crew-2:1": true,
+    "crew-2:2": true,
+    "crew-2:3": true,
+    "crew-2:4": true,
+    "crew-2:5": true,
+    "crew-2:6": true,
+    "crew-2:7": true,
+    "crew-3:1": true,
+    "crew-3:2": true,
+    "crew-3:3": true,
+    "crew-3:4": true,
+    "crew-3:5": true,
+    "crew-3:6": true,
+    "crew-3:7": true,
+    "crew-4:1": true,
+    "crew-4:2": true,
+    "crew-4:3": true,
+    "crew-4:4": true,
+    "crew-4:5": true,
+    "crew-4:6": true,
+    "crew-4:7": true
+  },
+  "assessment_scope": "Manual dietary intake estimates; not clinical nutritional status or diagnosis.",
+  "food_data": {
+    "dataset": "USDA FoodData Central SR Legacy",
+    "release": "2018-04"
+  },
+  "sample_only": true,
+  "crew_count": 4,
+  "assessments": [
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 1,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2060.433,
+      "known_intake": 2060.433,
+      "target": 2400.0,
+      "gap": 339.567,
+      "coverage_pct": 85.85137499999999,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 1,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 97.07568,
+      "known_intake": 97.07568,
+      "target": 100.0,
+      "gap": 2.9243199999999945,
+      "coverage_pct": 97.07568,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 1,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 98.7047,
+      "known_intake": 98.7047,
+      "target": 100.0,
+      "gap": 1.2952999999999975,
+      "coverage_pct": 98.70470000000002,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 1,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1849.056,
+      "known_intake": 1849.056,
+      "target": 2000.0,
+      "gap": 150.94399999999996,
+      "coverage_pct": 92.4528,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 1,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 86.53119,
+      "known_intake": 86.53119,
+      "target": 75.0,
+      "gap": 0.0,
+      "coverage_pct": 115.37491999999999,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 1,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 76.551,
+      "known_intake": 76.551,
+      "target": 90.0,
+      "gap": 13.448999999999998,
+      "coverage_pct": 85.05666666666667,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 1,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2061.626,
+      "known_intake": 2061.626,
+      "target": 2300.0,
+      "gap": 238.3739999999998,
+      "coverage_pct": 89.63591304347828,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 1,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 95.21043000000002,
+      "known_intake": 95.21043000000002,
+      "target": 90.0,
+      "gap": 0.0,
+      "coverage_pct": 105.78936666666668,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 1,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 85.6079,
+      "known_intake": 85.6079,
+      "target": 100.0,
+      "gap": 14.3921,
+      "coverage_pct": 85.60790000000001,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 1,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1865.335,
+      "known_intake": 1865.335,
+      "target": 2100.0,
+      "gap": 234.66499999999996,
+      "coverage_pct": 88.8254761904762,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 1,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 86.04974,
+      "known_intake": 86.04974,
+      "target": 85.0,
+      "gap": 0.0,
+      "coverage_pct": 101.23498823529413,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 1,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 61.321,
+      "known_intake": 61.321,
+      "target": 100.0,
+      "gap": 38.679,
+      "coverage_pct": 61.321,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 2,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2235.7889999999998,
+      "known_intake": 2235.7889999999998,
+      "target": 2400.0,
+      "gap": 164.21100000000024,
+      "coverage_pct": 93.15787499999999,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 2,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 105.33744,
+      "known_intake": 105.33744,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 105.33744,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 2,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 107.1051,
+      "known_intake": 107.1051,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 107.10509999999998,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 2,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1776.544,
+      "known_intake": 1776.544,
+      "target": 2000.0,
+      "gap": 223.4559999999999,
+      "coverage_pct": 88.8272,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 2,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 83.13781,
+      "known_intake": 83.13781,
+      "target": 75.0,
+      "gap": 0.0,
+      "coverage_pct": 110.85041333333335,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 2,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 73.54899999999999,
+      "known_intake": 73.54899999999999,
+      "target": 90.0,
+      "gap": 16.451000000000008,
+      "coverage_pct": 81.72111111111111,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 2,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2229.922,
+      "known_intake": 2229.922,
+      "target": 2300.0,
+      "gap": 70.07799999999997,
+      "coverage_pct": 96.95313043478261,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 2,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 102.98271000000001,
+      "known_intake": 102.98271000000001,
+      "target": 90.0,
+      "gap": 0.0,
+      "coverage_pct": 114.42523333333334,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 2,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 92.59630000000001,
+      "known_intake": 92.59630000000001,
+      "target": 100.0,
+      "gap": 7.403699999999986,
+      "coverage_pct": 92.59630000000001,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 2,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1689.3600000000001,
+      "known_intake": 1689.3600000000001,
+      "target": 2100.0,
+      "gap": 410.6399999999999,
+      "coverage_pct": 80.44571428571429,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 2,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 77.93184,
+      "known_intake": 77.93184,
+      "target": 85.0,
+      "gap": 7.068160000000006,
+      "coverage_pct": 91.68451764705881,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 2,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 55.536,
+      "known_intake": 55.536,
+      "target": 100.0,
+      "gap": 44.464,
+      "coverage_pct": 55.536,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 3,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2148.111,
+      "known_intake": 2148.111,
+      "target": 2400.0,
+      "gap": 251.88900000000012,
+      "coverage_pct": 89.50462499999999,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 3,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 101.20656000000001,
+      "known_intake": 101.20656000000001,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 101.20656000000001,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 3,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 102.9049,
+      "known_intake": 102.9049,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 102.9049,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 3,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1921.568,
+      "known_intake": 1921.568,
+      "target": 2000.0,
+      "gap": 78.43200000000002,
+      "coverage_pct": 96.07839999999999,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 3,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 89.92457,
+      "known_intake": 89.92457,
+      "target": 75.0,
+      "gap": 0.0,
+      "coverage_pct": 119.89942666666667,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 3,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 79.553,
+      "known_intake": 79.553,
+      "target": 90.0,
+      "gap": 10.447000000000003,
+      "coverage_pct": 88.39222222222222,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 3,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2019.5520000000001,
+      "known_intake": 2019.5520000000001,
+      "target": 2300.0,
+      "gap": 280.44799999999987,
+      "coverage_pct": 87.80660869565217,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 3,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 93.26736,
+      "known_intake": 93.26736,
+      "target": 90.0,
+      "gap": 0.0,
+      "coverage_pct": 103.6304,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 3,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 83.8608,
+      "known_intake": 83.8608,
+      "target": 100.0,
+      "gap": 16.139200000000002,
+      "coverage_pct": 83.8608,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 3,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1812.5425,
+      "known_intake": 1812.5425,
+      "target": 2100.0,
+      "gap": 287.4575,
+      "coverage_pct": 86.31154761904762,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 3,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 83.61437000000001,
+      "known_intake": 83.61437000000001,
+      "target": 85.0,
+      "gap": 1.385629999999992,
+      "coverage_pct": 98.36984705882355,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 3,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 59.5855,
+      "known_intake": 59.5855,
+      "target": 100.0,
+      "gap": 40.4145,
+      "coverage_pct": 59.5855,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 4,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2323.467,
+      "known_intake": 2323.467,
+      "target": 2400.0,
+      "gap": 76.5329999999999,
+      "coverage_pct": 96.811125,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 4,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 109.46831999999999,
+      "known_intake": 109.46831999999999,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 109.46831999999999,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 4,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 111.3053,
+      "known_intake": 111.3053,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 111.3053,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 4,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1740.288,
+      "known_intake": 1740.288,
+      "target": 2000.0,
+      "gap": 259.712,
+      "coverage_pct": 87.0144,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 4,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 81.44112,
+      "known_intake": 81.44112,
+      "target": 75.0,
+      "gap": 0.0,
+      "coverage_pct": 108.58816,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 4,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 72.048,
+      "known_intake": 72.048,
+      "target": 90.0,
+      "gap": 17.951999999999998,
+      "coverage_pct": 80.05333333333334,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 4,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2166.811,
+      "known_intake": 2166.811,
+      "target": 2300.0,
+      "gap": 133.18899999999985,
+      "coverage_pct": 94.20917391304349,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 4,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 100.06810500000002,
+      "known_intake": 100.06810500000002,
+      "target": 90.0,
+      "gap": 0.0,
+      "coverage_pct": 111.18678333333335,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 4,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 89.97565,
+      "known_intake": 89.97565,
+      "target": 100.0,
+      "gap": 10.024349999999998,
+      "coverage_pct": 89.97565,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 4,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1759.75,
+      "known_intake": 1759.75,
+      "target": 2100.0,
+      "gap": 340.25,
+      "coverage_pct": 83.79761904761905,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 4,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 81.179,
+      "known_intake": 81.179,
+      "target": 85.0,
+      "gap": 3.820999999999998,
+      "coverage_pct": 95.50470588235295,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 4,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 57.85,
+      "known_intake": 57.85,
+      "target": 100.0,
+      "gap": 42.15,
+      "coverage_pct": 57.85,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 5,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2104.272,
+      "known_intake": 2104.272,
+      "target": 2400.0,
+      "gap": 295.72800000000007,
+      "coverage_pct": 87.678,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 5,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 99.14112,
+      "known_intake": 99.14112,
+      "target": 100.0,
+      "gap": 0.8588799999999992,
+      "coverage_pct": 99.14112000000002,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 5,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 100.8048,
+      "known_intake": 100.8048,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 100.8048,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 5,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1867.184,
+      "known_intake": 1867.184,
+      "target": 2000.0,
+      "gap": 132.81600000000003,
+      "coverage_pct": 93.3592,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 5,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 87.379535,
+      "known_intake": 87.379535,
+      "target": 75.0,
+      "gap": 0.0,
+      "coverage_pct": 116.50604666666666,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 5,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 77.30149999999999,
+      "known_intake": 77.30149999999999,
+      "target": 90.0,
+      "gap": 12.69850000000001,
+      "coverage_pct": 85.89055555555554,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 5,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2103.7,
+      "known_intake": 2103.7,
+      "target": 2300.0,
+      "gap": 196.30000000000018,
+      "coverage_pct": 91.46521739130434,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 5,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 97.1535,
+      "known_intake": 97.1535,
+      "target": 90.0,
+      "gap": 0.0,
+      "coverage_pct": 107.94833333333332,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 5,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 87.355,
+      "known_intake": 87.355,
+      "target": 100.0,
+      "gap": 12.644999999999996,
+      "coverage_pct": 87.355,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 5,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1654.165,
+      "known_intake": 1654.165,
+      "target": 2100.0,
+      "gap": 445.83500000000004,
+      "coverage_pct": 78.7697619047619,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 5,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 76.30826,
+      "known_intake": 76.30826,
+      "target": 85.0,
+      "gap": 8.691739999999996,
+      "coverage_pct": 89.77442352941176,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 5,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 54.379,
+      "known_intake": 54.379,
+      "target": 100.0,
+      "gap": 45.621,
+      "coverage_pct": 54.379,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 6,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2257.7084999999997,
+      "known_intake": 2257.7084999999997,
+      "target": 2400.0,
+      "gap": 142.29150000000027,
+      "coverage_pct": 94.0711875,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 6,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 106.37016,
+      "known_intake": 106.37016,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 106.37016,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 6,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 108.15515,
+      "known_intake": 108.15515,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 108.15515,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 6,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1812.8,
+      "known_intake": 1812.8,
+      "target": 2000.0,
+      "gap": 187.20000000000005,
+      "coverage_pct": 90.64,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 6,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 84.8345,
+      "known_intake": 84.8345,
+      "target": 75.0,
+      "gap": 0.0,
+      "coverage_pct": 113.11266666666667,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 6,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 75.05,
+      "known_intake": 75.05,
+      "target": 90.0,
+      "gap": 14.950000000000003,
+      "coverage_pct": 83.38888888888889,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 6,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1977.478,
+      "known_intake": 1977.478,
+      "target": 2300.0,
+      "gap": 322.52199999999993,
+      "coverage_pct": 85.97730434782609,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 6,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 91.32429,
+      "known_intake": 91.32429,
+      "target": 90.0,
+      "gap": 0.0,
+      "coverage_pct": 101.47143333333334,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 6,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 82.1137,
+      "known_intake": 82.1137,
+      "target": 100.0,
+      "gap": 17.886300000000006,
+      "coverage_pct": 82.1137,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 6,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1794.945,
+      "known_intake": 1794.945,
+      "target": 2100.0,
+      "gap": 305.05500000000006,
+      "coverage_pct": 85.47357142857143,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 6,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 82.80257999999999,
+      "known_intake": 82.80257999999999,
+      "target": 85.0,
+      "gap": 2.197420000000008,
+      "coverage_pct": 97.4148,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 6,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 59.007,
+      "known_intake": 59.007,
+      "target": 100.0,
+      "gap": 40.993,
+      "coverage_pct": 59.007,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 7,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2191.95,
+      "known_intake": 2191.95,
+      "target": 2400.0,
+      "gap": 208.05000000000018,
+      "coverage_pct": 91.33124999999998,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 7,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 103.272,
+      "known_intake": 103.272,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 103.272,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-1",
+      "person": "Shree Ram Vishal",
+      "day": 7,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 105.005,
+      "known_intake": 105.005,
+      "target": 100.0,
+      "gap": 0.0,
+      "coverage_pct": 105.005,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 7,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1704.032,
+      "known_intake": 1704.032,
+      "target": 2000.0,
+      "gap": 295.9680000000001,
+      "coverage_pct": 85.20159999999998,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 7,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 79.74443000000001,
+      "known_intake": 79.74443000000001,
+      "target": 75.0,
+      "gap": 0.0,
+      "coverage_pct": 106.32590666666668,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-2",
+      "person": "Shamyuktha",
+      "day": 7,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 70.547,
+      "known_intake": 70.547,
+      "target": 90.0,
+      "gap": 19.453000000000003,
+      "coverage_pct": 78.38555555555556,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 7,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 2145.774,
+      "known_intake": 2145.774,
+      "target": 2300.0,
+      "gap": 154.2260000000001,
+      "coverage_pct": 93.29452173913043,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 7,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 99.09657,
+      "known_intake": 99.09657,
+      "target": 90.0,
+      "gap": 0.0,
+      "coverage_pct": 110.1073,
+      "status": "logged_target_met",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-3",
+      "person": "Sanjay",
+      "day": 7,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 89.1021,
+      "known_intake": 89.1021,
+      "target": 100.0,
+      "gap": 10.897900000000007,
+      "coverage_pct": 89.1021,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 7,
+      "nutrient": "energy",
+      "unit": "kcal",
+      "intake": 1724.555,
+      "known_intake": 1724.555,
+      "target": 2100.0,
+      "gap": 375.44499999999994,
+      "coverage_pct": 82.12166666666667,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 7,
+      "nutrient": "protein",
+      "unit": "g",
+      "intake": 79.55542,
+      "known_intake": 79.55542,
+      "target": 85.0,
+      "gap": 5.444580000000002,
+      "coverage_pct": 93.59461176470587,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    },
+    {
+      "profile_id": "crew-4",
+      "person": "Vamshika",
+      "day": 7,
+      "nutrient": "vitamin_c",
+      "unit": "mg",
+      "intake": 56.693,
+      "known_intake": 56.693,
+      "target": 100.0,
+      "gap": 43.307,
+      "coverage_pct": 56.693000000000005,
+      "status": "below_logged_target",
+      "log_complete": true,
+      "missing_composition_foods": [],
+      "targets_reviewed": false,
+      "above_adult_vitamin_c_ul": false
+    }
+  ],
+  "blood_samples": [
+    {
+      "profile_id": "crew-1",
+      "day": 1,
+      "hemoglobin_g_dl": 14.6,
+      "ferritin_ug_l": 60.0
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 15,
+      "hemoglobin_g_dl": 14.7,
+      "ferritin_ug_l": 63.0
+    },
+    {
+      "profile_id": "crew-1",
+      "day": 30,
+      "hemoglobin_g_dl": 14.8,
+      "ferritin_ug_l": 62.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 1,
+      "hemoglobin_g_dl": 13.3,
+      "ferritin_ug_l": 44.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 15,
+      "hemoglobin_g_dl": 13.1,
+      "ferritin_ug_l": 41.0
+    },
+    {
+      "profile_id": "crew-2",
+      "day": 30,
+      "hemoglobin_g_dl": 13.2,
+      "ferritin_ug_l": 42.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 1,
+      "hemoglobin_g_dl": 15.0,
+      "ferritin_ug_l": 76.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 15,
+      "hemoglobin_g_dl": 15.2,
+      "ferritin_ug_l": 74.0
+    },
+    {
+      "profile_id": "crew-3",
+      "day": 30,
+      "hemoglobin_g_dl": 15.1,
+      "ferritin_ug_l": 75.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 1,
+      "hemoglobin_g_dl": 11.0,
+      "ferritin_ug_l": 10.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 15,
+      "hemoglobin_g_dl": 10.9,
+      "ferritin_ug_l": 9.0
+    },
+    {
+      "profile_id": "crew-4",
+      "day": 30,
+      "hemoglobin_g_dl": 10.8,
+      "ferritin_ug_l": 8.0
+    }
+  ],
+  "conditions": {
+    "crew-1": "Baseline comparison scenario (fictional)",
+    "crew-2": "Baseline comparison scenario (fictional)",
+    "crew-3": "Baseline comparison scenario (fictional)",
+    "crew-4": "Iron deficiency scenario (fictional)"
+  },
+  "units": {
+    "energy": "kcal",
+    "protein": "g",
+    "vitamin_c": "mg",
+    "hemoglobin_g_dl": "g/dL",
+    "ferritin_ug_l": "\u00b5g/L"
+  },
+  "scope": "Fictional crew demonstration. Names are labels; ages, reference-table sex, intake and blood values are invented, not these people's health records.",
+  "provenance": {
+    "identity": "Names supplied by the user for fictional presentation profiles. Age and sex are explicit sample assumptions, not inferred from the names.",
+    "targets": "Illustrative manual planning targets; not reviewed, personalized prescriptions or medically derived targets.",
+    "food_logs": "Seven declared-complete example ingredient logs (mission days 1\u20137), generated deterministically; not observed meals or a recommended complete diet.",
+    "food_composition": {
+      "dataset": "USDA FoodData Central SR Legacy",
+      "release": "2018-04",
+      "foods": {
+        "oats": {
+          "fdc_id": 169705,
+          "food_form": "dry ingredient weight",
+          "source_url": "https://fdc.nal.usda.gov/food-details/169705/nutrients"
+        },
+        "lentils": {
+          "fdc_id": 172420,
+          "food_form": "dry ingredient weight before cooking",
+          "source_url": "https://fdc.nal.usda.gov/food-details/172420/nutrients"
+        },
+        "peanut_butter": {
+          "fdc_id": 172470,
+          "food_form": "smooth, unsalted",
+          "source_url": "https://fdc.nal.usda.gov/food-details/172470/nutrients"
+        },
+        "tomato": {
+          "fdc_id": 170457,
+          "food_form": "raw edible portion",
+          "source_url": "https://fdc.nal.usda.gov/food-details/170457/nutrients"
+        },
+        "kale": {
+          "fdc_id": 168421,
+          "food_form": "raw edible portion",
+          "source_url": "https://fdc.nal.usda.gov/food-details/168421/nutrients"
+        }
+      }
+    },
+    "blood_samples": "Invented measurements on mission days 1, 15 and 30, unrelated to food-log calculations. No laboratory, camera or physiological measurements were taken.",
+    "limitations": [
+      "Only energy, protein and vitamin C dietary intake are calculated; iron intake and blood iron are not modeled.",
+      "Ferritin is a marker used to assess iron stores; it is not a blood iron concentration or a nutrient target.",
+      "Dry oats and raw lentils use dry ingredient mass; cooking, absorption and nutrient retention are not modeled.",
+      "Low reference comparisons illustrate a fictional scenario, not automatic diagnosis or treatment. No treatment response is assumed.",
+      "Intake coverage and laboratory values use distinct units and cannot be plotted as one combined health score.",
+      "Added Sample Crew profiles have no blood measurements; missing laboratory data stays unknown."
+    ]
+  },
+  "references": {
+    "hemoglobin": {
+      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK602185/table/ch5.tab2/",
+      "male_cutoff_g_dl": 13.0,
+      "female_cutoff_g_dl": 12.0,
+      "scope": "WHO 2024 adult ages 15\u201365 nonpregnant female/male lower anaemia cutoffs; illustration assumes sea level and no smoking; not normal ranges or treatment targets."
+    },
+    "ferritin": {
+      "source_url": "https://www.who.int/publications/i/item/9789240000124",
+      "cutoff_ug_l": 15.0,
+      "scope": "WHO 2020 apparently healthy adult without infection/inflammation cutoff; inflammation and pregnancy require context."
+    }
+  }
+}

@@ -112,6 +112,33 @@ def apply_usda_composition(config: HabitatConfig, initial_kg: Mapping[str, float
     return updated
 
 
+def apply_crop_composition(config: HabitatConfig) -> tuple[HabitatConfig, list[str], list[str]]:
+    """Apply known edible-species proxies without replacing stocks or growth data."""
+    config.validate()
+    catalog = load_compositions()
+    provenance = copy.deepcopy(config.input_provenance)
+    crops, matched, unmatched = [], [], []
+    for crop in config.crops:
+        reference = composition_for_species(crop.id, catalog)
+        if reference is None or any(reference.nutrients_per_kg.get(n) is None for n in UNITS):
+            crops.append(crop)
+            unmatched.append(crop.id)
+            continue
+        # Preserve any additional configured nutrients; USDA only supplies the
+        # three explicitly extracted nutrients, not a complete composition.
+        composition = {**crop.nutrients_per_kg, **{n: float(reference.nutrients_per_kg[n]) for n in UNITS}}
+        crops.append(replace(crop, nutrients_per_kg=composition))
+        matched.append(crop.id)
+        provenance[f"crop:{crop.id}:composition"] = (
+            f"{reference.source_url}; {reference.food_form}; USDA edible-species proxy, not a measured tray harvest."
+        )
+    provenance["crop_nutrition_update"] = {"matched_crop_ids": matched, "unmatched_crop_ids": unmatched,
+        "scope": "Only matched energy/protein/vitamin C crop coefficients updated; unmatched crops retain configured values. Stored-food amounts/composition and crop growth/resources unchanged."}
+    updated = replace(config, crops=crops, input_provenance=provenance)
+    updated.validate()
+    return updated, matched, unmatched
+
+
 @dataclass(frozen=True)
 class CrewProfile:
     profile_id: str

@@ -294,6 +294,36 @@ pre { max-height: 500px; overflow: auto; white-space: pre-wrap; overflow-wrap: a
 .holdouts .check-label { margin: 10px 0; }
 .upload-field { margin: 25px 0; }
 .leaf-preview { display: block; width: auto; max-width: 100%; max-height: 370px; object-fit: contain; margin: 22px auto 28px; border-radius: 7px; }
+.fruit-monitoring { min-width: 0; }
+.fruit-introduction { max-width: 760px; margin-bottom: 25px; }
+.fruit-introduction h2 { margin: 9px 0 12px; }
+.fruit-introduction p, .fruit-model-description p { margin: 0 0 10px; }
+.fruit-form { padding-bottom: 30px; border-bottom: 1px solid var(--line); }
+.fruit-selectors { display: grid; grid-template-columns: minmax(170px, .6fr) minmax(0, 1.4fr); gap: 24px; max-width: 870px; margin-bottom: 20px; }
+.fruit-model-description { margin: 0 0 24px; max-width: 900px; font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.fruit-model-description strong { font-weight: 500; }
+.fruit-file-name { font-size: 12px; overflow-wrap: anywhere; }
+.fruit-image-figure { margin: 23px 0 25px; max-width: 900px; }
+.fruit-image-frame { position: relative; width: fit-content; max-width: 100%; overflow: hidden; background: var(--surface); border-radius: 6px; }
+.fruit-image-frame > img { display: block; width: auto; height: auto; max-width: 100%; max-height: 620px; }
+.fruit-detection-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.fruit-image-figure figcaption { margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.fruit-screen-status { display: inline-block; margin: 12px 0 0 17px; font-size: 12px; }
+.fruit-result { padding: 29px 0; border-bottom: 1px solid var(--line); }
+.fruit-counts { display: flex; flex-wrap: wrap; gap: 22px 42px; margin: 25px 0 28px; }
+.fruit-counts > div { min-width: 110px; }
+.fruit-counts dt { margin-bottom: 7px; color: var(--muted); font-size: 12px; }
+.fruit-counts dd { margin: 0; color: var(--text); font-size: 34px; font-weight: 450; line-height: 1.3; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+.fruit-result .table-wrap { margin-bottom: 22px; }
+.fruit-provenance { margin-top: 22px; }
+.fruit-provenance pre { overflow-x: auto; }
+.fruit-boundaries { max-width: 940px; margin: 24px 0 0; color: var(--muted); font-size: 13px; line-height: 1.85; }
+@media (max-width: 540px) {
+  .fruit-selectors { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .fruit-counts { gap: 20px 26px; }
+  .fruit-counts dd { font-size: 30px; }
+  .fruit-screen-status { display: block; margin-left: 0; }
+}
 .timeline { max-height: 350px; overflow-y: auto; margin: 12px 0 23px; padding: 12px 0; border-top: 1px solid var(--line); scrollbar-width: thin; scrollbar-color: var(--input-line) var(--bg); }
 .timeline-axis { display: flex; align-items: center; gap: 20px; padding-right: 10px; font-size: 12px; color: var(--muted); }
 .timeline-axis > span { width: 170px; flex: none; }
@@ -616,3 +646,52 @@ body { background: var(--bg); }
   .scenario-presets { gap: 4px 22px; margin-top: 18px; }
 }
 
+/* Camera photographs remain a separate, source-labelled observation stream. */
+.camera-images { margin: 35px 0 42px; padding-top: 32px; border-top: 1px solid var(--line); }
+.camera-images-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px 32px; flex-wrap: wrap; margin-bottom: 23px; }
+.camera-images-heading h2 { margin: 9px 0 8px; font-size: 25px; font-weight: 500; letter-spacing: -.025em; }
+.camera-images-heading p { max-width: 690px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.camera-images-heading > button { flex: none; margin-top: 12px; }
+.camera-filters { display: grid; grid-template-columns: minmax(180px, 245px) minmax(180px, 300px) max-content; align-items: end; gap: 17px 23px; }
+.camera-filters > button { min-height: 44px; }
+.camera-channel { margin: 16px 0 23px; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+.camera-empty { padding: 25px 0 24px; }
+.camera-empty h3, .camera-photo-error h3 { margin: 0 0 10px; font-size: 18px; font-weight: 500; }
+.camera-empty p, .camera-photo-error p { margin: 0; max-width: 590px; color: var(--muted); font-size: 14px; line-height: 1.9; }
+.camera-viewer { display: grid; grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr); gap: 36px; align-items: start; }
+.camera-photograph { margin: 0; min-width: 0; }
+.camera-photograph > img { display: block; width: 100%; height: auto; max-height: 580px; object-fit: contain; background: var(--surface); border-radius: 7px; }
+.camera-photograph > figcaption { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.camera-photo-error { min-height: 280px; padding: 30px; background: var(--surface); border-radius: 7px; }
+.camera-image-evidence { min-width: 0; padding-left: 25px; border-left: 1px solid var(--line); }
+.camera-image-evidence h3 { margin: 17px 0 10px; font-size: 23px; font-weight: 500; overflow-wrap: anywhere; }
+.camera-receipt { color: var(--muted); font-size: 13px; line-height: 1.8; margin-bottom: 23px; }
+.camera-image-evidence dl { display: grid; gap: 19px; margin: 0 0 20px; }
+.camera-image-evidence dt { color: var(--muted); font-size: 12px; line-height: 1.8; }
+.camera-image-evidence dd { margin: 3px 0 0; color: var(--text); font-size: 14px; line-height: 1.8; overflow-wrap: anywhere; }
+.camera-image-evidence .text-button { display: inline-flex; align-items: center; min-height: 44px; padding-left: 0; }
+.camera-integrity { margin-top: 18px; }
+.camera-integrity summary { color: var(--muted); font-size: 12px; line-height: 1.9; cursor: pointer; }
+.camera-integrity dl { margin-top: 17px; }
+.camera-integrity dd { font-size: 12px; }
+.camera-history { display: flex; gap: 27px; margin: 27px 0 0; padding-bottom: 12px; overflow-x: auto; scrollbar-width: thin; }
+.camera-history button { flex: none; max-width: 250px; min-width: 180px; min-height: 68px; padding: 10px 0; border: 0; border-top: 2px solid var(--line); border-radius: 0; background: transparent; color: var(--muted); text-align: left; }
+.camera-history button:hover, .camera-history button.active { border-top-color: var(--green); color: var(--green); }
+.camera-history button span { display: block; font-size: 11px; line-height: 1.8; overflow-wrap: anywhere; }
+.camera-history button strong { display: block; margin-top: 6px; font-size: 13px; font-weight: 500; line-height: 1.7; }
+.camera-scope { max-width: 940px; margin: 25px 0 0; font-size: 12px; line-height: 1.9; }
+@media (max-width: 1000px) {
+  .camera-filters { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .camera-filters > button { justify-self: start; }
+  .camera-viewer { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .camera-image-evidence { padding: 24px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+  .camera-image-evidence dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 30px; }
+}
+@media (max-width: 540px) {
+  .camera-images { padding-top: 27px; margin-top: 27px; }
+  .camera-filters { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .camera-image-evidence dl { grid-template-columns: minmax(0, 1fr); }
+  .camera-images-heading h2 { font-size: 24px; }
+  .camera-images-heading > button { margin-top: 0; }
+  .camera-photo-error { min-height: 220px; padding: 22px; }
+}

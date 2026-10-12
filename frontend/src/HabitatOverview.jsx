@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Activity, ArrowRight, ArrowUpRight, ChevronRight, CircleHelp, Radio, Settings2} from 'lucide-react';
 import {useTelemetry} from './useTelemetry.js';
-import MissionExplorer, {PlanComparison} from './MissionExplorer.jsx';
+import MissionExplorer, {PlanComparison, scenarioCrewCanceled} from './MissionExplorer.jsx';
+import MissionChangePanel from './MissionChangePanel.jsx';
 
 const number = value => value == null || !Number.isFinite(Number(value)) ? '—' : Number(value).toLocaleString(undefined, {maximumFractionDigits:2});
 function Metric({label,value,unit,detail,warning=false}) {
@@ -11,9 +12,11 @@ function ReviewItem({icon:Icon,title,detail,onClick}) {
   return <button className="ops-review-item" onClick={onClick}><Icon size={17}/><span><strong>{title}</strong><small>{detail}</small></span><ChevronRight size={16}/></button>;
 }
 
-export default function HabitatOverview({config,run,navigate,Chart,planPolicy:policy,setPlanPolicy:setPolicy,missionDay:selectedDay,setMissionDay:setSelectedDay}) {
+export default function HabitatOverview({config,run,setRun,request,notify,crewProfiles=[],navigate,Chart,planPolicy:policy,setPlanPolicy:setPolicy,missionDay:selectedDay,setMissionDay:setSelectedDay}) {
   const [window,setWindow]=useState('full');
   const [chartView,setChartView]=useState('nutrients');
+  const [editingCrew,setEditingCrew]=useState(false);
+  const crewEditor=useRef(null);
   const {data:telemetry,error,fresh}=useTelemetry('hardware');
   const metadata=run?.metadata;
   const plan=metadata?.[policy];
@@ -25,6 +28,8 @@ export default function HabitatOverview({config,run,navigate,Chart,planPolicy:po
   const daily=(plan?.daily||[]).filter(row=>window==='full'||eventDay==null||row.day>=eventDay);
   useEffect(()=>{if(daily.length&&!daily.some(row=>row.day===selectedDay))setSelectedDay(daily[0].day);},[plan,window,eventDay,selectedDay]);
   const selectDay=day=>{if(window==='event'&&day<eventDay)setWindow('full');setSelectedDay(day);};
+  useEffect(()=>{if(editingCrew){crewEditor.current?.scrollIntoView?.({behavior:'smooth',block:'start'});crewEditor.current?.focus();}},[editingCrew]);
+  function changeCrew(day){selectDay(day);setPolicy('adaptive');setEditingCrew(true);}
   const chartOptions={nutrients:{title:'Nutrient coverage',subtitle:'Daily modeled intake / target (%)',unit:'%',reference:100,lines:[{key:'energy_coverage_pct',name:'Energy'},{key:'protein_coverage_pct',name:'Protein'},{key:'vitamin_c_coverage_pct',name:'Vitamin C'}]},water:{title:'Water use and budget',subtitle:'Crew and crop model · L/day',unit:' L',lines:[{key:'water_l',name:'Modeled use'},{key:'water_available_l',name:'Available budget',color:'var(--chart-budget)'}]},power:{title:'Electricity use and budget',subtitle:'Configured crop coefficients · kWh/day',unit:' kWh',lines:[{key:'power_kwh',name:'Modeled use'},{key:'power_available_kwh',name:'Available budget',color:'var(--chart-budget)'}]}};
   const chart=chartOptions[chartView];
   const policyName=policy==='adaptive'?'Adaptive plan':'Fixed baseline';
@@ -41,8 +46,9 @@ export default function HabitatOverview({config,run,navigate,Chart,planPolicy:po
     <div className="ops-heading"><div><h1>Mission overview</h1><p>{savedConfig.crew} starting crew · {savedConfig.days} days · {number(savedConfig.area_m2)} m² growing area</p></div><div><button className="text-button" aria-label="Review mission inputs" onClick={()=>navigate('inputs')}>Review inputs <ArrowUpRight size={15}/></button><button className="btn primary" onClick={()=>navigate('simulator')}>Open what-if simulator <ArrowRight size={16}/></button></div></div>
 
     <div className="ops-run-status"><div><span className={'source-pill '+(mixed?'mixed':'demo')}>{mixed?'Mixed inputs':'Demo inputs'}</span><span>{plan?'Calculated result':'No saved result'}</span>{plan&&<span>{policyName} · {plan.status?.replaceAll('_',' ')}</span>}</div>{metadata?.created_at_utc&&<span>Submitted {new Date(metadata.created_at_utc).toLocaleString()}</span>}</div>
-    {metadata?.scenario&&<p className="ops-footnote">Scenario: {metadata.scenario.name}</p>}
-    <MissionExplorer plan={plan} scenario={metadata?.scenario} policy={policy} selectedDay={selectedDay} onSelectDay={selectDay} navigate={navigate}/>
+    {metadata?.scenario&&<p className="ops-footnote">Scenario: {metadata.scenario.name}{(metadata.continuation?.pending_scenario_crew_cancelled||scenarioCrewCanceled(metadata.scenario,savedConfig.planning_events))&&' · Original scheduled crew arrival replaced by the reviewed roster.'}</p>}
+    <MissionExplorer plan={plan} scenario={metadata?.scenario} planningEvents={metadata?.config?.planning_events} policy={policy} selectedDay={selectedDay} onSelectDay={selectDay} navigate={navigate} onChangeCrew={changeCrew} editingCrew={editingCrew}/>
+    {editingCrew&&<div className="overview-crew-editor" ref={crewEditor} tabIndex={-1}><div className="overview-crew-editor-status"><span>Simulation paused · edit the crew for the remaining mission</span><button className="btn" onClick={()=>setEditingCrew(false)}>Close crew editor</button></div><MissionChangePanel run={run} config={savedConfig} sampleProfiles={crewProfiles} missionDay={selectedDay} setMissionDay={selectDay} setRun={setRun} request={request} notify={notify}/></div>}
     <section className="ops-metrics" aria-label="Saved plan totals">
       <Metric label="Days below tracked targets" value={metrics?.shortfall_days} detail="Energy, protein and vitamin C" warning={metrics?.shortfall_days>0}/>
       <Metric label="Calculated harvest" value={metrics?.total_harvest_kg} unit="kg" detail="Estimated edible crop mass"/>

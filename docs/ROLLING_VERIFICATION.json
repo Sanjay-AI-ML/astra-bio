@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-10-12",
+  "backend_checks_passed": 123,
+  "frontend_checks_passed": 138,
+  "production_build": "passed",
+  "browser_errors": 0,
+  "browser_form_saved": true,
+  "repeated_change_history_days_1_to_31_unchanged": true,
+  "checkpoint_inventory_preserved": true,
+  "crew": 6,
+  "protein_target_from_day_32_g": 714.0,
+  "saved_run_id": "81811433ad814e4c90d22e923ddca5a7",
+  "future_target_gap_days": 54,
+  "remaining_boundary_stocks": {
+    "water_l": 3775.7073892527783,
+    "energy_kwh": 2904.9494912453665
+  },
+  "selected_future_batches": 21,
+  "scope": "Fictional simulated crew and mission; software conservation verified, local growing-cycle validation still required"
+}

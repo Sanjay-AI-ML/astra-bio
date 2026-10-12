@@ -1,0 +1,388 @@
+{
+  "scope": "Illustrative sample simulation; references and assumptions are separately labeled",
+  "saved_run_id": "ca4930481c914aafabd6e87c820923d6",
+  "scenario": {
+    "id": "sample-protein-rise",
+    "name": "SAMPLE \u00b7 Protein target +40% from Day 30",
+    "event_day": 30,
+    "water_factor": 1.0,
+    "power_factor": 1.0,
+    "extra_crew": 0,
+    "target_factors": {
+      "protein": 1.4
+    },
+    "failed_crop_ids": [],
+    "crop_yield_factors": {}
+  },
+  "fixed": {
+    "shortfall_days": 49,
+    "mean_coverage_pct": 85.90145106536825,
+    "min_coverage_pct": 71.42857142857142,
+    "total_water_l": 1259.0874468000477,
+    "total_power_kwh": 352.20531204009404,
+    "total_harvest_kg": 16.41129032258065,
+    "final_reserve_kg": 11.471252905614833,
+    "min_reserve_days": 3.0000000000000013,
+    "reserve_gap_days": 0,
+    "capacity_gap_days": 0,
+    "total_shortfall_normalized": 12.68869404116857,
+    "total_waste_kg": 0.0,
+    "upper_bound_excess_days": 0,
+    "food_mass_excess_days": 0
+  },
+  "adaptive": {
+    "shortfall_days": 12,
+    "mean_coverage_pct": 98.93920638229069,
+    "min_coverage_pct": 89.94941282746156,
+    "total_water_l": 2023.749592924932,
+    "total_power_kwh": 2086.5048919184396,
+    "total_harvest_kg": 84.16421097797054,
+    "final_reserve_kg": 0.889459096988935,
+    "min_reserve_days": 0.0,
+    "reserve_gap_days": 4,
+    "capacity_gap_days": 0,
+    "total_shortfall_normalized": 0.9547142559383768,
+    "total_waste_kg": 0.0,
+    "upper_bound_excess_days": 0,
+    "food_mass_excess_days": 0
+  },
+  "recommendations": {
+    "day_1_protein": {
+      "top_crop_id": "arugula_600",
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 8800.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 360.0,
+            "current_supply": 378.613881748072,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    },
+    "day_1_vitamin_c": {
+      "top_crop_id": "arugula_600",
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 8800.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 360.0,
+            "current_supply": 378.613881748072,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    },
+    "day_1_energy": {
+      "top_crop_id": "arugula_600",
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 8800.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 360.0,
+            "current_supply": 378.613881748072,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    },
+    "day_1_balanced": {
+      "top_crop_id": "arugula_600",
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 8800.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 360.0,
+            "current_supply": 378.613881748072,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    },
+    "day_31_protein": {
+      "top_crop_id": null,
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 11687.815275310833,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 503.99999999999994,
+            "current_supply": 503.99999999999994,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    },
+    "day_31_vitamin_c": {
+      "top_crop_id": null,
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 11687.815275310833,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 503.99999999999994,
+            "current_supply": 503.99999999999994,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    },
+    "day_31_energy": {
+      "top_crop_id": null,
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 11687.815275310833,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 503.99999999999994,
+            "current_supply": 503.99999999999994,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    },
+    "day_31_balanced": {
+      "top_crop_id": null,
+      "forecast": {
+        "available": true,
+        "nutrients": [
+          {
+            "nutrient": "energy",
+            "unit": "kcal",
+            "current_target": 8800.0,
+            "current_supply": 11687.815275310833,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          },
+          {
+            "nutrient": "protein",
+            "unit": "g",
+            "current_target": 503.99999999999994,
+            "current_supply": 503.99999999999994,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": 55,
+            "cumulative_future_shortfall": 481.17598499294144,
+            "normalized_future_gap": 0.9547142559383759,
+            "gap_days": 12
+          },
+          {
+            "nutrient": "vitamin_c",
+            "unit": "mg",
+            "current_target": 400.0,
+            "current_supply": 400.0,
+            "current_shortfall": 0.0,
+            "earliest_gap_day": null,
+            "cumulative_future_shortfall": 0,
+            "normalized_future_gap": 0.0,
+            "gap_days": 0
+          }
+        ],
+        "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."
+      }
+    }
+  },
+  "limitation": "Only energy, protein and vitamin C tracked; remaining shortages are retained, not hidden"
+}

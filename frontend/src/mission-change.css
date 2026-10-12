@@ -1,0 +1,59 @@
+.mission-change { margin: 34px 0 45px; padding: 30px 0; border-top: 1px solid var(--line); min-width: 0; }
+.overview-crew-editor { scroll-margin-top: 24px; outline: none; }
+.overview-crew-editor-status { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 24px; color: var(--muted); font-size: 13px; }
+.overview-crew-editor .mission-change { margin-top: 20px; }
+.mission-change-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 25px; }
+.mission-change-heading h2 { font-size: 27px; margin: 8px 0 13px; }
+.mission-change-heading p { max-width: 880px; margin: 0; }
+.mission-change-heading .eyebrow { display: flex; gap: 9px; align-items: center; }
+.mission-change-boundary { display: flex; align-items: center; flex-wrap: wrap; gap: 25px 40px; margin: 28px 0; }
+.mission-change-boundary .field { width: 240px; }
+.mission-change-boundary > div { display: grid; gap: 8px; }
+.mission-change-boundary strong { font-size: 21px; font-weight: 550; }
+.mission-change-boundary > div span { font-size: 13px; color: var(--muted); }
+.mission-change-state { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 23px 30px; margin: 27px 0 36px; padding: 22px 0; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.mission-change-state > div { display: flex; flex-direction: column; gap: 10px; }
+.mission-change-state span { color: var(--muted); font-size: 12px; }
+.mission-change-state strong { font-size: 24px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.mission-change-state small { font-size: 11px; color: var(--muted); line-height: 1.7; }
+.mission-change-roster-heading, .mission-change-subheading { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 18px 26px; }
+.mission-change h3 { font-size: 20px; margin: 0 0 11px; }
+.mission-change-roster-heading p, .mission-change-subheading p { margin: 0; color: var(--muted); font-size: 13px; }
+.mission-change-roster { margin-top: 17px; }
+.mission-change-roster th, .mission-change-roster td { padding: 14px 14px; }
+.mission-change-roster th:first-child, .mission-change-roster td:first-child { padding-left: 0; }
+.mission-change-roster th small { display: block; font-size: 11px; color: var(--muted); margin-top: 5px; }
+.mission-change-roster input { box-sizing: border-box; width: 115px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 7px; color: var(--text); background: var(--surface-high); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; }
+.mission-change-roster input.mission-change-name { width: 230px; }
+.mission-change input:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.mission-change-small { color: var(--muted); font-size: 12px; max-width: 980px; line-height: 1.8; }
+.mission-change-scheduled { border-left: 3px solid var(--chart-gold); padding: 8px 0 8px 20px; margin: 24px 0; font-size: 13px; }
+.mission-change-scheduled ul { margin: 12px 0 18px; padding-left: 20px; line-height: 1.8; color: var(--muted); }
+.mission-change-targets { margin: 31px 0 26px; padding: 24px 0; border-top: 1px solid var(--line-soft); }
+.mission-change-target-plots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 38px; margin: 23px 0 20px; }
+.mission-change-target > div:first-child { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.mission-change-target strong { font-size: 14px; font-weight: 550; }
+.mission-change-target > div:first-child span { font-size: 11px; color: var(--muted); }
+.mission-change-bar-row { display: grid; grid-template-columns: 62px minmax(25px, 1fr) 58px; align-items: center; gap: 11px; margin: 12px 0; font-size: 11px; }
+.mission-change-bar-row > span { color: var(--muted); }
+.mission-change-bar-row b { font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.mission-change-track { height: 9px; border-radius: 2px; background: var(--line-soft); overflow: hidden; }
+.mission-change-track i { display: block; height: 100%; background: #96a4a0; }
+.mission-change-bar-row.future .mission-change-track i { background: var(--green); }
+.mission-change-resources { border-top: 1px solid var(--line-soft); padding-top: 20px; font-size: 13px; }
+.mission-change-resources p { max-width: 920px; margin: 18px 0 23px; }
+.mission-change-resource-inputs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.mission-change-resource-inputs .field { margin-top: 14px; }
+.mission-change-resource-inputs .check-label { font-size: 12px; }
+.mission-change-reason { margin: 25px 0 24px; max-width: 750px; }
+.mission-change-review { font-size: 13px; }
+.mission-change-submit { display: flex; align-items: center; flex-wrap: wrap; gap: 19px 24px; margin-top: 23px; }
+.mission-change-submit > span { color: var(--muted); font-size: 12px; line-height: 1.8; max-width: 480px; }
+.mission-change-result { margin-top: 33px; border-left: 3px solid var(--green); padding: 5px 0 5px 23px; }
+.mission-change-result > p { max-width: 940px; font-size: 13px; }
+.mission-change-result dl { margin: 21px 0; max-width: 840px; }
+.mission-change-result dl > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px 25px; padding: 13px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.mission-change-result dt { color: var(--muted); }
+.mission-change-result dd { margin: 0; }
+@media (max-width: 1100px) { .mission-change-state { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mission-change-target-plots { grid-template-columns: minmax(0, 1fr); max-width: 650px; } }
+@media (max-width: 640px) { .mission-change-heading { flex-direction: column; } .mission-change-heading h2 { font-size: 24px; } .mission-change-resource-inputs { grid-template-columns: minmax(0, 1fr); gap: 23px; } .mission-change-state { gap: 25px 20px; } .mission-change-state strong { font-size: 22px; } .mission-change-boundary { gap: 18px; } .mission-change-boundary .field { width: 100%; } .mission-change-result { padding-left: 17px; } }

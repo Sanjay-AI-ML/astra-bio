@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "config": {
+    "days": 90,
+    "crew": 4,
+    "area_m2": 20,
+    "water_budget_l_per_day": 55,
+    "power_budget_kwh_per_day": 40,
+    "reserve_days": 3,
+    "crew_water_l_per_day": 3.0,
+    "foods": [
+      {
+        "id": "oats",
+        "name": "Oats (Includes foods for USDA's Food Distribution Program)",
+        "initial_kg": 140.0,
+        "nutrients_per_kg": {
+          "energy": 3890.0,
+          "protein": 168.9,
+          "vitamin_c": 0.0
+        },
+        "is_reserve": true,
+        "shelf_life_days": null,
+        "initial_age_days": 0,
+        "nutrient_half_life_days": {}
+      },
+      {
+        "id": "lentils",
+        "name": "Lentils, raw",
+        "initial_kg": 45.0,
+        "nutrients_per_kg": {
+          "energy": 3520.0,
+          "protein": 246.29999999999998,
+          "vitamin_c": 45.0
+        },
+        "is_reserve": true,
+        "shelf_life_days": null,
+        "initial_age_days": 0,
+        "nutrient_half_life_days": {}
+      },
+      {
+        "id": "peanut_butter",
+        "name": "Peanut butter, smooth style, without salt",
+        "initial_kg": 20.0,
+        "nutrients_per_kg": {
+          "energy": 5980.0,
+          "protein": 222.10000000000002,
+          "vitamin_c": 0.0
+        },
+        "is_reserve": true,
+        "shelf_life_days": null,
+        "initial_age_days": 0,
+        "nutrient_half_life_days": {}
+      },
+      {
+        "id": "sample_vitamin_bridge",
+        "name": "Fortified bridge food (synthetic sample)",
+        "initial_kg": 5,
+        "nutrients_per_kg": {
+          "energy": 1000,
+          "protein": 0,
+          "vitamin_c": 5000
+        },
+        "is_reserve": true,
+        "shelf_life_days": null,
+        "initial_age_days": 0,
+        "nutrient_half_life_days": {}
+      }
+    ],
+    "crops": [
+      {
+        "id": "arugula_330",
+        "name": "Arugula \u2014 330 PPFD \u00b7 terrestrial reference",
+        "grow_days": 25,
+        "yield_kg_per_m2": 3.05,
+        "water_l_per_m2_day": 1.5,
+        "power_kwh_per_m2_day": 2.79,
+        "nutrients_per_kg": {
+          "energy": 250.0,
+          "protein": 25.8,
+          "vitamin_c": 150.0
+        }
+      },
+      {
+        "id": "arugula_600",
+        "name": "Arugula \u2014 600 PPFD \u00b7 terrestrial reference",
+        "grow_days": 29,
+        "yield_kg_per_m2": 5.49,
+        "water_l_per_m2_day": 1.5,
+        "power_kwh_per_m2_day": 4.95,
+        "nutrients_per_kg": {
+          "energy": 250.0,
+          "protein": 25.8,
+          "vitamin_c": 150.0
+        }
+      },
+      {
+        "id": "radish_raxe",
+        "name": "Radish \u2014 Raxe \u00b7 terrestrial reference",
+        "grow_days": 23,
+        "yield_kg_per_m2": 1.82,
+        "water_l_per_m2_day": 1.5,
+        "power_kwh_per_m2_day": 4.95,
+        "nutrients_per_kg": {
+          "energy": 160.0,
+          "protein": 6.800000000000001,
+          "vitamin_c": 148.0
+        }
+      },
+      {
+        "id": "kohlrabi",
+        "name": "Kohlrabi \u2014 EDEN ISS \u00b7 terrestrial reference",
+        "grow_days": 59,
+        "yield_kg_per_m2": 8.11,
+        "water_l_per_m2_day": 1.5,
+        "power_kwh_per_m2_day": 2.9499999999999997,
+        "nutrients_per_kg": {
+          "energy": 270.0,
+          "protein": 17.0,
+          "vitamin_c": 620.0
+        }
+      },
+      {
+        "id": "lettuce_waldmann_nasa",
+        "name": "Lettuce \u2014 Waldmann's Green (NASA RLSS) \u00b7 terrestrial reference",
+        "grow_days": 30,
+        "yield_kg_per_m2": 2.739622641509434,
+        "water_l_per_m2_day": 1.5,
+        "power_kwh_per_m2_day": 2.9979999999999998,
+        "nutrients_per_kg": {
+          "energy": 150.0,
+          "protein": 13.600000000000001,
+          "vitamin_c": 92.0
+        }
+      }
+    ],
+    "targets_per_crew": {
+      "energy": 2200.0,
+      "protein": 90.0,
+      "vitamin_c": 100.0
+    },
+    "nutrient_units": {
+      "energy": "kcal",
+      "protein": "g",
+      "vitamin_c": "mg"
+    },
+    "max_fresh_kg_per_crew_day": 0.8,
+    "planting_increment_m2": 0.0,
+    "nutrient_upper_per_crew": {},
+    "max_total_food_kg_per_crew_day": 1.2,
+    "input_provenance": {
+      "food_composition": {
+        "dataset": "USDA FoodData Central SR Legacy",
+        "release": "2018-04 (final SR Legacy release)",
+        "download_url": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip",
+        "archive_sha256": "b80817294b8850530aaedf2e515c02593b1824f763a0ff356e5c2081643e6fd0",
+        "pantry_fdc_ids": {
+          "oats": 169705,
+          "lentils": 172420,
+          "peanut_butter": 172470
+        },
+        "crop_species_proxies": {
+          "lettuce": {
+            "fdc_id": 169249,
+            "proxy_food": "Lettuce, green leaf, raw"
+          },
+          "radish": {
+            "fdc_id": 169276,
+            "proxy_food": "Radishes, raw"
+          },
+          "kale": {
+            "fdc_id": 168421,
+            "proxy_food": "Kale, raw"
+          },
+          "tomato": {
+            "fdc_id": 170457,
+            "proxy_food": "Tomatoes, red, ripe, raw, year round average"
+          }
+        },
+        "unmatched_crop_ids_retaining_previous_composition": [
+          "microgreens",
+          "soy"
+        ],
+        "limitations": "Reference food-form composition; not a measured habitat harvest or aged/cooked meal."
+      },
+      "food_inventory": {
+        "status": "User-entered planning assumption, not USDA data",
+        "initial_kg": {
+          "oats": 140.0,
+          "lentils": 45.0,
+          "peanut_butter": 20.0
+        }
+      },
+      "crop:arugula_330:harvest": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table6; Arugula (cultivar not reported); eden_iss_2018_arugula_330; observed mean fresh edible harvest; cycle rounded up from 24.2 days.",
+      "crop:arugula_330:resources": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 2.64 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported crop light setting at16cm. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response.",
+      "crop:arugula_330:composition": "https://fdc.nal.usda.gov/food-details/169387/nutrients; generic edible species proxy, not cultivar/spaceflight assay.",
+      "crop:arugula_600:harvest": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table6; Arugula (cultivar not reported); eden_iss_2018_arugula_600; observed mean fresh edible harvest; cycle rounded up from 29.0 days.",
+      "crop:arugula_600:resources": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 4.8 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported crop light setting at16cm. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response.",
+      "crop:arugula_600:composition": "https://fdc.nal.usda.gov/food-details/169387/nutrients; generic edible species proxy, not cultivar/spaceflight assay.",
+      "crop:radish_raxe:harvest": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table9; Raxe; eden_iss_2018_mixed_climate; observed mean fresh edible harvest; cycle rounded up from 22.6 days.",
+      "crop:radish_raxe:resources": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 4.8 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported crop light setting at16cm. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response.",
+      "crop:radish_raxe:composition": "https://fdc.nal.usda.gov/food-details/169276/nutrients; generic edible species proxy, not cultivar/spaceflight assay.",
+      "crop:kohlrabi:harvest": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full; Table9; Kohlrabi (cultivar not reported); eden_iss_2018_mixed_climate; observed mean fresh edible harvest; cycle rounded up from 58.71 days.",
+      "crop:kohlrabi:resources": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 2.8 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: midpoint of reported300\u2013400 PPFD range; engineering assumption. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response.",
+      "crop:kohlrabi:composition": "https://fdc.nal.usda.gov/food-details/168424/nutrients; generic edible species proxy, not cultivar/spaceflight assay.",
+      "crop:lettuce_waldmann_nasa:harvest": "https://ntrs.nasa.gov/citations/19930057552; NTRS abstract: two30day crop tests; Waldmann's Green; nasa_rlss_1992; observed mean fresh edible harvest; cycle rounded up from 30.0 days.",
+      "crop:lettuce_waldmann_nasa:resources": "Net makeup water 1.5 L/m\u00b2/day assumed, not measured. LED 2.848 kWh/m\u00b2/day derived with efficacy 2.5 \u00b5mol/J, delivery 0.8; PPFD basis: reported average PPFD. Nursery stages are not resolved; final lighting/area assumed across the whole cycle. Overhead 0.15 kWh/m\u00b2/day assumed. No fitted stress response.",
+      "crop:lettuce_waldmann_nasa:composition": "https://fdc.nal.usda.gov/food-details/169249/nutrients; generic edible species proxy, not cultivar/spaceflight assay.",
+      "inventory_and_targets": "Stored inventories, crew targets and habitat budgets remain user-supplied scenario inputs.",
+      "sample_mission": {
+        "status": "Illustrative sample scenario, not a physical habitat",
+        "stocks": "User-requested sample masses; not measured food inventory",
+        "targets": "2200 kcal, 90 g protein, 100 mg vitamin C per person per day are sample planning targets, not clinical prescriptions",
+        "resources": "20 m\u00b2, 55 L/day water, 40 kWh/day power and crop makeup water are sample assumptions",
+        "sample_vitamin_bridge": "5 kg synthetic food @ 1000 kcal/kg, 0 g protein/kg, 5000 mg vitamin C/kg; coefficient placeholder only",
+        "preparation": "USDA lentils/oats are dry ingredient forms; cooking, hydration, preparation resources and recipes are not modeled",
+        "hardware": "No ESP32 or camera observations are used"
+      }
+    }
+  },
+  "scenario": {
+    "id": "sample-protein-rise",
+    "name": "SAMPLE \u00b7 Protein target +40% from Day 30",
+    "event_day": 30,
+    "water_factor": 1.0,
+    "power_factor": 1.0,
+    "extra_crew": 0,
+    "target_factors": {
+      "protein": 1.4
+    },
+    "failed_crop_ids": [],
+    "crop_yield_factors": {}
+  }
+}

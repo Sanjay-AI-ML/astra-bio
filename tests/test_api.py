@@ -38,6 +38,72 @@ def test_bootstrap_serves_real_reference_and_private_config_never_appears(client
     assert client.get("/api/health").json()["frontend"] == "react"
 
 
+def test_reviewed_crew_event_saved_with_timely_advice_and_reloaded_roster(client):
+    config=replace(default_config(),days=18,initial_water_l=300,initial_energy_kwh=80)
+    source=client.post('/api/plans',json={'config':asdict(config),'scenario':asdict(Scenario('none','Nominal',event_day=18))}).json()
+    profiles=[{'profile_id':f'crew-{i}','name':f'Sample Crew {i}',
+        'targets':{'energy':2200,'protein':90+i,'vitamin_c':100},'targets_reviewed':True} for i in range(1,7)]
+    response=client.post('/api/plans/continue',json={'run_id':source['history_id'],'through_day':6,
+        'mission_change':{'crew_profiles':profiles,'reason':'Two arrivals'}})
+    assert response.status_code==200,response.text
+    result=response.json()
+    assert result['metadata']['adaptive']['daily'][:6]==source['metadata']['adaptive']['daily'][:6]
+    assert result['metadata']['adaptive']['daily'][6]['crew']==6
+    assert result['metadata']['adaptive']['daily'][6]['protein_target']==sum(p['targets']['protein'] for p in profiles)
+    assert result['planning_advice']['day']==7
+    assert 'selection_reason' in result['planning_advice']
+    assert all(b['harvest_day']<=18 for b in result['planning_advice']['planned_crop_actions'])
+    restored=client.get('/api/bootstrap').json()['last_run']['metadata']
+    assert restored['crew_profiles']==profiles
+    assert restored['planning_advice']==result['planning_advice']
+    assert source['history_id']!=result['history_id']
+    rejected=client.post('/api/plans/continue',json={'run_id':result['history_id'],'through_day':5})
+    assert rejected.status_code==422
+
+
+def test_manual_roster_reset_is_saved_and_pending_arrivals_do_not_return_on_reload(client):
+    old_profiles = [{'profile_id':f'crew-{i}','name':f'Crew {i}',
+        'targets':{'energy':2200,'protein':90,'vitamin_c':100},'targets_reviewed':True} for i in range(1,7)]
+    config = replace(default_config(),days=18,initial_water_l=300,initial_energy_kwh=80,
+        planning_events=[{'day':12,'crew':6,'crew_profiles':old_profiles,
+            'targets_per_crew':{'energy':2200,'protein':90,'vitamin_c':100}}])
+    scenario = Scenario('pending','Pending combined event',event_day=10,extra_crew=2,
+                        water_factor=.5,target_factors={'protein':1.4})
+    source = client.post('/api/plans',json={'config':asdict(config),'scenario':asdict(scenario)}).json()
+    replacement = old_profiles[:3]
+    response = client.post('/api/plans/continue',json={'run_id':source['history_id'],'through_day':4,
+        'mission_change':{'crew_profiles':replacement,'replace_future_crew_changes':True}})
+    assert response.status_code==200,response.text
+    result = response.json()
+    metadata = result['metadata']
+    assert metadata['adaptive']['daily'][:4] == source['metadata']['adaptive']['daily'][:4]
+    assert metadata['adaptive']['inventories']['4'] == source['metadata']['adaptive']['inventories']['4']
+    assert all(row['crew']==3 for row in metadata['adaptive']['daily'][4:])
+    assert metadata['adaptive']['daily'][9]['protein_target'] == pytest.approx(378)
+    assert metadata['adaptive']['daily'][9]['water_available_l'] == 25
+    assert metadata['config']['planning_events'] == [{'day':5,'crew':3,'crew_profiles':replacement,
+        'targets_per_crew':{'energy':2200,'protein':90,'vitamin_c':100},'cancel_scenario_crew':True}]
+    assert metadata['scenario'] == asdict(scenario) | {'failed_crop_ids':[]}
+    assert metadata['continuation']['superseded_crew_event_days'] == [12]
+    restored = client.get('/api/bootstrap').json()['last_run']['metadata']
+    assert restored == metadata
+    second = client.post('/api/plans/continue',json={'run_id':result['history_id'],'through_day':7})
+    assert second.status_code==200,second.text
+    continued = second.json()['metadata']
+    assert continued['adaptive']['daily'][:7] == metadata['adaptive']['daily'][:7]
+    assert all(row['crew']==3 for row in continued['adaptive']['daily'][7:])
+    assert continued['crew_profiles'] == replacement
+
+
+def test_crew_limit_validation_accounts_for_cancelled_relative_arrivals():
+    config = replace(default_config(),days=18,crew=12,
+        planning_events=[{'day':5,'crew':12,'cancel_scenario_crew':True}])
+    scenario = Scenario('pending','Pending arrivals',event_day=10,extra_crew=2)
+    assert api.scenario_value(asdict(scenario),config) == scenario
+    with pytest.raises(ValueError,match='at most 12 crew'):
+        api.scenario_value(asdict(scenario),replace(config,planning_events=[]))
+
+
 def test_real_plan_saved_with_actual_scenario_and_restorable_inputs(client):
     config = replace(default_config(), days=8)
     scenario = Scenario("crew", "Additional crew", event_day=4, extra_crew=1)
@@ -86,6 +152,33 @@ def test_unknown_intake_is_not_a_zero_intake_diagnosis(client):
     vitamin = next(row for row in rows if row["profile_id"] == "crew-1" and row["nutrient"] == "vitamin_c")
     assert vitamin["intake"] > 0
     assert vitamin["log_complete"] is False
+
+
+def test_named_sample_crew_has_traceable_intake_separate_blood_and_bounded_count(client):
+    sample = client.get("/api/nutrition/sample?count=4").json()
+    assert sample["sample_only"] is True
+    assert [p["name"] for p in sample["profiles"]] == ["Shree Ram Vishal", "Shamyuktha", "Sanjay", "Vamshika"]
+    assert sample["references"]["hemoglobin"]["female_cutoff_g_dl"] == 12
+    assessed = client.post("/api/nutrition/assess", json={**sample, "day": 1}).json()
+    assert assessed["rows"] == [row for row in sample["assessments"] if row["day"] == 1]
+    expanded = client.get("/api/nutrition/sample?count=6").json()
+    assert [p["name"] for p in expanded["profiles"]][-2:] == ["Sample Crew 5", "Sample Crew 6"]
+    assert not any(row["profile_id"] in {"crew-5", "crew-6"} for row in expanded["blood_samples"])
+    assert client.get("/api/nutrition/sample?count=13").status_code == 422
+    assert client.get("/api/nutrition/sample?count=0").status_code == 422
+    assert "crew_sample" in client.get("/api/bootstrap").json()
+
+
+def test_sample_marker_roundtrip_does_not_add_blood_measurements_to_food_logs(client):
+    sample = client.get("/api/nutrition/sample").json()
+    state = {**sample, "sample_context": {"sample_only": True, "fixture_version": 1}}
+    saved = client.post("/api/nutrition/save", json={"name": "Fictional crew", "state": state})
+    assert saved.status_code == 200, saved.text
+    restored = client.get("/api/snapshots/nutrition/" + saved.json()["id"]).json()
+    assert restored["sample_context"] == {"sample_only": True, "fixture_version": 1}
+    assert "blood_samples" not in restored
+    assert "hemoglobin_g_dl" not in restored["profiles"][0]
+    assert len(restored["entries"]) == len(sample["entries"])
 
 
 def test_local_image_path_rejects_unsupported_or_invalid_photos(client):

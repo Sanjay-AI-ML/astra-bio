@@ -1,0 +1,76 @@
+.crop-advisor { margin: 34px 0 42px; padding: 32px 0; min-width: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.crop-advisor-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.crop-advisor-heading h2 { font-size: 27px; margin: 8px 0 12px; }
+.crop-advisor-heading p { max-width: 750px; margin: 0; }
+.crop-advisor-controls { display: grid; grid-template-columns: minmax(190px, 1.2fr) repeat(2, minmax(150px, 1fr)); gap: 24px; max-width: 900px; margin: 28px 0 22px; }
+.crop-advisor-action { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 24px; }
+.crop-advisor-action > span { font-size: 13px; color: var(--muted); max-width: 530px; }
+.crop-advisor-data { margin: 23px 0 0; font-size: 13px; max-width: 920px; }
+.crop-advisor-data p { margin: 13px 0 18px; }
+.crop-advisor-results { margin-top: 34px; }
+.crop-advisor-recommendation { border-left: 3px solid var(--green); padding: 6px 0 6px 23px; max-width: 920px; }
+.crop-advisor-recommendation h3 { font-size: 29px; margin: 7px 0 11px; }
+.crop-advisor-recommendation p { margin: 0; }
+.crop-advisor-basis { font-size: 13px; max-width: 900px; margin: 21px 0 18px; }
+.crop-advisor-comparison th, .crop-advisor-comparison td { padding: 18px 14px; }
+.crop-advisor-comparison th:first-child, .crop-advisor-comparison td:first-child { padding-left: 0; }
+.crop-advisor-comparison td:first-child { min-width: 185px; }
+.crop-advisor-comparison tr.selected { background: var(--surface); }
+.crop-advisor-comparison small, .crop-advisor-gaps td small { display: block; color: var(--muted); font-size: 11px; margin-top: 5px; }
+.crop-advisor-crop-name { display: flex; align-items: baseline; gap: 15px; }
+.crop-advisor-crop-name > span { color: var(--muted); font-size: 12px; min-width: 16px; }
+.crop-advisor-crop-name strong { font-weight: 550; white-space: normal; }
+.crop-advisor-fits { display: inline-flex; gap: 6px; align-items: center; color: var(--green); }
+.crop-advisor-blocked { color: var(--warning); }
+.crop-advisor-detail { margin: 28px 0 35px; padding-top: 25px; border-top: 1px solid var(--line); }
+.crop-advisor-detail-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 15px 25px; }
+.crop-advisor-detail-heading h3 { font-size: 22px; }
+.crop-advisor-state { color: var(--green); font-size: 12px; }
+.crop-advisor-state.blocked { color: var(--warning); }
+.crop-advisor-blockers { padding-left: 21px; color: var(--warning); font-size: 13px; }
+.crop-advisor-output { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px 30px; margin: 28px 0 31px; }
+.crop-advisor-output > div { display: flex; flex-direction: column; gap: 9px; }
+.crop-advisor-output span { color: var(--muted); font-size: 12px; }
+.crop-advisor-output strong { font-size: 30px; line-height: 1.3; font-weight: 500; font-variant-numeric: tabular-nums; }
+.crop-advisor-output small { font-size: 11px; line-height: 1.65; color: var(--muted); }
+.crop-advisor-detail-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 50px; max-width: 980px; }
+.crop-advisor h4 { margin: 0 0 15px; font-size: 14px; font-weight: 550; }
+.crop-advisor-detail-columns dl { margin: 0; }
+.crop-advisor-detail-columns dl > div { display: flex; justify-content: space-between; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.crop-advisor-detail-columns dt { color: var(--muted); }
+.crop-advisor-detail-columns dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.crop-advisor-detail-columns p { font-size: 12px; }
+.crop-advisor-before-harvest, .crop-advisor-consumption-limit { max-width: 950px; font-size: 13px; margin-top: 23px; }
+.crop-advisor-before-harvest { color: var(--warning); }
+.crop-advisor-sources { display: grid; gap: 7px; margin-top: 23px; max-width: 970px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.crop-advisor-gaps { padding: 25px 0; border-top: 1px solid var(--line); }
+.crop-advisor-gaps h3 { font-size: 21px; }
+.crop-advisor-gaps h4 { margin: 27px 0 0; }
+.crop-advisor-gaps p { max-width: 900px; font-size: 13px; }
+.crop-advisor-notes { margin: 12px 0 24px; font-size: 13px; }
+.crop-advisor-notes p { max-width: 960px; }
+.crop-advisor-continue { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(230px, 1fr); gap: 30px 60px; margin-top: 32px; padding-top: 29px; border-top: 1px solid var(--line); }
+.crop-advisor-continue h3 { font-size: 21px; margin: 7px 0 12px; }
+.crop-advisor-continue p { margin: 10px 0; font-size: 13px; }
+.crop-advisor-continue p.crop-advisor-scope { font-size: 12px; }
+.crop-advisor-continue-action { display: flex; flex-direction: column; gap: 17px; align-items: flex-start; justify-content: center; }
+.crop-advisor-continue-action .field { width: 100%; max-width: 340px; }
+.crop-advisor-continue-action > small { font-size: 12px; color: var(--muted); line-height: 1.7; }
+@media (max-width: 980px) {
+  .crop-advisor-output { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .crop-advisor-continue { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
+@media (max-width: 640px) {
+  .crop-advisor-heading { flex-direction: column; gap: 13px; }
+  .crop-advisor-heading h2 { font-size: 24px; }
+  .crop-advisor-controls, .crop-advisor-detail-columns { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .crop-advisor-recommendation { padding-left: 17px; }
+  .crop-advisor-output { gap: 25px 20px; }
+  .crop-advisor-output strong { font-size: 25px; }
+}
+.crop-advisor-selected-plan {padding: 26px 0 34px; border-bottom: 1px solid var(--line); margin-bottom: 28px;}
+.crop-advisor-selected-plan h3 {font-size: 24px; margin: 14px 0 12px;}
+.crop-advisor-selected-plan p {max-width: 86ch; color: var(--muted); line-height: 1.7;}
+.crop-advisor-timed-help {margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line);}
+.crop-advisor-timed-help dl {display: flex; flex-wrap: wrap; gap: 24px;}
+.crop-advisor-timed-help dd {margin: 7px 0; font-size: 20px; font-weight: 600;}

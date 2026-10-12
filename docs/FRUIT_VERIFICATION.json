@@ -1,0 +1,261 @@
+{
+  "verified_at_utc": "2026-10-12T06:26:10.483953+00:00",
+  "purpose": "Software smoke verification, not biological accuracy evaluation",
+  "sample_source": "https://huggingface.co/afeefaazam/tomato-ripeness-detector/resolve/318c3e91578a748fa7020da80cbef00a357002e3/examples/drone_example.jpg",
+  "sample_sha256": "c1cfa2f0150c7f4f5a2bd0188728a11de33fd219877ba0e5c969b5fe7319e185",
+  "independent_benchmark": false,
+  "checks": [
+    "All four installed models pass live registry hash, graph and label checks.",
+    "All four execute actual local CPU inference through multipart HTTP; coordinates, counts, image identity, provenance and action boundaries pass.",
+    "Tomato maturity model rejects unsupported bell pepper selection.",
+    "Blank image is rejected without fabricated detections.",
+    "Out-of-range confidence is rejected at the API boundary."
+  ],
+  "observations": [
+    {
+      "model_id": "tomato-ripeness-3",
+      "status": "observed",
+      "visible_count": 18,
+      "counts_by_stage": {
+        "unripe": 18
+      },
+      "provenance": {
+        "id": "tomato-ripeness-3",
+        "name": "Tomato maturity \u00b7 three stages",
+        "task": "detect",
+        "species": [
+          "tomato"
+        ],
+        "labels": [
+          "Fully-ripe",
+          "Semi-ripe",
+          "Unripe"
+        ],
+        "input_size": [
+          640,
+          640
+        ],
+        "sha256": "7b7d82f507fa9ed25ba1a546ed4871a79e5be13fa2a7c322ef635f192135e10e",
+        "source_url": "https://huggingface.co/pablofntdz/yolov8-tomato-detection",
+        "revision": "244eb93615708602716b57f2d09da479e2d899d4",
+        "license_declared": "MIT (publisher declaration)",
+        "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+        "source_sha256": "3a224cb79efb76d041995b07beae69d663f36b3d46356dcd5fa7cc2b64a43d40",
+        "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+        "validation": "Public checkpoint; no ASTRA-BIO tray benchmark",
+        "export_parity": {
+          "probe": "seeded numerical tensor; not biological accuracy",
+          "maximum_absolute_error": 0.00030517578125,
+          "passed": true
+        },
+        "capability": "visual_maturity",
+        "export_environment": {
+          "torch": "2.14.1+cu130",
+          "torchvision": "0.29.1+cu130",
+          "ultralytics": "8.4.21",
+          "onnx": "1.23.2",
+          "onnxruntime": "1.31.0",
+          "numpy": "2.5.2",
+          "Pillow": "12.3.0"
+        },
+        "preprocessing": "Pillow RGB bilinear square letterbox, fill 114, float32 NCHW /255; numerical export parity checks tensors, not image-path parity"
+      }
+    },
+    {
+      "model_id": "tomato-ripeness-6",
+      "status": "observed",
+      "visible_count": 21,
+      "counts_by_stage": {
+        "unripe": 20,
+        "light red": 1
+      },
+      "provenance": {
+        "id": "tomato-ripeness-6",
+        "name": "Tomato maturity \u00b7 six stages",
+        "task": "detect",
+        "species": [
+          "tomato"
+        ],
+        "labels": [
+          "Green",
+          "Breakers",
+          "Turning",
+          "Pink",
+          "Light Red",
+          "Red"
+        ],
+        "input_size": [
+          1024,
+          1024
+        ],
+        "sha256": "ae112c9d481f33484289418ad5678726c93e5eec1d94c3f5d6105551c3cd4a41",
+        "source_url": "https://huggingface.co/afeefaazam/tomato-ripeness-detector",
+        "revision": "318c3e91578a748fa7020da80cbef00a357002e3",
+        "license_declared": "MIT (publisher declaration)",
+        "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+        "source_sha256": "5104214ad969156b2173b01f63f3923bcbe4b86d42d9aed51cfa736a7864ef90",
+        "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+        "validation": "Public checkpoint; no ASTRA-BIO tray benchmark",
+        "export_parity": {
+          "probe": "seeded numerical tensor; not biological accuracy",
+          "maximum_absolute_error": 0.000244140625,
+          "passed": true
+        },
+        "capability": "visual_maturity",
+        "export_environment": {
+          "torch": "2.14.1+cu130",
+          "torchvision": "0.29.1+cu130",
+          "ultralytics": "8.4.21",
+          "onnx": "1.23.2",
+          "onnxruntime": "1.31.0",
+          "numpy": "2.5.2",
+          "Pillow": "12.3.0"
+        },
+        "preprocessing": "Pillow RGB bilinear square letterbox, fill 114, float32 NCHW /255; numerical export parity checks tensors, not image-path parity"
+      }
+    },
+    {
+      "model_id": "tomato-detection",
+      "status": "no_detections",
+      "visible_count": 0,
+      "counts_by_stage": {},
+      "provenance": {
+        "id": "tomato-detection",
+        "name": "Tomato detection \u00b7 count only",
+        "task": "detect",
+        "species": [
+          "tomato"
+        ],
+        "labels": [
+          "tomato"
+        ],
+        "input_size": [
+          960,
+          960
+        ],
+        "sha256": "993908fcb60285115a53a9f5e4a47d0bbe6e1ca312c17ca6e5a493ca3a7514bd",
+        "source_url": "https://huggingface.co/AitorConS/tomatoACLv1",
+        "revision": "a228d44bdf24306cedec6d433da093242c4fb05d",
+        "license_declared": "MIT (publisher declaration; artifact declares AGPL-3.0)",
+        "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+        "source_sha256": "993908fcb60285115a53a9f5e4a47d0bbe6e1ca312c17ca6e5a493ca3a7514bd",
+        "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+        "validation": "Public checkpoint; no ASTRA-BIO tray benchmark",
+        "export_parity": null,
+        "capability": "detection_only",
+        "export_environment": {
+          "torch": "2.14.1+cu130",
+          "torchvision": "0.29.1+cu130",
+          "ultralytics": "8.4.21",
+          "onnx": "1.23.2",
+          "onnxruntime": "1.31.0",
+          "numpy": "2.5.2",
+          "Pillow": "12.3.0"
+        },
+        "preprocessing": "Pillow RGB bilinear square letterbox, fill 114, float32 NCHW /255; numerical export parity checks tensors, not image-path parity"
+      }
+    },
+    {
+      "model_id": "produce-detection",
+      "status": "no_detections",
+      "visible_count": 0,
+      "counts_by_stage": {},
+      "provenance": {
+        "id": "produce-detection",
+        "name": "Produce detection \u00b7 tomato, pepper, potato",
+        "task": "detect",
+        "species": [
+          "tomato",
+          "bell pepper",
+          "potato"
+        ],
+        "labels": [
+          "Apple",
+          "Banana",
+          "Beetroot",
+          "Bitter_Gourd",
+          "Bottle_Gourd",
+          "Cabbage",
+          "Capsicum",
+          "Carrot",
+          "Cauliflower",
+          "Cherry",
+          "Chilli",
+          "Coconut",
+          "Cucumber",
+          "EggPlant",
+          "Ginger",
+          "Grape",
+          "Green_Orange",
+          "Kiwi",
+          "Maize",
+          "Mango",
+          "Melon",
+          "Okra",
+          "Onion",
+          "Orange",
+          "Peach",
+          "Pear",
+          "Peas",
+          "Pineapple",
+          "Pomegranate",
+          "Potato",
+          "Radish",
+          "Strawberry",
+          "Tomato",
+          "Turnip",
+          "Watermelon"
+        ],
+        "input_size": [
+          640,
+          640
+        ],
+        "sha256": "c80242774236dd33322fb4599f575f3876680b2bdf6091f22b97183770efcbeb",
+        "source_url": "https://huggingface.co/Piyu12/fruit-veg-yolo11m-detector",
+        "revision": "82c9865261175e778ba5641cf8560b5d10439ec6",
+        "license_declared": "AGPL-3.0",
+        "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+        "source_sha256": "499ccee2169731363de26146d9989942c27f3849f64509e0b5190cbd1c679c19",
+        "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+        "validation": "Public checkpoint; no ASTRA-BIO tray benchmark",
+        "export_parity": {
+          "probe": "seeded numerical tensor; not biological accuracy",
+          "maximum_absolute_error": 0.0004119873046875,
+          "passed": true
+        },
+        "capability": "detection_only",
+        "export_environment": {
+          "torch": "2.14.1+cu130",
+          "torchvision": "0.29.1+cu130",
+          "ultralytics": "8.4.21",
+          "onnx": "1.23.2",
+          "onnxruntime": "1.31.0",
+          "numpy": "2.5.2",
+          "Pillow": "12.3.0"
+        },
+        "preprocessing": "Pillow RGB bilinear square letterbox, fill 114, float32 NCHW /255; numerical export parity checks tensors, not image-path parity"
+      }
+    }
+  ],
+  "limitations": [
+    "Publisher-provided tomato example; no independent ground-truth count or stage annotation.",
+    "No local tray, bell pepper, potato, hydroponic lighting or spaceflight validation.",
+    "No harvest mass, pathogen status or food-safety inference. No automatic inventory or control changes."
+  ],
+  "test_results": {
+    "affected_python_tests": 32,
+    "frontend_tests": 60,
+    "production_build": "passed"
+  },
+  "browser_verification": {
+    "initial_photo_upload_and_inference_overlay": "passed",
+    "model_change_clears_previous_observation": "passed",
+    "final_crop_model_compatibility_and_labels": "passed",
+    "final_desktop_and_390px_empty_form_layout": "passed; saved screenshots reviewed; viewport reset",
+    "final_warning_error_logs": "empty",
+    "json_download": "blocked by browser permission denial; not retried or bypassed",
+    "repeat_photo_upload_after_compact_marker_rebuild": "blocked by browser permission denial; not retried or bypassed",
+    "scope": "Initial overlay verified before compact-marker cleanup. Final photo overlay and export handler have component-test coverage; final upload/download completion is not browser-verified.",
+    "details": "docs/designs/2026-10-12/fruit-monitoring/VERIFICATION.md"
+  }
+}

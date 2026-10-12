@@ -6,6 +6,11 @@ import NutritionPanel from './NutritionPanel.jsx';
 import HabitatOverview from './HabitatOverview.jsx';
 import CommandPalette from './CommandPalette.jsx';
 import ModelEvidence from './ModelEvidence.jsx';
+import PlantOverview from './PlantOverview.jsx';
+import CameraImages from './CameraImages.jsx';
+import RecoveryPanel from './RecoveryPanel.jsx';
+import CropAdvisor from './CropAdvisor.jsx';
+import MissionChangePanel from './MissionChangePanel.jsx';
 import { useTelemetry } from './useTelemetry.js';
 import astraLogo from './assets/astra-bio-logo.png';
 import './style.css';
@@ -60,7 +65,7 @@ function Chart({data, lines, unit = '', height = 270, reference, focusDay, event
 const NAV = [
   ['overview','Mission overview',Layers3],['crew','Crew & nutrition',Activity],
   ['crops','Crops & food',Sprout],['simulator','What-if simulator',Settings2],
-  ['vision','Plant screening',Leaf],['telemetry','Live devices',Radio],
+  ['vision','Plant overview',Leaf],['telemetry','Live devices',Radio],
 ];
 const SETTINGS = ['settings','Workspace settings',Settings2];
 const PAGE_GROUP = {inputs:'crew',pantry:'crops',models:'settings'};
@@ -75,12 +80,14 @@ function App() {
   const [bootstrap,setBootstrap] = useState(null), [config,updateConfig] = useState(null), [run,setRun] = useState(null);
   const [planPolicy,setPlanPolicy] = useState('adaptive');
   const [missionDay,setMissionDay] = useState(1);
+  const [crewProfiles,setCrewProfiles] = useState([]);
   const [page,setPage] = useState(currentPage), [message,setMessage] = useState(null);
   const [initialError,setInitialError] = useState('');
   const [menuOpen,setMenuOpen] = useState(false);
   const [searchOpen,setSearchOpen] = useState(false);
   const menuToggle = useRef(null), navigationRef = useRef(null);
   useEffect(() => { request('/bootstrap').then(data => {setBootstrap(data); updateConfig(data.config);if(data.last_run)setRun(data.last_run);}).catch(e => setInitialError(e.message)); }, []);
+  useEffect(()=>{if(run?.metadata?.config){updateConfig(run.metadata.config);setMissionDay(v=>run.metadata.continuation?Math.max(v,run.metadata.continuation.next_day):1);}},[run]);
   useEffect(() => { const change = () => {setPage(currentPage());setMenuOpen(false);}; window.addEventListener('hashchange', change); return () => window.removeEventListener('hashchange', change); }, []);
   useEffect(() => {document.documentElement.scrollTop=0;document.body.scrollTop=0;},[page]);
   useEffect(()=>{const shortcut=event=>{if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();setMenuOpen(false);setSearchOpen(v=>!v);}};window.addEventListener('keydown',shortcut);return()=>window.removeEventListener('keydown',shortcut);},[]);
@@ -108,12 +115,12 @@ function App() {
   const navigate = key => {location.hash = key;setPage(currentPage());if(menuOpen)document.getElementById('main-content')?.focus();setMenuOpen(false);};
   if (!bootstrap || !config) return <main className="loading"><img className="loading-logo" src={astraLogo} alt="ASTRA-BIO" width={1536} height={1024}/><p>{initialError || 'Opening the planning workspace…'}</p>{initialError && <button onClick={() => location.reload()}>Retry connection</button>}</main>;
   const setPlantModel = plant_model => setBootstrap(v=>({...v,plant_model}));
-  const context = {config,setConfig,bootstrap,request,notify,run,setRun,navigate,planPolicy,setPlanPolicy,missionDay,setMissionDay,setPlantModel};
+  const context = {config,setConfig,bootstrap,request,notify,run,setRun,navigate,planPolicy,setPlanPolicy,missionDay,setMissionDay,setPlantModel,crewProfiles,onProfilesChange:setCrewProfiles};
   const group = PAGE_GROUP[page] || page;
   const current = [...NAV, SETTINGS].find(n => n[0] === group) || NAV[0];
   const mixedInputs = Object.keys(config.input_provenance || {}).length > 0;
   const tabs = group==='crew' ? [['crew','Nutrition & logs'],['inputs','Mission inputs']] : group==='crops' ? [['crops','Crop schedules'],['pantry','Food inventory']] : group==='settings' ? [['settings','Saved plans'],['models','Model settings']] : null;
-  const commandDetails={overview:'Explore saved results by mission day.',crew:'Review crew targets and recorded intake.',crops:'Inspect planting and harvest schedules.',simulator:'Prepare a disruption and compare policies.',vision:'Upload a leaf image for model screening.',telemetry:'Inspect physical or synthetic device streams.',inputs:'Edit crew, nutrition and resource budgets.',pantry:'Review stored food and expiry policies.',settings:'Restore saved configurations and runs.',models:'Review crop references, calibration and model assumptions.'};
+  const commandDetails={overview:'Explore saved results by mission day.',crew:'Review crew targets and recorded intake.',crops:'Inspect planting and harvest schedules.',simulator:'Prepare a disruption and compare policies.',vision:'Analyze leaves and visible fruit from one plant photo.',telemetry:'Inspect physical or synthetic device streams.',inputs:'Edit crew, nutrition and resource budgets.',pantry:'Review stored food and expiry policies.',settings:'Restore saved configurations and runs.',models:'Review crop references, calibration and model assumptions.'};
   const commands=[...NAV.map(([id,label])=>({id,label})),{id:'inputs',label:'Mission inputs'},{id:'pantry',label:'Food inventory'},{id:'settings',label:'Saved plans'},{id:'models',label:'Model settings'}].map(command=>({...command,description:commandDetails[command.id],keywords:command.id==='pantry'?config.foods.map(f=>f.name).join(' '):command.id==='crops'?config.crops.map(c=>c.name).join(' '):command.id==='models'?'calibration references research assumptions':command.id==='telemetry'?'mqtt iot sensors hardware':'',onSelect:()=>navigate(command.id)}));
   return <div className={'app-shell'+(menuOpen?' menu-open':'')}>
     <CommandPalette commands={commands} open={searchOpen} onClose={()=>setSearchOpen(false)}/>
@@ -123,7 +130,7 @@ function App() {
       <div className="sidebar-label">WORKSPACE</div><nav aria-label="Workspace navigation">{NAV.map(([key,label,Icon]) =>
         <a href={'#'+key} key={key} onClick={()=>navigate(key)} className={group===key?'active':''} aria-current={group===key?'page':undefined}><Icon size={18}/><span>{label}</span>{group===key && <ChevronRight size={14}/>}</a>)}</nav>
       <nav aria-label="Workspace settings" className="secondary-navigation"><a href="#settings" onClick={()=>navigate('settings')} className={group==='settings'?'active':''} aria-current={group==='settings'?'page':undefined}><Settings2 size={18}/><span>Workspace settings</span></a></nav>
-      <div className="sidebar-bottom"><span className="sidebar-label">MISSION CONTEXT</span><strong>{config.crew} crew · {config.days} days</strong><small>{pretty(config.area_m2)} m² growing area</small><span className="sidebar-footnote">Local decision support<br/>Actuation disabled</span></div>
+      <div className="sidebar-bottom"><span className="sidebar-label">MISSION CONTEXT</span><strong>{run?.metadata?.adaptive?.daily?.find(row=>row.day===missionDay)?.crew || config.crew} crew · Day {missionDay} / {config.days}</strong><small>{pretty(run?.metadata?.adaptive?.daily?.find(row=>row.day===missionDay)?.area_available_m2 ?? config.area_m2)} m² growing area</small><span className="sidebar-footnote">Local decision support<br/>Actuation disabled</span></div>
     </aside>
     <div className="main-shell"><header className="topbar"><div className="topbar-title"><button className="mobile-menu-toggle" ref={menuToggle} aria-label={menuOpen?'Close workspace navigation':'Open workspace navigation'} aria-expanded={menuOpen} aria-controls="habitat-navigation" onClick={()=>setMenuOpen(v=>!v)}>{menuOpen?<X size={20}/>:<Menu size={20}/>}</button><span className="logo-emblem" aria-hidden="true"><img src={astraLogo} alt=""/></span><span>Workspace <ChevronRight size={14}/> <strong>{current[1]}</strong></span></div><button className="workspace-search" aria-label="Search workspace" aria-keyshortcuts="Control+K Meta+K" onClick={()=>{setMenuOpen(false);setSearchOpen(true);}}><Search size={17}/><span className="workspace-search-label">Search workspace</span><kbd>Ctrl K</kbd></button><div className="header-status"><span className={'status-chip '+(mixedInputs?'mixed':'demo')}>{mixedInputs?'Mixed inputs':'Demo inputs'}</span><span className="status-chip">Prototype · outputs disabled</span></div></header>
       <main className="content" id="main-content" tabIndex={-1}>
@@ -159,9 +166,11 @@ function Inputs({config,setConfig,bootstrap,notify,inventory=false}) {
       <Field label="Growing area (m²)" value={draft.area_m2} min={0} onChange={v=>set('area_m2',v)}/>
       <Field label="Water budget (L/day)" value={draft.water_budget_l_per_day} min={0} onChange={v=>set('water_budget_l_per_day',v)}/>
       <Field label="Energy budget (kWh/day)" value={draft.power_budget_kwh_per_day} min={0} onChange={v=>set('power_budget_kwh_per_day',v)}/>
+      <label className="field"><span>Total usable mission water (L; optional)</span><input type="number" min={0} step="any" value={draft.initial_water_l ?? ''} placeholder="Daily allowance only" onChange={e=>set('initial_water_l',e.target.value===''?null:Number(e.target.value))}/></label>
+      <label className="field"><span>Total mission electricity allowance (kWh; optional)</span><input type="number" min={0} step="any" value={draft.initial_energy_kwh ?? ''} placeholder="Daily allowance only" onChange={e=>set('initial_energy_kwh',e.target.value===''?null:Number(e.target.value))}/></label>
       <Field label="Crew water (L/person/day)" value={draft.crew_water_l_per_day} min={0} onChange={v=>set('crew_water_l_per_day',v)}/>
       <Field label="Fresh food limit (kg/person/day)" value={draft.max_fresh_kg_per_crew_day} min={0} onChange={v=>set('max_fresh_kg_per_crew_day',v)}/>
-    </div><p className="muted">Use net makeup water consistently. Recycling, cooking water and a complete oxygen/CO₂ loop are outside this model.</p></section>
+    </div><p className="muted">Optional totals add cumulative resource limits, carried into later replans. A daily allowance is a rate, not remaining tank volume. Use net makeup water consistently; recycling, energy replenishment, cooking water and a complete oxygen/CO₂ loop are outside this model.</p></section>
     <section className="panel"><h2>Daily dietary targets</h2><div className="form-grid">{Object.keys(draft.targets_per_crew).map(n =>
       <Field key={n} label={n.replaceAll('_',' ')+' ('+draft.nutrient_units[n]+')'} value={draft.targets_per_crew[n]} min={.001} onChange={v=>set('targets_per_crew',{...draft.targets_per_crew,[n]:v})}/>)}</div>
       <Notice>Targets are user-reviewed planning inputs. Intake gaps do not establish a clinical deficiency; only three nutrients are tracked.</Notice></section></>}
@@ -182,7 +191,7 @@ function Inputs({config,setConfig,bootstrap,notify,inventory=false}) {
 function RunMetrics({plan}) {
   const m=plan.metrics;return <div className="metrics-row"><Metric label="Days with nutrient gaps" value={m.shortfall_days} detail="Only tracked targets"/><Metric label="Total harvest" value={pretty(m.total_harvest_kg)+' kg'} detail="Simulated edible mass"/><Metric label="Water use" value={pretty(m.total_water_l)+' L'} detail="Crew plus crop model"/><Metric label="Electrical use" value={pretty(m.total_power_kwh)+' kWh'} detail="Configured crop coefficients"/></div>;
 }
-function Simulator({config,bootstrap,run,setRun,notify}) {
+function Simulator({config,bootstrap,run,setRun,notify,missionDay,setMissionDay,crewProfiles,navigate,setPlanPolicy}) {
   const [s,setS] = useState(copy(bootstrap.presets.nominal)), [busy,setBusy] = useState(false), [day,setDay] = useState(1), [nutrient,setNutrient] = useState(Object.keys(config.targets_per_crew)[0]),[lossCrop,setLossCrop]=useState(''),[loss,setLoss]=useState(50),[targetIncrease,setTargetIncrease]=useState(0);
   const [localExplanation,setLocalExplanation]=useState(false),[model,setModel]=useState('llama3.2:3b'),[explanationText,setExplanationText]=useState(null);
   const [preset,setPreset]=useState('nominal');
@@ -194,20 +203,33 @@ function Simulator({config,bootstrap,run,setRun,notify}) {
     scenario.name='Day '+scenario.event_day+' · water '+Math.round(s.water_factor*100)+'% · power '+Math.round(s.power_factor*100)+'% · crew +'+s.extra_crew+(lossCrop?' · '+lossCrop+' yield −'+loss+'%':'')+(targetIncrease?' · '+nutrient+' target +'+targetIncrease+'%':'');
     const result=await request('/plans',{config,scenario});setRun(result);if(result.history_warning)notify(result.history_warning,true);else notify('Comparison complete. The submitted inputs and results were saved locally.');
   }catch(e){notify(e.message,true);}finally{setBusy(false);}}
+  async function startNewMission(){
+    if(busy)return;
+    setBusy(true);
+    const scenario={...copy(bootstrap.presets.nominal),event_day:config.days+1,water_factor:1,power_factor:1,extra_crew:0,target_factors:{},failed_crop_ids:[],crop_yield_factors:{},name:'New mission · no scheduled changes'};
+    const freshConfig={...copy(config),planning_events:[]};
+    if(freshConfig.input_provenance){delete freshConfig.input_provenance.simulation_continuation;delete freshConfig.input_provenance.rolling_demo;}
+    try{
+      const result=await request('/plans',{config:freshConfig,scenario});
+      setRun(result);setMissionDay(1);setPlanPolicy('adaptive');setS(scenario);setPreset('nominal');setLossCrop('');setTargetIncrease(0);
+      notify(result.history_warning||'New mission started at Day 1 with '+freshConfig.crew+' crew. Change the crew whenever needed from Mission overview.',!!result.history_warning);
+      navigate('overview');
+    }catch(failure){notify(failure.message,true);}finally{setBusy(false);}
+  }
   const adaptive=run?.metadata.adaptive,baseline=run?.metadata.baseline;
   const rows=adaptive?.daily.map((r,i)=>({...r,adaptive:r[nutrient+'_coverage_pct'],fixed:baseline.daily[i]?.[nutrient+'_coverage_pct']}));
   return <><Title eyebrow="MISSION TRADE-OFFS" description="Apply the same disruption to a fixed plan and an adaptive plan. Charts show calculated outcomes, not promised savings.">What-if simulator</Title>
     <form className="panel" onSubmit={solve}><div className="section-heading"><h2>Define a disruption</h2><span className="pill">Event-day replan</span></div>
       <div className="scenario-presets" aria-label="Scenario starting points">{[['water','Water shortage'],['crop_loss','Crop loss'],['crew','Crew increase'],['targets','Dietary change'],['nominal','Nominal']].filter(([key])=>bootstrap.presets[key]).map(([key,label])=><button type="button" key={key} className={'scenario-preset'+(preset===key?' active':'')} aria-pressed={preset===key} onClick={()=>choosePreset(key)}>{label}</button>)}</div><p className="muted">Choose a starting point, adjust the inputs, then run the comparison.</p>
       <div className="form-grid"><Field label="Event day" value={Math.min(s.event_day,config.days)} min={1} max={config.days} step={1} onChange={v=>change('event_day',v)}/>
-        <Field label="Water remaining (%)" value={Math.round(s.water_factor*100)} min={0} max={100} onChange={v=>change('water_factor',v/100)}/>
-        <Field label="Power remaining (%)" value={Math.round(s.power_factor*100)} min={0} max={100} onChange={v=>change('power_factor',v/100)}/>
+        <Field label="Daily water allowance (%)" value={Math.round(s.water_factor*100)} min={0} max={100} onChange={v=>change('water_factor',v/100)}/>
+        <Field label="Daily electricity allowance (%)" value={Math.round(s.power_factor*100)} min={0} max={100} onChange={v=>change('power_factor',v/100)}/>
         <Field label="Additional crew" value={s.extra_crew} min={0} max={8} step={1} onChange={v=>change('extra_crew',v)}/>
         <label className="field"><span>Affected growing crop</span><select value={lossCrop} onChange={e=>{setPreset('');setLossCrop(e.target.value);}}><option value="">No crop loss</option>{config.crops.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
         <Field label="Active crop yield loss (%)" value={loss} min={0} max={100} onChange={v=>{setPreset('');setLoss(v);}}/>
         <label className="field"><span>Dietary target to change</span><select value={nutrient} onChange={e=>{setPreset('');setNutrient(e.target.value);}}>{Object.keys(config.targets_per_crew).map(n=><option key={n} value={n}>{n.replaceAll('_',' ')}</option>)}</select></label>
         <Field label="Target increase (%)" value={targetIncrease} min={0} max={100} onChange={v=>{setPreset('');setTargetIncrease(v);}}/></div>
-      <div className="actions"><button className="btn primary" disabled={busy}>{busy?'Solving both policies…':'Run comparison'} <ArrowRight size={15}/></button><small className="muted">Replacement crops still require their full growth time.</small></div></form>
+      <div className="actions"><button className="btn primary" disabled={busy}>{busy?'Solving both policies…':'Run comparison'} <ArrowRight size={15}/></button><button className="btn" type="button" disabled={busy} onClick={startNewMission}>Start a new mission</button><small className="muted">Replacement crops still require their full growth time.</small></div><p className="muted">Start a new mission resets to Day 1 using the configured starting crew, food and resource inputs, with no scheduled changes. Existing saved runs remain available.{config.planning_events?.length?' Run comparison includes '+config.planning_events.length+' dated changes from the current configuration.':''}</p></form>
     {!run && <div className="empty-state"><h2>No saved comparison</h2><p>Submit a scenario to calculate food allocation, harvests and remaining resources.</p></div>}
     {run && <><Notice tone={adaptive.status==='feasible_with_shortfalls'?'warning':''}><strong>{adaptive.status==='feasible_with_shortfalls'?'Targets remain unmet in this model.':'Model run: '+adaptive.status}</strong> · {run.metadata.scenario.name}<br/><small>These results belong to submitted inputs at {new Date(run.metadata.created_at_utc).toLocaleString()}. Editing the scenario form does not change them.</small></Notice>
       <RunMetrics plan={adaptive}/>{adaptive.warnings.map((w,i)=><Notice key={i} tone="warning">{w}</Notice>)}
@@ -224,6 +246,8 @@ function Simulator({config,bootstrap,run,setRun,notify}) {
           <button className="btn" onClick={async()=>{try{const e=await request('/explain',{metadata:run.metadata,ollama:localExplanation,model});setExplanationText(e);}catch(e){notify(e.message,true);}}}>Explain using verified facts</button>
           {explanationText&&<><p className="muted">{explanationText.mode} · {explanationText.fallback_reason||'Visible statements come from saved solver facts.'}</p><p className="fact">{explanationText.narrative}</p></>}
         </section></div>
+      <MissionChangePanel run={run} config={config} sampleProfiles={crewProfiles} missionDay={missionDay} setMissionDay={setMissionDay} setRun={setRun} request={request} notify={notify} planningBusy={busy}/>
+      <RecoveryPanel run={run} request={request} planningBusy={busy}/>
       <section className="panel"><div className="section-heading"><h2>Food allocation for a day</h2><Field label="Day" value={day} min={1} max={run.metadata.config.days} step={1} onChange={setDay}/></div>
         <DataTable rows={Object.entries(adaptive.consumption[day]||{}).filter(([,v])=>v>1e-6).map(([id,kg])=>({food:[...run.metadata.config.foods,...run.metadata.config.crops].find(f=>f.id===id)?.name||id,total_kg:kg,kg_per_crew:kg/(adaptive.daily[day-1]?.crew||1)}))}/>
         <p className="muted">Aggregate allocations for crew; cooking, recipes and individual menu preferences are outside this planner.</p></section>
@@ -231,19 +255,22 @@ function Simulator({config,bootstrap,run,setRun,notify}) {
       <div className="actions"><button className="btn" onClick={()=>download('astra-bio-run.json',run.metadata)}>Export complete run</button><button className="btn" onClick={()=>download('astra-bio-daily.csv',csv([...baseline.daily.map(r=>({policy:'fixed',...r})),...adaptive.daily.map(r=>({policy:'adaptive',...r}))]),'text/csv')}>Export daily CSV</button></div>
     </>}</>;
 }
-function Crops({config,setConfig,run,notify,navigate,planPolicy:policy,setPlanPolicy:setPolicy}) {
+function Crops({config,setConfig,run,setRun,notify,navigate,missionDay,setMissionDay,crewProfiles,planPolicy:policy,setPlanPolicy:setPolicy}) {
   const [draft,setDraft]=useState(copy(config.crops)),[busy,setBusy]=useState(false);
+  useEffect(()=>setDraft(copy(config.crops)),[config.crops]);
   const keys=['grow_days','yield_kg_per_m2','water_l_per_m2_day','power_kwh_per_m2_day'];
   const labels=['Growth days','Edible yield kg/m²','Net water L/m²/day','Energy kWh/m²/day'];
   const plan=run?.metadata[policy];
   async function save(){setBusy(true);try{const provenance={...config.input_provenance};for(const crop of draft){if(JSON.stringify(crop)!==JSON.stringify(config.crops.find(c=>c.id===crop.id)))provenance['crop:'+crop.id+':user_edit']='User-edited endpoint/resource values override the loaded reference. Review these assumptions.';}const res=await request('/config/validate',{config:{...config,crops:draft,input_provenance:provenance}});setConfig(res.config);}catch(e){notify(e.message,true);}finally{setBusy(false);}}
   return <><Title eyebrow="HARVEST-AWARE SCHEDULING" description="Plan future food with explicit harvest delays. Fresh produce enters the food balance on its harvest day.">Crop schedules</Title>
+    <CropAdvisor config={config} setConfig={setConfig} run={run} missionDay={missionDay} setMissionDay={setMissionDay} setRun={setRun} request={request} notify={notify} showContinuation={false}/>
+    <MissionChangePanel run={run} config={config} sampleProfiles={crewProfiles} missionDay={missionDay} setMissionDay={setMissionDay} setRun={setRun} request={request} notify={notify} planningBusy={busy}/>
     <details className="panel"><summary>Crop profiles & assumptions</summary><div className="section-heading"><h2>Current crop coefficients</h2><button className="text-button" onClick={()=>navigate('models')}>Model settings <ArrowUpRight size={16}/></button></div>
       <div className="table-wrap"><table><thead><tr><th>Crop</th>{labels.map(l=><th key={l}>{l}</th>)}</tr></thead><tbody>{draft.map((c,i)=><tr key={c.id}><td>{c.name}</td>{keys.map(k=><td key={k}><input aria-label={c.name+' '+k} type="number" min={k==='grow_days'?1:0} step={k==='grow_days'?1:'any'} value={c[k]} onChange={e=>setDraft(v=>v.map((crop,index)=>index===i?{...crop,[k]:Number(e.target.value)}:crop))}/></td>)}</tr>)}</tbody></table></div>
       <div className="actions"><button className="btn primary" disabled={busy} onClick={save}>Save crop coefficients</button><small className="muted">Synthetic defaults stay labelled. Imported references keep their source provenance.</small></div></details>
     {!plan?<div className="empty-state"><h2>No saved harvest schedule</h2><p>Run the simulator to see planting dates and estimated harvests.</p><button className="btn" onClick={()=>navigate('simulator')}>Open simulator</button></div>:
       <section className="panel"><div className="section-heading"><h2>Planting and harvest timeline</h2><select aria-label="Schedule policy" value={policy} onChange={e=>setPolicy(e.target.value)}><option value="adaptive">Adaptive plan</option><option value="baseline">Fixed baseline</option></select></div>
-        {policy==='baseline'&&<Notice tone="warning">Fixed batches show nominal planned yields. Realized harvest after resource stress or loss is reported in the daily comparison.</Notice>}
+        {policy==='baseline'&&<Notice tone="warning">Fixed planting and meals are replayed under the changed conditions. Batch estimates and daily harvest reflect modeled resource losses; the stress response is a synthetic proxy.</Notice>}
         <div className="timeline-axis"><span>Crop batch</span><div className="timeline-axis-scale"><span>Day 1</span><span>Day {Math.round(run.metadata.config.days/2)}</span><span>Day {run.metadata.config.days}</span></div><small>Estimate · harvest</small></div>
         <div className="timeline" tabIndex={0} aria-label="Planting and harvest batches">{plan.planting.slice(0,40).map((b,i)=><div className="timeline-row" key={i}><span>{b.crop}</span><div className="timeline-track"><div style={{left:((b.day-1)/Math.max(1,run.metadata.config.days-1)*100)+'%',width:((b.harvest_day-b.day)/Math.max(1,run.metadata.config.days-1)*100)+'%'}} title={'Day '+b.day+' → '+b.harvest_day}/></div><small>{pretty(b.predicted_harvest_kg)} kg · D{b.harvest_day}</small></div>)}</div>
         {plan.planting.length>40&&<p className="muted">Showing the first 40 timeline rows; the complete schedule is in the table and export.</p>}
@@ -291,27 +318,12 @@ function AdvancedSettings({config,setConfig,bootstrap,notify}) {
       {sensitivity&&<DataTable rows={sensitivity.cases} columns={['case','status','shortfall_days','total_harvest_kg','total_water_l','total_power_kwh']}/>}</details>
   </>;
 }
-function Vision({bootstrap,notify,setPlantModel}) {
-  const [file,setFile]=useState(null),[species,setSpecies]=useState('tomato'),[result,setResult]=useState(null),[busy,setBusy]=useState(false),[preview,setPreview]=useState('');
-  useEffect(()=>{if(!file){setPreview('');return;}const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);},[file]);
-  useEffect(()=>setResult(null),[bootstrap.plant_model.candidate_id]);
-  async function screen(){setBusy(true);try{const form=new FormData();form.append('file',file);setResult(await request('/plant-image?crop_species='+encodeURIComponent(species),form));}catch(e){notify(e.message,true);}finally{setBusy(false);}}
-  return <><Title eyebrow="LOCAL VISUAL SCREENING" description="A terrestrial leaf classifier with recorded model versions. Photographs are processed locally and are not saved or sent to an external service.">Plant screening</Title>
-    <ModelEvidence request={request} notify={notify} setPlantModel={setPlantModel}/>
-    <div className="two-col"><section className="panel"><h2>Inspect a leaf photograph</h2><label className="field"><span>Crop species</span><select value={species} onChange={e=>{setSpecies(e.target.value);setResult(null);}}>{['tomato','potato','bell pepper','lettuce','radish','kale'].map(s=><option key={s}>{s}</option>)}</select></label>
-      <label className="field upload-field"><span>JPG, PNG or WebP · up to 10 MiB</span><input type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{setFile(e.target.files[0]||null);setResult(null);}}/></label>
-      {preview&&<img className="leaf-preview" src={preview} alt="Selected leaf for local screening"/>}
-      <button className="btn primary" disabled={!file||busy||!bootstrap.plant_model.ready} onClick={screen}>{busy?'Running local inference…':'Screen leaf image'}</button></section>
-    <section className="panel"><span className="eyebrow">MODEL BOUNDARIES</span><h2>A tentative visual match.</h2><p>The installed MobileNetV3 model covers tomato, potato and bell pepper. Unsupported crops and ambiguous results are withheld.</p><Notice tone="warning">A high model score does not prove disease, pathogen identity, or safety. Scores are not calibrated correctness probabilities. No automatic crop removal, replanning or actuator action occurs.</Notice>
-      <a className="source-link" href="https://huggingface.co/imaflower/plantvillage-mobilenetv3" target="_blank" rel="noreferrer">Upstream model card <ArrowUpRight size={14}/></a>
-      <p className="muted">Local model: {bootstrap.plant_model.ready?'installed and hash verified':'unavailable; run scripts/setup-plant-model.ps1'}</p></section></div>
-    {result&&<section className="panel"><div className="section-heading"><h2>Screening result</h2><span className="pill">{result.status}</span></div><Notice tone={result.status==='tentative'?'':'warning'}>{result.reason}</Notice>
-      <DataTable rows={result.predictions?.map(p=>({condition:p.condition,global_score_pct:p.score*100}))}/>
-      {result.warnings.map((w,i)=><p className="muted" key={i}>{w}</p>)}
-      <button className="btn" onClick={()=>download('astra-bio-leaf-screening.json',result)}>Export screening evidence</button></section>}
+function Vision() {
+  return <><Title eyebrow="LOCAL PLANT ANALYSIS" description="One photograph brings leaf screening and visible-fruit observations into a single overview.">Plant overview</Title>
+    <PlantOverview request={request}/>
   </>;
 }
-function Telemetry({notify}) {
+function Telemetry({notify,request}) {
   const [source,setSource]=useState('hardware'),[device,setDevice]=useState('');
   const {data,error}=useTelemetry(source,device);
   const latest=data?.latest,devices=data?.streams.filter(s=>s.source===source)||[];
@@ -331,7 +343,7 @@ function Telemetry({notify}) {
         <Chart data={data.history.map(r=>({...r,day:r.ts_utc.slice(11,19)}))} labelPrefix="Observation time (UTC)" lines={[{key:'air_temp_c',name:'Air °C'},{key:'solution_temp_c',name:'Solution °C'}]}/>
         <p className="muted">Lux is a light trend, not calibrated PPFD. DC power excludes uninstrumented equipment. Packet freshness does not establish sensor calibration.</p>
         <button className="btn" onClick={()=>download('astra-bio-telemetry.csv',csv(data.history),'text/csv')}>Export selected stream CSV</button></>}
-    </section><details className="panel"><summary>ESP32 Wi-Fi integration</summary><p>ESP32-S3 → HTTPS gateway → MongoDB Atlas → this workspace.</p><pre>{'.\\setup-mongodb.ps1 -DeviceId tray-01\n.\\.venv\\Scripts\\python.exe -m astra_bio.mongo_runtime check\n.\\run-gateway.ps1'}</pre><p className="muted">Use the private device header and sensor-specific firmware. Missing readings remain unavailable. The Atlas password stays on the backend. Outputs remain disabled.</p><details><summary>Existing MQTT integration</summary><pre>{'.\\setup-mqtt.ps1\n.\\provision-device.ps1 -DeviceId tray-01\n.\\run-stack.ps1'}</pre></details></details></>;
+    </section><CameraImages request={request}/><details className="panel"><summary>ESP32 Wi-Fi integration</summary><p>ESP32-S3 → HTTPS gateway → MongoDB Atlas → this workspace.</p><pre>{'.\\setup-mongodb.ps1 -DeviceId tray-01\n.\\.venv\\Scripts\\python.exe -m astra_bio.mongo_runtime check\n.\\run-gateway.ps1'}</pre><p className="muted">Use the private device header and sensor-specific firmware. Missing readings remain unavailable. The Atlas password stays on the backend. Outputs remain disabled.</p><details><summary>Existing MQTT integration</summary><pre>{'.\\setup-mqtt.ps1\n.\\provision-device.ps1 -DeviceId tray-01\n.\\run-stack.ps1'}</pre></details></details></>;
 }
 function Saved({config,setConfig,setRun,notify,navigate}) {
   const [name,setName]=useState('My habitat configuration'),[configs,setConfigs]=useState([]),[runs,setRuns]=useState([]),[busy,setBusy]=useState(false);

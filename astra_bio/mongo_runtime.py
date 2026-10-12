@@ -136,6 +136,11 @@ def ensure_tls(host: str, directory: Path = PRIVATE) -> None:
         .add_extension(x509.BasicConstraints(ca=False, path_length=None), critical=True)
         .add_extension(x509.SubjectAlternativeName([
             *[x509.IPAddress(ipaddress.ip_address(value)) for value in sorted(addresses)],
+            # Arduino ESP32 2.0.17's older Mbed TLS verifier checks dNSName
+            # even for a literal IPv4 URL. Retain proper IP SANs and add only
+            # the same exact addresses, never wildcards or unrelated hosts.
+            # https://github.com/Mbed-TLS/mbedtls/issues/5082
+            *[x509.DNSName(value) for value in sorted(addresses)],
             x509.DNSName("localhost")]), critical=False)
         .add_extension(x509.ExtendedKeyUsage([ExtendedKeyUsageOID.SERVER_AUTH]), critical=False)
         .sign(ca_key, hashes.SHA256()))

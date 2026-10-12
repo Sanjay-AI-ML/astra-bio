@@ -19,20 +19,27 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .crop_growth import calibrate_harvests, load_observations, load_reference_crops, predict_growth
 from .explanations import explain_comparison, explain_with_ollama
 from .model import Scenario, default_config, scenario_presets
-from .nutrition import CrewProfile, FoodLogEntry, apply_profile_targets, apply_usda_composition, assess_intake, crop_contributions, default_profiles, load_compositions, restore_state, serialize_state
-from .planner import run_comparison
+from .nutrition import CrewProfile, FoodLogEntry, apply_crop_composition, apply_profile_targets, apply_usda_composition, assess_intake, crop_contributions, default_profiles, load_compositions, restore_state, serialize_state
+from .planner import _day_conditions, run_comparison
+from .continuation import continue_plan
+from .recovery import RecoveryOptions, analyze_recovery
 from .plant_vision import MAX_IMAGE_BYTES, assess_image, model_status
 from .plant_registry import registry_status, select_model
+from .fruit_vision import DEFAULT_MODEL_ID as DEFAULT_FRUIT_MODEL_ID, assess_fruit_image, fruit_registry_status
+from .plant_overview_routes import router as plant_overview_router
 from .crop_trials import CSV_FIELDS, current_crop_response_status
 from .measured_growth import current_measured_growth_status
 from .presets import input_status, research_preset
 from . import storage, workspace, mongo_runtime
 from .mongo_telemetry import MongoTelemetryUnavailable
+from . import camera_storage
+from .crew_samples import crew_sample
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "frontend" / "dist"
 SOLVER_LOCK = threading.Lock()
 app = FastAPI(title="ASTRA-BIO", version="1.0.0", description="Local food, crop and resource planning research prototype.")
+app.include_router(plant_overview_router)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]"])
 
 
@@ -72,12 +79,13 @@ async def missing_field(request, error):
 @app.exception_handler(MongoTelemetryUnavailable)
 @app.exception_handler(mongo_runtime.MongoConfigurationError)
 async def telemetry_unavailable(request, error):
-    return JSONResponse({"detail": "MongoDB telemetry is unavailable. Check the Atlas connection and refresh."}, status_code=503)
+    noun = "camera storage" if request.url.path.startswith("/api/camera-images") else "telemetry"
+    return JSONResponse({"detail": f"MongoDB {noun} is unavailable. Check the Atlas connection and refresh."}, status_code=503)
 
 
 def configuration(raw):
     config = workspace.import_configuration({"schema_version": 1, "config": raw})
-    if config.days > 180 or config.crew > 12 or len(config.foods) > 100 or len(config.crops) > 30:
+    if config.days > 180 or config.crew > 12 or any(e.get("crew", 1) > 12 for e in config.planning_events) or len(config.foods) > 100 or len(config.crops) > 30:
         raise ValueError("Local planning limit: 180 days, 12 crew, 100 food lots and 30 crop profiles.")
     return config
 
@@ -87,6 +95,8 @@ def scenario_value(raw, config):
     raw["failed_crop_ids"] = tuple(raw.get("failed_crop_ids", ()))
     scenario = Scenario(**raw)
     scenario.validate(config)
+    if any(_day_conditions(config, scenario, day)[0] > 12 for day in range(1, config.days + 1)):
+        raise ValueError("Local planning limit: at most 12 crew on any mission day.")
     return scenario
 
 
@@ -114,6 +124,7 @@ def bootstrap():
         "references": {key: value.as_dict() for key, value in load_reference_crops().items()},
         "compositions": {key: asdict(value) for key, value in load_compositions().items()},
         "observations": load_observations(), "profiles": [asdict(p) for p in default_profiles(config)],
+        "crew_sample": crew_sample(config.crew),
         "plant_model": model_status(), "last_run": last_run}
 
 
@@ -161,11 +172,123 @@ def plan(payload: dict = Body(...)):
         "history_id": history_id, "history_warning": history_warning}
 
 
+@app.post("/api/config/crop-nutrition")
+def crop_nutrition_reference(payload: dict = Body(...)):
+    config, matched, unmatched = apply_crop_composition(configuration(payload["config"]))
+    return {"config": asdict(config), "matched_crop_ids": matched, "unmatched_crop_ids": unmatched,
+        "input_status": input_status(config)}
+
+
 @app.post("/api/explain")
 def explain(payload: dict = Body(...)):
     config, scenario, comparison = workspace.restore_run(payload["metadata"])
     evidence = explain_comparison(comparison, config, scenario)
     return explain_with_ollama(evidence, enabled=payload.get("ollama", False), model=payload.get("model", "llama3.2:3b"))
+
+
+def _saved_plan_source(payload):
+    run_id = payload.get("run_id")
+    if run_id is not None:
+        if not isinstance(run_id, str) or not run_id or len(run_id) > 100:
+            raise ValueError("Choose a valid saved simulation identifier.")
+        metadata = workspace.load_snapshot(run_id, "run")
+    else:
+        metadata = payload["metadata"]
+    config, scenario, comparison = workspace.restore_run(metadata)
+    configuration(asdict(config))  # Apply local solver-size limits to imports too.
+    return metadata, config, scenario, comparison
+
+
+@app.post("/api/crop-advisor")
+def crop_advice(payload: dict = Body(...)):
+    from .crop_advisor import recommend_crops
+    plan = None
+    if payload.get("metadata") is not None or payload.get("run_id") is not None:
+        _, config, _, comparison = _saved_plan_source(payload)
+        plan = comparison.adaptive
+    else:
+        config = configuration(payload["config"])
+    return recommend_crops(config, plan, day=payload.get("day", 1),
+        priority=payload.get("priority", "balanced"), area_m2=payload.get("area_m2", 1.0))
+
+
+@app.post("/api/plans/continue")
+def continue_simulation(payload: dict = Body(...)):
+    source_metadata, config, scenario, source = _saved_plan_source(payload)
+    previous = source_metadata.get("continuation", {})
+    if isinstance(previous, dict) and isinstance(previous.get("through_day"), int):
+        through = payload["through_day"]
+        if not isinstance(through, bool) and isinstance(through, int) and through < previous["through_day"]:
+            raise ValueError("Choose a day at or after the last completed continuation boundary; elapsed history cannot be replanned.")
+    if not SOLVER_LOCK.acquire(blocking=False):
+        raise HTTPException(409, "A planning run is already in progress. Wait for it to finish.")
+    try:
+        config, comparison, details = continue_plan(config, scenario, source.adaptive,
+            payload["through_day"], payload.get("target_factors"), mission_change=payload.get("mission_change"))
+        configuration(asdict(config))
+    finally:
+        SOLVER_LOCK.release()
+    if not comparison.adaptive.daily:
+        raise HTTPException(422, "Future planning did not complete; the previous saved simulation remains available.")
+    details["source_created_at_utc"] = source_metadata.get("created_at_utc")
+    details["source_run_id"] = payload.get("run_id")
+    # Keep earlier continuation boundaries for inspection without duplicating
+    # entire parent snapshots on every step.
+    boundaries = list(previous.get("previous_boundaries", [])) if isinstance(previous, dict) else []
+    if isinstance(previous, dict) and "through_day" in previous:
+        boundaries.append({key: previous.get(key) for key in ("through_day", "next_day", "target_factors", "source_created_at_utc")})
+    details["previous_boundaries"] = boundaries[-180:]
+    metadata = {"schema_version": 1, "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "input_status": input_status(config), "config": asdict(config), "scenario": asdict(scenario),
+        "baseline": comparison.baseline.as_dict(), "adaptive": comparison.adaptive.as_dict(), "continuation": details}
+    if details.get("crew_profiles"):
+        metadata["crew_profiles"] = details["crew_profiles"]
+    elif source_metadata.get("crew_profiles"):
+        metadata["crew_profiles"] = source_metadata["crew_profiles"]
+    from .crop_advisor import recommend_crops
+    metadata["planning_advice"] = recommend_crops(config, comparison.adaptive,
+        day=details["next_day"], priority="balanced", area_m2=.25)
+    history_id, history_warning = None, None
+    try:
+        history_id = workspace.save_run(f"Continued after Day {details['through_day']}", metadata)
+    except (ValueError, OSError, sqlite3.Error) as error:
+        history_warning = f"Continuation completed; local history save failed ({type(error).__name__})."
+    evidence = explain_comparison(comparison, config, scenario)
+    evidence["facts"].insert(0, {"id": "continuation.history", "text": f"Days 1–{details['through_day']} were preserved. Future planning starts on Day {details['next_day']} using saved simulated stock and growing cohorts.",
+        "value": details["through_day"], "unit": "day", "source_fields": ["continuation.through_day", "continuation.opening_stocks_kg"]})
+    return {"metadata": metadata, "delta": comparison.delta, "explanation": evidence,
+        "planning_advice": metadata["planning_advice"],
+        "history_id": history_id, "history_warning": history_warning}
+
+
+@app.post("/api/recovery")
+def recovery_analysis(payload: dict = Body(...)):
+    source_run_id = payload.get("run_id")
+    comparison = None
+    start_day = None
+    if source_run_id or payload.get("metadata") is not None:
+        if source_run_id and (not isinstance(source_run_id, str) or len(source_run_id) > 100):
+            raise ValueError("Choose a valid saved comparison identifier.")
+        metadata = workspace.load_snapshot(source_run_id, "run") if source_run_id else payload["metadata"]
+        config, scenario, comparison = workspace.restore_run(metadata)
+        configuration(asdict(config))
+        continuation = metadata.get("continuation", {})
+        if isinstance(continuation, dict):
+            start_day = continuation.get("next_day")
+    else:
+        config = configuration(payload["config"])
+        scenario = scenario_value(payload["scenario"], config)
+    options = RecoveryOptions(**payload.get("options", {}))
+    options.validate()
+    if not SOLVER_LOCK.acquire(blocking=False):
+        raise HTTPException(409, "A planning run is already in progress. Wait for it to finish.")
+    try:
+        report = analyze_recovery(config, scenario, options, comparison, start_day=start_day)
+    finally:
+        SOLVER_LOCK.release()
+    report["source_run_id"] = source_run_id
+    report["input_status"] = input_status(config)
+    return report
 
 
 @app.post("/api/growth")
@@ -248,6 +371,11 @@ def nutrition_assess(payload: dict = Body(...)):
     return {"rows": rows, "contributions": crop_contributions(gaps), "scope": "Recorded intake estimate; missing or incomplete logs do not diagnose nutritional deficiency."}
 
 
+@app.get("/api/nutrition/sample")
+def sample_crew(count: int = Query(4, ge=1, le=12)):
+    return crew_sample(count)
+
+
 @app.post("/api/nutrition/apply-targets")
 def nutrition_targets(payload: dict = Body(...)):
     config = apply_profile_targets(configuration(payload["config"]), [CrewProfile(**row) for row in payload["profiles"]])
@@ -258,6 +386,9 @@ def nutrition_targets(payload: dict = Body(...)):
 def nutrition_save(payload: dict = Body(...)):
     profiles, logs, complete = restore_state(payload["state"])
     record = serialize_state(profiles, logs, complete)
+    context = payload["state"].get("sample_context")
+    if isinstance(context, dict) and context.get("sample_only") is True and context.get("fixture_version") == 1:
+        record["sample_context"] = {"sample_only": True, "fixture_version": 1}
     return {"id": workspace.save_nutrition_state(payload["name"], record, workspace.DEFAULT_DB)}
 
 
@@ -275,6 +406,22 @@ async def plant_image(crop_species: str = Query(...), file: UploadFile = File(..
 def models_status():
     return {"plant": registry_status(), "growth": current_measured_growth_status(),
         "crop_response": current_crop_response_status(), "automatic_action": False}
+
+
+@app.get("/api/fruit-models")
+def fruit_models_status():
+    return fruit_registry_status()
+
+
+@app.post("/api/fruit-image")
+async def fruit_image(crop_species: str = Query(...), model_id: str = Query(DEFAULT_FRUIT_MODEL_ID),
+        confidence: float = Query(0.35, ge=0.1, le=0.95), file: UploadFile = File(...)):
+    data = await file.read(MAX_IMAGE_BYTES + 1)
+    await file.close()
+    if len(data) > MAX_IMAGE_BYTES:
+        raise HTTPException(413, "Keep the image below 10 MiB.")
+    from starlette.concurrency import run_in_threadpool
+    return await run_in_threadpool(assess_fruit_image, data, crop_species, model_id, confidence)
 
 
 @app.post("/api/models/plant/select")
@@ -312,6 +459,32 @@ def mqtt_status():
         return public
     except (OSError, ValueError, TypeError):
         return {"connected": False, "fresh": False, "running": None}
+
+
+@app.get("/api/camera-images")
+def camera_images(device_id: str | None = Query(None, pattern="^[A-Za-z0-9_-]{1,64}$"),
+                  source: str = Query("hardware", pattern="^(hardware|synthetic)$"),
+                  limit: int = Query(24, ge=1, le=100)):
+    reader = camera_storage.camera_reader()
+    if reader is None:
+        return {"items": [], "device_id": device_id, "source": source,
+                "storage": {"backend": "mongodb", "configured": False, "connected": False,
+                            "collection": camera_storage.CAMERA_COLLECTION}}
+    items = reader.recent_images(limit=limit, device_id=device_id, source=source)
+    return {"items": items, "device_id": device_id, "source": source,
+            "storage": {"backend": "mongodb", "configured": True, "connected": True,
+                        "collection": camera_storage.CAMERA_COLLECTION}}
+
+
+@app.get("/api/camera-images/{image_id}/content")
+def camera_image_content(image_id: str):
+    reader = camera_storage.camera_reader()
+    if reader is None:
+        raise HTTPException(503, "MongoDB camera storage is not configured.")
+    image = reader.image_content(image_id)
+    if image is None:
+        raise HTTPException(404, "Camera image was not found.")
+    return Response(content=image, media_type="image/jpeg", headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/telemetry")

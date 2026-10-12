@@ -13,12 +13,13 @@ Your first goal is to explain three complete flows: a submitted scenario becomin
 | SQLite | Planning configuration, run and dietary snapshots | SQL, IDs, transactions, versioned JSON snapshots, durability |
 | PyMongo/MongoDB Atlas | Configured sensor telemetry | Documents, filters, sorting, indexes, UTC dates, TLS, connection pooling |
 | PyTorch/MobileNetV3 | Offline image-model training | Transfer learning, frozen backbone, classifier training, validation |
+| Pretrained YOLO detectors | Separate fruit-photo monitoring | Object detection, boxes, visual maturity classes, counting, IoU/NMS and independent detection evaluation; no ASTRA-BIO fruit fine-tuning yet |
 | ONNX Runtime | Local deployed image inference | Exported graph, tensor shapes, preprocessing, mapping, integrity and parity |
 | Arduino/PlatformIO/ESP32 | Physical device uploader | C++, drivers, GPIO/buses, Wi-Fi, TLS, timestamps, retries and persistent packets |
 
 **Study module 1: understand the architecture.** A frontend displays and collects data; a backend validates and performs work; a database persists data; a solver or inference engine produces a specific output. These are separate responsibilities. A Python server process is different from a stored database, and a cloud database does not host the app.
 
-The current planning flow is React form → HTTP/JSON → FastAPI validation → Pyomo/HiGHS solve → SQLite run snapshot → returned JSON → React charts. The photograph flow is upload → image validation/preprocessing → selected local ONNX model → confidence/species guards → tentative or withheld result. The device flow is ESP32 → Wi-Fi/HTTPS → token-authenticated gateway → validated observation → Atlas → backend query → dashboard.
+The current planning flow is React form → HTTP/JSON → FastAPI validation → Pyomo/HiGHS solve → SQLite run snapshot → returned JSON → React charts. Leaf photographs follow upload → image validation/preprocessing → selected local classifier → confidence/species guards → tentative or withheld result. Fruit photographs follow a separate upload → detector → crop filtering/overlap suppression → numbered boxes, counts and any available visual-stage labels. The device flow is ESP32 → Wi-Fi/HTTPS → token-authenticated gateway → validated observation → Atlas → backend query → dashboard. Neither photo flow credits food inventory or commands equipment.
 
 Learn the meanings of localhost, private LAN IP, public outbound IP, port, DNS, client, server and gateway. `127.0.0.1` on an ESP32 refers to that device, while `127.0.0.1` on the laptop refers to the laptop. The dashboard uses port 8501 and the separate HTTPS ingress uses 8502. MQTT is an older optional path, not an additional requirement for current Atlas delivery.
 
@@ -32,7 +33,7 @@ Exercise: instantiate a tiny configuration in a separate scratch file, serialize
 
 **Study module 3: learn HTTP and FastAPI contracts.** Understand GET/POST, path and query parameters, headers, request/response bodies, JSON objects/arrays, multipart photo uploads, content types and status codes. GET normally retrieves; a submitted solve is POST because it performs work and saves a result. Identify error responses rather than assuming every fetch returns valid success data.
 
-Read `/api/bootstrap`, `/api/config/validate`, `/api/plans`, `/api/plant-image`, `/api/models` and `/api/telemetry` in `astra_bio/api.py`. The current code validates dictionaries through project dataclasses/helpers; also learn Pydantic schemas for future structured API development. Understand the solver lock, a concurrent-solve 409 response, input-validation 422 responses and unavailable-telemetry 503 responses. Use the local `/docs` page to inspect application contracts; the device-only gateway deliberately has no public Swagger page.
+Read `/api/bootstrap`, `/api/config/validate`, `/api/plans`, `/api/plant-image`, `/api/models`, `/api/fruit-models`, `/api/fruit-image` and `/api/telemetry` in `astra_bio/api.py`. The current code validates dictionaries through project dataclasses/helpers; also learn Pydantic schemas for future structured API development. Understand the solver lock, a concurrent-solve 409 response, input-validation 422 responses and unavailable-telemetry 503 responses. Use the local `/docs` page to inspect application contracts; the device-only gateway deliberately has no public Swagger page.
 
 Study `async/await`, promises and the difference between waiting on network I/O and doing CPU-heavy inference/optimization. An `async` function does not automatically make blocking work nonblocking. Read the gateway's `run_in_threadpool` call to see how synchronous ingestion is moved off its async request handler.
 
@@ -42,7 +43,7 @@ Exercise: trace a crew-count edit from the form through validation into a saved 
 
 **Study module 4: understand React state and interface behavior.** Learn JSX, components, props, `useState`, `useEffect`, event handlers, controlled inputs, immutable updates, derived values and effect cleanup. Know the difference between an editable draft, validated active configuration and a saved run. Editing inputs invalidates the old displayed comparison; selecting a starter does not solve automatically.
 
-Read `frontend/src/main.jsx`, then the smaller `HabitatOverview.jsx`, `MissionExplorer.jsx`, `NutritionPanel.jsx`, `ModelEvidence.jsx` and `useTelemetry.js`. Trace its request helper and the simulator submit handler. Learn loading, empty, rejected and failure states alongside successful rendering. Telemetry polls every ten seconds and cancels obsolete requests; this is polling, not a WebSocket subscription.
+Read `frontend/src/main.jsx`, then the smaller `HabitatOverview.jsx`, `MissionExplorer.jsx`, `NutritionPanel.jsx`, `ModelEvidence.jsx`, `FruitMonitoring.jsx` and `useTelemetry.js`. Trace its request helper and the simulator submit handler. Learn loading, empty, rejected and failure states alongside successful rendering. Telemetry polls every ten seconds and cancels obsolete requests; this is polling, not a WebSocket subscription.
 
 Study semantic HTML, labels, keyboard focus, Escape behavior, contrast, responsive CSS and chart units. Preserving a form during navigation is different from persisting it across browser reloads. Vite's development server and the built `frontend/dist` bundle are different run modes.
 
@@ -107,6 +108,10 @@ Learn training versus inference: training updates weights; inference applies sel
 
 Exercise: trace a supported photo from `/api/plant-image` through `plant_vision.py`, identifying preprocessing, model selection, class mapping and abstention. Explain why the deployed app does not train a model when someone uploads a photo.
 
+**Then learn the separate fruit detector.** Classification labels one image; object detection locates individual objects with boxes and labels. ASTRA-BIO reuses four pretrained YOLO models: three-/six-stage tomato maturity, tomato detection only, and a generic tomato/bell-pepper/exposed-potato detector. Three checkpoints were exported to ONNX; one published ONNX was used directly. No fruit weights were trained or fine-tuned by this project. Learn letterboxing, normalized box coordinates, intersection-over-union (IoU), non-maximum suppression (NMS), occlusion, detection precision/recall, average precision and count error. Compact numbered markers identify boxes; full model scores and stage labels appear in the table. Uncalibrated scores, visual maturity and bacterial diagnosis are different claims.
+
+Read `fruit_vision.py`, `fruit_setup.py`, `FruitMonitoring.jsx` and [the fruit-monitoring guide](FRUIT_MONITORING.md). Exercise: trace `/api/fruit-image`, explain why overlapping conflicting maturity labels are suppressed, and compare the capabilities of all four model IDs. Design an independently labelled photo test across lighting, occlusion and empty/wrong-crop cases. Explain why successful execution on a publisher example is not an accuracy benchmark, why an exposed-potato detector cannot count underground tubers, and why image counts cannot become harvested food mass.
+
 **Study module 11: learn evaluation and uncertainty.** Training data updates a model; validation data supports development decisions/calibration; test data evaluates the chosen candidate. Repeatedly tuning after looking at the same test set makes it development evidence. Split related photographs/measurements together, so a duplicate photo, repeated plant or shared-resource experiment does not appear across supposedly independent partitions. Study [data leakage](https://scikit-learn.org/stable/common_pitfalls.html).
 
 | Term | Meaning you should be able to explain |
@@ -140,7 +145,7 @@ Learn sample IDs, acknowledgements, bounded timeouts, exponential backoff, jitte
 
 Exercise: after a sensor model and wiring are confirmed, implement one real reading, check its units against a reference instrument and test Wi-Fi disconnection/reconnection. Use the explicit synthetic mode for network-only tests. Board compilation, flashing, successful transport and calibrated sensing are four separate checkpoints.
 
-**Study module 13: learn behavioral testing and reproducibility.** Unit tests check a small behavior; integration tests check component boundaries; browser tests check actual interaction; live transport tests check a running data path; physical tests check real equipment. Fakes isolate controlled cases, but do not establish live Atlas or hardware connectivity. Our newest affected run passed 86 backend tests; a separate live software-path record verifies HTTPS/Atlas behavior with synthetic data.
+**Study module 13: learn behavioral testing and reproducibility.** Unit tests check a small behavior; integration tests check component boundaries; browser tests check actual interaction; live transport tests check a running data path; physical tests check real equipment. Fakes isolate controlled cases, but do not establish live Atlas or hardware connectivity. The MongoDB/gateway update passed 86 affected backend tests; a separate live software-path record verifies HTTPS/Atlas behavior with synthetic data. Fruit model/HTTP smoke execution, export-handler unit tests and browser interaction have separate scopes; browser permissions prevented confirming the evidence-file download, so a passing handler test is not proof that a browser saved the file.
 
 Study fixtures, temporary files, monkeypatching, parameterized tests, assertions and failure diagnosis in `tests/`. Read frontend tests with the knowledge that some fetch/chart behavior is mocked. Good examples include inventory conservation, harvest timing, pre-event equality, duplicate retry rejection, missing intake and uncertainty withholding. Avoid interpreting a passing UI test as model accuracy or a model benchmark as electrical safety.
 
@@ -171,5 +176,6 @@ The present system displays telemetry but does not map it automatically into mod
 13. Why is sensor connectivity separate from useful model calibration?
 14. Which parts have been tested on real hardware?
 15. What is still needed before automatic device control or a shared hosted product?
+16. Which fruit models are pretrained, which provide visual maturity, and what independent data is still needed to evaluate their boxes and counts?
 
 The readiness goal is being able to answer these with the actual source, saved inputs and scoped evidence. Consult `docs/PROJECT_OVERVIEW.md` for current feature status and the linked evidence documents for exact experimental limits.

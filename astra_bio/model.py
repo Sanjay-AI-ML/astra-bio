@@ -49,6 +49,13 @@ class HabitatConfig:
     nutrient_upper_per_crew: dict[str, float] = field(default_factory=dict)
     max_total_food_kg_per_crew_day: float = 0.0
     input_provenance: dict[str, object] = field(default_factory=dict)
+    # Absolute reviewed changes take effect on the specified mission day.
+    # These preserve original conditions and already elapsed simulation rows.
+    planning_events: list[dict[str, object]] = field(default_factory=list)
+    # Optional finite, usable stores. Daily budgets remain delivery capacity;
+    # an unspecified store does not imply an unlimited measured reservoir.
+    initial_water_l: float | None = None
+    initial_energy_kwh: float | None = None
 
     def validate(self) -> None:
         if isinstance(self.days, bool) or not isinstance(self.days, int) or self.days < 1:
@@ -78,6 +85,13 @@ class HabitatConfig:
             _nonnegative(upper, f"Upper bound {nutrient}")
             if upper < self.targets_per_crew[nutrient]:
                 raise ValueError(f"Upper bound for {nutrient} must meet or exceed its target.")
+        for name in ("initial_water_l", "initial_energy_kwh"):
+            if getattr(self, name) is not None:
+                _nonnegative(getattr(self, name), name)
+        if not isinstance(self.planning_events, list):
+            raise ValueError("Planning events must be a list.")
+        for event in self.planning_events:
+            _validate_planning_event(event, self)
         ids = [food.id for food in self.foods] + [crop.id for crop in self.crops]
         if any(not isinstance(item, str) or not item for item in ids) or len(ids) != len(set(ids)):
             raise ValueError("Food and crop identifiers must be unique and nonempty.")
@@ -155,6 +169,56 @@ def _validate_profile(profile: dict[str, float], name: str) -> None:
         raise ValueError(f"{name} needs a nutrient-to-number composition object.")
     for nutrient, amount in profile.items():
         _nonnegative(amount, f"{name}: {nutrient}")
+
+
+def _validate_planning_event(event: dict, config: HabitatConfig) -> None:
+    allowed = {"day", "crew", "targets_per_crew", "water_budget_l_per_day",
+               "power_budget_kwh_per_day", "area_m2", "reason", "crew_profiles", "cancel_scenario_crew"}
+    if not isinstance(event, dict) or set(event) - allowed:
+        raise ValueError("Planning event contains unsupported fields.")
+    day = event.get("day")
+    if isinstance(day, bool) or not isinstance(day, int) or not 1 <= day <= config.days:
+        raise ValueError("Planning event day must be within the mission.")
+    if "crew" in event and (isinstance(event["crew"], bool) or not isinstance(event["crew"], int) or event["crew"] < 1):
+        raise ValueError("Planning event crew must be a positive integer.")
+    if "cancel_scenario_crew" in event and not isinstance(event["cancel_scenario_crew"], bool):
+        raise ValueError("Planning event crew cancellation must be a boolean.")
+    for key in ("water_budget_l_per_day", "power_budget_kwh_per_day", "area_m2"):
+        if key in event:
+            _nonnegative(event[key], f"Planning event {key}")
+    if "targets_per_crew" in event:
+        targets = event["targets_per_crew"]
+        if not isinstance(targets, dict) or set(targets) != set(config.targets_per_crew):
+            raise ValueError("Planning event targets must include every tracked nutrient.")
+        for nutrient, target in targets.items():
+            _nonnegative(target, f"Planning event target {nutrient}")
+            if target == 0:
+                raise ValueError("Planning event targets must be positive.")
+            if target > config.nutrient_upper_per_crew.get(nutrient, float("inf")):
+                raise ValueError(f"Upper bound for {nutrient} must meet or exceed its target.")
+    if "reason" in event and not isinstance(event["reason"], str):
+        raise ValueError("Planning event reason must be text.")
+    if "crew_profiles" in event:
+        if not isinstance(event["crew_profiles"], list) or len(event["crew_profiles"]) != event.get("crew"):
+            raise ValueError("Planning event profiles must match its crew count.")
+        identifiers, totals = set(), {n: 0.0 for n in config.targets_per_crew}
+        for profile in event["crew_profiles"]:
+            if not isinstance(profile, dict) or not isinstance(profile.get("profile_id"), str) or not profile["profile_id"].strip() or profile["profile_id"] in identifiers:
+                raise ValueError("Planning event profile identifiers must be unique and nonempty.")
+            identifiers.add(profile["profile_id"])
+            if not isinstance(profile.get("name"), str) or not profile["name"].strip():
+                raise ValueError("Planning event profiles need names.")
+            targets = profile.get("targets")
+            if not isinstance(targets, dict) or not set(totals) <= set(targets):
+                raise ValueError("Planning event profiles need every tracked target.")
+            for nutrient in totals:
+                _nonnegative(targets[nutrient], f"Planning event profile {nutrient}")
+                if targets[nutrient] == 0 or targets[nutrient] > config.nutrient_upper_per_crew.get(nutrient, float("inf")):
+                    raise ValueError("Planning event profile targets must be positive and within configured upper bounds.")
+                totals[nutrient] += targets[nutrient]
+        means = event.get("targets_per_crew", {})
+        if any(abs(means.get(n, -1) * event["crew"] - amount) > 1e-6 * max(1.0, amount) for n, amount in totals.items()):
+            raise ValueError("Planning event aggregate targets must match the reviewed crew roster.")
 
 
 def default_config() -> HabitatConfig:
