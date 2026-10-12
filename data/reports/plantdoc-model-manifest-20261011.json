@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "candidate_id": "plantdoc-20261011T142833Z",
+  "base_repository": "imaflower/plantvillage-mobilenetv3",
+  "base_revision": "d76fe187be1c4c3a5474f835a7a70cd08c7ab085",
+  "base_weights_sha256": "e9254cff70919a3952aafe9c6f40ef9ab2a883455594419322bf23d1323c7e62",
+  "dataset_revision": "5467f6012d78d1c446145d5f582da6096f852ae8",
+  "temperature": 0.9207915710737299,
+  "files_sha256": {
+    "model.onnx": "97c02d8fb1cefc994f59d52da3b8215545d23e7d3d3cffc18e8d536842e71e51",
+    "class_names.json": "b3aa75e345bfe50d41926d13fc82d49f760ed0642a2b76fba87f627997c1fa3c",
+    "report.json": "7a3860abce13a3c936f11007f84a568fc103e6a08ff6eccd7f65a1ae63887a21"
+  },
+  "tested_classes": [
+    "Pepper__bell___healthy",
+    "Potato___Early_blight",
+    "Potato___Late_blight",
+    "Tomato_Bacterial_spot",
+    "Tomato_Early_blight",
+    "Tomato_Late_blight",
+    "Tomato_Leaf_Mold",
+    "Tomato_Septoria_leaf_spot",
+    "Tomato__Tomato_mosaic_virus",
+    "Tomato_healthy"
+  ],
+  "limitations": [
+    "PlantDoc cropped internet photographs, not ASTRA-BIO tray or spaceflight observations.",
+    "Only ten explicitly mapped classes are evaluated; five output classes lack this benchmark.",
+    "Published official test files are held out of fine-tuning and checkpoint selection.",
+    "Capture identities are unavailable; hash-based grouping cannot prove biological independence.",
+    "Unknown overlap with upstream PlantVillage pretraining cannot be excluded.",
+    "Temperature uses validation data; scores remain unproven for unfamiliar images.",
+    "No pathogen confirmation or automatic intervention."
+  ]
+}

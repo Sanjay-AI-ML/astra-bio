@@ -1,0 +1,7 @@
+id,code,description,source_id
+1,A,Analytical,1
+16,BFSN,Based on another form of the food or similar food; Concentration adjustment; Solids; Retention factors not used,2
+42,JA,Aggregated data involving combinations of data with only source codes 1 and 12 and/or 13,4
+43,JO,"Aggregated data involving combinations of data with different source codes when at least one code is not 1, 6, 12, or 13",8
+49,NC,Calculated,2
+68,Z,"Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",5

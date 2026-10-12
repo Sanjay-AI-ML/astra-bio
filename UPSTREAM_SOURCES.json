@@ -1,0 +1,112 @@
+[
+  {
+    "name": "astra-bio",
+    "source_url": "https://github.com/streamlit/blank-app-template.git",
+    "cloned_commit": "e9f526847c9c9b1aab99f66b218aaa4405b3fe92",
+    "local_path": "D:\\Seds\\astra-bio",
+    "license": "Apache-2.0",
+    "license_file": "D:\\Seds\\astra-bio\\LICENSE",
+    "purpose": "React/FastAPI application; original starter license/origin retained; Streamlit removed",
+    "shallow_clone": true
+  },
+  {
+    "name": "pyomo-gallery",
+    "source_url": "https://github.com/Pyomo/pyomo-gallery.git",
+    "cloned_commit": "0c00b58439b6465cb30b9bf806519b1ade228ecc",
+    "local_path": "D:\\Seds\\open-source\\pyomo-gallery",
+    "license": "BSD-3-Clause",
+    "license_file": "D:\\Seds\\open-source\\pyomo-gallery\\LICENSE.md",
+    "purpose": "Diet-constraint formulation adapted in planner",
+    "shallow_clone": true
+  },
+  {
+    "name": "highs",
+    "source_url": "https://github.com/ERGO-Code/HiGHS.git",
+    "cloned_commit": "73cac48c5340d775a477087198611862559be250",
+    "local_path": "D:\\Seds\\open-source\\highs",
+    "license": "MIT",
+    "license_file": "D:\\Seds\\open-source\\highs\\LICENSE.txt",
+    "purpose": "Solver source reference; highspy package runs the solver",
+    "shallow_clone": true
+  },
+  {
+    "name": "plotly",
+    "source_url": "https://github.com/plotly/plotly.py.git",
+    "cloned_commit": "3f8a650930feadfdb651cd869ffe3e85fd093885",
+    "local_path": "D:\\Seds\\open-source\\plotly",
+    "license": "MIT",
+    "license_file": "D:\\Seds\\open-source\\plotly\\LICENSE.txt",
+    "purpose": "Earlier chart reference; current React charts use Recharts",
+    "shallow_clone": true
+  },
+  {
+    "name": "node-red",
+    "source_url": "https://github.com/node-red/node-red.git",
+    "cloned_commit": "935b8d3e12ec8be064f3a72ac6547131f778a7b1",
+    "local_path": "D:\\Seds\\open-source\\node-red",
+    "license": "Apache-2.0",
+    "license_file": "D:\\Seds\\open-source\\node-red\\LICENSE",
+    "purpose": "Local telemetry runtime installed as pinned npm release",
+    "shallow_clone": true
+  },
+  {
+    "name": "node-red-nodes",
+    "source_url": "https://github.com/node-red/node-red-nodes.git",
+    "cloned_commit": "595b666f2d425ccf8eaac61d837b2180adc1d7d1",
+    "local_path": "D:\\Seds\\open-source\\node-red-nodes",
+    "license": "Apache-2.0",
+    "license_file": "D:\\Seds\\open-source\\node-red-nodes\\LICENSE",
+    "purpose": "SQLite node source; pinned npm package in runtime",
+    "shallow_clone": true
+  },
+  {
+    "name": "esphome",
+    "source_url": "https://github.com/esphome/esphome.git",
+    "cloned_commit": "f9a81869efd3ec43329cf8cd56cf82e0cfc2dfbc",
+    "local_path": "D:\\Seds\\open-source\\esphome",
+    "license": "MIT (Python) AND GPL-3.0 (C++ runtime)",
+    "license_file": "D:\\Seds\\open-source\\esphome\\LICENSE",
+    "purpose": "ESPHome 2026.9.1 sensor firmware validated and compiled for ESP32-S3 with Arduino; not flashed or bench-tested",
+    "shallow_clone": true
+  },
+  {
+    "name": "mosquitto",
+    "source_url": "https://github.com/eclipse-mosquitto/mosquitto.git",
+    "cloned_commit": "83f2620f0b955b89aadce32cceb96a8e81950f5e",
+    "local_path": "D:\\Seds\\open-source\\mosquitto",
+    "license": "EPL-2.0 OR BSD-3-Clause",
+    "license_file": "D:\\Seds\\open-source\\mosquitto\\LICENSE.txt",
+    "purpose": "Official source retained; Mosquitto 2.1.2 workspace binary provides tested authenticated local/TLS MQTT; no Windows service",
+    "shallow_clone": true
+  },
+  {
+    "name": "grocy",
+    "source_url": "https://github.com/grocy/grocy.git",
+    "cloned_commit": "41206cb90154e0d17d3e108cc1f182b94fdb465d",
+    "local_path": "D:\\Seds\\open-source\\grocy",
+    "license": "MIT",
+    "license_file": "D:\\Seds\\open-source\\grocy\\LICENSE.md",
+    "purpose": "Optional inventory reference; not integrated",
+    "shallow_clone": true
+  },
+  {
+    "name": "mealie",
+    "source_url": "https://github.com/mealie-recipes/mealie.git",
+    "cloned_commit": "0601d2bcba2656c37c6ee8a246a707ff4976b2e8",
+    "local_path": "D:\\Seds\\open-source\\mealie",
+    "license": "AGPL-3.0",
+    "license_file": "D:\\Seds\\open-source\\mealie\\LICENSE",
+    "purpose": "Optional recipe reference; not integrated",
+    "shallow_clone": true
+  },
+  {
+    "name": "ollama",
+    "source_url": "https://github.com/ollama/ollama.git",
+    "cloned_commit": "eab97e9f92b9a25c2d52d2cc6c1b1c99bd9fae21",
+    "local_path": "D:\\Seds\\open-source\\ollama",
+    "license": "MIT",
+    "license_file": "D:\\Seds\\open-source\\ollama\\LICENSE",
+    "purpose": "Optional loopback fact-selection adapter implemented; daemon/model not installed or required",
+    "shallow_clone": true
+  }
+]

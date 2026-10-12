@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTRA-BIO — Flight Deck Console</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            deck: {
+              bg: "#111416",
+              card: "#171b1e",
+              elevated: "#1e2327",
+              border: "#2c333a",
+              muted: "#78909c"
+            },
+            amber: {
+              accent: "#e6b667",
+              dim: "rgba(230, 182, 103, 0.15)",
+              border: "rgba(230, 182, 103, 0.35)",
+              bright: "#f4ca84"
+            }
+          },
+          fontFamily: {
+            headline: ["Space Grotesk", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+            body: ["Geist", "sans-serif"]
+          }
+        }
+      }
+    }
+</script>
+<style>
+    body {
+      background-color: #111416;
+      color: #d1d5db;
+    }
+    
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 18;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 3px;
+      background: #2c333a;
+      border-radius: 1px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 12px;
+      width: 12px;
+      border-radius: 1px;
+      background: #e6b667;
+      cursor: pointer;
+      margin-top: -4.5px;
+      border: 1px solid #111416;
+    }
+</style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-body text-xs antialiased selection:bg-amber-accent selection:text-black">
+<!-- ========================================================================= -->
+<!-- TOP BAR: Brand "ASTRA-BIO" // FLIGHT DECK CONSOLE + Configured Limits    -->
+<!-- ========================================================================= -->
+<header class="h-11 flex-shrink-0 bg-[#14181b] border-b border-deck-border flex justify-between items-center px-4 z-40 select-none">
+<!-- Left: Brand, Deck Name, Strict Badges -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-[2px] border border-amber-border bg-amber-dim flex items-center justify-center text-amber-accent">
+<span class="material-symbols-outlined text-sm">terminal</span>
+</div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline font-bold text-sm tracking-wider text-white">ASTRA-BIO</span>
+<span class="font-mono text-[10px] text-deck-muted font-medium">// FLIGHT DECK CONSOLE</span>
+</div>
+</div>
+<div class="h-3.5 w-px bg-deck-border mx-1"></div>
+<div class="flex items-center gap-2">
+<span class="font-mono text-[10px] font-semibold text-amber-accent bg-amber-dim border border-amber-border px-1.5 py-0.5 rounded-[2px] tracking-wider uppercase">
+        DEMO DATA
+      </span>
+<span class="font-mono text-[10px] text-deck-muted bg-[#191d21] border border-deck-border px-1.5 py-0.5 rounded-[2px] tracking-wider uppercase">
+        PROTOTYPE · OUTPUTS DISABLED
+      </span>
+</div>
+</div>
+<!-- Center: Configured Limits Badge -->
+<div class="hidden xl:flex items-center gap-2 px-2.5 py-1 bg-[#181c20] border border-deck-border rounded-[2px]">
+<span class="w-1.5 h-1.5 bg-amber-accent rounded-none"></span>
+<span class="font-mono text-[10px] text-zinc-300 font-medium tracking-wide">
+      CONFIGURED BUDGET LIMITS: <span class="text-amber-accent">WATER 50 L/DAY</span> · <span class="text-deck-muted">POWER 8 KWH/DAY</span>
+</span>
+</div>
+<!-- Right: Operator Profile & Actions -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 font-mono text-[11px] text-zinc-300 bg-[#181d21] border border-deck-border px-2 py-0.5 rounded-[2px]">
+<span class="text-deck-muted uppercase text-[9px]">CONSOLE:</span>
+<span class="text-amber-accent font-semibold">FD-01</span>
+<span class="text-deck-muted">|</span>
+<span>OPERATOR WS</span>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- SHELL: 240px Fixed Sidebar + Operator Workbench                          -->
+<!-- ========================================================================= -->
+<div class="flex flex-1 min-h-0 w-full overflow-hidden">
+<!-- SIDEBAR (240px, squared, 6 items + Workspace settings) -->
+<aside class="w-[240px] flex-shrink-0 bg-[#131619] border-r border-deck-border flex flex-col justify-between py-3 px-2.5">
+<nav class="flex flex-col gap-0.5">
+<!-- 1. Overview (Active, amber indicator) -->
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-[2px] bg-[#1a1f24] text-white border-l-2 border-amber-accent font-headline text-xs font-medium tracking-wide" href="#">
+<span class="material-symbols-outlined text-base text-amber-accent">space_dashboard</span>
+<span>Overview</span>
+</a>
+<!-- 2. Crew & nutrition -->
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-[2px] text-deck-muted hover:text-zinc-200 hover:bg-[#181d21] font-headline text-xs font-medium transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-base">group</span>
+<span>Crew &amp; nutrition</span>
+</a>
+<!-- 3. Crops & food -->
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-[2px] text-deck-muted hover:text-zinc-200 hover:bg-[#181d21] font-headline text-xs font-medium transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-base">potted_plant</span>
+<span>Crops &amp; food</span>
+</a>
+<!-- 4. Simulator -->
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-[2px] text-deck-muted hover:text-zinc-200 hover:bg-[#181d21] font-headline text-xs font-medium transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-base">tune</span>
+<span>Simulator</span>
+</a>
+<!-- 5. Plant screening -->
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-[2px] text-deck-muted hover:text-zinc-200 hover:bg-[#181d21] font-headline text-xs font-medium transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-base">biotech</span>
+<span>Plant screening</span>
+</a>
+<!-- 6. Live devices -->
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-[2px] text-deck-muted hover:text-zinc-200 hover:bg-[#181d21] font-headline text-xs font-medium transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-base">sensors</span>
+<span>Live devices</span>
+</a>
+</nav>
+<!-- Bottom Secondary Item: Workspace settings -->
+<div class="pt-2 border-t border-deck-border">
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded-[2px] text-deck-muted hover:text-zinc-200 hover:bg-[#181d21] font-headline text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">settings</span>
+<span>Workspace settings</span>
+</a>
+</div>
+</aside>
+<!-- ======================================================================= -->
+<!-- MAIN WORKSPACE: High Density Console Layout                              -->
+<!-- ======================================================================= -->
+<main class="flex-1 min-w-0 p-3.5 overflow-y-auto flex flex-col gap-3 bg-[#111416]">
+<!-- 1. TOP TECHNICAL BUDGET & MISSION STRIP -->
+<div class="bg-deck-card border border-deck-border rounded-[2px] p-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+<div class="flex items-center gap-2">
+<span class="font-headline font-semibold text-white tracking-wide text-sm uppercase">Application Overview</span>
+<span class="text-deck-muted font-mono text-[10px]">| MISSION PARAMETERS</span>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<!-- Crew Complement -->
+<div class="bg-deck-elevated border border-deck-border px-2.5 py-1 rounded-[2px] flex items-center gap-2">
+<span class="font-mono text-[10px] text-deck-muted uppercase tracking-wider">Crew Complement:</span>
+<span class="font-mono font-semibold text-white">4 crew</span>
+</div>
+<!-- Mission Duration -->
+<div class="bg-deck-elevated border border-deck-border px-2.5 py-1 rounded-[2px] flex items-center gap-2">
+<span class="font-mono text-[10px] text-deck-muted uppercase tracking-wider">Mission Duration:</span>
+<span class="font-mono font-semibold text-white">90 days</span>
+</div>
+<!-- Growing Area -->
+<div class="bg-deck-elevated border border-deck-border px-2.5 py-1 rounded-[2px] flex items-center gap-2">
+<span class="font-mono text-[10px] text-deck-muted uppercase tracking-wider">Growing Area:</span>
+<span class="font-mono font-semibold text-amber-accent">12.5 m²</span>
+</div>
+<!-- Configured Water Budget -->
+<div class="bg-deck-elevated border border-deck-border px-2.5 py-1 rounded-[2px] flex items-center gap-2">
+<span class="font-mono text-[10px] text-deck-muted uppercase tracking-wider">Configured Water:</span>
+<span class="font-mono font-semibold text-white">50 L/day</span>
+</div>
+<!-- Configured Energy Budget -->
+<div class="bg-deck-elevated border border-deck-border px-2.5 py-1 rounded-[2px] flex items-center gap-2">
+<span class="font-mono text-[10px] text-deck-muted uppercase tracking-wider">Configured Energy:</span>
+<span class="font-mono font-semibold text-white">8 kWh/day</span>
+</div>
+<!-- Sandbox Telemetry Tag -->
+<div class="bg-[#121618] border border-deck-border px-2.5 py-1 rounded-[2px] flex items-center gap-1.5 text-deck-muted font-mono text-[10px]">
+<span class="w-1.5 h-1.5 bg-deck-muted/50 rounded-none"></span>
+<span>Hardware readings unavailable (sandbox)</span>
+</div>
+</div>
+</div>
+<!-- 2. CENTRAL SPLIT: SCENARIO WORKBENCH (LEFT) + SUBSYSTEM STATUS & ACTIONS (RIGHT) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+<!-- LEFT / MAIN AREA (lg:col-span-8): SCENARIO WORKBENCH & ILLUSTRATIVE RESPONSE -->
+<section class="lg:col-span-8 bg-deck-card border border-deck-border rounded-[2px] p-3 flex flex-col justify-between">
+<!-- Controls Header & Interactive Bar -->
+<div class="pb-2.5 border-b border-deck-border flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-amber-accent rounded-none"></span>
+<span class="font-headline font-semibold text-white uppercase tracking-wider text-xs">WHAT-IF RESOURCE CONTROLS</span>
+</div>
+<span class="font-mono text-[10px] text-deck-muted uppercase tracking-wider">Sandbox Allocation Simulator</span>
+</div>
+<!-- Controls Strip -->
+<div class="bg-deck-elevated border border-deck-border p-2 rounded-[2px] flex flex-wrap items-center justify-between gap-3">
+<div class="flex flex-wrap items-center gap-3">
+<!-- Water Remaining Slider/Input: 60% -->
+<div class="flex items-center gap-2">
+<label class="font-mono text-[10px] uppercase tracking-wider text-deck-muted" for="waterDeckInput">Water remaining:</label>
+<input class="w-20 accent-amber-accent cursor-pointer" id="waterDeckInput" max="100" min="20" oninput="document.getElementById('waterDeckDisplay').innerText = this.value + '%'" type="range" value="60"/>
+<span class="font-mono text-xs font-semibold text-amber-accent min-w-[28px]" id="waterDeckDisplay">60%</span>
+</div>
+<div class="h-3 w-px bg-deck-border"></div>
+<!-- Event day selector: Day 30 -->
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[10px] uppercase tracking-wider text-deck-muted">Event day:</span>
+<span class="font-mono text-xs font-medium text-white bg-[#14181b] border border-deck-border px-2 py-0.5 rounded-[2px]">Day 30</span>
+</div>
+<div class="h-3 w-px bg-deck-border"></div>
+<!-- Mode Switch: [Fixed Baseline] [Adaptive Resource Planning] -->
+<div class="flex items-center gap-0.5 bg-[#121618] border border-deck-border p-0.5 rounded-[2px]">
+<button class="px-2 py-1 rounded-[2px] text-deck-muted hover:text-zinc-200 font-mono text-[10px] uppercase tracking-wider transition-colors" type="button">
+                  Fixed Baseline
+                </button>
+<button class="px-2 py-1 rounded-[2px] bg-amber-dim text-amber-accent border border-amber-border font-mono text-[10px] uppercase tracking-wider font-semibold" type="button">
+                  Adaptive Resource Planning
+                </button>
+</div>
+</div>
+<!-- Run Scenario CTA (Amber highlighted) -->
+<button class="px-3.5 py-1.5 rounded-[2px] bg-amber-accent hover:bg-amber-bright text-black font-mono text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm active:scale-95" type="button">
+<span class="material-symbols-outlined text-sm font-bold">play_arrow</span>
+<span>RUN SCENARIO</span>
+</button>
+</div>
+</div>
+<!-- SVG Graph: Response Curve -->
+<div class="mt-2.5">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<span class="font-mono text-[10px] uppercase tracking-wider text-deck-muted font-semibold">PROJECTED 90-DAY RESOURCE &amp; INTAKE RESPONSE</span>
+<span class="font-mono text-[9px] text-zinc-300 bg-[#1e2327] border border-deck-border px-1.5 py-0.5 rounded-[2px] uppercase">
+                Illustrative preview
+              </span>
+</div>
+<!-- Legend -->
+<div class="flex items-center gap-3 font-mono text-[10px]">
+<div class="flex items-center gap-1.5 text-deck-muted">
+<span class="w-3 h-0.5 border-t border-dashed border-deck-muted"></span>
+<span>Fixed baseline</span>
+</div>
+<div class="flex items-center gap-1.5 text-amber-accent font-medium">
+<span class="w-3 h-0.5 bg-amber-accent"></span>
+<span>Adaptive resource planning</span>
+</div>
+<div class="flex items-center gap-1.5 text-zinc-400">
+<span class="w-3 h-0.5 border-t border-deck-muted"></span>
+<span>Configured water buffer</span>
+</div>
+</div>
+</div>
+<!-- SVG Visualizer Canvas -->
+<div class="w-full h-40 bg-[#121517] border border-deck-border rounded-[2px] p-2 relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 900 130">
+<!-- Gridlines -->
+<line stroke="#242b31" stroke-dasharray="2 3" x1="40" x2="880" y1="20" y2="20"></line>
+<line stroke="#242b31" stroke-dasharray="2 3" x1="40" x2="880" y1="55" y2="55"></line>
+<line stroke="#242b31" stroke-dasharray="2 3" x1="40" x2="880" y1="90" y2="90"></line>
+<!-- Event Marker at Day 30 -->
+<line stroke="#e6b667" stroke-dasharray="2 2" stroke-width="1.2" x1="320" x2="320" y1="10" y2="110"></line>
+<rect fill="#1b2024" height="15" stroke="#2c333a" width="90" x="325" y="12"></rect>
+<text fill="#e6b667" font-family="JetBrains Mono" font-size="8.5" font-weight="600" letter-spacing="0.08em" x="330" y="23">DAY 30 EVENT</text>
+<!-- Y Labels -->
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" text-anchor="end" x="32" y="24">100%</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" text-anchor="end" x="32" y="59">60%</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" text-anchor="end" x="32" y="94">20%</text>
+<!-- X Labels -->
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" x="40" y="122">Day 0</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" x="180" y="122">Day 15</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" x="320" y="122">Day 30</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" x="460" y="122">Day 45</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" x="600" y="122">Day 60</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" x="740" y="122">Day 75</text>
+<text fill="#78909c" font-family="JetBrains Mono" font-size="8.5" x="855" y="122">Day 90</text>
+<!-- Curve 1: Fixed Baseline (Fading dashed gray line post-event) -->
+<path d="M 40 32 L 320 32 C 370 32, 420 85, 500 95 C 580 102, 720 106, 880 108" fill="none" stroke="#60727b" stroke-dasharray="3 3" stroke-width="1.4"></path>
+<!-- Curve 2: Adaptive Resource Planning (Amber solid curve + subdued shade) -->
+<polygon fill="rgba(230, 182, 103, 0.08)" points="40,30 320,30 460,45 600,42 740,38 880,36 880,55 740,60 600,64 460,68 320,45 40,40"></polygon>
+<path d="M 40 32 L 320 32 C 370 32, 410 52, 480 48 C 550 44, 700 38, 880 36" fill="none" stroke="#e6b667" stroke-width="2"></path>
+<!-- Curve 3: Configured Water Buffer (Steel-blue line) -->
+<path d="M 40 40 L 320 40 C 380 54, 450 78, 520 82 C 620 85, 750 84, 880 82" fill="none" stroke="#78909c" stroke-width="1.2"></path>
+<!-- Convergence node at modulation -->
+<rect fill="#e6b667" height="5" stroke="#111416" stroke-width="1" width="5" x="477.5" y="45.5"></rect>
+</svg>
+</div>
+</div>
+</section>
+<!-- RIGHT AREA (lg:col-span-4): SUBSYSTEM STATUS & PENDING OPERATOR ACTIONS -->
+<section class="lg:col-span-4 flex flex-col gap-3">
+<!-- Subsystem Interaction Summary -->
+<div class="bg-deck-card border border-deck-border rounded-[2px] p-3 flex flex-col gap-2">
+<div class="flex items-center justify-between border-b border-deck-border pb-1.5">
+<span class="font-mono text-[10px] font-semibold text-white uppercase tracking-wider">Subsystem Coupling Model</span>
+<span class="font-mono text-[9px] text-amber-accent font-medium">CLOSED LOOP</span>
+</div>
+<!-- Nutritional demand -->
+<div class="bg-deck-elevated border border-deck-border p-2 rounded-[2px]">
+<div class="flex items-center justify-between text-deck-muted font-mono text-[10px] uppercase">
+<span>Nutritional Demand</span>
+<span class="material-symbols-outlined text-xs">restaurant</span>
+</div>
+<div class="mt-1 grid grid-cols-3 gap-1 font-mono text-[10px] text-zinc-300">
+<div class="bg-[#14181b] p-1 border border-deck-border">
+<span class="block text-[8.5px] text-deck-muted">ENERGY</span>
+<span class="text-white font-semibold">11,200 kcal/d</span>
+</div>
+<div class="bg-[#14181b] p-1 border border-deck-border">
+<span class="block text-[8.5px] text-deck-muted">PROTEIN</span>
+<span class="text-amber-accent font-semibold">Tracked (4 crew)</span>
+</div>
+<div class="bg-[#14181b] p-1 border border-deck-border">
+<span class="block text-[8.5px] text-deck-muted">VIT C</span>
+<span class="text-white font-semibold">Fresh baseline</span>
+</div>
+</div>
+</div>
+<!-- Crop Batches & Allocation Engine -->
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-deck-elevated border border-deck-border p-2 rounded-[2px] font-mono text-[10px]">
+<div class="text-deck-muted uppercase text-[9px] mb-1">Production Batches</div>
+<div class="text-white font-medium">Chamber Alpha: <span class="text-amber-accent">Lettuce</span></div>
+<div class="text-white font-medium">Chamber Beta: <span class="text-zinc-300">Radish</span></div>
+</div>
+<div class="bg-deck-elevated border border-deck-border p-2 rounded-[2px] font-mono text-[10px]">
+<div class="text-deck-muted uppercase text-[9px] mb-1">Allocation Engine</div>
+<div class="text-white">Water: <span class="text-zinc-200">50 L/day cfg</span></div>
+<div class="text-white">Planning: <span class="text-amber-accent">Adaptive</span></div>
+</div>
+</div>
+</div>
+<!-- Prioritized Operator Actions -->
+<div class="bg-deck-card border border-deck-border rounded-[2px] p-3 flex flex-col justify-between flex-1">
+<div>
+<div class="flex items-center justify-between border-b border-deck-border pb-1.5 mb-2">
+<span class="font-mono text-[10px] font-semibold text-white uppercase tracking-wider">Prioritized Actions</span>
+<span class="font-mono text-[9px] text-amber-accent bg-amber-dim border border-amber-border px-1 rounded-[2px]">2 PENDING</span>
+</div>
+<div class="space-y-2">
+<!-- Action 1: Review dietary targets -->
+<div class="p-2 bg-deck-elevated border border-deck-border rounded-[2px] flex items-center justify-between gap-2">
+<div class="min-w-0">
+<div class="text-xs font-semibold text-white">Review dietary targets</div>
+<div class="text-[10px] text-deck-muted">Caloric and macro balance settings</div>
+</div>
+<button class="px-2 py-1 rounded-[2px] bg-amber-dim hover:bg-amber-accent hover:text-black border border-amber-border text-amber-accent font-mono text-[10px] uppercase font-semibold tracking-wider transition-colors shrink-0" type="button">
+                  CONFIGURE
+                </button>
+</div>
+<!-- Action 2: Review crop schedule -->
+<div class="p-2 bg-deck-elevated border border-deck-border rounded-[2px] flex items-center justify-between gap-2">
+<div class="min-w-0">
+<div class="text-xs font-semibold text-white">Review crop schedule</div>
+<div class="text-[10px] text-deck-muted">Chamber α &amp; β stagger cycles</div>
+</div>
+<button class="px-2 py-1 rounded-[2px] bg-[#242b30] hover:bg-[#2c343b] border border-deck-border text-zinc-200 font-mono text-[10px] uppercase font-semibold tracking-wider transition-colors shrink-0" type="button">
+                  REVIEW
+                </button>
+</div>
+<!-- Action 3: Notice -->
+<div class="p-2 bg-[#121517] border border-deck-border rounded-[2px] flex items-start gap-2">
+<span class="w-1.5 h-1.5 bg-deck-muted mt-1 shrink-0"></span>
+<div>
+<div class="text-[10px] font-medium text-zinc-300">Hardware readings unavailable</div>
+<div class="text-[9px] text-deck-muted leading-tight">Offline simulation sandbox active</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom link -->
+<div class="pt-2 border-t border-deck-border text-right mt-2">
+<a class="font-mono text-[10px] text-amber-accent hover:underline inline-flex items-center gap-1 uppercase" href="#">
+<span>View input assumptions →</span>
+</a>
+</div>
+</div>
+</section>
+</div>
+<!-- 3. BOTTOM SECTION: HARVEST TIMETABLE & MODEL SCHEDULE -->
+<section class="bg-deck-card border border-deck-border rounded-[2px] p-3 flex flex-col gap-2">
+<div class="flex items-center justify-between pb-1.5 border-b border-deck-border">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-accent text-sm">table_chart</span>
+<h2 class="font-headline font-semibold text-xs text-white uppercase tracking-wider">HARVEST TIMETABLE</h2>
+<span class="text-deck-muted text-xs">·</span>
+<span class="text-xs text-deck-muted font-normal">Model estimates · example schedule</span>
+</div>
+<span class="font-mono text-[9px] text-amber-accent bg-amber-dim border border-amber-border px-1.5 py-0.5 rounded-[2px] uppercase">
+          Chambers synchronized
+        </span>
+</div>
+<!-- Monospace Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-deck-border text-deck-muted font-mono text-[9.5px] uppercase tracking-wider bg-deck-elevated">
+<th class="py-1 px-2.5">Crop</th>
+<th class="py-1 px-2.5">Chamber</th>
+<th class="py-1 px-2.5">Day Progress</th>
+<th class="py-1 px-2.5">Harvest Window</th>
+<th class="py-1 px-2.5">Model Yield</th>
+<th class="py-1 px-2.5 text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-deck-border font-mono text-[11px]">
+<!-- Crop 1: Lettuce -->
+<tr class="hover:bg-deck-elevated/60 transition-colors">
+<td class="py-2 px-2.5">
+<div class="font-medium text-white flex items-center gap-1.5 font-body">
+<span class="w-1.5 h-1.5 bg-amber-accent rounded-none"></span>
+<span>Dwarf Butterhead Lettuce</span>
+</div>
+</td>
+<td class="py-2 px-2.5 text-zinc-300">
+<span class="bg-[#14181b] border border-deck-border px-1.5 py-0.5 rounded-[2px]">Chamber Alpha</span>
+</td>
+<td class="py-2 px-2.5">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-[#121517] border border-deck-border h-1.5 rounded-none overflow-hidden">
+<div class="bg-amber-accent h-full" style="width: 50%;"></div>
+</div>
+<span class="text-white">Day 14 / 28</span>
+</div>
+</td>
+<td class="py-2 px-2.5 text-zinc-300">
+                Day 28 – 32
+              </td>
+<td class="py-2 px-2.5 text-amber-accent font-semibold">
+                4.8 kg
+              </td>
+<td class="py-2 px-2.5 text-right">
+<span class="text-[9.5px] text-amber-accent bg-amber-dim border border-amber-border px-1.5 py-0.5 rounded-[2px] uppercase">
+                  On Schedule
+                </span>
+</td>
+</tr>
+<!-- Crop 2: Radish -->
+<tr class="hover:bg-deck-elevated/60 transition-colors">
+<td class="py-2 px-2.5">
+<div class="font-medium text-white flex items-center gap-1.5 font-body">
+<span class="w-1.5 h-1.5 bg-deck-muted rounded-none"></span>
+<span>Cherry Belle Radish</span>
+</div>
+</td>
+<td class="py-2 px-2.5 text-zinc-300">
+<span class="bg-[#14181b] border border-deck-border px-1.5 py-0.5 rounded-[2px]">Chamber Beta</span>
+</td>
+<td class="py-2 px-2.5">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-[#121517] border border-deck-border h-1.5 rounded-none overflow-hidden">
+<div class="bg-deck-muted h-full" style="width: 38%;"></div>
+</div>
+<span class="text-white">Day 8 / 21</span>
+</div>
+</td>
+<td class="py-2 px-2.5 text-zinc-300">
+                Day 21 – 24
+              </td>
+<td class="py-2 px-2.5 text-amber-accent font-semibold">
+                2.1 kg
+              </td>
+<td class="py-2 px-2.5 text-right">
+<span class="text-[9.5px] text-amber-accent bg-amber-dim border border-amber-border px-1.5 py-0.5 rounded-[2px] uppercase">
+                  On Schedule
+                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+</body></html>

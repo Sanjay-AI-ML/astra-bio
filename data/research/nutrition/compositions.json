@@ -1,0 +1,1007 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "name": "USDA FoodData Central SR Legacy",
+    "release": "2018-04 (final SR Legacy release)",
+    "download_url": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip",
+    "download_page": "https://fdc.nal.usda.gov/download-datasets/",
+    "download_sha256": "b80817294b8850530aaedf2e515c02593b1824f763a0ff356e5c2081643e6fd0",
+    "retrieved_at_utc": "2026-10-10T19:33:52.972641+00:00",
+    "source_basis": "per 100 g edible food in the stated form",
+    "per_kg_conversion": "multiply per-100-g values by 10",
+    "units": {
+      "energy": "kcal",
+      "protein": "g",
+      "vitamin_c": "mg"
+    }
+  },
+  "foods": {
+    "oats": {
+      "fdc_id": 169705,
+      "ndb_number": "20038",
+      "description": "Oats (Includes foods for USDA's Food Distribution Program)",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "dry ingredient weight",
+      "nutrients_per_100g": {
+        "energy": 389.0,
+        "protein": 16.89,
+        "vitamin_c": 0.0
+      },
+      "nutrients_per_kg": {
+        "energy": 3890.0,
+        "protein": 168.9,
+        "vitamin_c": 0.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/169705/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1462988",
+          "fdc_id": "169705",
+          "nutrient_id": "1008",
+          "amount": "389",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1462964",
+          "fdc_id": "169705",
+          "nutrient_id": "1003",
+          "amount": "16.89",
+          "data_points": "50",
+          "derivation_id": "",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1462971",
+          "fdc_id": "169705",
+          "nutrient_id": "1162",
+          "amount": "0",
+          "data_points": "0",
+          "derivation_id": "",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "85379",
+          "fdc_id": "169705",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup",
+          "gram_weight": "156",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "lentils": {
+      "fdc_id": 172420,
+      "ndb_number": "16069",
+      "description": "Lentils, raw",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "dry ingredient weight before cooking",
+      "nutrients_per_100g": {
+        "energy": 352.0,
+        "protein": 24.63,
+        "vitamin_c": 4.5
+      },
+      "nutrients_per_kg": {
+        "energy": 3520.0,
+        "protein": 246.29999999999998,
+        "vitamin_c": 45.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/172420/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1693749",
+          "fdc_id": "172420",
+          "nutrient_id": "1008",
+          "amount": "352",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1693727",
+          "fdc_id": "172420",
+          "nutrient_id": "1003",
+          "amount": "24.63",
+          "data_points": "56",
+          "derivation_id": "1",
+          "min": "18.98",
+          "max": "28.3",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1693740",
+          "fdc_id": "172420",
+          "nutrient_id": "1162",
+          "amount": "4.5",
+          "data_points": "0",
+          "derivation_id": "16",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "90594",
+          "fdc_id": "172420",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup",
+          "gram_weight": "192",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "90595",
+          "fdc_id": "172420",
+          "seq_num": "2",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "tablespoon",
+          "gram_weight": "12",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "peanut_butter": {
+      "fdc_id": 172470,
+      "ndb_number": "16398",
+      "description": "Peanut butter, smooth style, without salt",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "smooth, unsalted",
+      "nutrients_per_100g": {
+        "energy": 598.0,
+        "protein": 22.21,
+        "vitamin_c": 0.0
+      },
+      "nutrients_per_kg": {
+        "energy": 5980.0,
+        "protein": 222.10000000000002,
+        "vitamin_c": 0.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/172470/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1697678",
+          "fdc_id": "172470",
+          "nutrient_id": "1008",
+          "amount": "598",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1697629",
+          "fdc_id": "172470",
+          "nutrient_id": "1003",
+          "amount": "22.21",
+          "data_points": "18",
+          "derivation_id": "1",
+          "min": "20.97",
+          "max": "23.59",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1697625",
+          "fdc_id": "172470",
+          "nutrient_id": "1162",
+          "amount": "0",
+          "data_points": "0",
+          "derivation_id": "68",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "90673",
+          "fdc_id": "172470",
+          "seq_num": "1",
+          "amount": "2",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "tbsp",
+          "gram_weight": "32",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "90674",
+          "fdc_id": "172470",
+          "seq_num": "2",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup",
+          "gram_weight": "258",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "lettuce": {
+      "fdc_id": 169249,
+      "ndb_number": "11253",
+      "description": "Lettuce, green leaf, raw",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "raw edible portion",
+      "nutrients_per_100g": {
+        "energy": 15.0,
+        "protein": 1.36,
+        "vitamin_c": 9.2
+      },
+      "nutrients_per_kg": {
+        "energy": 150.0,
+        "protein": 13.600000000000001,
+        "vitamin_c": 92.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/169249/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1427214",
+          "fdc_id": "169249",
+          "nutrient_id": "1008",
+          "amount": "15",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1427220",
+          "fdc_id": "169249",
+          "nutrient_id": "1003",
+          "amount": "1.36",
+          "data_points": "8",
+          "derivation_id": "1",
+          "min": "1.11",
+          "max": "1.64",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1427163",
+          "fdc_id": "169249",
+          "nutrient_id": "1162",
+          "amount": "9.2",
+          "data_points": "8",
+          "derivation_id": "1",
+          "min": "7",
+          "max": "12.9",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "84520",
+          "fdc_id": "169249",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup shredded",
+          "gram_weight": "36",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84521",
+          "fdc_id": "169249",
+          "seq_num": "2",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "head",
+          "gram_weight": "360",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84522",
+          "fdc_id": "169249",
+          "seq_num": "3",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "leaf inner",
+          "gram_weight": "4.8",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84523",
+          "fdc_id": "169249",
+          "seq_num": "4",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "leaf outer",
+          "gram_weight": "24",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "radish": {
+      "fdc_id": 169276,
+      "ndb_number": "11429",
+      "description": "Radishes, raw",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "raw edible portion",
+      "nutrients_per_100g": {
+        "energy": 16.0,
+        "protein": 0.68,
+        "vitamin_c": 14.8
+      },
+      "nutrients_per_kg": {
+        "energy": 160.0,
+        "protein": 6.800000000000001,
+        "vitamin_c": 148.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/169276/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1429348",
+          "fdc_id": "169276",
+          "nutrient_id": "1008",
+          "amount": "16",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1429398",
+          "fdc_id": "169276",
+          "nutrient_id": "1003",
+          "amount": "0.68",
+          "data_points": "19",
+          "derivation_id": "43",
+          "min": "0.3",
+          "max": "1.51",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1429394",
+          "fdc_id": "169276",
+          "nutrient_id": "1162",
+          "amount": "14.8",
+          "data_points": "16",
+          "derivation_id": "42",
+          "min": "3.8",
+          "max": "25.1",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "84582",
+          "fdc_id": "169276",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup slices",
+          "gram_weight": "116",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84583",
+          "fdc_id": "169276",
+          "seq_num": "2",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "large (1\" to 1-1/4\" dia)",
+          "gram_weight": "9",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84584",
+          "fdc_id": "169276",
+          "seq_num": "3",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "medium (3/4\" to 1\" dia)",
+          "gram_weight": "4.5",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84585",
+          "fdc_id": "169276",
+          "seq_num": "4",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "slice",
+          "gram_weight": "1",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84586",
+          "fdc_id": "169276",
+          "seq_num": "5",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "small",
+          "gram_weight": "2",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84587",
+          "fdc_id": "169276",
+          "seq_num": "6",
+          "amount": "0.5",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup slices",
+          "gram_weight": "58",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "kale": {
+      "fdc_id": 168421,
+      "ndb_number": "11233",
+      "description": "Kale, raw",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "raw edible portion",
+      "nutrients_per_100g": {
+        "energy": 35.0,
+        "protein": 2.92,
+        "vitamin_c": 93.4
+      },
+      "nutrients_per_kg": {
+        "energy": 350.0,
+        "protein": 29.2,
+        "vitamin_c": 934.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/168421/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1359225",
+          "fdc_id": "168421",
+          "nutrient_id": "1008",
+          "amount": "35",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1359185",
+          "fdc_id": "168421",
+          "nutrient_id": "1003",
+          "amount": "2.92",
+          "data_points": "5",
+          "derivation_id": "1",
+          "min": "2.25",
+          "max": "3.81",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1359192",
+          "fdc_id": "168421",
+          "nutrient_id": "1162",
+          "amount": "93.4",
+          "data_points": "5",
+          "derivation_id": "1",
+          "min": "84.4",
+          "max": "104",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "83066",
+          "fdc_id": "168421",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup",
+          "gram_weight": "21",
+          "data_points": "9",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "tomato": {
+      "fdc_id": 170457,
+      "ndb_number": "11529",
+      "description": "Tomatoes, red, ripe, raw, year round average",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "raw edible portion",
+      "nutrients_per_100g": {
+        "energy": 18.0,
+        "protein": 0.88,
+        "vitamin_c": 13.7
+      },
+      "nutrients_per_kg": {
+        "energy": 180.0,
+        "protein": 8.8,
+        "vitamin_c": 137.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/170457/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1525334",
+          "fdc_id": "170457",
+          "nutrient_id": "1008",
+          "amount": "18",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1525376",
+          "fdc_id": "170457",
+          "nutrient_id": "1003",
+          "amount": "0.88",
+          "data_points": "19",
+          "derivation_id": "43",
+          "min": "0.59",
+          "max": "1.06",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1525324",
+          "fdc_id": "170457",
+          "nutrient_id": "1162",
+          "amount": "13.7",
+          "data_points": "25",
+          "derivation_id": "42",
+          "min": "7.8",
+          "max": "19.8",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "86681",
+          "fdc_id": "170457",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup cherry tomatoes",
+          "gram_weight": "149",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86682",
+          "fdc_id": "170457",
+          "seq_num": "2",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup, chopped or sliced",
+          "gram_weight": "180",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86683",
+          "fdc_id": "170457",
+          "seq_num": "3",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "Italian tomato",
+          "gram_weight": "62",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86684",
+          "fdc_id": "170457",
+          "seq_num": "4",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cherry",
+          "gram_weight": "17",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86685",
+          "fdc_id": "170457",
+          "seq_num": "5",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "large whole (3\" dia)",
+          "gram_weight": "182",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86686",
+          "fdc_id": "170457",
+          "seq_num": "6",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "medium whole (2-3/5\" dia)",
+          "gram_weight": "123",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86687",
+          "fdc_id": "170457",
+          "seq_num": "7",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "slice, medium (1/4\" thick)",
+          "gram_weight": "20",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86688",
+          "fdc_id": "170457",
+          "seq_num": "8",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "plum tomato",
+          "gram_weight": "62",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86689",
+          "fdc_id": "170457",
+          "seq_num": "9",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "small whole (2-2/5\" dia)",
+          "gram_weight": "91",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86690",
+          "fdc_id": "170457",
+          "seq_num": "10",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "slice, thick/large (1/2\" thick)",
+          "gram_weight": "27",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86691",
+          "fdc_id": "170457",
+          "seq_num": "11",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "wedge (1/4 of medium tomato)",
+          "gram_weight": "31",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86692",
+          "fdc_id": "170457",
+          "seq_num": "12",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "slice, thin/small",
+          "gram_weight": "15",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "86693",
+          "fdc_id": "170457",
+          "seq_num": "13",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "NLEA serving",
+          "gram_weight": "148",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "arugula": {
+      "fdc_id": 169387,
+      "ndb_number": "11959",
+      "description": "Arugula, raw",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "raw edible portion",
+      "nutrients_per_100g": {
+        "energy": 25.0,
+        "protein": 2.58,
+        "vitamin_c": 15.0
+      },
+      "nutrients_per_kg": {
+        "energy": 250.0,
+        "protein": 25.8,
+        "vitamin_c": 150.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/169387/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1437928",
+          "fdc_id": "169387",
+          "nutrient_id": "1008",
+          "amount": "25",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1437901",
+          "fdc_id": "169387",
+          "nutrient_id": "1003",
+          "amount": "2.58",
+          "data_points": "2",
+          "derivation_id": "",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1437909",
+          "fdc_id": "169387",
+          "nutrient_id": "1162",
+          "amount": "15",
+          "data_points": "1",
+          "derivation_id": "",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "84770",
+          "fdc_id": "169387",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "leaf",
+          "gram_weight": "2",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "84771",
+          "fdc_id": "169387",
+          "seq_num": "2",
+          "amount": "0.5",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup",
+          "gram_weight": "10",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    },
+    "kohlrabi": {
+      "fdc_id": 168424,
+      "ndb_number": "11241",
+      "description": "Kohlrabi, raw",
+      "data_type": "sr_legacy_food",
+      "publication_date": "2019-04-01",
+      "food_form": "raw edible portion",
+      "nutrients_per_100g": {
+        "energy": 27.0,
+        "protein": 1.7,
+        "vitamin_c": 62.0
+      },
+      "nutrients_per_kg": {
+        "energy": 270.0,
+        "protein": 17.0,
+        "vitamin_c": 620.0
+      },
+      "source_url": "https://fdc.nal.usda.gov/food-details/168424/nutrients",
+      "source_rows": {
+        "energy": {
+          "id": "1359410",
+          "fdc_id": "168424",
+          "nutrient_id": "1008",
+          "amount": "27",
+          "data_points": "0",
+          "derivation_id": "49",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "protein": {
+          "id": "1359439",
+          "fdc_id": "168424",
+          "nutrient_id": "1003",
+          "amount": "1.7",
+          "data_points": "1",
+          "derivation_id": "",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        "vitamin_c": {
+          "id": "1359452",
+          "fdc_id": "168424",
+          "nutrient_id": "1162",
+          "amount": "62",
+          "data_points": "1",
+          "derivation_id": "",
+          "min": "",
+          "max": "",
+          "median": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      },
+      "portions": [
+        {
+          "id": "83071",
+          "fdc_id": "168424",
+          "seq_num": "1",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "cup",
+          "gram_weight": "135",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        },
+        {
+          "id": "83072",
+          "fdc_id": "168424",
+          "seq_num": "2",
+          "amount": "1",
+          "measure_unit_id": "9999",
+          "portion_description": "",
+          "modifier": "slice",
+          "gram_weight": "16",
+          "data_points": "",
+          "footnote": "",
+          "min_year_acquired": ""
+        }
+      ]
+    }
+  }
+}

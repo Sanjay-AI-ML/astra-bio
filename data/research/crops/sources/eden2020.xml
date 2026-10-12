@@ -1,0 +1,1520 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD Journal Publishing DTD v2.3 20070202//EN" "journalpublishing.dtd">
+<article xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article">
+<front>
+<journal-meta>
+<journal-id journal-id-type="publisher-id">Front. Plant Sci.</journal-id>
+<journal-title>Frontiers in Plant Science</journal-title>
+<abbrev-journal-title abbrev-type="pubmed">Front. Plant Sci.</abbrev-journal-title>
+<issn pub-type="epub">1664-462X</issn>
+<publisher>
+<publisher-name>Frontiers Media S.A.</publisher-name>
+</publisher>
+</journal-meta>
+<article-meta>
+<article-id pub-id-type="doi">10.3389/fpls.2020.00656</article-id>
+<article-categories>
+<subj-group subj-group-type="heading">
+<subject>Plant Science</subject>
+<subj-group>
+<subject>Original Research</subject>
+</subj-group>
+</subj-group>
+</article-categories>
+<title-group>
+<article-title>Biomass Production of the EDEN ISS Space Greenhouse in Antarctica During the 2018 Experiment Phase</article-title>
+</title-group>
+<contrib-group>
+<contrib contrib-type="author" corresp="yes">
+<name><surname>Zabel</surname> <given-names>Paul</given-names></name>
+<xref ref-type="corresp" rid="c001"><sup>&#x002A;</sup></xref>
+<uri xlink:href="http://loop.frontiersin.org/people/703755/overview"/>
+</contrib>
+<contrib contrib-type="author">
+<name><surname>Zeidler</surname> <given-names>Conrad</given-names></name>
+<uri xlink:href="http://loop.frontiersin.org/people/737515/overview"/>
+</contrib>
+<contrib contrib-type="author">
+<name><surname>Vrakking</surname> <given-names>Vincent</given-names></name>
+</contrib>
+<contrib contrib-type="author">
+<name><surname>Dorn</surname> <given-names>Markus</given-names></name>
+<uri xlink:href="http://loop.frontiersin.org/people/848540/overview"/>
+</contrib>
+<contrib contrib-type="author">
+<name><surname>Schubert</surname> <given-names>Daniel</given-names></name>
+</contrib>
+</contrib-group>
+<aff><institution>EDEN Research Group, German Aerospace Center (DLR), Institute of Space Systems</institution>, <addr-line>Bremen</addr-line>, <country>Germany</country></aff>
+<author-notes>
+<fn fn-type="edited-by"><p>Edited by: Carmen Arena, University of Naples Federico II, Italy</p></fn>
+<fn fn-type="edited-by"><p>Reviewed by: Pradeep Kumar, Central Arid Zone Research Institute (ICAR), India; Byoung Ryong Jeong, Gyeongsang National University, South Korea</p></fn>
+<corresp id="c001">&#x002A;Correspondence: Paul Zabel, <email>paul.zabel@dlr.de</email></corresp>
+<fn fn-type="other" id="fn004"><p>This article was submitted to Plant Abiotic Stress, a section of the journal Frontiers in Plant Science</p></fn>
+</author-notes>
+<pub-date pub-type="epub">
+<day>26</day>
+<month>05</month>
+<year>2020</year>
+</pub-date>
+<pub-date pub-type="collection">
+<year>2020</year>
+</pub-date>
+<volume>11</volume>
+<elocation-id>656</elocation-id>
+<history>
+<date date-type="received">
+<day>31</day>
+<month>07</month>
+<year>2019</year>
+</date>
+<date date-type="accepted">
+<day>28</day>
+<month>04</month>
+<year>2020</year>
+</date>
+</history>
+<permissions>
+<copyright-statement>Copyright &#x00A9; 2020 Zabel, Zeidler, Vrakking, Dorn and Schubert.</copyright-statement>
+<copyright-year>2020</copyright-year>
+<copyright-holder>Zabel, Zeidler, Vrakking, Dorn and Schubert</copyright-holder>
+<license xlink:href="http://creativecommons.org/licenses/by/4.0/"><p>This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.</p></license>
+</permissions>
+<abstract>
+<p>The EDEN ISS greenhouse is a space-analog test facility near the German Neumayer III station in Antarctica. The facility is part of the project of the same name and was designed and built starting from March 2015 and eventually deployed in Antarctica in January 2018. The nominal operation of the greenhouse started on February 7th and continued until the 20th of November. The purpose of the facility is to enable multidisciplinary research on topics related to future plant cultivation on human space exploration missions. Research on food quality and safety, plant health monitoring, microbiology, system validation, human factors and horticultural sciences was conducted. Part of the latter is the determination of the biomass production of the different crops. The data on this topic is presented in this paper. During the first season 26 different crops were grown on the 12.5 m<sup>2</sup> cultivation area of the greenhouse. A large number of crops were grown continuously throughout the 9 months of operation, but there were also crops that were only grown a few times for test purposes. The focus of this season was on growing lettuce, leafy greens and fresh vegetables. In total more than 268 kg of edible biomass was produced by the EDEN ISS greenhouse facility in 2018. Most of the harvest was cucumbers (67 kg), lettuces (56 kg), leafy greens (49 kg), and tomatoes (50 kg) complemented with smaller amounts of herbs (12 kg), radish (8 kg), and kohlrabi (19 kg). The environmental set points for the crops were 330&#x2013;600 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) LED light, 21&#x00B0;C, &#x223C;65% relative humidity, 1000 ppm and the photoperiod was 17 h per day. The overall yearly productivity of the EDEN ISS greenhouse in 2018 was 27.4 kg/m<sup>2</sup>, which is equal to 0.075 kg/(m<sup>2&#x002A;</sup>d). This paper shows in detail the data on edible and inedible biomass production of each crop grown in the EDEN ISS greenhouse in Antarctica during the 2018 season.</p>
+</abstract>
+<kwd-group>
+<kwd>bio-regenerative life support system (BLSS)</kwd>
+<kwd>plant cultivation chamber</kwd>
+<kwd>space plant growth facility</kwd>
+<kwd>space food and nutrition</kwd>
+<kwd>space analog studies</kwd>
+<kwd>controlled environment agriculture (CEA)</kwd>
+</kwd-group>
+<contract-sponsor id="cn001">Horizon 2020 Framework Programme<named-content content-type="fundref-id">10.13039/100010661</named-content></contract-sponsor>
+<counts>
+<fig-count count="6"/>
+<table-count count="10"/>
+<equation-count count="0"/>
+<ref-count count="31"/>
+<page-count count="13"/>
+<word-count count="0"/>
+</counts>
+</article-meta>
+</front>
+<body>
+<sec id="S1">
+<title>Introduction</title>
+<p>Food production during human space missions to and on Moon and Mars is a necessary step to reduce resupply mass from Earth and thus long-term mission costs. Growing plants for food production also offers the advantages of producing oxygen and removing carbon dioxide from the atmosphere as well as the recycling of water. Because of these advantages, experiments in growing plants in space began as early as the first manned space stations and continue to the present day (<xref ref-type="bibr" rid="B27">Zabel et al., 2016a</xref>).</p>
+<p>Several research teams conducted experiments in cultivating plants in a closed controlled environment on Earth for the application in future space missions in the past (<xref ref-type="bibr" rid="B24">Wheeler, 2017</xref>). Notable are NASA&#x2019;s Biomass Production Chamber (<xref ref-type="bibr" rid="B26">Wheeler et al., 2003</xref>; <xref ref-type="bibr" rid="B6">Dreschel et al., 2018</xref>), the Russian BIOS facilities (<xref ref-type="bibr" rid="B10">Gitelson et al., 2003</xref>), the Japanese Closed Ecology Experimental Facility (<xref ref-type="bibr" rid="B13">Nitta, 2005</xref>) and the Chinese Lunar Palace 1 (<xref ref-type="bibr" rid="B9">Fu et al., 2016</xref>).</p>
+<p>The EDEN ISS project is the newest space greenhouse analog project to test subsystems, technologies, operation procedures, plant health monitoring devices and plant cultivation for future space missions. The EDEN ISS Mobile Test Facility (MTF) (<xref ref-type="fig" rid="F1">Figure 1</xref>) was setup in Antarctica to achieve these goals. This paper presents detailed values on food production (edible biomass) and inedible biomass production of the vegetable crops cultivated in the experimental phase in 2018.</p>
+<fig id="F1" position="float">
+<label>FIGURE 1</label>
+<caption><p>The EDEN ISS Mobile Test Facility in Antarctica around 400 m south of the German Neumayer Station III.</p></caption>
+<graphic xlink:href="fpls-11-00656-g001.tif"/>
+</fig>
+<p>The difference of the EDEN ISS MTF to the other facilities is its unique location. The MTF is positioned in the vicinity of the German Neumayer Station III in Antarctica. This continent offers several conditions which are favorable for space analog test campaigns (<xref ref-type="bibr" rid="B5">Bubenheim et al., 1994</xref>). While most of the other facilities were built to conduct research on humans living in a closed loop life support system, EDEN ISS focuses on cultivating plants in controlled conditions, testing the necessary hardware and investigating microbiology, food quality and safety aspects. Furthermore, most of the facilities mentioned earlier were built and operated in the 1980s&#x2013;2000s and are no longer available, except for Lunar Palace 1 which was built only a few years ago and is still in operation. EDEN ISS also uses technologies which were not available in the past (e.g., LED lighting for plant cultivation).</p>
+<p>The novel aspect of the EDEN ISS project is its approach to work with a compromise climate in which all crops are grown simultaneously. This is more realistic for near-term space greenhouses as compared to studies were each crop has its own optimized climate. Despite not having the optimal climate for each crop the food production of the MTF in the 2018 season was higher than expected. In 2018, for the first time a comprehensive set of measurements were performed in an analog space greenhouse. These measurements encompass the biomass production data presented in this paper, but also data on the microbial environment inside the greenhouse, the quality and safety of the produced food, the resources (e.g., carbon dioxide, nutrients, consumables) necessary to grow the crops, the amount of electrical energy and crewtime required and the acceptance of the food to the station crew. The biomass production dataset presented in this paper can be used to improve simulation models for space greenhouses. It can also be used for cultivar selection, because the dataset includes values on different cultivars (e.g., for lettuce and tomato) which is helpful to assess which cultivar should be grown in the next space greenhouse. The data is also a valuable contribution to the recently developed Crop Readiness Level evaluation method (<xref ref-type="bibr" rid="B18">Romeyn et al., 2019</xref>) for crop candidates for space greenhouses.</p>
+</sec>
+<sec id="S2" sec-type="materials|methods">
+<title>Materials and Methods</title>
+<sec id="S2.SS1">
+<title>EDEN ISS Mobile Test Facility Infrastructure</title>
+<p>The EDEN ISS MTF is located in the immediate vicinity of the Neumayer III Station which is operated by the German Alfred-Wegener Institute for Polar and Marine Research. The MTF was designed and built as an experimental facility for plant cultivation systems, allowing the test of essential technologies and production procedures for future long-duration human space missions (<xref ref-type="bibr" rid="B28">Zabel et al., 2015</xref>). Detailed system analysis was conducted by the consortium partners resulting in a solid design (<xref ref-type="bibr" rid="B1">Bamsey et al., 2014</xref>, <xref ref-type="bibr" rid="B2">2016</xref>; <xref ref-type="bibr" rid="B30">Zabel et al., 2016b</xref>), including a complete risk assessment (<xref ref-type="bibr" rid="B19">Santos et al., 2016</xref>). The MTF consists of two customized 20 foot high cube shipping containers, which are placed on top of a raised platform located &#x223C;400 m south of Neumayer III. The research facility can be subdivided into three distinct sections:</p>
+<list list-type="simple">
+<list-item>
+<label>&#x2022;</label>
+<p>Airlock/Cold-Porch (Blue section in <xref ref-type="fig" rid="F2">Figure 2</xref>): A small room providing storage and a small air buffer to limit the entry of cold air when the main access door of the facility is used. This area is used for changing clothes. Furthermore, the main fresh water tank and the waste water tank are both located in the subfloor space of this section.</p>
+</list-item>
+<list-item>
+<label>&#x2022;</label>
+<p>Service Section (Red section in <xref ref-type="fig" rid="F2">Figure 2</xref>): This section houses the primary control, atmosphere management, thermal control, power control and nutrient delivery systems of the MTF (<xref ref-type="bibr" rid="B22">Vrakking et al., 2017</xref>). Additionally, this section provides a working table including sink, trash bins, and storage for tools and consumables. In addition this section houses an independent rack-like plant cultivation system as part of the plant growth demonstrator for future deployment onboard the ISS (<xref ref-type="bibr" rid="B3">Boscheri et al., 2016</xref>, <xref ref-type="bibr" rid="B4">2017</xref>).</p>
+</list-item>
+<list-item>
+<label>&#x2022;</label>
+<p>Future Exploration Greenhouse (FEG) (Green section in <xref ref-type="fig" rid="F2">Figure 2</xref>): The main plant cultivation space of the MTF which includes multi-level plant growth racks operating in a controlled environment. The FEG is used to study plant cultivation and the related technologies for future planetary habitats (<xref ref-type="bibr" rid="B29">Zabel et al., 2017</xref>).</p>
+</list-item>
+</list>
+<fig id="F2" position="float">
+<label>FIGURE 2</label>
+<caption><p>Schematic top-view of the MTF. The blue section indicates the cold porch. The red area is called service section and houses a work desk and almost all greenhouse subsystems. The green section is the main plant cultivation space, called the FEG.</p></caption>
+<graphic xlink:href="fpls-11-00656-g002.tif"/>
+</fig>
+<p>The technologies required to cultivate plants in a controlled environment are arranged in six different subsystems, which are briefly described in the following. Detailed information about the subsystems can be found in <xref ref-type="bibr" rid="B29">Zabel et al. (2017)</xref> and <xref ref-type="bibr" rid="B22">Vrakking et al. (2017)</xref>.</p>
+<list list-type="simple">
+<list-item>
+<label>1)</label>
+<p>The nutrient delivery subsystem adjusts the irrigation water&#x2019;s pH and EC value. Depending on the plant type (leafy or fruit-building crop), the mixing computer provides a dedicated nutrient solution that is delivered directly to the roots. Eight high-pressure pumps spray a fine nutrient mist inside the root compartment of each plant tray.</p>
+</list-item>
+<list-item>
+<label>2)</label>
+<p>The atmosphere management subsystem regulates the temperature, humidity, and CO<sub>2</sub> concentration within the FEG. Furthermore, the air flow is filtered (particle filter, HEPA, and activated carbon filter) and the humidity condensate water is recovered and fed back to the fresh water tank.</p>
+</list-item>
+<list-item>
+<label>3)</label>
+<p>The thermal control subsystem is used to remove excess heat from the MTF and to provide a cool fluid for condensation of the humidity produced by the plants.</p>
+</list-item>
+<list-item>
+<label>4)</label>
+<p>The illumination control subsystem consists of 42 fluid-cooled LED fixtures integrated into the FEG. The light spectrum can freely be composed of red, blue, far-red, and white for each plant tray.</p>
+</list-item>
+<list-item>
+<label>5)</label>
+<p>The power distribution subsystem provides electrical energy to all subsystems of the MTF. The electrical energy is generated in the Neumayer Station III and transmitted to the MTF.</p>
+</list-item>
+<list-item>
+<label>6)</label>
+<p>The control and data handling subsystem consists of a set of independent programmable logic controllers which receive information from a wide range of sensors. Based on this information and defined program logics this subsystem controls all functions of the MTF. The control and data handling subsystem sends system telemetry to the mission control center in Bremen, Germany. Furthermore, every day a set of images taken from fixed positions inside the FEG is sent to the mission control center to allow remote experts observing plant development and to assist the on-site operator.</p>
+</list-item>
+</list>
+</sec>
+<sec id="S2.SS2">
+<title>Experiment Timeframe</title>
+<p>The MTF arrived in Antarctica on the 3rd of January 2018. The deployment took around 5 weeks and was finished in early February (<xref ref-type="bibr" rid="B20">Schubert et al., 2018</xref>). The winter-over on-site operator remained in Antarctica for the following 10 months until December 2018. In the following chapters &#x201C;experimental phase&#x201D; refers to the period from mid-February 2018 to mid-November 2018. The timeline of the experiment phase is shown in <xref ref-type="fig" rid="F3">Figure 3</xref>.</p>
+<fig id="F3" position="float">
+<label>FIGURE 3</label>
+<caption><p>Timeline of the EDEN ISS experiment phase (early 2018 to early 2019).</p></caption>
+<graphic xlink:href="fpls-11-00656-g003.tif"/>
+</fig>
+<p>The first plants were sown on February 7th 2018. The winter-over period started with the departure of the last summer crew on February 18th. The first harvest of lettuce and leafy greens was on March 20th. The first cucumber harvest (29th of March) and first tomato harvest (16th of May) took place in the weeks that followed. The coldest temperature of the season was recorded in the morning of the 8th of October 2018 with being &#x2212;43.5&#x00B0;C. The winter-over period ended with the arrival of the first summer crew on November 2nd. The nominal operation phase of the MTF ended with the final harvest which took place on November 20th. The EDEN ISS winter-over operator departed a few days before Christmas 2018.</p>
+</sec>
+<sec id="S2.SS3">
+<title>Crop Species</title>
+<p>The EDEN ISS project team established a crop selection methodology in order to select crop species for the experiment campaign in Antarctica (<xref ref-type="bibr" rid="B7">Dueck et al., 2016</xref>). The focus of the project was on fresh pick-and-eat vegetables. Consequently, the list of cultivated crop species includes various varieties of lettuce and leafy greens accompanied by some fruit crops (e.g., tomato and cucumber).</p>
+<p>The cultivated crops are organized in the five categories lettuce, leafy greens, herbs, fruit crops and tuber crops. The following crop varieties were cultivated:</p>
+<list list-type="simple">
+<list-item>
+<label>&#x2022;</label>
+<p>Lettuce: Batavia, Expertise, Outredgeous, Waldmann&#x2019;s Green</p>
+</list-item>
+<list-item>
+<label>&#x2022;</label>
+<p>Leafy greens: Two varieties of red mustard, swiss chard, arugula, mizuna</p>
+</list-item>
+<list-item>
+<label>&#x2022;</label>
+<p>Herbs: Basil, chives, parsley</p>
+</list-item>
+<list-item>
+<label>&#x2022;</label>
+<p>Fruit crops: Red dwarf tomato, orange dwarf tomato, cucumber (parthenocarpic, beit alpha)</p>
+</list-item>
+<list-item>
+<label>&#x2022;</label>
+<p>Tuber crops: Two varieties of radish, kohlrabi</p>
+</list-item>
+<list-item>
+<label>&#x2022;</label>
+<p>Miscellaneous crops: Two varieties of indeterminate tomato, two varieties of pepper, cilantro, mint, lemon balm, celery, strawberry.</p>
+</list-item>
+</list>
+<p>Additional information (e.g., seed supplier) about the cultivated crop species can be found in <xref ref-type="supplementary-material" rid="SM1">Supplementary Material</xref>.</p>
+</sec>
+<sec id="S2.SS4">
+<title>Plant Treatment</title>
+<p>Most of the crop species were sown in rockwool blocks of 2 &#x00D7; 2 &#x00D7; 4 cm (L &#x00D7; W &#x00D7; H), with the exception being parsley, chives and arugula. Those crops were sown directly in the cultivation trays on mats consisting of recycled cotton fibers. The crops grown in rockwool blocks were first put into a nursery tray for 10&#x2013;20 days depending on the species. Small amounts of nutrient solution were added manually to this tray in order to keep the rockwool blocks moist. Following the period in the nursery tray, the young plants were moved to the plant cultivation trays for maturation. Some crop species (cucumber, tomato, and pepper) required regular pruning of excess side shoots and leaves.</p>
+<p>Two different methods for cultivation/harvest were used. Batch cultivation means that the whole plant was harvested when the plant reached a certain age. This technique was used for the lettuce varieties, radishes, and kohlrabi. Spread harvest means that only parts of the plant (leaves, fruits) were harvested allowing the plant to continue growing. All fruit crops, all herbs and all leafy greens were harvested this way.</p>
+<p>Dates for sowing, transfer, pruning, and harvest events per cultivation tray were tracked continuously. Plant density can be determined from the type of cultivation tray which was used. <xref ref-type="table" rid="T1">Table 1</xref> summarizes information regarding the plant treatment for each crop. Upon harvest fresh edible and inedible biomass was measured. The latter was measured separately for roots and stems/leaves. Sometimes plant material was dried using lyophilization in order to determine the dry biomass ratio which is the ratio of the dried biomass weight to the original fresh biomass weight. Drying plant material was limited due to the sizing of the equipment and due to the fact that dried material was required for each crop species.</p>
+<table-wrap position="float" id="T1">
+<label>TABLE 1</label>
+<caption><p>Summary of plant treatment information.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left">Crop</td>
+<td valign="top" align="center">Crop density</td>
+<td valign="top" align="center">Crop density</td>
+<td valign="top" align="justify"/>
+<td valign="top" align="left">Harvest</td>
+</tr>
+<tr>
+<td valign="top" align="left">name</td>
+<td valign="top" align="center">(plants/tray)</td>
+<td valign="top" align="center">(plants/m<sup>2</sup>)</td>
+<td valign="top" align="left">Pruning</td>
+<td valign="top" align="left">type</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Batavia</td>
+<td valign="top" align="center">6</td>
+<td valign="top" align="center">18.3</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+<tr>
+<td valign="top" align="left">Expertise</td>
+<td valign="top" align="center">6</td>
+<td valign="top" align="center">18.3</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+<tr>
+<td valign="top" align="left">Outredgeous</td>
+<td valign="top" align="center">6</td>
+<td valign="top" align="center">18.3</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+<tr>
+<td valign="top" align="left">Waldmann&#x2019;s Green</td>
+<td valign="top" align="center">6</td>
+<td valign="top" align="center">18.3</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+<tr>
+<td valign="top" align="left">Red Giant</td>
+<td valign="top" align="center">20</td>
+<td valign="top" align="center">61.0</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Frizzy Lizzy</td>
+<td valign="top" align="center">20</td>
+<td valign="top" align="center">61.0</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Swiss Chard</td>
+<td valign="top" align="center">12</td>
+<td valign="top" align="center">36.6</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Arugula</td>
+<td valign="top" align="center">196</td>
+<td valign="top" align="center">594.5</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+<tr>
+<td valign="top" align="left">Mizuna</td>
+<td valign="top" align="center">12</td>
+<td valign="top" align="center">36.6</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Basil Dolly</td>
+<td valign="top" align="center">20</td>
+<td valign="top" align="center">61.0</td>
+<td valign="top" align="left">Shortening of shoots when getting to close to LED lamps.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Parsley</td>
+<td valign="top" align="center">&#x223C;100</td>
+<td valign="top" align="center">304.9</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Chives</td>
+<td valign="top" align="center">&#x223C;200</td>
+<td valign="top" align="center">609.8</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 3496B</td>
+<td valign="top" align="center">4</td>
+<td valign="top" align="center">12.2</td>
+<td valign="top" align="left">Periodic removal of withered leaves. Removal of withered side shoots after harvest period to encourage plant to regrow new side shoots.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 1202</td>
+<td valign="top" align="center">4</td>
+<td valign="top" align="center">12.2</td>
+<td valign="top" align="left">Periodic removal of withered leaves. Removal of withered side shoots after harvest period to encourage plant to regrow new side shoots.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Cucumber Picowell</td>
+<td valign="top" align="center">2</td>
+<td valign="top" align="center">6.1</td>
+<td valign="top" align="left">2 shoots/stems per plant. Periodic removal of excess side shoots and old leaves.</td>
+<td valign="top" align="left">Spread</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Raxe</td>
+<td valign="top" align="center">36</td>
+<td valign="top" align="center">109.8</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Lennox</td>
+<td valign="top" align="center">36</td>
+<td valign="top" align="center">109.8</td>
+<td valign="top" align="left">n.a.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+<tr>
+<td valign="top" align="left">Kohlrabi</td>
+<td valign="top" align="center">5&#x2013;6</td>
+<td valign="top" align="center">15.2&#x2013;18.3</td>
+<td valign="top" align="left">Removal of single leaves when those would block light neighboring trays.</td>
+<td valign="top" align="left">Batch</td>
+</tr>
+</tbody>
+</table></table-wrap>
+<p>Plant development was monitored by several cameras. From each plant cultivation tray, one photo from the top and one photo from the side were taken every day and send to a FTP server where all project partners could access the images. This way the horticulture scientists in the project team could advise the on-site operator on improvements for the cultivation of the crops. An image processing algorithm checked the photos automatically to detect issues with plant development. A multi-wavelength imaging system was setup in two positions to test whether this system can detect plant stress during growth (<xref ref-type="bibr" rid="B31">Zeidler et al., 2019</xref>).</p>
+</sec>
+<sec id="S2.SS5">
+<title>Environmental Conditions During Plant Cultivation</title>
+<sec id="S2.SS5.SSS1">
+<title>Irrigation</title>
+<p>High pressure pumps in the FEG feed nutrient solution from the tanks to the plant cultivation trays via a hybrid aeroponic and nutrient film technique (<xref ref-type="bibr" rid="B22">Vrakking et al., 2017</xref>; <xref ref-type="bibr" rid="B29">Zabel et al., 2017</xref>). The solution was injected into the root zone via misting nozzles and the run-off served as a nutrient film once the roots had developed sufficiently. The irrigation schedule for the plants was a 30 s misting period every 6 min. For the initial germination phase, the on-site operator manually supplied nutrient solution to the germination tray.</p>
+<p>Two different nutrient solutions were provided to the crops, depending on their classification as either a leafy crop or a fruit crop. The two solutions were automatically mixed together in bulk solution tanks using deionized water and nutrients from concentrated stock solution bottles. The expected (initial) nutrient concentrations in the bulk solutions, based on the recipes developed for the project, can be seen in <xref ref-type="table" rid="T2">Table 2</xref>. The pH value of the solutions was managed by utilization of acid (1.25% Nitric acid) and base (1% Potassium hydroxide) stock solutions.</p>
+<table-wrap position="float" id="T2">
+<label>TABLE 2</label>
+<caption><p>Nutrient concentration in 100 L bulk solution in NDS tanks during the experiment phase.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left">Nutrient</td>
+<td valign="top" align="center">Leafy crop solution</td>
+<td valign="top" align="center">Fruit crop solution</td>
+</tr>
+<tr>
+<td valign="top" align="left">compound</td>
+<td valign="top" align="center">concentrations</td>
+<td valign="top" align="center">concentrations</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">NH4</td>
+<td valign="top" align="center">0.122 mol</td>
+<td valign="top" align="center">0.226 mol</td>
+</tr>
+<tr>
+<td valign="top" align="left">K</td>
+<td valign="top" align="center">1.028 mol</td>
+<td valign="top" align="center">1.503 mol/<italic>1.378 mol</italic></td>
+</tr>
+<tr>
+<td valign="top" align="left">Ca</td>
+<td valign="top" align="center">0.419 mol</td>
+<td valign="top" align="center">0.597 mol/<italic>0.711 mol</italic></td>
+</tr>
+<tr>
+<td valign="top" align="left">Mg</td>
+<td valign="top" align="center">0.135 mol</td>
+<td valign="top" align="center">0.226 mol</td>
+</tr>
+<tr>
+<td valign="top" align="left">NO3</td>
+<td valign="top" align="center">1.785 mol</td>
+<td valign="top" align="center">2.347 mol/<italic>2.450 mol</italic></td>
+</tr>
+<tr>
+<td valign="top" align="left">Cl</td>
+<td valign="top" align="center">0.068 mol</td>
+<td valign="top" align="center">0.104 mol</td>
+</tr>
+<tr>
+<td valign="top" align="left">SO4</td>
+<td valign="top" align="center">0.109 mol</td>
+<td valign="top" align="center">0.332 mol</td>
+</tr>
+<tr>
+<td valign="top" align="left">P</td>
+<td valign="top" align="center">0.189 mol</td>
+<td valign="top" align="center">0.267 mol</td>
+</tr>
+<tr>
+<td valign="top" align="left">Fe</td>
+<td valign="top" align="center">3.795 mmol</td>
+<td valign="top" align="center">5.161 mmol</td>
+</tr>
+<tr>
+<td valign="top" align="left">Mn</td>
+<td valign="top" align="center">0.189 mmol</td>
+<td valign="top" align="center">2.059 mmol</td>
+</tr>
+<tr>
+<td valign="top" align="left">Zn</td>
+<td valign="top" align="center">0.244 mmol</td>
+<td valign="top" align="center">0.825 mmol</td>
+</tr>
+<tr>
+<td valign="top" align="left">B</td>
+<td valign="top" align="center">2.840 mmol</td>
+<td valign="top" align="center">4.321 mmol</td>
+</tr>
+<tr>
+<td valign="top" align="left">Cu</td>
+<td valign="top" align="center">0.068 mmol</td>
+<td valign="top" align="center">0.164 mmol</td>
+</tr>
+<tr>
+<td valign="top" align="left">Mo</td>
+<td valign="top" align="center">0.041 mmol</td>
+<td valign="top" align="center">0.103 mmol</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic>Note that the composition of the fruit crop solution was adapted during the mission. Adjusted values are shown in italic (The adjustment was necessary because a calcium deficit could be observed on the tomato plants, which most likely was the result of a bad K:Ca ratio).</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+<p>Based on the plant development observed throughout the operations phase, and in communication with remote experts in Europe, it was decided part way throughout the mission to adjust the composition for the fruit crop nutrient solution to include more calcium and to reduce the amount of potassium slightly. The concrete values are given in <xref ref-type="table" rid="T2">Table 2</xref>.</p>
+<p>There are only two main points of control for the Nutrient Delivery Subsystem (NDS), pH and EC. Both of these operated as expected throughout the first season of plant production. After the initial setup and testing of the growing systems in the beginning 30 days of operation, pH control was excellent. Any deviations from the set point were due to easily diagnosed technical issues (e.g., broken connectors on the acid delivery supply lines) and pH was never beyond a level suitable for plant growth. Tank 1 followed a higher control level than that of tank 2, and this was due to a programmed offset within the control software. Tank 1 averaged pH 6.06 &#x00B1; 0.18 and tank 2 averaged 5.91 &#x00B1; 0.12 over the entire growing period.</p>
+<p>EC monitoring results were similar to that of pH. Control was excellent after the initial 30 day setup period. Each nutrient tank had a different EC set point, and control was tight with 2.21 &#x00B1; 0.13 mS/cm and 3.49 &#x00B1; 0.17 mS/cm in tanks 1 and 2, respectively. At no time did EC deviate outside of a range amenable to plant growth and productivity.</p>
+<p>Also monitored but not controlled was the nutrient solution temperature in the main nutrient tanks. Tank temperature followed that of the well-controlled room temperature and was quite stable with 19.90 &#x00B1; 0.74&#x00B0;C in tank 1 and 19.97 &#x00B1; 0.78&#x00B0;C in tank 2.</p>
+<p>As continuous determination of and control over individual ion concentrations was not possible, it was decided to periodically empty the bulk nutrient solution tanks and start with a new mixture. For tank 1 this procedure was done approximately once every 3 months, whereas for tank 2 the exchange was done about once every 2 months.</p>
+</sec>
+<sec id="S2.SS5.SSS2">
+<title>Illumination</title>
+<p>A detailed description of the illumination subsystem is provided by <xref ref-type="bibr" rid="B30">Zabel et al. (2016b)</xref>. Each plant cultivation tray has its own LED lamp which can be independently controlled in terms of light spectrum and light intensity. The LED lamps are of the model LX601 by the Swedish company Heliospectra which were modified with a liquid cooling system instead of the air cooling system. This way the light settings for each tray can be adjusted to the crop species and plant maturation stage. The photoperiod inside the FEG consisted of 15 h of full illumination per day and 1 h of reduced light intensity (50% of nominal intensity) before and after the full illumination period. Consequently, the dark period was 7 h per day. The light spectrum mainly consisted of blue (&#x223C;450 nm) and red (&#x223C;650 nm) light and small portions of other wavelengths. The light intensity varied between 300 and 600 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at canopy level of a mature plant, depending on crop species and plant age. The following light intensities were measured for the different crops:</p>
+<list list-type="simple">
+<list-item>
+<label>1.</label>
+<p>All four lettuce varieties: 330 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at 16 cm height.</p>
+</list-item>
+<list-item>
+<label>2.</label>
+<p>Red mustard, swiss chard, mizuna, basil, chives, parsley: 330 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at 16 cm height.</p>
+</list-item>
+<list-item>
+<label>3.</label>
+<p>Radish, arugula: 600 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at 16 cm height.</p>
+</list-item>
+<list-item>
+<label>4.</label>
+<p>Tomato, Kohlrabi, pepper: 300&#x2013;400 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at 16 cm height.</p>
+</list-item>
+<list-item>
+<label>5.</label>
+<p>Cucumber: &#x003E; 500 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at top of canopy.</p>
+</list-item>
+</list>
+</sec>
+<sec id="S2.SS5.SSS3">
+<title>Atmosphere</title>
+<p>The temperature set points inside the FEG were 21&#x00B0;C during the photoperiod and 19&#x00B0;C during the dark period. Relative humidity was set to 65% and CO<sub>2</sub> concentration to 1000 ppm. <xref ref-type="fig" rid="F4">Figures 4&#x2013;6</xref> show the actual values measured within the FEG throughout the first year of operations. In general it can be seen that the temperature was maintained at the set points, fluctuating between 21 degrees during the photoperiod and 19 degrees during the dark period.</p>
+<fig id="F4" position="float">
+<label>FIGURE 4</label>
+<caption><p>FEG air temperature during the experimental phase (one data point per minute).</p></caption>
+<graphic xlink:href="fpls-11-00656-g004.tif"/>
+</fig>
+<fig id="F5" position="float">
+<label>FIGURE 5</label>
+<caption><p>FEG relative humidity during the experimental phase (one data point per minute).</p></caption>
+<graphic xlink:href="fpls-11-00656-g005.tif"/>
+</fig>
+<fig id="F6" position="float">
+<label>FIGURE 6</label>
+<caption><p>FEG atmospheric CO<sub>2</sub> level during the experiment phase (one data point per minute). Note that the sensor used had an upper limit of 2000 ppm. This value was exceeded frequently due to the presence of the on-site operator.</p></caption>
+<graphic xlink:href="fpls-11-00656-g006.tif"/>
+</fig>
+<p>During the Antarctic winter season, at very low external temperatures, the facility failed to maintain temperature during the dark period, resulting in temperature drops down to 16&#x00B0;C. Some off-nominal events with the thermal control subsystem resulted in temperature increases beyond the 21&#x00B0;C set point. Furthermore, a number of measurements are erroneous (showing 0&#x00B0;C) due to communication issues in the command and data handling subsystem.</p>
+<p>The relative humidity within the FEG showed larger deviations from the set point of 65%, in particular between April and July the relative humidity would go as high as 86% for periods of a few hours. This was the result of issues with the condensate recovery design, which had to be mitigated by adjusting flow rates and coolant temperatures within the thermal control subsystem and fine-tuning the control logic. Following the troubleshooting phase, and implementing countermeasures, the relative humidity control throughout the later phase of the experiment phase was significantly improved.</p>
+<p>The CO<sub>2</sub> concentration within the FEG was almost always higher than the set point of 1000 ppm, due to the fact that the on-site operator frequently (almost every day) worked within the greenhouse, emitting CO<sub>2</sub>, and there is no CO<sub>2</sub> removal system implemented within the facility. Depending on the time (e.g., 1&#x2013;4 h) spent inside the FEG, the CO<sub>2</sub> concentration went up to &#x223C;2000 ppm or even &#x223C;4000 ppm. Normally the plants in the FEG would need around 1 day to consume enough CO<sub>2</sub> to bring the concentration back down to the set point of 1000 ppm.</p>
+<p>A desired maximum ethylene concentration of 15 ppb was defined for the greenhouse, with up to 100 ppb allowed for durations of no more than 30 min. An activated carbon filter was implemented into the atmosphere management subsystem to remove ethylene. However, no sensor was installed to provide measurements of the actual concentration within the facility.</p>
+</sec>
+</sec>
+</sec>
+<sec id="S3">
+<title>Results</title>
+<sec id="S3.SS1">
+<title>Overview</title>
+<p>The FEG produced a total of around 268 kg of fresh edible biomass. Most of this food was consumed by the 10 person strong winter-over crew. Small amounts were set aside to perform a wide range of measurements (e.g., dry weight ratio, nitrate content). The fruit crops produced by far the most food (105.4 kg) followed by the lettuce (56.4 kg), leafy greens (49.1 kg), tuber crops (26.8 kg), herbs (12.2 kg), and miscellaneous crops (18.4 kg).</p>
+<p>The evaluation of the inedible biomass was rather complicated, because some of the inedible biomass was harvested wet (e.g., roots and rock wool), some fresh (e.g., radish leaves), and some dry (e.g., withered tomato leaves). Combining all three values into a single figure for all crops was challenging, because the dry biomass ratio was required. In total roughly 11.2 kg of dry inedible biomass (excluding misc. crops) was harvested.</p>
+<p>The following chapters give a detailed overview of the biomass production of each crop species.</p>
+</sec>
+<sec id="S3.SS2">
+<title>Lettuce</title>
+<p>In total 18 cycles of lettuce cultivation were performed in the experiment phase. Between 11 and 15, depending on the lettuce cultivars, of these cycles are valid for evaluation. The remaining cycles have been excluded from evaluation due to various reasons (e.g., extensive sampling of plant material). The four lettuce varieties were always sown and harvested at the same time and cultivated in trays located in the same rack and with the same environmental conditions. Nevertheless, the biomass production varied greatly among the crop varieties, as can be seen in <xref ref-type="table" rid="T3">Table 3</xref>. Waldmann&#x2019;s Green clearly produced the most biomass per tray, followed by Expertise, Outredgeous, and Batavia. Data on the dry weight ratio for edible and inedible biomass can be found in <xref ref-type="table" rid="T4">Table 4</xref> and dry inedible biomass production in <xref ref-type="table" rid="T5">Table 5</xref>.</p>
+<table-wrap position="float" id="T3">
+<label>TABLE 3</label>
+<caption><p>Lettuce edible fresh weight production values.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left"></td>
+<td/>
+<td/>
+<td valign="top" align="center">Edible fresh</td>
+<td valign="top" align="center">Time normalized</td>
+<td valign="top" align="center">Edible fresh</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td valign="top" align="center">Average</td>
+<td valign="top" align="center">weight per</td>
+<td valign="top" align="center">edible fresh weight</td>
+<td valign="top" align="center">weight per</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center">Cycles for</td>
+<td valign="top" align="center">cultivation</td>
+<td valign="top" align="center">cultivation area</td>
+<td valign="top" align="center">per cultivation area</td>
+<td valign="top" align="center">cultivation volume</td>
+</tr>
+<tr>
+<td valign="top" align="left">Crop name</td>
+<td valign="top" align="center">evaluation</td>
+<td valign="top" align="center">cycle length (d)</td>
+<td valign="top" align="center">(kg/m<sup>2</sup>)</td>
+<td valign="top" align="center">(kg/m<sup>2</sup>/d)</td>
+<td valign="top" align="center">(kg/m<sup>3</sup>)</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Batavia</td>
+<td valign="top" align="center">15</td>
+<td valign="top" align="center">38.0</td>
+<td valign="top" align="center">1.56 &#x00B1; 0.12 (0.98&#x2013;2.46)</td>
+<td valign="top" align="center">0.043 &#x00B1; 0.002 (0.028&#x2013;0.059)</td>
+<td valign="top" align="center">1.77&#x2013;4.43</td>
+</tr>
+<tr>
+<td valign="top" align="left">Expertise</td>
+<td valign="top" align="center">15</td>
+<td valign="top" align="center">38.0</td>
+<td valign="top" align="center">2.38 &#x00B1; 0.16 (1.50&#x2013;3.50)</td>
+<td valign="top" align="center">0.065 &#x00B1; 0.003 (0.043&#x2013;0.084)</td>
+<td valign="top" align="center">2.70&#x2013;6.31</td>
+</tr>
+<tr>
+<td valign="top" align="left">Outredgeous</td>
+<td valign="top" align="center">14</td>
+<td valign="top" align="center">37.9</td>
+<td valign="top" align="center">2.10 &#x00B1; 0.15 (1.39&#x2013;2.65)</td>
+<td valign="top" align="center">0.058 &#x00B1; 0.003 (0.038&#x2013;0.072)</td>
+<td valign="top" align="center">2.50&#x2013;4.77</td>
+</tr>
+<tr>
+<td valign="top" align="left">Waldmann&#x2019;s Green</td>
+<td valign="top" align="center">11</td>
+<td valign="top" align="center">37.9</td>
+<td valign="top" align="center">2.77 &#x00B1; 0.30 (1.42&#x2013;4.36)</td>
+<td valign="top" align="center">0.080 &#x00B1; 0.007 (0.037&#x2013;0.115)</td>
+<td valign="top" align="center">2.56&#x2013;7.86</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic>Mean &#x00B1; standard error is given.</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+<table-wrap position="float" id="T4">
+<label>TABLE 4</label>
+<caption><p>Dry weight (DW) ratio values for edible and inedible biomass.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left"></td>
+<td valign="top" align="center">Edible</td>
+<td valign="top" align="center">Inedible</td>
+<td valign="top" align="center">Inedible</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center">biomass</td>
+<td valign="top" align="center">biomass DW</td>
+<td valign="top" align="center">biomass DW</td>
+</tr>
+<tr>
+<td valign="top" align="left">Crop</td>
+<td valign="top" align="center">DW ratio</td>
+<td valign="top" align="center">ratio (roots)</td>
+<td valign="top" align="center">ratio (stems/leaves)</td>
+</tr>
+<tr>
+<td valign="top" align="left">name</td>
+<td valign="top" align="center">(%)</td>
+<td valign="top" align="center">(%)</td>
+<td valign="top" align="center">(%)</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Batavia</td>
+<td valign="top" align="center">5.79 &#x00B1; 0.30</td>
+<td valign="top" align="center">3.90 &#x00B1; 1.26</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 12</td>
+<td valign="top" align="center"><italic>N</italic> = 3</td>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Expertise</td>
+<td valign="top" align="center">6.09 &#x00B1; 0.34</td>
+<td valign="top" align="center">4.57 &#x00B1; 1.18</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 12</td>
+<td valign="top" align="center"><italic>N</italic> = 3</td>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Outredgeous</td>
+<td valign="top" align="center">6.61 &#x00B1; 0.35</td>
+<td valign="top" align="center">4.82 &#x00B1; 0.92</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 12</td>
+<td valign="top" align="center"><italic>N</italic> = 3</td>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Waldmann&#x2019;s Green</td>
+<td valign="top" align="center">6.35 &#x00B1; 0.44</td>
+<td valign="top" align="center">2.69 &#x00B1; 0.29</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 12</td>
+<td valign="top" align="center"><italic>N</italic> = 3</td>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Red Giant</td>
+<td valign="top" align="center">6.09 &#x00B1; 0.13</td>
+<td valign="top" align="center">4.07</td>
+<td valign="top" align="center">6.43</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 17</td>
+<td valign="top" align="center"><italic>N</italic> = 1</td>
+<td valign="top" align="center"><italic>N</italic> = 1</td>
+</tr>
+<tr>
+<td valign="top" align="left">Frizzy Lizzy</td>
+<td valign="top" align="center">6.04 &#x00B1; 0.13</td>
+<td valign="top" align="center">4.07</td>
+<td valign="top" align="center">5.53</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 17</td>
+<td valign="top" align="center"><italic>N</italic> = 1</td>
+<td valign="top" align="center"><italic>N</italic> = 1</td>
+</tr>
+<tr>
+<td valign="top" align="left">Swiss Chard</td>
+<td valign="top" align="center">7.16 &#x00B1; 0.12</td>
+<td valign="top" align="center">10.08 &#x00B1; 3.09</td>
+<td valign="top" align="center">6.26 &#x00B1; 1.74</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 10</td>
+<td valign="top" align="center"><italic>N</italic> = 3</td>
+<td valign="top" align="center"><italic>N</italic> = 4</td>
+</tr>
+<tr>
+<td valign="top" align="left">Arugula</td>
+<td valign="top" align="center">6.52 &#x00B1; 0.40</td>
+<td valign="top" align="center">4.24 &#x00B1; 0.21</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 16</td>
+<td valign="top" align="center"><italic>N</italic> = 6</td>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Mizuna</td>
+<td valign="top" align="center">6.37 &#x00B1; 0.49</td>
+<td valign="top" align="center">Not measured</td>
+<td valign="top" align="center">Not measured</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 3</td>
+<td/>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Basil Dolly</td>
+<td valign="top" align="center">8.64 &#x00B1; 0.31</td>
+<td valign="top" align="center">3.18 &#x00B1; 1.03</td>
+<td valign="top" align="center">6.02 &#x00B1; 2.48</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 19</td>
+<td valign="top" align="center"><italic>N</italic> = 2</td>
+<td valign="top" align="center"><italic>N</italic> = 2</td>
+</tr>
+<tr>
+<td valign="top" align="left">Parsley</td>
+<td valign="top" align="center">10.93 &#x00B1; 0.09</td>
+<td valign="top" align="center">7.15</td>
+<td valign="top" align="center">Not measured</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 10</td>
+<td valign="top" align="center"><italic>N</italic> = 1</td>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Chives</td>
+<td valign="top" align="center">8.84 &#x00B1; 0.10</td>
+<td valign="top" align="center">7.15</td>
+<td valign="top" align="center">Not measured</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 10</td>
+<td valign="top" align="center"><italic>N</italic> = 1</td>
+<td/>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 3496B</td>
+<td valign="top" align="center">12.66 &#x00B1; 0.29</td>
+<td valign="top" align="center">10.21 &#x00B1; 1.16</td>
+<td valign="top" align="center">25.43 &#x00B1; 1.15</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 13</td>
+<td valign="top" align="center"><italic>N</italic> = 4</td>
+<td valign="top" align="center"><italic>N</italic> = 10</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 1202</td>
+<td valign="top" align="center">13.36 &#x00B1; 0.75</td>
+<td valign="top" align="center">9.63 &#x00B1; 1.04</td>
+<td valign="top" align="center">28.35 &#x00B1; 3.94</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 13</td>
+<td valign="top" align="center"><italic>N</italic> = 4</td>
+<td valign="top" align="center"><italic>N</italic> = 10</td>
+</tr>
+<tr>
+<td valign="top" align="left">Cucumber Picowell</td>
+<td valign="top" align="center">4.43 &#x00B1; 0.13</td>
+<td valign="top" align="center">3.20 &#x00B1; 0.39</td>
+<td valign="top" align="center">16.51 &#x00B1; 0.88</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 18</td>
+<td valign="top" align="center"><italic>N</italic> = 4</td>
+<td valign="top" align="center"><italic>N</italic> = 11</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Raxe</td>
+<td valign="top" align="center">5.79 &#x00B1; 0.17</td>
+<td valign="top" align="center">0.59 &#x00B1; 0.06</td>
+<td valign="top" align="center">8.09 &#x00B1; 0.35</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 15</td>
+<td valign="top" align="center"><italic>N</italic> = 3</td>
+<td valign="top" align="center"><italic>N</italic> = 18</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Lennox</td>
+<td valign="top" align="center">Not measured</td>
+<td valign="top" align="center">Not measured</td>
+<td valign="top" align="center">Not measured</td>
+</tr>
+<tr>
+<td valign="top" align="left">Kohlrabi</td>
+<td valign="top" align="center">7.17 &#x00B1; 0.35</td>
+<td valign="top" align="center">3.78 &#x00B1; 0.51</td>
+<td valign="top" align="center">Leaves:</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 5</td>
+<td valign="top" align="center"><italic>N</italic> = 4</td>
+<td valign="top" align="center">9.49 &#x00B1; 0.26</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 8</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td/>
+<td valign="top" align="center">Skin:</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td/>
+<td valign="top" align="center">7.97 &#x00B1; 0.28</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td/>
+<td valign="top" align="center"><italic>N</italic> = 6</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic>Mean &#x00B1; standard error is given.</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+<table-wrap position="float" id="T5">
+<label>TABLE 5</label>
+<caption><p>Inedible biomass production overview.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left">Crop</td>
+<td valign="top" align="center">Roots</td>
+<td valign="top" align="center">Stems and</td>
+</tr>
+<tr>
+<td valign="top" align="left">name</td>
+<td valign="top" align="center">DW</td>
+<td valign="top" align="center">leaves DW</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Batavia</td>
+<td valign="top" align="center">8.9&#x2013;34.2 g/m<sup>2</sup> (<italic>N</italic> = 3)</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Expertise</td>
+<td valign="top" align="center">20.5&#x2013;37.9 g/m<sup>2</sup> (<italic>N</italic> = 3)</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Outredgeous</td>
+<td valign="top" align="center">21.1&#x2013;38.5 g/m<sup>2</sup> (<italic>N</italic> = 3)</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Waldmann&#x2019;s Green</td>
+<td valign="top" align="center">11.3&#x2013;22.9 g/m<sup>2</sup> (<italic>N</italic> = 3)</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Red Giant</td>
+<td valign="top" align="center">42.0 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+<td valign="top" align="center">75.6 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+</tr>
+<tr>
+<td valign="top" align="left">Frizzy Lizzy</td>
+<td valign="top" align="center">42.0 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+<td valign="top" align="center">20.8 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+</tr>
+<tr>
+<td valign="top" align="left">Swiss Chard</td>
+<td valign="top" align="center">21.8&#x2013;47.0 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+<td valign="top" align="center">81.4&#x2013;94.4 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+</tr>
+<tr>
+<td valign="top" align="left">Arugula (initial light intensity)</td>
+<td valign="top" align="center">Not measured</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Arugula (higher light intensity)</td>
+<td valign="top" align="center">21.3&#x2013;58.8 g/m<sup>2</sup> (<italic>N</italic> = 6)</td>
+<td valign="top" align="center">n.a.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Mizuna</td>
+<td valign="top" align="center">Not measured</td>
+<td valign="top" align="center">Not measured</td>
+</tr>
+<tr>
+<td valign="top" align="left">Basil Dolly</td>
+<td valign="top" align="center">76.5&#x2013;127.1 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+<td valign="top" align="center">179.3&#x2013;252.1 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+</tr>
+<tr>
+<td valign="top" align="left">Parsley</td>
+<td valign="top" align="center">146.3 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+<td valign="top" align="center">113.4 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+</tr>
+<tr>
+<td valign="top" align="left">Chives</td>
+<td valign="top" align="center">146.3 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+<td valign="top" align="center">1033.5 g/m<sup>2</sup> (<italic>N</italic> = 1)</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 3496B</td>
+<td valign="top" align="center">1411&#x2013;1713 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+<td valign="top" align="center">Erroneous measurement</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 1202</td>
+<td valign="top" align="center">1153&#x2013;1567 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+<td valign="top" align="center">Erroneous measurement</td>
+</tr>
+<tr>
+<td valign="top" align="left">Cucumber Picowell</td>
+<td valign="top" align="center">93.8&#x2013;133.5 g/m<sup>2</sup> (<italic>N</italic> = 4)</td>
+<td valign="top" align="center">Erroneous measurement</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Raxe</td>
+<td valign="top" align="center">96.4&#x2013;99.4 g/m<sup>2</sup> (<italic>N</italic> = 3)</td>
+<td valign="top" align="center">89.0&#x2013;123.5 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Lennox</td>
+<td valign="top" align="center">Not measured</td>
+<td valign="top" align="center">Not measured</td>
+</tr>
+<tr>
+<td valign="top" align="left">Kohlrabi</td>
+<td valign="top" align="center">27.8&#x2013;51.0 g/m<sup>2</sup> (<italic>N</italic> = 3)</td>
+<td valign="top" align="center">198.4&#x2013;253.3 g/m<sup>2</sup> (<italic>N</italic> = 2)</td>
+</tr>
+</tbody>
+</table></table-wrap>
+<p>For all lettuce varieties a large variance between batches could be observed and this is also visible in the values of the standard error. There was a decline in biomass harvest roughly in the mid of the season. The productivity of the batches harvested in June and July was less than half of the maximum value.</p>
+</sec>
+<sec id="S3.SS3">
+<title>Leafy Greens</title>
+<p>Five different leafy greens were cultivated. Arugula was harvested in batches, while the other leafy greens (red mustard, swiss chard, and mizuna) were spread harvested. Furthermore, arugula was cultivated with two different light settings. <xref ref-type="table" rid="T6">Table 6</xref> shows the biomass production values of all leafy greens. Mizuna and arugula (high light intensity, 600 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at 16 cm height) performed best followed by Swiss chard, both red mustard varieties and arugula (low light intensity, 330 &#x03BC;mol/(m<sup>2&#x002A;</sup>s) at 16 cm height) which all had a similar output. Due to the batch harvesting of arugula and the availability of two trays for simultaneous cultivation 17 cycles are available for evaluation. For the other leafy greens, only between 1 and 3 cycles, depending on the cultivar, of data are available. Data on the dry weight ratio for edible and inedible biomass can be found in <xref ref-type="table" rid="T4">Table 4</xref> and dry inedible biomass production in <xref ref-type="table" rid="T5">Table 5</xref>.</p>
+<table-wrap position="float" id="T6">
+<label>TABLE 6</label>
+<caption><p>Leafy greens edible fresh weight production values.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left"></td>
+<td/>
+<td/>
+<td valign="top" align="center">Edible fresh</td>
+<td valign="top" align="center">Time normalized</td>
+<td valign="top" align="center">Edible fresh</td>
+</tr>
+<tr>
+<td valign="top" align="justify"/>
+<td/>
+<td valign="top" align="center">Average</td>
+<td valign="top" align="center">weight per</td>
+<td valign="top" align="center">edible fresh weight</td>
+<td valign="top" align="center">weight per cultivation</td>
+</tr>
+<tr>
+<td valign="top" align="justify"/>
+<td valign="top" align="center">Cycles for</td>
+<td valign="top" align="center">cultivation</td>
+<td valign="top" align="center">cultivation area</td>
+<td valign="top" align="center">per cultivation area</td>
+<td valign="top" align="center">volume</td>
+</tr>
+<tr>
+<td valign="top" align="left">Crop name</td>
+<td valign="top" align="center">evaluation</td>
+<td valign="top" align="center">cycle length (d)</td>
+<td valign="top" align="center">(kg/m<sup>2</sup>)</td>
+<td valign="top" align="center">(kg/m<sup>2</sup>/d)</td>
+<td valign="top" align="center">(kg/m<sup>3</sup>)</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Arugula (initial light intensity, 330 &#x03BC;mol/(m<sup>2</sup>&#x002A;s) at 16 cm height)</td>
+<td valign="top" align="center">9</td>
+<td valign="top" align="center">24.2</td>
+<td valign="top" align="center">3.05 &#x00B1; 0.27 (1.87&#x2013;4.34)</td>
+<td valign="top" align="center">0.111 &#x00B1; 0.007 (0.078&#x2013;0.140)</td>
+<td valign="top" align="center">3.37&#x2013;7.82</td>
+</tr>
+<tr>
+<td valign="top" align="left">Arugula (higher light intensity, 600 &#x03BC;mol/(m<sup>2</sup>&#x002A;s) at 16 cm height)</td>
+<td valign="top" align="center">8</td>
+<td valign="top" align="center">29.0</td>
+<td valign="top" align="center">5.49 &#x00B1; 0.40 (4.13&#x2013;6.90)</td>
+<td valign="top" align="center">0.188 &#x00B1; 0.011 (0.153&#x2013;0.222)</td>
+<td valign="top" align="center">7.44&#x2013;12.43</td>
+</tr>
+<tr>
+<td valign="top" align="left">Swiss Chard</td>
+<td valign="top" align="center">3</td>
+<td valign="top" align="center">90.0</td>
+<td valign="top" align="center">9.26 &#x00B1; 1.13 (7.35&#x2013;11.28)</td>
+<td valign="top" align="center">0.102 &#x00B1; 0.010 (0.088&#x2013;0.121)</td>
+<td valign="top" align="center">13.24&#x2013;20.32</td>
+</tr>
+<tr>
+<td valign="top" align="left">Red Giant</td>
+<td valign="top" align="center">3</td>
+<td valign="top" align="center">82.7</td>
+<td valign="top" align="center">10.78 &#x00B1; 0.52 (8.73&#x2013;11.96)</td>
+<td valign="top" align="center">0.130 &#x00B1; 0.004 (0.106&#x2013;0.145)</td>
+<td valign="top" align="center">15.72&#x2013;21.54</td>
+</tr>
+<tr>
+<td valign="top" align="left">Frizzy Lizzy</td>
+<td valign="top" align="center">3</td>
+<td valign="top" align="center">82.7</td>
+<td valign="top" align="center">8.93 &#x00B1; 0.48 (7.11&#x2013;10.37)</td>
+<td valign="top" align="center">0.107 &#x00B1; 0.005 (0.086&#x2013;0.125)</td>
+<td valign="top" align="center">12.80&#x2013;18.70</td>
+</tr>
+<tr>
+<td valign="top" align="left">Mizuna</td>
+<td valign="top" align="center">1</td>
+<td valign="top" align="center">119.0</td>
+<td valign="top" align="center">23.11</td>
+<td valign="top" align="center">0.194</td>
+<td valign="top" align="center">41.64</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic>Mean &#x00B1; standard error is given.</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+</sec>
+<sec id="S3.SS4">
+<title>Herbs</title>
+<p>Basil, chives, and parsley were cultivated during the experiment phase. All herbs were spread harvested. Parsley and chives were grown for almost the complete duration of the experiment phase (266 out of 286 days). Basil had to be removed from the trays and sown anew regularly, because the plants grew rapidly, reaching up to the LED lamps after several weeks. Four cycles of basil were grown of which two are suitable for data evaluation. The other two had to be excluded because the first cycle used an inappropriate growing procedure and the last cycle was too short. The three herbs have a similar production rate of edible biomass with parsley and basil being slightly ahead of chives. The biomass production data for the herbs can be found in <xref ref-type="table" rid="T7">Table 7</xref>. Data on the dry weight ratio for edible and inedible biomass can be found in <xref ref-type="table" rid="T4">Table 4</xref> and dry inedible biomass production in <xref ref-type="table" rid="T5">Table 5</xref>.</p>
+<table-wrap position="float" id="T7">
+<label>TABLE 7</label>
+<caption><p>Herbs edible fresh weight production values.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left"></td>
+<td/>
+<td valign="top" align="center">Average</td>
+<td valign="top" align="center">Edible fresh</td>
+<td valign="top" align="center">Time normalized</td>
+<td valign="top" align="center">Edible fresh</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td valign="top" align="center">cultivation</td>
+<td valign="top" align="center">weight per</td>
+<td valign="top" align="center">edible fresh weight</td>
+<td valign="top" align="center">weight per</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center">Cycles for</td>
+<td valign="top" align="center">cycle</td>
+<td valign="top" align="center">cultivation</td>
+<td valign="top" align="center">per cultivation</td>
+<td valign="top" align="center">cultivation</td>
+</tr>
+<tr>
+<td valign="top" align="left">Crop name</td>
+<td valign="top" align="center">evaluation</td>
+<td valign="top" align="center">length (d)</td>
+<td valign="top" align="center">area (kg/m<sup>2</sup>)</td>
+<td valign="top" align="center">area (kg/m<sup>2</sup>/d)</td>
+<td valign="top" align="center">volume (kg/m<sup>3</sup>)</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Basil</td>
+<td valign="top" align="center">2</td>
+<td valign="top" align="center">121.0</td>
+<td valign="top" align="center">7.30 &#x00B1; 0.93 (6.37&#x2013;8.22)</td>
+<td valign="top" align="center">0.060 &#x00B1; 0.008 (0.052&#x2013;0.069)</td>
+<td valign="top" align="center">11.48&#x2013;14.81</td>
+</tr>
+<tr>
+<td valign="top" align="left">Chives</td>
+<td valign="top" align="center">1</td>
+<td valign="top" align="center">266.0</td>
+<td valign="top" align="center">13.97</td>
+<td valign="top" align="center">0.053</td>
+<td valign="top" align="center">25.17</td>
+</tr>
+<tr>
+<td valign="top" align="left">Parsley</td>
+<td valign="top" align="center">1</td>
+<td valign="top" align="center">266.0</td>
+<td valign="top" align="center">16.46</td>
+<td valign="top" align="center">0.062</td>
+<td valign="top" align="center">29.66</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic>Mean &#x00B1; standard error is given.</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+</sec>
+<sec id="S3.SS5">
+<title>Fruit Crops</title>
+<p>Fruit crops produced the most edible biomass during the experiment phase. Especially the cucumber showed an exceptional productivity of more than 100 g/(tray<sup>&#x2217;</sup>d) and consequently contributed the most edible biomass of all cultivated crop species. The two dwarf tomato varieties show a similar productivity, with the orange tomato being slightly lower than the red one. The tomato plants were grown in a single cycle lasting the full experimental phase, while the cucumber plants were grown in two cycles. The biomass production data for the fruit crops can be found in <xref ref-type="table" rid="T8">Table 8</xref>. Data on the dry weight ratio for edible and inedible biomass can be found in <xref ref-type="table" rid="T4">Table 4</xref> and dry inedible biomass production in <xref ref-type="table" rid="T5">Table 5</xref>.</p>
+<table-wrap position="float" id="T8">
+<label>TABLE 8</label>
+<caption><p>Fruit crops edible fresh weight production values.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left"></td>
+<td/>
+<td valign="top" align="center">Average</td>
+<td valign="top" align="center">Average</td>
+<td valign="top" align="center">Edible fresh</td>
+<td valign="top" align="center">Time normalized</td>
+<td valign="top" align="center">Edible fresh</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td valign="top" align="center">cultivation</td>
+<td valign="top" align="center">fruit per</td>
+<td valign="top" align="center">weight per</td>
+<td valign="top" align="center">edible fresh weight</td>
+<td valign="top" align="center">weight per</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="center">Cycles for</td>
+<td valign="top" align="center">cycle</td>
+<td valign="top" align="center">cycle per</td>
+<td valign="top" align="center">cultivation</td>
+<td valign="top" align="center">per cultivation</td>
+<td valign="top" align="center">cultivation</td>
+</tr>
+<tr>
+<td valign="top" align="left">Crop name</td>
+<td valign="top" align="center">evaluation</td>
+<td valign="top" align="center">length (d)</td>
+<td valign="top" align="center">tray</td>
+<td valign="top" align="center">area (kg/m<sup>2</sup>)</td>
+<td valign="top" align="center">area (kg/m<sup>2</sup>/d)</td>
+<td valign="top" align="center">volume (kg/m<sup>3</sup>)</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Tomato F1 3689B</td>
+<td valign="top" align="center">2</td>
+<td valign="top" align="center">286.0</td>
+<td valign="top" align="center">994</td>
+<td valign="top" align="center">13.06 &#x00B1; 0.00 (13.06&#x2013;13.07)</td>
+<td valign="top" align="center">0.046 &#x00B1; 0.000 (0.046&#x2013;0.046)</td>
+<td valign="top" align="center">11.82&#x2013;11.83</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 1202</td>
+<td valign="top" align="center">2</td>
+<td valign="top" align="center">286.0</td>
+<td valign="top" align="center">1372</td>
+<td valign="top" align="center">14.90 &#x00B1; 1.84 (13.06&#x2013;16.78)</td>
+<td valign="top" align="center">0.052 &#x00B1; 0.006 (0.046&#x2013;0.059)</td>
+<td valign="top" align="center">11.82&#x2013;15.19</td>
+</tr>
+<tr>
+<td valign="top" align="left">Cucumber Picowell</td>
+<td valign="top" align="center">4</td>
+<td valign="top" align="center">161.0</td>
+<td valign="top" align="center">208</td>
+<td valign="top" align="center">50.88 &#x00B1; 4.38 (41.70&#x2013;59.98)</td>
+<td valign="top" align="center">0.321 &#x00B1; 0.041 (0.241&#x2013;0.403)</td>
+<td valign="top" align="center">18.45&#x2013;26.54</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic>Mean &#x00B1; standard error is given.</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+</sec>
+<sec id="S3.SS6">
+<title>Tuber Crops</title>
+<p>Tuber crops (radish and kohlrabi) were harvested in batches. 20 batches of radishes were grown during the experiment phase, 10 of each variety. Of those 20 batches, 19 were suitable for evaluation. One batch had to be excluded from evaluation due to extensive sampling of plant material for microbial and matter analyses (e.g., nitrate content, antioxidants). Furthermore, seven batches of kohlrabi were grown. Kohlrabi produced more biomass per cultivation area and time normalized than radish. The biomass production data for the fruit crops can be found in <xref ref-type="table" rid="T9">Table 9</xref>. Data on the dry weight ratio for edible and inedible biomass can be found in <xref ref-type="table" rid="T4">Table 4</xref> and dry inedible biomass production in <xref ref-type="table" rid="T5">Table 5</xref>.</p>
+<table-wrap position="float" id="T9">
+<label>TABLE 9</label>
+<caption><p>Tuber crops edible fresh weight production values.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left"></td>
+<td/>
+<td valign="top" align="left">Average</td>
+<td valign="top" align="left">Edible fresh</td>
+<td valign="top" align="left">Time normalized</td>
+<td valign="top" align="left">Edible fresh</td>
+</tr>
+<tr>
+<td/>
+<td/>
+<td valign="top" align="left">cultivation</td>
+<td valign="top" align="left">weight per</td>
+<td valign="top" align="left">edible fresh weight</td>
+<td valign="top" align="left">weight per</td>
+</tr>
+<tr>
+<td/>
+<td valign="top" align="left">Cycles for</td>
+<td valign="top" align="left">cycle</td>
+<td valign="top" align="left">cultivation</td>
+<td valign="top" align="left">per cultivation</td>
+<td valign="top" align="left">cultivation</td>
+</tr>
+<tr>
+<td valign="top" align="left">Crop name</td>
+<td valign="top" align="left">evaluation</td>
+<td valign="top" align="left">length (d)</td>
+<td valign="top" align="left">area (kg/m<sup>2</sup>)</td>
+<td valign="top" align="left">area (kg/m<sup>2</sup>/d)</td>
+<td valign="top" align="left">volume (kg/m<sup>3</sup>)</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Radish Raxe</td>
+<td valign="top" align="left">10</td>
+<td valign="top" align="left">22.6</td>
+<td valign="top" align="left">1.82 &#x00B1; 0.24 (1.10&#x2013;3.21)</td>
+<td valign="top" align="left">0.078 &#x00B1; 0.009 (0.044&#x2013;0.119)</td>
+<td valign="top" align="left">1.98&#x2013;5.78</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Lennox</td>
+<td valign="top" align="left">9</td>
+<td valign="top" align="left">23.0</td>
+<td valign="top" align="left">1.33 &#x00B1; 0.06 (1.07&#x2013;1.68)</td>
+<td valign="top" align="left">0.059 &#x00B1; 0.002 (0.045&#x2013;0.068)</td>
+<td valign="top" align="left">1.93&#x2013;3.03</td>
+</tr>
+<tr>
+<td valign="top" align="left">Kohlrabi</td>
+<td valign="top" align="left">6</td>
+<td valign="top" align="left">58.71</td>
+<td valign="top" align="left">8.11 &#x00B1; 0.81 (5.74&#x2013;10.58)</td>
+<td valign="top" align="left">0.141 &#x00B1; 0.008 (0.113&#x2013;0.165)</td>
+<td valign="top" align="left">10.34&#x2013;19.06</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic>Mean &#x00B1; standard error is given.</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+</sec>
+</sec>
+<sec id="S4">
+<title>Discussion</title>
+<p>During the 286-day operational phase in 2018 the EDEN ISS MTF produced 268 kg of fresh edible biomass, which is a good result for the first year of operation. The production rate was 21.44 kg/m<sup>2</sup>. This results in a time normalized production rate of 0.075 kg/(m<sup>2&#x002A;</sup>d). The pepper plants did only produce small amounts of fruit in the 2018 EDEN ISS season, but took up 11% of the cultivation area. When correcting the overall production of EDEN ISS by removing the pepper plants from the calculation the edible fresh biomass production rate increases to 0.089 kg/(m<sup>2&#x002A;</sup>d). The South Pole Food Growth Chamber (SPFGC), an indoor plant cultivation room at the American South Pole Station (<xref ref-type="bibr" rid="B15">Patterson et al., 2008</xref>), had a production rate of 0.130 kg/(m<sup>2&#x002A;</sup>d) in 2006 (<xref ref-type="bibr" rid="B14">Patterson et al., 2012</xref>). The SPGFC mainly produced lettuce (32% of total fresh edible biomass) and cucumber (41%) and only small amounts of herbs (6%), tomato (4%), and other crops (17%). Whereas the distribution in EDEN ISS in 2018 was 21% lettuce, 18% leafy greens, 25% cucumber, 5% herbs, 14% tomato, 10% tuber vegetables and 7% other crops. Since cucumber have the highest production rate per unit area and time, the higher ratio of cucumber in the SPFGC harvest can explain the better overall production rate of fresh edible biomass compared to EDEN ISS to some degree.</p>
+<p>Plant cultivation experiments have been conducted by an EDEN ISS project partner in advance of the Antarctic experimental campaign (<xref ref-type="bibr" rid="B12">Meinen et al., 2018</xref>). When comparing the results from Antarctica with the experiments conducted in plant growth chambers in Europe, the yield per unit time and cultivation area of lettuce was higher in Antarctica than in the experiments in Europe. The yield of the red mustard frizzy lizzy, Swiss chard, parsley and chives was better in the plant growth chambers in Europe than in Antarctica, but the plant density in those experiments was much higher.</p>
+<p>The yield of lettuce was better than (<xref ref-type="bibr" rid="B17">Richards et al., 2004b</xref>; <xref ref-type="bibr" rid="B8">Edney et al., 2006</xref>) or equal to (<xref ref-type="bibr" rid="B16">Richards et al., 2004a</xref>) some other experiments, but only half as good as the values achieved by the BPC (<xref ref-type="bibr" rid="B25">Wheeler et al., 2008</xref>). No reliable reference data could be found for the leafy greens mizuna and the red mustard red giant. This is also the issue with the cultivated herbs basil, parsley and chives for which the only comparison that could be made was with the preparatory experiments of the project (<xref ref-type="bibr" rid="B12">Meinen et al., 2018</xref>). The dwarf tomato yield was basically equal to experiments with similar cultivars (<xref ref-type="bibr" rid="B21">Spencer et al., 2019</xref>; <xref ref-type="bibr" rid="B23">Wang et al., 2019</xref>), but smaller compared to the BPC results (<xref ref-type="bibr" rid="B25">Wheeler et al., 2008</xref>) which were most likely done with normal sized tomato crops. The yield of the EDEN ISS cucumber cultivation was better compared to the experiments with this crop in Lunar Palace 1 (<xref ref-type="bibr" rid="B9">Fu et al., 2016</xref>). The comparisons between the results from the experiment campaign in Antarctica in 2018 to other experiments are summarized in <xref ref-type="table" rid="T10">Table 10</xref>.</p>
+<table-wrap position="float" id="T10">
+<label>TABLE 10</label>
+<caption><p>Comparison of EDEN ISS time normalized edible fresh biomass production rate to the results of experiments by other scientists.</p></caption>
+<table cellspacing="5" cellpadding="5" frame="hsides" rules="groups">
+<thead>
+<tr>
+<td valign="top" align="left">Crop name</td>
+<td valign="top" align="center">EDEN ISS [kg/(m<sup>2</sup>&#x002A;d)]</td>
+<td valign="top" align="left">Experiments by other scientists [kg/(m<sup>2</sup>&#x002A;d)]</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td valign="top" align="left">Batavia</td>
+<td valign="top" align="center">0.043</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.033; same environmental conditions.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Expertise</td>
+<td valign="top" align="center">0.065</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.051; same environmental conditions.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Outredgeous</td>
+<td valign="top" align="center">0.058</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.040; same environmental conditions. <xref ref-type="bibr" rid="B17">Richards et al. (2004b)</xref>: 0.036<sup>2</sup>; 25&#x00B0;C, 65% rh, 1200 ppm CO<sub>2</sub>, 300 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 16 h photoperiod.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Waldmann&#x2019;s Green</td>
+<td valign="top" align="center">0.080</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B25">Wheeler et al. (2008)</xref>: 0.161<sup>2</sup>; 23&#x00B0;C, 65&#x2013;75% rh, 1000&#x2013;1200 ppm CO<sub>2</sub>, 280&#x2013;336 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 16 h photoperiod.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Other lettuce types</td>
+<td valign="top" align="center">n.a.</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B8">Edney et al. (2006)</xref>, Flandria type: 0.029<sup>2</sup>; 22&#x00B0;C, 50% rh 1200 ppm CO<sub>2</sub>, 300 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 16 h photoperiod. <xref ref-type="bibr" rid="B16">Richards et al. (2004a)</xref>, Flandria type: 0.063; 25&#x00B0;C, 50% rh, 1200 ppm CO<sub>2</sub>, 300 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 16 h photoperiod.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Red Giant</td>
+<td valign="top" align="center">0.130</td>
+<td valign="top" align="left">No reference literature found</td>
+</tr>
+<tr>
+<td valign="top" align="left">Frizzy Lizzy</td>
+<td valign="top" align="center">0.107</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.322; same environmental conditions, but 10 times higher plant density.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Swiss Chard</td>
+<td valign="top" align="center">0.102</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.377; same environmental conditions, but 10 times higher plant density.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Arugula (initial light intensity)</td>
+<td valign="top" align="center">0.111</td>
+<td valign="top" align="justify"/>
+</tr>
+<tr>
+<td valign="top" align="left">Arugula (higher light intensity)</td>
+<td valign="top" align="center">0.188</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.162; same environmental conditions.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Mizuna</td>
+<td valign="top" align="center">0.194</td>
+<td valign="top" align="left">No reference literature found</td>
+</tr>
+<tr>
+<td valign="top" align="left">Other leafy greens</td>
+<td valign="top" align="center">n.a.</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B9">Fu et al. (2016)</xref><sup>1</sup>: 0.100; 500 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), no values for temperature, rh, CO<sub>2</sub> and photoperiod given.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Basil Dolly</td>
+<td valign="top" align="center">0.060</td>
+<td valign="top" align="left">No reference literature found</td>
+</tr>
+<tr>
+<td valign="top" align="left">Parsley</td>
+<td valign="top" align="center">0.062</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.143; same environmental conditions, but 3 times higher plant density.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Chives</td>
+<td valign="top" align="center">0.053</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.052; same environmental conditions.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 3496B</td>
+<td valign="top" align="center">0.046</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B23">Wang et al. (2019)</xref>: 0.048; 25&#x00B0;C, 70% rh, 400 ppm CO<sub>2</sub>, 250 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 14 h photoperiod. <xref ref-type="bibr" rid="B21">Spencer et al. (2019)</xref>: 0.049; 22&#x00B0;C, 60% rh, 1507 ppm CO<sub>2</sub>, 324 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 16 h photoperiod. <xref ref-type="bibr" rid="B11">Masuda et al. (2005)</xref>: 0.028; 330 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), no values for temperature, rh, CO<sub>2</sub> and photoperiod given. <xref ref-type="bibr" rid="B25">Wheeler et al. (2008)</xref>: 0.075<sup>2</sup>; 26&#x00B0;C, 65&#x2013;75% rh, 1000&#x2013;1200 ppm CO<sub>2</sub>, 549&#x2013;893 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 12 h photoperiod.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Tomato F1 1202</td>
+<td valign="top" align="center">0.052</td>
+<td valign="top" align="justify"/>
+</tr>
+<tr>
+<td valign="top" align="left">Cucumber Picowell</td>
+<td valign="top" align="center">0.321</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B9">Fu et al. (2016)</xref>: 0.228<sup>3</sup>; 500 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), no values for temperature, rh, CO<sub>2</sub> and photoperiod given.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Raxe</td>
+<td valign="top" align="center">0.078</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B12">Meinen et al. (2018)</xref>: 0.058; same environmental conditions. <xref ref-type="bibr" rid="B8">Edney et al. (2006)</xref>: 0.203<sup>4</sup>; 22&#x00B0;C, 50% rh 1200 ppm CO<sub>2</sub>, 300 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), 16 h photoperiod.</td>
+</tr>
+<tr>
+<td valign="top" align="left">Radish Lennox</td>
+<td valign="top" align="center">0.059</td>
+<td valign="top" align="justify"/>
+</tr>
+<tr>
+<td valign="top" align="left">Kohlrabi</td>
+<td valign="top" align="center">0.141</td>
+<td valign="top" align="left"><xref ref-type="bibr" rid="B11">Masuda et al. (2005)</xref>: 0.121; 330 &#x03BC;mol/(m<sup>2</sup>&#x002A;s), no values for temperature, rh, CO<sub>2</sub> and photoperiod given.</td>
+</tr>
+</tbody>
+</table>
+<table-wrap-foot>
+<attrib><italic><sup>1</sup>Reference lists dry mass production rate, which was converted assuming 6.0% dry matter content of fresh biomass. The dry mass content is based on EDEN ISS measurements. <sup>2</sup>Reference lists dry mass production rate, which was converted assuming 13% dry matter content of fresh biomass. The dry mass content is based on EDEN ISS measurements. <sup>3</sup>Reference lists dry mass production rate, which was converted assuming 4.4% dry matter content of fresh biomass. The dry mass content is based on EDEN ISS measurements. <sup>4</sup>Reference lists dry mass production rate, which was converted assuming 5.8% dry matter content of fresh biomass. The dry mass content is based on EDEN ISS measurements.</italic></attrib>
+</table-wrap-foot>
+</table-wrap>
+<p>The FAOSTAT database, maintained by the United Nations Food Agriculture Organization, is a collection of yield values for a variety of commercially grown crops. This database can be filtered by crops and countries or regions of interest. Three crop categories similar to the EDEN ISS are found in the database: cucumbers/gherkins, tomatoes and lettuce/chicory. When looking on the FAOSTAT data for 2017 and setting the country to the Netherlands, the most effective producer of vegetables, one gets a yearly production of 68.97, 50.84, and 3.11 kg/m<sup>2</sup> for cucumbers/gherkins, tomatoes and lettuce/chicory, respectively. The EDEN ISS values for the 2018 season converted to a yearly production are 122.99 kg/m<sup>2</sup> cucumbers, 19.70 kg/m<sup>2</sup> tomatoes and 36.11 kg/m<sup>2</sup> lettuce. When comparing the values EDEN ISS production is much higher for cucumbers and lettuce, but only around 40% for tomatoes. The difference in tomato production is most likely caused by the decision to grow less-effective dwarf tomato cultivars instead of normal sized high-productive tomatoes, while the much higher yield of cucumbers and lettuce can be explained by the absence of seasonal temperature and illumination changes which affect conventional greenhouse farming.</p>
+</sec>
+<sec id="S5">
+<title>Summary</title>
+<p>During the 9 month long experiment campaign of the international EDEN ISS space greenhouse analog project in Antarctica a wide range of vegetables were cultivated. These crop species are also candidates for greenhouses on future human spaceflight missions. The plants were cultivated in a closed, controlled environment using an aeroponic system and LED illumination. The on-site operator in 2018 harvested more than 268 kg of fresh food from the 12.5 m<sup>2</sup> cultivation area of the EDEN ISS greenhouse. A description of the cultivation conditions is part of this paper. Detailed production values (edible and inedible biomass) for each crop species are shown in this paper as well as dry biomass ratios. Comparisons of the EDEN ISS yield from 2018 to other experiments are made.</p>
+<p>The EDEN ISS MTF is the newest and most state-of-the-art space greenhouse analog experiment currently ongoing. The dataset presented in this paper can be of value to compare future experiments to and also for simulation and modeling efforts of space greenhouses. Furthermore, this first EDEN ISS biomass production data set states the beginning of a series of experimental seasons in Antarctica, which will continuously be recorded and published over the next years. One unique aspect of this research was the cultivation of all crops together in the same space under the same conditions. Although, this means that the conditions were not optimal for each cultivar, this is closer to how crop cultivation is going to be done in near-term space greenhouses, in which environmentally separated compartments for each crop are too costly and technically complex. This is in opposition to most laboratory experiments, in which crops are grown under optimal conditions.</p>
+</sec>
+<sec id="S6">
+<title>Data Availability Statement</title>
+<p>The datasets generated for this study are available on request to the corresponding author.</p>
+</sec>
+<sec id="S7">
+<title>Author Contributions</title>
+<p>PZ was the on-site operator of the EDEN ISS greenhouse in Antarctica during the experiment campaign, which means he was responsible for the plant cultivation and measurements, also worked on the materials and method part of the manuscript (section Materials and Methods), and on the data evaluation (section Results and Discussion). CZ, VV, MD, and DS were assisting the experiments from the mission control centre in Germany providing technical support and horticulture expertise. VV and DS provided input on the materials and method part of the manuscript (section Materials and Methods). DS was the project manager of EDEN ISS.</p>
+</sec>
+<sec id="conf1">
+<title>Conflict of Interest</title>
+<p>The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.</p>
+</sec>
+</body>
+<back>
+<fn-group>
+<fn fn-type="financial-disclosure">
+<p><bold>Funding.</bold> The EDEN ISS project has received funding from the European Union&#x2019;s Horizon 2020 Research and Innovation program under grant agreement No 636501.</p>
+</fn>
+</fn-group>
+<ack>
+<p>We are grateful for the work of all EDEN ISS project partners over the past 5 years. The project involved more than 60 scientists, engineers and administrative personnel from 14 partners in research, industry and education located in eight different countries.</p>
+</ack>
+<sec id="S10" sec-type="supplementary material"><title>Supplementary Material</title>
+<p>The Supplementary Material for this article can be found online at: <ext-link ext-link-type="uri" xlink:href="https://www.frontiersin.org/articles/10.3389/fpls.2020.00656/full#supplementary-material">https://www.frontiersin.org/articles/10.3389/fpls.2020.00656/full#supplementary-material</ext-link></p>
+<supplementary-material xlink:href="Table_1.DOCX" id="SM1" mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+</sec>
+<ref-list>
+<title>References</title>
+<ref id="B1"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Poulet</surname> <given-names>L.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Kohlberg</surname> <given-names>E.</given-names></name><etal/></person-group> (<year>2014</year>). &#x201C;<article-title>Design of a containerized greenhouse module for deployment to the Neumayer III Antarctic Station</article-title>,&#x201D; in <source><italic>Proceedings of the 44th International Conference on Environmental Systems</italic></source>, <publisher-loc>Tucson</publisher-loc>.</citation></ref>
+<ref id="B2"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Vrakking</surname> <given-names>V.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Kohlberg</surname> <given-names>E.</given-names></name><etal/></person-group> (<year>2016</year>). &#x201C;<article-title>Early Trade-offs and top-level design drivers for antarctic greenhouses and plant production facilities</article-title>,&#x201D; in <source><italic>Proceedings of the 46th International Conference on Environmental Systems</italic></source>, <publisher-loc>Piscataway, NJ</publisher-loc>.</citation></ref>
+<ref id="B3"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Boscheri</surname> <given-names>G.</given-names></name> <name><surname>Guarnieri</surname> <given-names>V.</given-names></name> <name><surname>Iacopini</surname> <given-names>C.</given-names></name> <name><surname>Locantore</surname> <given-names>I.</given-names></name> <name><surname>Lamantea</surname> <given-names>M.</given-names></name> <name><surname>Lobascio</surname> <given-names>C.</given-names></name><etal/></person-group> (<year>2016</year>). &#x201C;<article-title>The EDEN ISS rack-like plant growth facility</article-title>,&#x201D; in <source><italic>Proceedings of the 46th International Conference on Environmental Systems</italic></source>, <publisher-loc>Piscataway, NJ</publisher-loc>.</citation></ref>
+<ref id="B4"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Boscheri</surname> <given-names>G.</given-names></name> <name><surname>Volponi</surname> <given-names>M.</given-names></name> <name><surname>Lamantea</surname> <given-names>M.</given-names></name> <name><surname>Lobascio</surname> <given-names>C.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Zabel</surname> <given-names>P.</given-names></name></person-group> (<year>2017</year>). &#x201C;<article-title>Main performance results of the EDEN ISS rack-like plant growth facility</article-title>,&#x201D; in <source><italic>Proceedings of the 47th International Conference on Environmental Systems</italic></source>, <publisher-loc>New York, NY</publisher-loc>.</citation></ref>
+<ref id="B5"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Bubenheim</surname> <given-names>D. L.</given-names></name> <name><surname>Flynn</surname> <given-names>M. T.</given-names></name> <name><surname>Lamparter</surname> <given-names>R.</given-names></name> <name><surname>Straight</surname> <given-names>C. L.</given-names></name></person-group> (<year>1994</year>). &#x201C;<article-title>Remote sites as analogs for lunar and mars habitat pilot studies</article-title>,&#x201D; in <source><italic>Proceedings of the 24th International Conference on Environmental Systems</italic></source>, <publisher-loc>Piscataway, NJ</publisher-loc>.</citation></ref>
+<ref id="B6"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Dreschel</surname> <given-names>T. W.</given-names></name> <name><surname>Knott</surname> <given-names>W. M.</given-names></name> <name><surname>Prince</surname> <given-names>R. P.</given-names></name> <name><surname>Sager</surname> <given-names>J. C.</given-names></name> <name><surname>Wheeler</surname> <given-names>R. M.</given-names></name></person-group> (<year>2018</year>). &#x201C;<article-title>From project mercury to the breadboard project</article-title>,&#x201D; in <source><italic>Proceedings of the 48th International Conference on Environmental Systems</italic></source>, <publisher-loc>Boston, MA</publisher-loc>.</citation></ref>
+<ref id="B7"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Dueck</surname> <given-names>T.</given-names></name> <name><surname>Frank</surname> <given-names>K.</given-names></name> <name><surname>Esther</surname> <given-names>M.</given-names></name> <name><surname>Cecilia</surname> <given-names>S.</given-names></name></person-group> (<year>2016</year>). &#x201C;<article-title>Choosing crops for cultivation in space</article-title>,&#x201D; in <source><italic>Proceedings of the 46th International Conference on Environmental Systems</italic></source>, <publisher-loc>Berlin</publisher-loc>.</citation></ref>
+<ref id="B8"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Edney</surname> <given-names>S. L.</given-names></name> <name><surname>Richards</surname> <given-names>J. T.</given-names></name> <name><surname>Yorio</surname> <given-names>N. C.</given-names></name> <name><surname>Sisko</surname> <given-names>M. D.</given-names></name> <name><surname>Stutte</surname> <given-names>G. W.</given-names></name> <name><surname>Wheeler</surname> <given-names>R. M.</given-names></name></person-group> (<year>2006</year>). &#x201C;<article-title>Mixed vs. monoculture hydroponic production of salad crops at three CO2 Concentrations</article-title>,&#x201D; in <source><italic>Proceedings of the 33rd PGRSA Annual Meeting</italic></source>, <publisher-loc>Boston, MA</publisher-loc>.</citation></ref>
+<ref id="B9"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Fu</surname> <given-names>Y.</given-names></name> <name><surname>Leyuan</surname> <given-names>L.</given-names></name> <name><surname>Beizhen</surname> <given-names>X.</given-names></name> <name><surname>Chen</surname> <given-names>D.</given-names></name> <name><surname>Mingjuan</surname> <given-names>W.</given-names></name> <name><surname>Boyang</surname> <given-names>J.</given-names></name><etal/></person-group> (<year>2016</year>). <article-title>How to establish a bioregenerative life support system for long-term crewed missions to the moon or mars.</article-title> <source><italic>Astrobiology</italic></source> <volume>16</volume> <fpage>925</fpage>&#x2013;<lpage>936</lpage>. <pub-id pub-id-type="doi">10.1089/ast.2016.1477</pub-id></citation></ref>
+<ref id="B10"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Gitelson</surname> <given-names>I. I.</given-names></name> <name><surname>Lisovsky</surname> <given-names>G. M.</given-names></name> <name><surname>MacElroy</surname> <given-names>R. D.</given-names></name></person-group> (<year>2003</year>). <source><italic>Manmade closed ecological systems. Earth space institute book series.</italic></source> <publisher-loc>New York, NY</publisher-loc>: <publisher-name>Taylor &#x0026; Francis</publisher-name>.</citation></ref>
+<ref id="B11"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Masuda</surname> <given-names>T.</given-names></name> <name><surname>Tako</surname> <given-names>Y.</given-names></name> <name><surname>Nitta</surname> <given-names>K.</given-names></name></person-group> (<year>2005</year>). <article-title>Matching between food supply and human nutritional requirements in closed ecology experiment facilities (CEEF).</article-title> <source><italic>Eco Eng.</italic></source> <volume>17</volume> <fpage>61</fpage>&#x2013;<lpage>66</lpage>.</citation></ref>
+<ref id="B12"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Meinen</surname> <given-names>E.</given-names></name> <name><surname>Tom</surname> <given-names>D.</given-names></name> <name><surname>Frank</surname> <given-names>K.</given-names></name> <name><surname>Cecilia</surname> <given-names>S.</given-names></name></person-group> (<year>2018</year>). <article-title>Growing fresh food on future space missions: environmental conditions and crop management.</article-title> <source><italic>Sci. Hortic.</italic></source> <volume>235</volume> <fpage>270</fpage>&#x2013;<lpage>278</lpage>. <pub-id pub-id-type="doi">10.1016/j.scienta.2018.03.002</pub-id></citation></ref>
+<ref id="B13"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Nitta</surname> <given-names>K.</given-names></name></person-group> (<year>2005</year>). <article-title>The mini-earth facility and present status of habitation experiment program.</article-title> <source><italic>Adv. Space Res.</italic></source> <volume>35</volume> <fpage>1531</fpage>&#x2013;<lpage>1538</lpage>. <pub-id pub-id-type="doi">10.1016/j.asr.2005.03.100</pub-id></citation></ref>
+<ref id="B14"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Patterson</surname> <given-names>R. L.</given-names></name> <name><surname>Giacomelli</surname> <given-names>G. A.</given-names></name> <name><surname>Kacira</surname> <given-names>M.</given-names></name> <name><surname>Sadler</surname> <given-names>P. D.</given-names></name> <name><surname>Wheeler</surname> <given-names>R. M.</given-names></name></person-group> (<year>2012</year>). <article-title>Description, operation and production of the south pole food growth chamber.</article-title> <source><italic>Acta Hortic.</italic></source> <volume>952</volume> <fpage>589</fpage>&#x2013;<lpage>596</lpage>. <pub-id pub-id-type="doi">10.17660/ActaHortic.2012.952.75</pub-id></citation></ref>
+<ref id="B15"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Patterson</surname> <given-names>R. L.</given-names></name> <name><surname>Giacomelli</surname> <given-names>G. A.</given-names></name> <name><surname>Sadler</surname> <given-names>P. D.</given-names></name></person-group> (<year>2008</year>). &#x201C;<article-title>Resource and production model for the south pole food growth chamber</article-title>,&#x201D; in <source><italic>In Proceedings of the 38th International Conference on Environmental Systems</italic></source>, <publisher-loc>Cham</publisher-loc>.</citation></ref>
+<ref id="B16"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Richards</surname> <given-names>J. T.</given-names></name> <name><surname>Edney</surname> <given-names>S. L.</given-names></name> <name><surname>Yorio</surname> <given-names>N. C.</given-names></name> <name><surname>Stutte</surname> <given-names>G. W.</given-names></name> <name><surname>Cranston</surname> <given-names>N.</given-names></name> <name><surname>Wheeler</surname> <given-names>R. M.</given-names></name><etal/></person-group> (<year>2004a</year>). &#x201C;<article-title>Effects of lighting intensity and supplemental CO2 on yield of potential salad crops for ISS</article-title>,&#x201D; in <source><italic>Proceedings of the 34th International Conference on Environmental Systems</italic></source>, <publisher-loc>Virginia</publisher-loc>.</citation></ref>
+<ref id="B17"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Richards</surname> <given-names>J. T.</given-names></name> <name><surname>Yorio</surname> <given-names>N. C.</given-names></name> <name><surname>Edney</surname> <given-names>S. L.</given-names></name> <name><surname>Yunker</surname> <given-names>C. E.</given-names></name> <name><surname>Stutte</surname> <given-names>G. W.</given-names></name></person-group> (<year>2004b</year>). &#x201C;<article-title>. Evaluating growth characteristics and total anthocyanin content in three cultivars of red romain-type lettuce (<italic>Lactuca sativa</italic> L.) in response to three lighting intensities</article-title>,&#x201D; in <source><italic>Proceedings of the 31st PGRSA Annual Meeting</italic></source>, <publisher-loc>Piscataway, NJ</publisher-loc>.</citation></ref>
+<ref id="B18"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Romeyn</surname> <given-names>M. W.</given-names></name> <name><surname>Spencer</surname> <given-names>L. E.</given-names></name> <name><surname>Massa</surname> <given-names>G. D.</given-names></name> <name><surname>Wheeler</surname> <given-names>R. M.</given-names></name></person-group> (<year>2019</year>). &#x201C;<article-title>Crop readiness level (crl): a scale to track progression of crop testing for space</article-title>,&#x201D; in <source><italic>Proceedings of the 49th International Conference on Environmental Systems</italic></source>, <publisher-loc>Amsterdam</publisher-loc>.</citation></ref>
+<ref id="B19"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Santos</surname> <given-names>A.</given-names></name> <name><surname>Virginia</surname> <given-names>I.</given-names></name> <name><surname>Matthew</surname> <given-names>B.</given-names></name> <name><surname>Daniel</surname> <given-names>S.</given-names></name></person-group> (<year>2016</year>). &#x201C;<article-title>A case study in the application of failure analysis techniques to Antarctic Systems: EDEN ISS</article-title>,&#x201D; in <source><italic>Proceedings of the 2016 IEEE International Symposium on Systems Engineering (ISSE)</italic></source>, <publisher-loc>Cambridge, MA</publisher-loc>, <fpage>1</fpage>&#x2013;<lpage>7</lpage>.</citation></ref>
+<ref id="B20"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Vrakking</surname> <given-names>V.</given-names></name></person-group> (<year>2018</year>). &#x201C;<article-title>Status of the EDEN ISS greenhouse after on-site installation in Antarctica</article-title>,&#x201D; in <source><italic>Proceedings of the 48th International Conference on Environmental Systems</italic></source>, <publisher-loc>Washington, DC</publisher-loc>.</citation></ref>
+<ref id="B21"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Spencer</surname> <given-names>L. E.</given-names></name> <name><surname>Hummerick</surname> <given-names>M. E.</given-names></name> <name><surname>Stutte</surname> <given-names>G. W.</given-names></name> <name><surname>Sirmons</surname> <given-names>T.</given-names></name> <name><surname>Graham</surname> <given-names>T. G.</given-names></name> <name><surname>Massa</surname> <given-names>G.</given-names></name><etal/></person-group> (<year>2019</year>). &#x201C;<article-title>Dwarf tomato and pepper cultivars for space crops</article-title>,&#x201D; in <source><italic>Proceedings of the 49th International Conference on Environmental Systems</italic></source>, <publisher-loc>Boston, MA</publisher-loc>.</citation></ref>
+<ref id="B22"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Vrakking</surname> <given-names>V.</given-names></name> <name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Romberg</surname> <given-names>O.</given-names></name></person-group> (<year>2017</year>). &#x201C;<article-title>Service Section design of the EDEN ISS project</article-title>,&#x201D; in <source><italic>Proceedings of the 47th International Conference on Environmental Systems</italic></source>, <publisher-loc>New York, NY</publisher-loc>.</citation></ref>
+<ref id="B23"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Wang</surname> <given-names>M.</given-names></name> <name><surname>Chen</surname> <given-names>D.</given-names></name> <name><surname>Wanlin</surname> <given-names>G.</given-names></name></person-group> (<year>2019</year>). <article-title>Evaluation of the growth, photosynthetic characteristics, antioxidant capacity, biomass yield and quality of tomato using aeroponics, hydroponics and porous tube-vermiculite systems in bio-regenerative life support systems.</article-title> <source><italic>Life Sci. Space Res.</italic></source> <volume>22</volume> <fpage>68</fpage>&#x2013;<lpage>75</lpage>. <pub-id pub-id-type="doi">10.1016/j.lssr.2019.07.008</pub-id></citation></ref>
+<ref id="B24"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Wheeler</surname> <given-names>R. M.</given-names></name></person-group> (<year>2017</year>). <article-title>Agriculture for space: people and places paving the way.</article-title> <source><italic>Open Agric.</italic></source> <volume>2</volume>:<issue>1401</issue>. <pub-id pub-id-type="doi">10.1515/opag-2017-0002</pub-id></citation></ref>
+<ref id="B25"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Wheeler</surname> <given-names>R. M.</given-names></name> <name><surname>Mackowiak</surname> <given-names>C. L.</given-names></name> <name><surname>Stutte</surname> <given-names>G. W.</given-names></name> <name><surname>Yorio</surname> <given-names>N. C.</given-names></name> <name><surname>Ruffe</surname> <given-names>L. M.</given-names></name> <name><surname>Sager</surname> <given-names>J. C.</given-names></name><etal/></person-group> (<year>2008</year>). <article-title>Crop productivities and radiation use efficiencies for bioregenerative life support.</article-title> <source><italic>Adv. Space Res.</italic></source> <volume>41</volume> <fpage>706</fpage>&#x2013;<lpage>713</lpage>. <pub-id pub-id-type="doi">10.1016/j.asr.2007.06.059</pub-id></citation></ref>
+<ref id="B26"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Wheeler</surname> <given-names>R. M.</given-names></name> <name><surname>Sager</surname> <given-names>J. C.</given-names></name> <name><surname>Prince</surname> <given-names>R. P.</given-names></name> <name><surname>Knott</surname> <given-names>W. M.</given-names></name> <name><surname>Mackowiak</surname> <given-names>C. L.</given-names></name> <name><surname>Stutte</surname> <given-names>G. W.</given-names></name><etal/></person-group> (<year>2003</year>). <source><italic>Crop Production for Advanced Life Support Systems: Observations From the Kennedy.</italic></source> <publisher-loc>Washington, DC</publisher-loc>: <publisher-name>NASA</publisher-name>.</citation></ref>
+<ref id="B27"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Tajmar</surname> <given-names>M.</given-names></name></person-group> (<year>2016a</year>). <article-title>Review and analysis of over 40 years of space plant growth systems.</article-title> <source><italic>Life Sci. Space Res.</italic></source> <volume>10</volume> <fpage>1</fpage>&#x2013;<lpage>16</lpage>. <pub-id pub-id-type="doi">10.1016/j.lssr.2016.06.004</pub-id></citation></ref>
+<ref id="B28"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Vrakking</surname> <given-names>V.</given-names></name> <name><surname>Johannes</surname> <given-names>B.-W.</given-names></name> <name><surname>Rettberg</surname> <given-names>P.</given-names></name><etal/></person-group> (<year>2015</year>). &#x201C;<article-title>Introducing EDEN ISS - A european project on advancing plant cultivation technologies and operations</article-title>,&#x201D; in <source><italic>Proceedings of the 45th International Conference on Environmental Systems</italic></source>, <publisher-loc>Bellevue</publisher-loc>.</citation></ref>
+<ref id="B29"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Vrakking</surname> <given-names>V.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Romberg</surname> <given-names>O.</given-names></name></person-group> (<year>2017</year>). &#x201C;<article-title>Future exploration greenhouse design of the EDEN ISS project</article-title>,&#x201D; in <source><italic>Proceedings of the 47th International Conference on Environmental Systems</italic></source>, <publisher-loc>Charleston</publisher-loc>.</citation></ref>
+<ref id="B30"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Vrakking</surname> <given-names>V.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name> <name><surname>Romberg</surname> <given-names>O.</given-names></name><etal/></person-group> (<year>2016b</year>). &#x201C;<article-title>The preliminary design of the EDEN ISS mobile test facility - an antarctic greenhouse</article-title>,&#x201D; in <source><italic>Proceedings of the 46th International Conference on Environmental Systems</italic></source>, <publisher-loc>Vienna</publisher-loc>.</citation></ref>
+<ref id="B31"><citation citation-type="journal"><person-group person-group-type="author"><name><surname>Zeidler</surname> <given-names>C.</given-names></name> <name><surname>Zabel</surname> <given-names>P.</given-names></name> <name><surname>Vrakking</surname> <given-names>V.</given-names></name> <name><surname>Dorn</surname> <given-names>M.</given-names></name> <name><surname>Bamsey</surname> <given-names>M.</given-names></name> <name><surname>Schubert</surname> <given-names>D.</given-names></name><etal/></person-group> (<year>2019</year>). <article-title>The plant health monitoring system of the EDEN ISS space greenhouse in antarctica during the 2018 experiment phase.</article-title> <source><italic>Front. Plant Sci.</italic></source> <volume>10</volume>:<issue>1457</issue>. <pub-id pub-id-type="doi">10.3389/fpls.2019.01457</pub-id></citation></ref>
+</ref-list>
+</back>
+</article>

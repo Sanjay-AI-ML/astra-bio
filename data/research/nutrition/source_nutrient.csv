@@ -1,0 +1,4 @@
+id,name,unit_name,nutrient_nbr,rank
+1003,Protein,G,203,600.0
+1008,Energy,KCAL,208,300.0
+1162,"Vitamin C, total ascorbic acid",MG,401,6300.0

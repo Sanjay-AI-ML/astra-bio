@@ -1,0 +1,10 @@
+fdc_id,data_type,description,food_category_id,publication_date
+168421,sr_legacy_food,"Kale, raw",11,2019-04-01
+168424,sr_legacy_food,"Kohlrabi, raw",11,2019-04-01
+169249,sr_legacy_food,"Lettuce, green leaf, raw",11,2019-04-01
+169276,sr_legacy_food,"Radishes, raw",11,2019-04-01
+169387,sr_legacy_food,"Arugula, raw",11,2019-04-01
+169705,sr_legacy_food,Oats (Includes foods for USDA's Food Distribution Program),20,2019-04-01
+170457,sr_legacy_food,"Tomatoes, red, ripe, raw, year round average",11,2019-04-01
+172420,sr_legacy_food,"Lentils, raw",16,2019-04-01
+172470,sr_legacy_food,"Peanut butter, smooth style, without salt",16,2019-04-01

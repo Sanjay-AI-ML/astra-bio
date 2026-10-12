@@ -1,0 +1,35 @@
+{
+  "schema_version": "astra-bio.crop-response.v1",
+  "status": "awaiting_measurements",
+  "model_kind": "group-weighted standardized ridge fresh-edible endpoint association",
+  "active_in_planner": false,
+  "ready_for_hardware_control": false,
+  "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "record_count": 0,
+  "features": [
+    "daily_light_integral_mol_m2_day",
+    "mean_temperature_c",
+    "net_makeup_water_l_per_m2_day"
+  ],
+  "training_group_ids": [],
+  "holdout_group_ids": [],
+  "training_record_count": 0,
+  "holdout_record_count": 0,
+  "minimum_training_groups": 16,
+  "minimum_holdout_groups": 3,
+  "minimum_measured_coverage_pct": 80.0,
+  "alpha": 1.0,
+  "source_references": [],
+  "issues": [
+    "Insufficient independent training/held-out experiments; correlated trays are not independent cycles."
+  ],
+  "validation": null,
+  "parameters": null,
+  "limitations": [
+    "Observational endpoint association; coefficients do not establish causal stress responses.",
+    "Independent group IDs and measurement provenance must be reviewed by the experimenter.",
+    "Predictions are restricted to the same cultivar, environment, cultivation system and age basis.",
+    "No daily growth curve, untested crop, new-facility or spaceflight transfer is established.",
+    "The planner and hardware control never use this optional fitted research artifact automatically."
+  ]
+}

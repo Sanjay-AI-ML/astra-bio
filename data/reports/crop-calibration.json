@@ -1,0 +1,188 @@
+{
+  "model": "constant fresh-edible batch-harvest endpoint per cultivar/environment",
+  "fit_parameters": {
+    "arugula_330": {
+      "crop_id": "arugula_330",
+      "cultivar": "Arugula (cultivar not reported)",
+      "environment_id": "eden_iss_2018_arugula_330",
+      "yield_kg_per_m2": 3.05,
+      "grow_days": 24.2,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "arugula_330_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "arugula_600": {
+      "crop_id": "arugula_600",
+      "cultivar": "Arugula (cultivar not reported)",
+      "environment_id": "eden_iss_2018_arugula_600",
+      "yield_kg_per_m2": 5.49,
+      "grow_days": 29.0,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "arugula_600_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "kohlrabi": {
+      "crop_id": "kohlrabi",
+      "cultivar": "Kohlrabi (cultivar not reported)",
+      "environment_id": "eden_iss_2018_mixed_climate",
+      "yield_kg_per_m2": 8.11,
+      "grow_days": 58.71,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "kohlrabi_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "lettuce_batavia": {
+      "crop_id": "lettuce_batavia",
+      "cultivar": "Batavia",
+      "environment_id": "eden_iss_2018_mixed_climate",
+      "yield_kg_per_m2": 1.56,
+      "grow_days": 38.0,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "lettuce_batavia_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "lettuce_expertise": {
+      "crop_id": "lettuce_expertise",
+      "cultivar": "Expertise",
+      "environment_id": "eden_iss_2018_mixed_climate",
+      "yield_kg_per_m2": 2.38,
+      "grow_days": 38.0,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "lettuce_expertise_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "lettuce_outredgeous": {
+      "crop_id": "lettuce_outredgeous",
+      "cultivar": "Outredgeous",
+      "environment_id": "eden_iss_2018_mixed_climate",
+      "yield_kg_per_m2": 2.1,
+      "grow_days": 37.9,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "lettuce_outredgeous_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "lettuce_waldmann_eden": {
+      "crop_id": "lettuce_waldmann_eden",
+      "cultivar": "Waldmann's Green",
+      "environment_id": "eden_iss_2018_mixed_climate",
+      "yield_kg_per_m2": 2.77,
+      "grow_days": 37.9,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "lettuce_waldmann_eden_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "lettuce_waldmann_nasa": {
+      "crop_id": "lettuce_waldmann_nasa",
+      "cultivar": "Waldmann's Green",
+      "environment_id": "nasa_rlss_1992",
+      "yield_kg_per_m2": 3.2603773584905658,
+      "grow_days": 30.0,
+      "training_record_count": 1,
+      "training_cycle_count": 1,
+      "training_summary_count": 0,
+      "training_observation_ids": [
+        "nasa_rlss_1992_cycle_1"
+      ],
+      "source_urls": [
+        "https://ntrs.nasa.gov/citations/19930057552"
+      ]
+    },
+    "radish_lennox": {
+      "crop_id": "radish_lennox",
+      "cultivar": "Lennox",
+      "environment_id": "eden_iss_2018_mixed_climate",
+      "yield_kg_per_m2": 1.33,
+      "grow_days": 23.0,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "radish_lennox_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    },
+    "radish_raxe": {
+      "crop_id": "radish_raxe",
+      "cultivar": "Raxe",
+      "environment_id": "eden_iss_2018_mixed_climate",
+      "yield_kg_per_m2": 1.82,
+      "grow_days": 22.6,
+      "training_record_count": 1,
+      "training_cycle_count": 0,
+      "training_summary_count": 1,
+      "training_observation_ids": [
+        "radish_raxe_published_mean"
+      ],
+      "source_urls": [
+        "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/full"
+      ]
+    }
+  },
+  "validation": {
+    "kind": "explicit held-out crop-cycle endpoint diagnostic",
+    "holdout_record_count": 1,
+    "mae_kg_per_m2": 1.041509433962264,
+    "rmse_kg_per_m2": 1.041509433962264,
+    "mape_pct": 46.938775510204074,
+    "records": [
+      {
+        "observation_id": "nasa_rlss_1992_cycle_2",
+        "crop_id": "lettuce_waldmann_nasa",
+        "observed_kg_per_m2": 2.218867924528302,
+        "predicted_kg_per_m2": 3.2603773584905658,
+        "error_kg_per_m2": 1.041509433962264,
+        "absolute_error_kg_per_m2": 1.041509433962264,
+        "absolute_percentage_error": 46.938775510204074,
+        "source_url": "https://ntrs.nasa.gov/citations/19930057552"
+      }
+    ],
+    "limitation": "Small within-facility diagnostic; not general accuracy, independent-facility or spaceflight validation."
+  },
+  "fitted_growth_curve": false,
+  "fitted_resource_stress": false,
+  "summary_records_are_not_individual_cycles": true
+}

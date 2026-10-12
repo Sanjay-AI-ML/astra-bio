@@ -1,4 +1,45 @@
 .streamlit/secrets.toml
+data/*.sqlite*
+runtime/node-red/node_modules/
+runtime/node-red/userdir/
+integration/esphome/secrets.yaml
+integration/mosquitto/passwd
+integration/mosquitto/certs/
+integration/*_cred.json
+data/reports/
+!data/reports/
+data/reports/*
+!data/reports/crop-calibration.json
+!data/reports/crop-response.json
+!data/reports/demo-water-run.json
+!data/reports/measured-growth.json
+!data/reports/plant-training-environment-20261011.txt
+!data/reports/plantdoc-finetune-20261011.json
+!data/reports/plantdoc-model-manifest-20261011.json
+# Keep only reproducible Node-RED dependency/configuration files from runtime.
+runtime/*
+!runtime/node-red/
+runtime/node-red/*
+!runtime/node-red/package.json
+!runtime/node-red/package-lock.json
+!runtime/node-red/settings.js
+.env.*
+!.env.example
+runtime/mqtt/
+runtime/hardware/
+runtime/mongodb/
+runtime/uv-cache/
+integration/esp32-mongodb/include/config.h
+runtime/plant-model/
+runtime/ml-training/
+runtime/plant-candidates/
+runtime/plant-active.json
+frontend/node_modules/
+frontend/dist/
+runtime/mqtt-status.json
+runtime/node-red/flows.json
+runtime/node-red/flows_cred.json
+runtime/node-red/*_cred.json*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

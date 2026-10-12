@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTRA-BIO — Controlled Environment Habitat Console</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              base: "#0a1612",
+              surface: "#0f1f1a",
+              card: "#162a22",
+              border: "#1c362b",
+              borderSubtle: "#244437",
+              text: "#f3f4f0",
+              muted: "#a3b899",
+              faint: "#637a6b",
+              sage: "#74c69d",
+              mint: "#52b788",
+              accent: "#a7c957"
+            }
+          },
+          fontFamily: {
+            headline: ["Space Grotesk", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+            body: ["Geist", "sans-serif"]
+          }
+        }
+      }
+    }
+</script>
+<style>
+    body {
+      background-color: #0a1612;
+      color: #f3f4f0;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 20;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+</style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-body text-[14px] antialiased selection:bg-forest-mint/30 selection:text-forest-text bg-[#0a1612] text-[#f3f4f0]">
+<!-- ========================================================================= -->
+<!-- HEADER BAR: Slim Top Status Header                                        -->
+<!-- ========================================================================= -->
+<header class="h-12 flex-shrink-0 bg-[#0a1612] border-b border-[#1c362b] flex justify-between items-center px-5 z-40">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md border border-[#52b788]/40 bg-[#52b788]/10 flex items-center justify-center text-[#74c69d]">
+<span class="material-symbols-outlined text-[15px]">eco</span>
+</div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline font-semibold text-sm tracking-wider text-[#f3f4f0]">ASTRA-BIO</span>
+<span class="text-xs text-[#a3b899] font-mono">// Controlled Environment Habitat</span>
+</div>
+</div>
+<div class="h-3.5 w-px bg-[#1c362b] mx-1"></div>
+<div class="flex items-center gap-2">
+<span class="font-mono text-[11px] text-[#a3b899] bg-[#0f1f1a] border border-[#1c362b] px-2 py-0.5 rounded tracking-wide">
+        Demo inputs
+      </span>
+<span class="font-mono text-[11px] text-[#a3b899] bg-[#0f1f1a] border border-[#1c362b] px-2 py-0.5 rounded tracking-wide">
+        Prototype · outputs disabled
+      </span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- Hardware state pill: Awaiting device readings (amber/neutral muted indicator) -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#2b271d] bg-[#1a1711] text-[#d6b168]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#d6b168]"></span>
+<span class="font-mono text-[11px] tracking-wide">Awaiting device readings</span>
+</div>
+<!-- Clean profile avatar -->
+<div class="w-7 h-7 rounded-full bg-[#162a22] border border-[#1c362b] flex items-center justify-center text-[#74c69d] font-mono text-xs font-medium">
+      AB
+    </div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- MAIN APPLICATION SHELL: 230px Fixed Sidebar + Biological Workspace        -->
+<!-- ========================================================================= -->
+<div class="flex flex-1 min-h-0 w-full overflow-hidden">
+<!-- SIDEBAR: Exactly 230px fixed width -->
+<aside class="w-[230px] flex-shrink-0 bg-[#0a1612] border-r border-[#1c362b] flex flex-col justify-between py-3.5 px-3">
+<nav class="flex flex-col gap-1">
+<!-- 1. Mission overview (active state, subtle sage border/highlight) -->
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#52b788]/15 text-[#74c69d] border border-[#52b788]/30 font-headline text-xs font-medium tracking-wide shadow-sm" href="#">
+<span class="material-symbols-outlined text-base text-[#74c69d]">space_dashboard</span>
+<span>Mission overview</span>
+</a>
+<!-- 2. Crew & nutrition -->
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#a3b899] hover:text-[#f3f4f0] hover:bg-[#0f1f1a] font-headline text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">group</span>
+<span>Crew &amp; nutrition</span>
+</a>
+<!-- 3. Crops & food -->
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#a3b899] hover:text-[#f3f4f0] hover:bg-[#0f1f1a] font-headline text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">potted_plant</span>
+<span>Crops &amp; food</span>
+</a>
+<!-- 4. What-if simulator -->
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#a3b899] hover:text-[#f3f4f0] hover:bg-[#0f1f1a] font-headline text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">tune</span>
+<span>What-if simulator</span>
+</a>
+<!-- 5. Plant screening -->
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#a3b899] hover:text-[#f3f4f0] hover:bg-[#0f1f1a] font-headline text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">biotech</span>
+<span>Plant screening</span>
+</a>
+<!-- 6. Live devices -->
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#a3b899] hover:text-[#f3f4f0] hover:bg-[#0f1f1a] font-headline text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">sensors</span>
+<span>Live devices</span>
+</a>
+</nav>
+<!-- Footer secondary: Workspace settings -->
+<div class="pt-2 border-t border-[#1c362b]">
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[#637a6b] hover:text-[#f3f4f0] hover:bg-[#0f1f1a] font-headline text-xs font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-base">settings</span>
+<span>Workspace settings</span>
+</a>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE CONTENT                                                    -->
+<!-- ========================================================================= -->
+<main class="flex-1 min-w-0 p-6 overflow-y-auto flex flex-col gap-5 bg-[#0a1612]">
+<!-- 1. EDITORIAL HEADER & CANOPY CONTEXT BANNER -->
+<div class="bg-[#0f1f1a] border border-[#1c362b] rounded-xl overflow-hidden p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+<div class="flex-1 min-w-0">
+<h1 class="font-headline text-2xl lg:text-3xl font-medium tracking-tight text-[#f3f4f0]">
+          A living system. One shared plan.
+        </h1>
+<p class="text-sm text-[#a3b899] mt-1 font-body">
+          Controlled environment bioregenerative planning console
+        </p>
+<!-- Inline configured figures -->
+<div class="flex flex-wrap items-center gap-y-2 gap-x-4 mt-4 pt-3.5 border-t border-[#1c362b] text-[13px]">
+<div class="flex items-center gap-2">
+<span class="text-[#637a6b] font-mono text-[11px] uppercase tracking-wider">Baseline:</span>
+<span class="font-mono text-[#f3f4f0]">4 crew</span>
+<span class="text-[#244437]">·</span>
+<span class="font-mono text-[#f3f4f0]">90 days</span>
+<span class="text-[#244437]">·</span>
+<span class="font-mono text-[#74c69d]">12.5 m²</span>
+</div>
+<div class="h-3 w-px bg-[#1c362b] hidden sm:block"></div>
+<div class="flex items-center gap-2">
+<span class="text-[#637a6b] font-mono text-[11px] uppercase tracking-wider">Configured budgets:</span>
+<span class="font-mono text-[#74c69d]">50 L/day water</span>
+<span class="text-[#244437]">·</span>
+<span class="font-mono text-[#a7c957]">8 kWh/day power</span>
+</div>
+</div>
+</div>
+<!-- Restrained grow-tray context thumbnail -->
+<div class="w-full md:w-56 h-28 rounded-lg overflow-hidden border border-[#1c362b] flex-shrink-0 relative group">
+<img alt="Macro photograph of indoor controlled-environment agriculture hydroponic microgreens and dwarf lettuce grow tray" class="w-full h-full object-cover saturate-[0.85] contrast-[1.05]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFSLiacOo8GmmiV-9oduHFkCe2HcscUnZt8ezTtecA3hg4Hbt_lDi2Ir50yoOuD1Cz3TTbgH9tZ5AgaeLMMab-W7IUJvSpiYzW-1NwMIYtC6ioPWpRq3KJoIP0oDnybCOaRyio2eQ1VR0MvftfB-X9czbkRVwyDqcf21gd_A_zmJR-lb65CR0Q-AeRjetH3L9OZxsfoDaoaxuT6JF5poIcsJTqBvHyMcfZHJ4xBDi1LCU0LIjaVnakULhDwa2Jpc_n3QN-cQfITYY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0f1f1a]/90 via-transparent to-transparent"></div>
+<div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between">
+<span class="font-mono text-[10px] text-[#74c69d] tracking-wide">CANOPY CONTEXT</span>
+<span class="font-mono text-[10px] text-[#a3b899]">12.5 m²</span>
+</div>
+</div>
+</div>
+<!-- 2. EDITORIAL JOURNEY PATHWAY (Crew → Nutrition → Crops → Resources) -->
+<div class="bg-[#0f1f1a] border border-[#1c362b] rounded-xl p-4">
+<div class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#1c362b]">
+<!-- 01 // Crew -->
+<div class="py-2 md:py-0 md:px-4 first:pl-0">
+<div class="font-mono text-[11px] text-[#74c69d] tracking-wider uppercase">01 // Crew</div>
+<div class="text-[15px] font-medium text-[#f3f4f0] mt-1">4 Persons</div>
+<div class="text-[13px] text-[#a3b899] mt-0.5">Caloric &amp; metabolic demand</div>
+</div>
+<!-- 02 // Nutrition -->
+<div class="py-2.5 md:py-0 md:px-4">
+<div class="font-mono text-[11px] text-[#74c69d] tracking-wider uppercase">02 // Nutrition</div>
+<div class="text-[15px] font-medium text-[#f3f4f0] mt-1">Baseline Targets</div>
+<div class="text-[13px] text-[#a3b899] mt-0.5">Energy, Protein, Vitamin C</div>
+</div>
+<!-- 03 // Crops -->
+<div class="py-2.5 md:py-0 md:px-4">
+<div class="font-mono text-[11px] text-[#74c69d] tracking-wider uppercase">03 // Crops</div>
+<div class="text-[15px] font-medium text-[#f3f4f0] mt-1">12.5 m² Active Canopy</div>
+<div class="text-[13px] text-[#a3b899] mt-0.5">Configured cultivation area</div>
+</div>
+<!-- 04 // Resources -->
+<div class="py-2.5 md:py-0 md:px-4 last:pr-0">
+<div class="font-mono text-[11px] text-[#a7c957] tracking-wider uppercase">04 // Resources</div>
+<div class="text-[15px] font-medium text-[#f3f4f0] mt-1">Configured Budgets</div>
+<div class="text-[13px] text-[#a3b899] mt-0.5">50 L/day · 8 kWh/day constraints</div>
+</div>
+</div>
+</div>
+<!-- 3. CORE TWO-COLUMN WORK AREA -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+<!-- Area 1: Current plan (7 cols) -->
+<div class="lg:col-span-7 bg-[#0f1f1a] border border-[#1c362b] rounded-xl p-5 flex flex-col justify-between min-h-[260px]">
+<div class="flex items-center justify-between pb-3 border-b border-[#1c362b]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#74c69d] text-lg">alt_route</span>
+<h2 class="font-headline font-medium text-sm text-[#f3f4f0]">Current plan</h2>
+</div>
+<span class="font-mono text-[11px] text-[#a3b899] bg-[#0a1612] px-2 py-0.5 rounded border border-[#1c362b]">
+            Scenario pending
+          </span>
+</div>
+<!-- Calm truthful empty-state -->
+<div class="py-10 flex flex-col items-center justify-center text-center px-4">
+<div class="w-10 h-10 rounded-full bg-[#162a22] border border-[#1c362b] flex items-center justify-center text-[#74c69d] mb-3">
+<span class="material-symbols-outlined text-xl">tune</span>
+</div>
+<p class="text-[15px] text-[#f3f4f0] font-medium">Run a scenario to see calculated results</p>
+<p class="text-[13px] text-[#a3b899] max-w-sm mt-1">
+            Simulate water variations and canopy stress response against configured crew nutrition demand.
+          </p>
+<button class="mt-4 px-4 py-2 rounded-lg bg-[#52b788] hover:bg-[#74c69d] text-[#0a1612] font-mono text-xs uppercase font-semibold tracking-wider transition-colors inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+<span>Open simulator</span>
+</button>
+</div>
+<div class="pt-3 border-t border-[#1c362b] flex items-center justify-between text-xs text-[#a3b899]">
+<span class="font-mono text-[11px]">Inputs: 4 crew · 90-day mission window</span>
+<a class="font-mono text-[11px] text-[#74c69d] hover:underline inline-flex items-center gap-1" href="#">
+<span>View input assumptions</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Area 2: Next actions (5 cols) -->
+<div class="lg:col-span-5 bg-[#0f1f1a] border border-[#1c362b] rounded-xl p-5 flex flex-col justify-between min-h-[260px]">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-[#1c362b]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#74c69d] text-lg">checklist</span>
+<h2 class="font-headline font-medium text-sm text-[#f3f4f0]">Next actions</h2>
+</div>
+<span class="font-mono text-[11px] text-[#a3b899]">3 items</span>
+</div>
+<!-- Clean action checklist -->
+<div class="mt-3.5 space-y-2.5">
+<!-- 1. Review dietary targets -->
+<div class="p-3 rounded-lg bg-[#162a22] border border-[#1c362b] flex items-center justify-between gap-3">
+<div class="min-w-0">
+<div class="text-[14px] font-medium text-[#f3f4f0]">Review dietary targets</div>
+<div class="text-[12px] text-[#a3b899] truncate">Caloric, protein &amp; micronutrient allocation</div>
+</div>
+<button class="px-3 py-1 rounded bg-[#0f1f1a] hover:bg-[#1c362b] border border-[#244437] text-[#74c69d] font-mono text-[11px] uppercase tracking-wider transition-colors shrink-0">
+                Configure
+              </button>
+</div>
+<!-- 2. Check crop schedule -->
+<div class="p-3 rounded-lg bg-[#162a22] border border-[#1c362b] flex items-center justify-between gap-3">
+<div class="min-w-0">
+<div class="text-[14px] font-medium text-[#f3f4f0]">Check crop schedule</div>
+<div class="text-[12px] text-[#a3b899] truncate">Chamber crop rotations &amp; seeding intervals</div>
+</div>
+<button class="px-3 py-1 rounded bg-[#0f1f1a] hover:bg-[#1c362b] border border-[#244437] text-[#f3f4f0] font-mono text-[11px] uppercase tracking-wider transition-colors shrink-0">
+                Review
+              </button>
+</div>
+<!-- 3. View live devices -->
+<div class="p-3 rounded-lg bg-[#162a22] border border-[#1c362b] flex items-center justify-between gap-3">
+<div class="min-w-0">
+<div class="text-[14px] font-medium text-[#f3f4f0]">View live devices</div>
+<div class="text-[12px] text-[#a3b899] truncate">Configure external telemetry &amp; sensor links</div>
+</div>
+<button class="px-3 py-1 rounded bg-[#0f1f1a] hover:bg-[#1c362b] border border-[#244437] text-[#f3f4f0] font-mono text-[11px] uppercase tracking-wider transition-colors shrink-0">
+                Connect
+              </button>
+</div>
+</div>
+</div>
+<div class="pt-3 border-t border-[#1c362b] flex items-center gap-2 text-xs text-[#637a6b]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#d6b168]"></span>
+<span class="font-mono text-[11px]">Awaiting device readings · offline baseline</span>
+</div>
+</div>
+</div>
+<!-- 4. LOWER SECTION: CROP SCHEDULE (Clean, calm truthful pending state) -->
+<div class="bg-[#0f1f1a] border border-[#1c362b] rounded-xl p-5">
+<div class="flex items-center justify-between pb-3 border-b border-[#1c362b]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#74c69d] text-lg">calendar_month</span>
+<h2 class="font-headline font-medium text-sm text-[#f3f4f0]">Crop schedule</h2>
+</div>
+<a class="font-mono text-[11px] text-[#a3b899] hover:text-[#74c69d] transition-colors" href="#">
+          View baseline crop database
+        </a>
+</div>
+<!-- Prominent truthful empty/pending state -->
+<div class="py-8 flex flex-col items-center justify-center text-center px-4">
+<div class="w-8 h-8 rounded-full bg-[#162a22] border border-[#1c362b] flex items-center justify-center text-[#a3b899] mb-2.5">
+<span class="material-symbols-outlined text-base">schedule</span>
+</div>
+<p class="text-[15px] font-medium text-[#f3f4f0]">No completed plan yet</p>
+<p class="text-[13px] text-[#a3b899] max-w-md mt-1">
+          Configure crop batches in the simulator to project harvest cycles and schedule intervals.
+        </p>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "file": "sources/eden2020.xml",
+      "source_url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2020.00656/xml",
+      "bytes": 114708,
+      "sha256": "dbf3e494cb4ff3ec199735c0a25c6f443e107ddbd24f55f0088674a64ab23c89",
+      "license": "CC-BY-4.0",
+      "attribution": "Zabel, Zeidler, Vrakking, Dorn and Schubert (2020), doi:10.3389/fpls.2020.00656",
+      "retrieved_utc": "2026-10-10T19:35:10.639739+00:00"
+    },
+    {
+      "file": "sources/eden2020-supplement.docx",
+      "source_url": "https://ndownloader.figshare.com/files/22796747",
+      "bytes": 681659,
+      "sha256": "c843a5bf7e81b3a4c832717077a89a818884dcc1d4abdf7da4fd166cb4e16cdd",
+      "license": "CC-BY-4.0",
+      "attribution": "Zabel et al.; doi:10.3389/fpls.2020.00656.s001; publisher Figshare record12368558",
+      "retrieved_utc": "2026-10-10T19:35:12.607805+00:00"
+    },
+    {
+      "file": "sources/osd895-files.json",
+      "source_url": "https://osdr.nasa.gov/osdr/data/osd/files/895",
+      "bytes": 897,
+      "sha256": "12f8cd1b4fce129608e74f089bf8f85ccb99e364d4ed3d00ea8a10a16b6911ee",
+      "license": "CC0-1.0",
+      "attribution": "NASA OSD-895 v1, doi:10.26030/8556-mr78; same EDEN2018 dataset, not independent evidence",
+      "retrieved_utc": "2026-10-10T19:35:13.582192+00:00"
+    },
+    {
+      "file": "sources/osd895-metadata.zip",
+      "source_url": "https://osdr.nasa.gov/geode-py/ws/studies/OSD-895/download?source=datamanager&file=OSD-895_metadata_OSD-895-ISA.zip",
+      "bytes": 72795,
+      "sha256": "6e30ec49a946f55b944f63100a8b88f17ac6195f9d3617c7ce818a00d2cacf88",
+      "license": "CC0-1.0",
+      "attribution": "NASA OSD-895 v1, doi:10.26030/8556-mr78",
+      "retrieved_utc": "2026-10-10T19:35:16.569859+00:00"
+    },
+    {
+      "file": "sources/nasa1992-ntrs.html",
+      "source_url": "https://ntrs.nasa.gov/citations/19930057552",
+      "bytes": 95812,
+      "sha256": "c147bfb981fc165694984f5fe70d4624d95e270328bfdb3c25a7b25f3fca5cee",
+      "license": "Public Use Permitted (NTRS record)",
+      "attribution": "Barta, Edeen and Eckhardt (1992), SAE921391, doi:10.4271/921391",
+      "retrieved_utc": "2026-10-10T19:35:18.721713+00:00"
+    }
+  ],
+  "notes": [
+    "Local SHA256 records integrity of downloaded bytes; not an independently published checksum.",
+    "The EDEN supplement lists seed/cultivar data, not individual harvest cycles. Its heading says2019; the primary2018 paper controls the experiment year.",
+    "OSD895 contains19 cultivar/light summaries plus the original paper; re-publication is not independent validation."
+  ]
+}

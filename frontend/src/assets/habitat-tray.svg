@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 680" fill="none">
+  <title>Controlled cultivation grow-tray illustration</title>
+  <defs>
+    <linearGradient id="room" x1="560" y1="0" x2="560" y2="680" gradientUnits="userSpaceOnUse"><stop stop-color="#17372D"/><stop offset="1" stop-color="#0D201B"/></linearGradient>
+    <linearGradient id="glass" x1="100" y1="0" x2="940" y2="630" gradientUnits="userSpaceOnUse"><stop stop-color="#B8D4BF" stop-opacity=".12"/><stop offset="1" stop-color="#8BAB96" stop-opacity=".02"/></linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="50" y2="110" gradientUnits="userSpaceOnUse"><stop stop-color="#B0CA80"/><stop offset=".5" stop-color="#759863"/><stop offset="1" stop-color="#3F6D4B"/></linearGradient>
+    <linearGradient id="leafDark" x1="0" y1="0" x2="20" y2="90" gradientUnits="userSpaceOnUse"><stop stop-color="#87AF78"/><stop offset="1" stop-color="#345D40"/></linearGradient>
+    <linearGradient id="tray" x1="0" y1="0" x2="0" y2="130" gradientUnits="userSpaceOnUse"><stop stop-color="#527265"/><stop offset="1" stop-color="#29473D"/></linearGradient>
+    <radialGradient id="light"><stop stop-color="#B6D4A3" stop-opacity=".16"/><stop offset="1" stop-color="#B6D4A3" stop-opacity="0"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="10"/></filter>
+    <symbol id="plant" viewBox="0 0 150 180">
+      <path d="M75 174C76 139 72 123 81 81M75 148L42 111M77 139L115 107" stroke="#94B98C" stroke-width="3" stroke-linecap="round"/>
+      <path d="M74 132C45 137 12 120 15 87C41 78 68 99 74 132Z" fill="url(#leafDark)"/>
+      <path d="M72 146C37 150 2 133 5 104C36 93 63 119 72 146Z" fill="url(#leaf)"/>
+      <path d="M79 142C112 142 148 115 141 87C111 81 83 105 79 142Z" fill="url(#leafDark)"/>
+      <path d="M75 131C61 111 56 57 83 37C106 58 97 111 75 131Z" fill="url(#leaf)"/>
+      <path d="M76 148C87 125 124 116 143 132C133 161 97 164 76 148Z" fill="url(#leaf)"/>
+      <path d="M72 132L27 94M70 143L17 111M82 136L133 96M77 126L82 52M82 148L128 137" stroke="#D4DD9E" stroke-opacity=".3" stroke-width="1.6"/>
+    </symbol>
+  </defs>
+  <rect width="1120" height="680" rx="24" fill="url(#room)"/>
+  <ellipse cx="560" cy="312" rx="530" ry="300" fill="url(#light)"/>
+  <path d="M100 154L339 65H846L1020 153V570H100V154Z" fill="url(#glass)" stroke="#759780" stroke-opacity=".3" stroke-width="2"/>
+  <path d="M100 154H1020M100 154L278 246H888L1020 154M278 246V567M888 246V567M339 65V151M846 65V151" stroke="#799984" stroke-opacity=".26" stroke-width="2"/>
+  <path d="M336 129H842" stroke="#D8E9BC" stroke-width="20" stroke-opacity=".16" filter="url(#glow)"/>
+  <path d="M336 125H842" stroke="#D8E4BE" stroke-width="7" stroke-linecap="round"/>
+  <path d="M336 116H842" stroke="#617F6A" stroke-width="4" stroke-linecap="round"/>
+  <path d="M351 123L284 410M815 123L893 410" stroke="#CEE6B8" stroke-opacity=".08"/>
+  <path d="M181 411L300 357H859L954 411L876 523H252L181 411Z" fill="#496459" stroke="#91AD97" stroke-opacity=".28" stroke-width="2"/>
+  <path d="M181 411H954V494L876 573H253L181 494V411Z" fill="url(#tray)"/>
+  <path d="M253 484H876V573H253V484Z" fill="#304D40"/>
+  <path d="M181 411L253 484H876L954 411M253 484V573M876 484V573" stroke="#8FAD97" stroke-opacity=".3" stroke-width="2"/>
+  <path d="M233 432H914M249 449H896M263 467H880" stroke="#A0B99E" stroke-opacity=".19" stroke-width="2"/>
+  <g opacity=".85"><use href="#plant" x="235" y="211" width="144" height="190"/><use href="#plant" x="403" y="194" width="144" height="207"/><use href="#plant" x="570" y="209" width="142" height="192"/><use href="#plant" x="738" y="203" width="140" height="198"/></g>
+  <g><use href="#plant" x="254" y="282" width="158" height="185"/><use href="#plant" x="429" y="270" width="164" height="197"/><use href="#plant" x="610" y="284" width="162" height="183"/><use href="#plant" x="779" y="285" width="130" height="182"/></g>
+  <rect x="297" y="510" width="156" height="27" rx="4" fill="#234035" stroke="#6C8A75" stroke-opacity=".5"/>
+  <path d="M310 524H339M351 524H381M393 524H438" stroke="#97B58D" stroke-opacity=".7" stroke-width="2"/>
+  <path d="M305 573V612M828 573V612M305 612H827" stroke="#567968" stroke-width="7" stroke-linecap="round"/>
+  <path d="M977 344V492C977 522 963 537 942 537H889" stroke="#759889" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="977" cy="337" r="13" fill="#183C30" stroke="#8BB697" stroke-width="2"/>
+  <path d="M977 332V342M972 337H982" stroke="#A8C2A1" stroke-width="1.5"/>
+  <path d="M79 622H1044" stroke="#719280" stroke-opacity=".22"/>
+</svg>

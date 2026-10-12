@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-10-12T04:42:10.831374+00:00",
+  "passed": true,
+  "transport": "verified HTTPS",
+  "storage": "mongodb",
+  "database": "astra_bio",
+  "collection": "observations",
+  "device_id": "tray-01",
+  "source": "synthetic",
+  "sample_id": "check_22d7b410f53a1d4cfe5559bb",
+  "created_http_status": 201,
+  "identical_retry_http_status": 200,
+  "matching_atlas_records": 1,
+  "dashboard_http_status": 200,
+  "gateway_health_http_status": 200,
+  "firmware_contains_atlas_uri": false,
+  "hardware_validated": false,
+  "physical_board_flashed": false,
+  "folder_acl_changed": false,
+  "network_allowlist_changed": false,
+  "remote_operation_timeout_ms": 8000
+}

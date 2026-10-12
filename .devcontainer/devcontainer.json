@@ -1,12 +1,13 @@
 {
-  "name": "Python 3.14",
+  "name": "ASTRA-BIO Python 3.12",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/python:3-3.14-bookworm",
+  "image": "mcr.microsoft.com/devcontainers/python:3-3.12-bookworm",
   "customizations": {
     "codespaces": {
       "openFiles": [
         "README.md",
-        "streamlit_app.py"
+        "astra_bio/api.py",
+        "frontend/src/main.jsx"
       ]
     },
     "vscode": {
@@ -17,9 +18,10 @@
       ]
     }
   },
-  "updateContentCommand": "if [ -f packages.txt ]; then sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y < packages.txt; fi; if ! command -v uv >/dev/null 2>&1; then curl -LsSf https://astral.sh/uv/install.sh | sh; fi; UV_BIN=$(command -v uv || echo \"$HOME/.local/bin/uv\"); UV_PROJECT_ENVIRONMENT=\"$HOME/.venvs/blank-app-template\" \"$UV_BIN\" sync",
+  "features": {"ghcr.io/devcontainers/features/node:1": {"version": "24"}},
+  "updateContentCommand": "python -m pip install uv && uv sync --locked --python 3.12 && npm ci --prefix frontend && npm run build --prefix frontend",
   "postAttachCommand": {
-    "server": "UV_BIN=$(command -v uv || echo \"$HOME/.local/bin/uv\"); UV_PROJECT_ENVIRONMENT=\"$HOME/.venvs/blank-app-template\" \"$UV_BIN\" run streamlit run streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false"
+    "server": "uv run python -m astra_bio.telemetry && uv run uvicorn astra_bio.api:app --host 0.0.0.0 --port 8501"
   },
   "portsAttributes": {
     "8501": {

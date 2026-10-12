@@ -1,0 +1,13 @@
+{
+  "source_url": "https://data.4tu.nl/datasets/5a7472f0-8a67-4ec0-84c9-9d032990d654/1",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "doi": "https://doi.org/10.4121/5a7472f0-8a67-4ec0-84c9-9d032990d654.v1",
+  "metadata_sha256": "c75a411fb47eafe4900100c26531cac1c42754202ed394431f6e1c36078a8ea9",
+  "record_sha256": "059c4888fcb6dbb7ffb7cac06c960ebbdbb6efc825bac1f0e751f0d1b4ebfc95",
+  "status": "raw measurement files unavailable during publisher storage maintenance",
+  "attempt": {
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  "not_fitted": true,
+  "not_training_data": true
+}

@@ -1,0 +1,422 @@
+[
+  {
+    "id": "astra-flow",
+    "type": "tab",
+    "label": "ASTRA-BIO telemetry (outputs disabled)",
+    "disabled": false,
+    "info": "MQTT ingestion and manual synthetic fixture only. No actuator command output. Official core MQTT cookbook pattern adapted; Apache-2.0 Node-RED and node-red-node-sqlite."
+  },
+  {
+    "id": "astra-description",
+    "type": "comment",
+    "z": "astra-flow",
+    "name": "Telemetry only: install node-red-node-sqlite; initialize DB or wait 1 second after Deploy",
+    "info": "Authenticated per-device MQTT telemetry and availability. No command writer. Run setup-mqtt.ps1 and run-stack.ps1. Reserved simulator demo-tray-01 is always synthetic.",
+    "x": 390,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "astra-db-init",
+    "type": "inject",
+    "z": "astra-flow",
+    "name": "Create table on deploy",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "1",
+    "topic": "\nCREATE TABLE IF NOT EXISTS observations (\n id INTEGER PRIMARY KEY AUTOINCREMENT,\n ts_utc TEXT NOT NULL,\n device_id TEXT NOT NULL,\n source TEXT NOT NULL CHECK (source IN ('synthetic','hardware')),\n air_temp_c REAL, relative_humidity_pct REAL, solution_temp_c REAL,\n light_lux REAL, bus_voltage_v REAL, bus_current_a REAL, bus_power_w REAL,\n low_water INTEGER CHECK (low_water IN (0,1)),\n pump_on INTEGER CHECK (pump_on IN (0,1)),\n fan_on INTEGER CHECK (fan_on IN (0,1)),\n light_on INTEGER CHECK (light_on IN (0,1)),\n raw_json TEXT NOT NULL\n);\nCREATE INDEX IF NOT EXISTS observations_time ON observations(ts_utc, id);\nCREATE INDEX IF NOT EXISTS observations_stream ON observations(device_id, source, ts_utc, id);\nCREATE TABLE IF NOT EXISTS device_status (\n device_id TEXT PRIMARY KEY,\n status TEXT NOT NULL CHECK(status IN ('online','offline')),\n source TEXT NOT NULL CHECK(source IN ('synthetic','hardware')),\n received_at_utc TEXT NOT NULL,\n raw_json TEXT NOT NULL\n);\n",
+    "payload": "",
+    "payloadType": "str",
+    "x": 160,
+    "y": 100,
+    "wires": [
+      [
+        "astra-schema"
+      ]
+    ]
+  },
+  {
+    "id": "astra-schema",
+    "type": "sqlite",
+    "z": "astra-flow",
+    "mydb": "astra-sqlite-db",
+    "sqlquery": "batch",
+    "sql": "\nCREATE TABLE IF NOT EXISTS observations (\n id INTEGER PRIMARY KEY AUTOINCREMENT,\n ts_utc TEXT NOT NULL,\n device_id TEXT NOT NULL,\n source TEXT NOT NULL CHECK (source IN ('synthetic','hardware')),\n air_temp_c REAL, relative_humidity_pct REAL, solution_temp_c REAL,\n light_lux REAL, bus_voltage_v REAL, bus_current_a REAL, bus_power_w REAL,\n low_water INTEGER CHECK (low_water IN (0,1)),\n pump_on INTEGER CHECK (pump_on IN (0,1)),\n fan_on INTEGER CHECK (fan_on IN (0,1)),\n light_on INTEGER CHECK (light_on IN (0,1)),\n raw_json TEXT NOT NULL\n);\nCREATE INDEX IF NOT EXISTS observations_time ON observations(ts_utc, id);\nCREATE INDEX IF NOT EXISTS observations_stream ON observations(device_id, source, ts_utc, id);\nCREATE TABLE IF NOT EXISTS device_status (\n device_id TEXT PRIMARY KEY,\n status TEXT NOT NULL CHECK(status IN ('online','offline')),\n source TEXT NOT NULL CHECK(source IN ('synthetic','hardware')),\n received_at_utc TEXT NOT NULL,\n raw_json TEXT NOT NULL\n);\n",
+    "name": "Initialize shared SQLite table",
+    "x": 450,
+    "y": 100,
+    "wires": [
+      [
+        "astra-saved"
+      ]
+    ]
+  },
+  {
+    "id": "astra-inject",
+    "type": "inject",
+    "z": "astra-flow",
+    "name": "One synthetic observation (manual)",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": "0.1",
+    "topic": "",
+    "payload": "{\"ts_utc\": \"2026-10-10T10:00:00Z\", \"device_id\": \"tray-replay\", \"source\": \"synthetic\", \"air_temp_c\": 23.4, \"relative_humidity_pct\": 61.0, \"solution_temp_c\": 21.5, \"light_lux\": 1800.0, \"bus_voltage_v\": 12.1, \"bus_current_a\": 0.32, \"bus_power_w\": 3.872, \"low_water\": false, \"pump_on\": false, \"fan_on\": false, \"light_on\": false, \"timestamp_origin\": \"fixture\", \"note\": \"Synthetic fixture. Refresh ts_utc before using as a current observation.\", \"actuation_enabled\": false}",
+    "payloadType": "json",
+    "x": 210,
+    "y": 190,
+    "wires": [
+      [
+        "astra-fixture-time"
+      ]
+    ]
+  },
+  {
+    "id": "astra-fixture-time",
+    "type": "function",
+    "z": "astra-flow",
+    "name": "Stamp synthetic fixture now",
+    "func": "msg.payload.ts_utc = new Date().toISOString();\nmsg.payload.source = \"synthetic\";\nmsg.payload.timestamp_origin = \"synthetic_inject\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 510,
+    "y": 190,
+    "wires": [
+      [
+        "astra-normalize"
+      ]
+    ]
+  },
+  {
+    "id": "astra-mqtt-in",
+    "type": "mqtt in",
+    "z": "astra-flow",
+    "name": "Authenticated device telemetry",
+    "topic": "astra-bio/devices/+/telemetry",
+    "qos": "1",
+    "datatype": "auto-detect",
+    "broker": "astra-mqtt-broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 190,
+    "y": 270,
+    "wires": [
+      [
+        "astra-json"
+      ]
+    ]
+  },
+  {
+    "id": "astra-json",
+    "type": "json",
+    "z": "astra-flow",
+    "name": "Decode JSON object",
+    "property": "payload",
+    "action": "obj",
+    "pretty": false,
+    "x": 470,
+    "y": 270,
+    "wires": [
+      [
+        "astra-stamp-hardware"
+      ]
+    ]
+  },
+  {
+    "id": "astra-stamp-hardware",
+    "type": "function",
+    "z": "astra-flow",
+    "name": "Enforce topic identity and receipt provenance",
+    "func": "try {\n    const p = msg.payload;\n    if (!p || typeof p !== \"object\" || Array.isArray(p)) throw new Error(\"Expected object\");\n    if (msg.retain === true) throw new Error(\"Retained telemetry rejected\");\n    const match = /^astra-bio\\/devices\\/([A-Za-z0-9_-]{1,64})\\/telemetry$/.exec(msg.topic || \"\");\n    if (!match || match[1] !== p.device_id) throw new Error(\"Topic and device_id differ\");\n    const source = match[1] === \"demo-tray-01\" ? \"synthetic\" : \"hardware\";\n    if (p.source !== source) throw new Error(\"Source conflicts with provisioned device topic\");\n    const receipt = new Date().toISOString();\n    if (source === \"hardware\") {\n        if (p.ts_utc !== undefined && p.ts_utc !== null) p.device_ts_utc = p.ts_utc;\n        p.ts_utc = receipt;\n        p.timestamp_origin = \"collector\";\n    }\n    p.received_at_utc = receipt;\n    p.transport = \"mqtt\";\n    return msg;\n} catch (error) { node.error(\"Rejected MQTT telemetry: \" + error.message, msg); return null; }",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 760,
+    "y": 270,
+    "wires": [
+      [
+        "astra-normalize"
+      ]
+    ]
+  },
+  {
+    "id": "astra-normalize",
+    "type": "function",
+    "z": "astra-flow",
+    "name": "Validate & prepare observation",
+    "func": "// Normalized ASTRA-BIO telemetry. This node never sends actuator commands.\ntry {\n    const p = msg.payload;\n    if (!p || typeof p !== \"object\" || Array.isArray(p)) throw new Error(\"Expected a JSON object\");\n    if (![\"synthetic\", \"hardware\"].includes(p.source)) throw new Error(\"Explicit source synthetic/hardware required\");\n    if (typeof p.device_id !== \"string\" || !/^[A-Za-z0-9_-]{1,64}$/.test(p.device_id)) throw new Error(\"Invalid device_id\");\n    if (typeof p.ts_utc !== \"string\" || !/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$/.test(p.ts_utc)) throw new Error(\"ISO UTC timestamp ending Z required\");\n    const stamp = new Date(p.ts_utc);\n    if (!Number.isFinite(stamp.getTime()) || stamp.toISOString().slice(0,19) !== p.ts_utc.slice(0,19)) throw new Error(\"Invalid calendar timestamp\");\n    const numeric = {air_temp_c:[-50,80],relative_humidity_pct:[0,100],solution_temp_c:[-10,60],light_lux:[0,200000],bus_voltage_v:[0,36],bus_current_a:[0,15],bus_power_w:[0,540]};\n    const normalized = {ts_utc:stamp.toISOString(),device_id:p.device_id,source:p.source};\n    let readings = 0;\n    for (const [key, bounds] of Object.entries(numeric)) {\n        const value = p[key];\n        if (value === undefined || value === null) normalized[key] = null;\n        else {\n            if (typeof value !== \"number\" || !Number.isFinite(value) || value < bounds[0] || value > bounds[1]) throw new Error(\"Invalid \" + key);\n            normalized[key] = value; readings++;\n        }\n    }\n    if (readings === 0) throw new Error(\"At least one finite sensor reading required\");\n    for (const key of [\"low_water\",\"pump_on\",\"fan_on\",\"light_on\"]) {\n        const value = p[key];\n        if (value === undefined || value === null) normalized[key] = null;\n        else if (value === true || value === 1) normalized[key] = 1;\n        else if (value === false || value === 0) normalized[key] = 0;\n        else throw new Error(\"Invalid \" + key + \"; boolean or 0/1 required\");\n    }\n    // Preserve clock/sensor provenance and extra metadata for inspection.\n    const raw = JSON.stringify({...p,ts_utc:normalized.ts_utc});\n    if (raw.length > 16384) throw new Error(\"Telemetry message exceeds 16 KiB\");\n    normalized.raw_json = raw;\n    msg.params = Object.fromEntries(Object.entries(normalized).map(([key,value]) => [\"$\" + key,value]));\n    msg.payload = normalized;\n    return msg;\n} catch (error) {\n    node.error(\"Rejected telemetry: \" + error.message, msg);\n    return null;\n}",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 820,
+    "y": 190,
+    "wires": [
+      [
+        "astra-insert",
+        "astra-preview"
+      ]
+    ]
+  },
+  {
+    "id": "astra-insert",
+    "type": "sqlite",
+    "z": "astra-flow",
+    "mydb": "astra-sqlite-db",
+    "sqlquery": "prepared",
+    "sql": "INSERT INTO observations (ts_utc, device_id, source, air_temp_c, relative_humidity_pct, solution_temp_c, light_lux, bus_voltage_v, bus_current_a, bus_power_w, low_water, pump_on, fan_on, light_on, raw_json) VALUES ($ts_utc, $device_id, $source, $air_temp_c, $relative_humidity_pct, $solution_temp_c, $light_lux, $bus_voltage_v, $bus_current_a, $bus_power_w, $low_water, $pump_on, $fan_on, $light_on, $raw_json);",
+    "name": "Prepared SQLite insert",
+    "x": 1100,
+    "y": 170,
+    "wires": [
+      [
+        "astra-saved"
+      ]
+    ]
+  },
+  {
+    "id": "astra-preview",
+    "type": "debug",
+    "z": "astra-flow",
+    "name": "Validated observation",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1100,
+    "y": 230,
+    "wires": []
+  },
+  {
+    "id": "astra-saved",
+    "type": "debug",
+    "z": "astra-flow",
+    "name": "SQLite result",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1390,
+    "y": 130,
+    "wires": []
+  },
+  {
+    "id": "astra-errors",
+    "type": "catch",
+    "z": "astra-flow",
+    "name": "Ingestion / SQLite errors",
+    "scope": null,
+    "uncaught": false,
+    "x": 260,
+    "y": 370,
+    "wires": [
+      [
+        "astra-error-debug"
+      ]
+    ]
+  },
+  {
+    "id": "astra-error-debug",
+    "type": "debug",
+    "z": "astra-flow",
+    "name": "Rejected observation / database error",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "error",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 610,
+    "y": 370,
+    "wires": []
+  },
+  {
+    "id": "astra-mqtt-broker",
+    "type": "mqtt-broker",
+    "name": "Authenticated laptop collector",
+    "broker": "${ASTRA_MQTT_HOST}",
+    "port": "${ASTRA_MQTT_PORT}",
+    "clientid": "astra-node-red-collector",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "5",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {}
+  },
+  {
+    "id": "astra-sqlite-db",
+    "type": "sqlitedb",
+    "db": "D:/Seds/astra-bio/data/telemetry.sqlite",
+    "mode": "RWC"
+  },
+  {
+    "id": "astra-availability-in",
+    "type": "mqtt in",
+    "z": "astra-flow",
+    "name": "Device availability (retained)",
+    "topic": "astra-bio/devices/+/availability",
+    "qos": "1",
+    "datatype": "utf8",
+    "broker": "astra-mqtt-broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 180,
+    "y": 450,
+    "wires": [
+      [
+        "astra-availability-prepare"
+      ]
+    ]
+  },
+  {
+    "id": "astra-availability-prepare",
+    "type": "function",
+    "z": "astra-flow",
+    "name": "Validate status and prepare upsert",
+    "func": "try {\n const m = /^astra-bio\\/devices\\/([A-Za-z0-9_-]{1,64})\\/availability$/.exec(msg.topic || \"\");\n const status = typeof msg.payload === \"string\" ? msg.payload : msg.payload.toString();\n if (!m || ![\"online\",\"offline\"].includes(status)) throw new Error(\"Invalid availability\");\n const source = m[1] === \"demo-tray-01\" ? \"synthetic\" : \"hardware\";\n const receipt = new Date().toISOString();\n msg.params = {$device_id:m[1], $status:status, $source:source, $received_at_utc:receipt,\n  $raw_json:JSON.stringify({transport:\"mqtt\",retained:msg.retain === true,status:status})};\n return msg;\n} catch(error) { node.error(\"Rejected availability: \" + error.message,msg); return null; }",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 530,
+    "y": 450,
+    "wires": [
+      [
+        "astra-availability-save"
+      ]
+    ]
+  },
+  {
+    "id": "astra-availability-save",
+    "type": "sqlite",
+    "z": "astra-flow",
+    "mydb": "astra-sqlite-db",
+    "sqlquery": "prepared",
+    "sql": "INSERT INTO device_status (device_id,status,source,received_at_utc,raw_json)\n VALUES ($device_id,$status,$source,$received_at_utc,$raw_json)\n ON CONFLICT(device_id) DO UPDATE SET status=excluded.status,source=excluded.source,\n received_at_utc=excluded.received_at_utc,raw_json=excluded.raw_json;",
+    "name": "Latest reported device state",
+    "x": 910,
+    "y": 450,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "astra-collector-status",
+    "type": "status",
+    "z": "astra-flow",
+    "name": "Collector connection status",
+    "scope": [
+      "astra-mqtt-in"
+    ],
+    "x": 210,
+    "y": 530,
+    "wires": [
+      [
+        "astra-collector-status-format"
+      ]
+    ]
+  },
+  {
+    "id": "astra-collector-status-format",
+    "type": "function",
+    "z": "astra-flow",
+    "name": "Public connection state",
+    "func": "if (msg.status) flow.set(\"mqtt_collector_connected\", msg.status.fill === \"green\");\nmsg.payload = JSON.stringify({connected:flow.get(\"mqtt_collector_connected\") === true, checked_at_utc:new Date().toISOString()});\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 540,
+    "y": 530,
+    "wires": [
+      [
+        "astra-collector-status-file"
+      ]
+    ]
+  },
+  {
+    "id": "astra-collector-status-file",
+    "type": "file",
+    "z": "astra-flow",
+    "name": "Collector status file",
+    "filename": "${ASTRA_COLLECTOR_STATUS_PATH}",
+    "filenameType": "str",
+    "appendNewline": false,
+    "createDir": true,
+    "overwriteFile": "true",
+    "encoding": "none",
+    "x": 900,
+    "y": 530,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "astra-collector-heartbeat",
+    "type": "inject",
+    "z": "astra-flow",
+    "name": "Collector heartbeat every 5 seconds",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "5",
+    "once": true,
+    "onceDelay": "0.1",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "",
+    "x": 200,
+    "y": 590,
+    "wires": [
+      [
+        "astra-collector-status-format"
+      ]
+    ]
+  }
+]

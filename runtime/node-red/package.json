@@ -1,0 +1,13 @@
+{
+  "name": "astra-bio-telemetry-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pinned local Node-RED and SQLite runtime for ASTRA-BIO",
+  "dependencies": {
+    "node-red": "5.0.8",
+    "node-red-node-sqlite": "2.0.1"
+  },
+  "allowScripts": {
+    "sqlite3@6.0.1": true
+  }
+}

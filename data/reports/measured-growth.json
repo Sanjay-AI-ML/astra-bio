@@ -1,0 +1,1616 @@
+{
+  "schema_version": "astra-bio.measured-growth.v1",
+  "status": "experimental_fitted",
+  "model_kind": "training-plant age means with weighted monotone fit and linear interpolation",
+  "source_sha256": "1f872a90d7806ef5ce2560a2e11383e134f864f5755fb01d4456d6df72869e57",
+  "record_count": 540,
+  "independent_cycle_count": 1,
+  "independent_cycle_ids": [
+    "ucdavis_nft_zenodo17041810_cycle_1"
+  ],
+  "training_plant_ids": [
+    "B22",
+    "B23",
+    "B24",
+    "B27",
+    "B32",
+    "B33",
+    "B34",
+    "B37",
+    "B42",
+    "B43",
+    "B44",
+    "B47"
+  ],
+  "holdout_plant_ids": [
+    "B25",
+    "B26",
+    "B35",
+    "B36",
+    "B45",
+    "B46"
+  ],
+  "training_record_count": 360,
+  "holdout_record_count": 180,
+  "minimum_training_plants": 6,
+  "minimum_holdout_plants": 3,
+  "minimum_measured_ages": 4,
+  "active_in_planner": false,
+  "ready_for_hardware_control": false,
+  "source_urls": [
+    "https://zenodo.org/records/17041810"
+  ],
+  "issues": [],
+  "validation": {
+    "kind": "whole-plant held-out within ONE source cycle; equal plant weighting",
+    "independent_test_cycle_count": 0,
+    "curve": {
+      "plant_count": 6,
+      "mae_g_per_plant": 5.71925925925926,
+      "rmse_g_per_plant": 10.256539016285789,
+      "bias_g_per_plant": -3.715000000000004
+    },
+    "training_mean_baseline": {
+      "plant_count": 6,
+      "mae_g_per_plant": 47.584611111111116,
+      "rmse_g_per_plant": 53.630641557684996,
+      "bias_g_per_plant": -3.714999999999993
+    },
+    "unsupported_holdout_record_count": 0,
+    "records": [
+      {
+        "observation_id": "zenodo17041810_B25_dat01",
+        "plant_id": "B25",
+        "days_after_transplant": 1.0,
+        "observed_fresh_mass_g": 3.9,
+        "predicted_fresh_mass_g": 3.3666666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat01",
+        "plant_id": "B26",
+        "days_after_transplant": 1.0,
+        "observed_fresh_mass_g": 3.3,
+        "predicted_fresh_mass_g": 3.3666666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat02",
+        "plant_id": "B25",
+        "days_after_transplant": 2.0,
+        "observed_fresh_mass_g": 8.5,
+        "predicted_fresh_mass_g": 7.95,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat02",
+        "plant_id": "B26",
+        "days_after_transplant": 2.0,
+        "observed_fresh_mass_g": 8.5,
+        "predicted_fresh_mass_g": 7.95,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat03",
+        "plant_id": "B25",
+        "days_after_transplant": 3.0,
+        "observed_fresh_mass_g": 10.1,
+        "predicted_fresh_mass_g": 9.583333333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat03",
+        "plant_id": "B26",
+        "days_after_transplant": 3.0,
+        "observed_fresh_mass_g": 9.8,
+        "predicted_fresh_mass_g": 9.583333333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat04",
+        "plant_id": "B25",
+        "days_after_transplant": 4.0,
+        "observed_fresh_mass_g": 11.1,
+        "predicted_fresh_mass_g": 10.108333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat04",
+        "plant_id": "B26",
+        "days_after_transplant": 4.0,
+        "observed_fresh_mass_g": 10.7,
+        "predicted_fresh_mass_g": 10.108333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat05",
+        "plant_id": "B25",
+        "days_after_transplant": 5.0,
+        "observed_fresh_mass_g": 13.6,
+        "predicted_fresh_mass_g": 12.666666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat05",
+        "plant_id": "B26",
+        "days_after_transplant": 5.0,
+        "observed_fresh_mass_g": 13.0,
+        "predicted_fresh_mass_g": 12.666666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat06",
+        "plant_id": "B25",
+        "days_after_transplant": 6.0,
+        "observed_fresh_mass_g": 16.8,
+        "predicted_fresh_mass_g": 15.350000000000001,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat06",
+        "plant_id": "B26",
+        "days_after_transplant": 6.0,
+        "observed_fresh_mass_g": 15.4,
+        "predicted_fresh_mass_g": 15.350000000000001,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat07",
+        "plant_id": "B25",
+        "days_after_transplant": 7.0,
+        "observed_fresh_mass_g": 20.0,
+        "predicted_fresh_mass_g": 18.266666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat07",
+        "plant_id": "B26",
+        "days_after_transplant": 7.0,
+        "observed_fresh_mass_g": 17.7,
+        "predicted_fresh_mass_g": 18.266666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat08",
+        "plant_id": "B25",
+        "days_after_transplant": 8.0,
+        "observed_fresh_mass_g": 23.8,
+        "predicted_fresh_mass_g": 21.61666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat08",
+        "plant_id": "B26",
+        "days_after_transplant": 8.0,
+        "observed_fresh_mass_g": 20.2,
+        "predicted_fresh_mass_g": 21.61666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat09",
+        "plant_id": "B25",
+        "days_after_transplant": 9.0,
+        "observed_fresh_mass_g": 28.4,
+        "predicted_fresh_mass_g": 25.90833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat09",
+        "plant_id": "B26",
+        "days_after_transplant": 9.0,
+        "observed_fresh_mass_g": 23.5,
+        "predicted_fresh_mass_g": 25.90833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat10",
+        "plant_id": "B25",
+        "days_after_transplant": 10.0,
+        "observed_fresh_mass_g": 34.6,
+        "predicted_fresh_mass_g": 30.575000000000003,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat10",
+        "plant_id": "B26",
+        "days_after_transplant": 10.0,
+        "observed_fresh_mass_g": 27.2,
+        "predicted_fresh_mass_g": 30.575000000000003,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat11",
+        "plant_id": "B25",
+        "days_after_transplant": 11.0,
+        "observed_fresh_mass_g": 38.3,
+        "predicted_fresh_mass_g": 35.225,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat11",
+        "plant_id": "B26",
+        "days_after_transplant": 11.0,
+        "observed_fresh_mass_g": 31.6,
+        "predicted_fresh_mass_g": 35.225,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat12",
+        "plant_id": "B25",
+        "days_after_transplant": 12.0,
+        "observed_fresh_mass_g": 43.7,
+        "predicted_fresh_mass_g": 39.85833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat12",
+        "plant_id": "B26",
+        "days_after_transplant": 12.0,
+        "observed_fresh_mass_g": 35.4,
+        "predicted_fresh_mass_g": 39.85833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat13",
+        "plant_id": "B25",
+        "days_after_transplant": 13.0,
+        "observed_fresh_mass_g": 49.3,
+        "predicted_fresh_mass_g": 45.19166666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat13",
+        "plant_id": "B26",
+        "days_after_transplant": 13.0,
+        "observed_fresh_mass_g": 40.4,
+        "predicted_fresh_mass_g": 45.19166666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat14",
+        "plant_id": "B25",
+        "days_after_transplant": 14.0,
+        "observed_fresh_mass_g": 56.5,
+        "predicted_fresh_mass_g": 51.64166666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat14",
+        "plant_id": "B26",
+        "days_after_transplant": 14.0,
+        "observed_fresh_mass_g": 45.7,
+        "predicted_fresh_mass_g": 51.64166666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat15",
+        "plant_id": "B25",
+        "days_after_transplant": 15.0,
+        "observed_fresh_mass_g": 65.2,
+        "predicted_fresh_mass_g": 59.21666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat15",
+        "plant_id": "B26",
+        "days_after_transplant": 15.0,
+        "observed_fresh_mass_g": 53.1,
+        "predicted_fresh_mass_g": 59.21666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat16",
+        "plant_id": "B25",
+        "days_after_transplant": 16.0,
+        "observed_fresh_mass_g": 73.0,
+        "predicted_fresh_mass_g": 67.96666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat16",
+        "plant_id": "B26",
+        "days_after_transplant": 16.0,
+        "observed_fresh_mass_g": 62.2,
+        "predicted_fresh_mass_g": 67.96666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat17",
+        "plant_id": "B25",
+        "days_after_transplant": 17.0,
+        "observed_fresh_mass_g": 81.7,
+        "predicted_fresh_mass_g": 76.625,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat17",
+        "plant_id": "B26",
+        "days_after_transplant": 17.0,
+        "observed_fresh_mass_g": 70.3,
+        "predicted_fresh_mass_g": 76.625,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat18",
+        "plant_id": "B25",
+        "days_after_transplant": 18.0,
+        "observed_fresh_mass_g": 87.8,
+        "predicted_fresh_mass_g": 82.98333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat18",
+        "plant_id": "B26",
+        "days_after_transplant": 18.0,
+        "observed_fresh_mass_g": 76.3,
+        "predicted_fresh_mass_g": 82.98333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat19",
+        "plant_id": "B25",
+        "days_after_transplant": 19.0,
+        "observed_fresh_mass_g": 95.9,
+        "predicted_fresh_mass_g": 91.78333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat19",
+        "plant_id": "B26",
+        "days_after_transplant": 19.0,
+        "observed_fresh_mass_g": 85.7,
+        "predicted_fresh_mass_g": 91.78333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat20",
+        "plant_id": "B25",
+        "days_after_transplant": 20.0,
+        "observed_fresh_mass_g": 102.4,
+        "predicted_fresh_mass_g": 99.0,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat20",
+        "plant_id": "B26",
+        "days_after_transplant": 20.0,
+        "observed_fresh_mass_g": 93.4,
+        "predicted_fresh_mass_g": 99.0,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat21",
+        "plant_id": "B25",
+        "days_after_transplant": 21.0,
+        "observed_fresh_mass_g": 109.2,
+        "predicted_fresh_mass_g": 106.94999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat21",
+        "plant_id": "B26",
+        "days_after_transplant": 21.0,
+        "observed_fresh_mass_g": 100.8,
+        "predicted_fresh_mass_g": 106.94999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat22",
+        "plant_id": "B25",
+        "days_after_transplant": 22.0,
+        "observed_fresh_mass_g": 115.7,
+        "predicted_fresh_mass_g": 112.84166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat22",
+        "plant_id": "B26",
+        "days_after_transplant": 22.0,
+        "observed_fresh_mass_g": 107.7,
+        "predicted_fresh_mass_g": 112.84166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat23",
+        "plant_id": "B25",
+        "days_after_transplant": 23.0,
+        "observed_fresh_mass_g": 120.5,
+        "predicted_fresh_mass_g": 118.69999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat23",
+        "plant_id": "B26",
+        "days_after_transplant": 23.0,
+        "observed_fresh_mass_g": 113.7,
+        "predicted_fresh_mass_g": 118.69999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat24",
+        "plant_id": "B25",
+        "days_after_transplant": 24.0,
+        "observed_fresh_mass_g": 127.0,
+        "predicted_fresh_mass_g": 124.63333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat24",
+        "plant_id": "B26",
+        "days_after_transplant": 24.0,
+        "observed_fresh_mass_g": 121.5,
+        "predicted_fresh_mass_g": 124.63333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat25",
+        "plant_id": "B25",
+        "days_after_transplant": 25.0,
+        "observed_fresh_mass_g": 132.8,
+        "predicted_fresh_mass_g": 131.74999999999997,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat25",
+        "plant_id": "B26",
+        "days_after_transplant": 25.0,
+        "observed_fresh_mass_g": 131.1,
+        "predicted_fresh_mass_g": 131.74999999999997,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat26",
+        "plant_id": "B25",
+        "days_after_transplant": 26.0,
+        "observed_fresh_mass_g": 137.5,
+        "predicted_fresh_mass_g": 138.64166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat26",
+        "plant_id": "B26",
+        "days_after_transplant": 26.0,
+        "observed_fresh_mass_g": 138.3,
+        "predicted_fresh_mass_g": 138.64166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat27",
+        "plant_id": "B25",
+        "days_after_transplant": 27.0,
+        "observed_fresh_mass_g": 141.9,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat27",
+        "plant_id": "B26",
+        "days_after_transplant": 27.0,
+        "observed_fresh_mass_g": 142.7,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat28",
+        "plant_id": "B25",
+        "days_after_transplant": 28.0,
+        "observed_fresh_mass_g": 136.7,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat28",
+        "plant_id": "B26",
+        "days_after_transplant": 28.0,
+        "observed_fresh_mass_g": 139.1,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat29",
+        "plant_id": "B25",
+        "days_after_transplant": 29.0,
+        "observed_fresh_mass_g": 142.9,
+        "predicted_fresh_mass_g": 145.45833333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat29",
+        "plant_id": "B26",
+        "days_after_transplant": 29.0,
+        "observed_fresh_mass_g": 146.5,
+        "predicted_fresh_mass_g": 145.45833333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B25_dat30",
+        "plant_id": "B25",
+        "days_after_transplant": 30.0,
+        "observed_fresh_mass_g": 148.1,
+        "predicted_fresh_mass_g": 149.725,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B26_dat30",
+        "plant_id": "B26",
+        "days_after_transplant": 30.0,
+        "observed_fresh_mass_g": 154.1,
+        "predicted_fresh_mass_g": 149.725,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat01",
+        "plant_id": "B35",
+        "days_after_transplant": 1.0,
+        "observed_fresh_mass_g": 4.6,
+        "predicted_fresh_mass_g": 3.3666666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat01",
+        "plant_id": "B36",
+        "days_after_transplant": 1.0,
+        "observed_fresh_mass_g": 3.8,
+        "predicted_fresh_mass_g": 3.3666666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat02",
+        "plant_id": "B35",
+        "days_after_transplant": 2.0,
+        "observed_fresh_mass_g": 9.2,
+        "predicted_fresh_mass_g": 7.95,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat02",
+        "plant_id": "B36",
+        "days_after_transplant": 2.0,
+        "observed_fresh_mass_g": 8.7,
+        "predicted_fresh_mass_g": 7.95,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat03",
+        "plant_id": "B35",
+        "days_after_transplant": 3.0,
+        "observed_fresh_mass_g": 10.8,
+        "predicted_fresh_mass_g": 9.583333333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat03",
+        "plant_id": "B36",
+        "days_after_transplant": 3.0,
+        "observed_fresh_mass_g": 10.4,
+        "predicted_fresh_mass_g": 9.583333333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat04",
+        "plant_id": "B35",
+        "days_after_transplant": 4.0,
+        "observed_fresh_mass_g": 11.3,
+        "predicted_fresh_mass_g": 10.108333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat04",
+        "plant_id": "B36",
+        "days_after_transplant": 4.0,
+        "observed_fresh_mass_g": 10.9,
+        "predicted_fresh_mass_g": 10.108333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat05",
+        "plant_id": "B35",
+        "days_after_transplant": 5.0,
+        "observed_fresh_mass_g": 14.5,
+        "predicted_fresh_mass_g": 12.666666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat05",
+        "plant_id": "B36",
+        "days_after_transplant": 5.0,
+        "observed_fresh_mass_g": 13.8,
+        "predicted_fresh_mass_g": 12.666666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat06",
+        "plant_id": "B35",
+        "days_after_transplant": 6.0,
+        "observed_fresh_mass_g": 17.8,
+        "predicted_fresh_mass_g": 15.350000000000001,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat06",
+        "plant_id": "B36",
+        "days_after_transplant": 6.0,
+        "observed_fresh_mass_g": 17.0,
+        "predicted_fresh_mass_g": 15.350000000000001,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat07",
+        "plant_id": "B35",
+        "days_after_transplant": 7.0,
+        "observed_fresh_mass_g": 21.9,
+        "predicted_fresh_mass_g": 18.266666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat07",
+        "plant_id": "B36",
+        "days_after_transplant": 7.0,
+        "observed_fresh_mass_g": 20.5,
+        "predicted_fresh_mass_g": 18.266666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat08",
+        "plant_id": "B35",
+        "days_after_transplant": 8.0,
+        "observed_fresh_mass_g": 26.5,
+        "predicted_fresh_mass_g": 21.61666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat08",
+        "plant_id": "B36",
+        "days_after_transplant": 8.0,
+        "observed_fresh_mass_g": 24.0,
+        "predicted_fresh_mass_g": 21.61666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat09",
+        "plant_id": "B35",
+        "days_after_transplant": 9.0,
+        "observed_fresh_mass_g": 32.0,
+        "predicted_fresh_mass_g": 25.90833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat09",
+        "plant_id": "B36",
+        "days_after_transplant": 9.0,
+        "observed_fresh_mass_g": 28.5,
+        "predicted_fresh_mass_g": 25.90833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat10",
+        "plant_id": "B35",
+        "days_after_transplant": 10.0,
+        "observed_fresh_mass_g": 38.6,
+        "predicted_fresh_mass_g": 30.575000000000003,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat10",
+        "plant_id": "B36",
+        "days_after_transplant": 10.0,
+        "observed_fresh_mass_g": 34.0,
+        "predicted_fresh_mass_g": 30.575000000000003,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat11",
+        "plant_id": "B35",
+        "days_after_transplant": 11.0,
+        "observed_fresh_mass_g": 44.3,
+        "predicted_fresh_mass_g": 35.225,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat11",
+        "plant_id": "B36",
+        "days_after_transplant": 11.0,
+        "observed_fresh_mass_g": 38.5,
+        "predicted_fresh_mass_g": 35.225,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat12",
+        "plant_id": "B35",
+        "days_after_transplant": 12.0,
+        "observed_fresh_mass_g": 50.1,
+        "predicted_fresh_mass_g": 39.85833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat12",
+        "plant_id": "B36",
+        "days_after_transplant": 12.0,
+        "observed_fresh_mass_g": 43.0,
+        "predicted_fresh_mass_g": 39.85833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat13",
+        "plant_id": "B35",
+        "days_after_transplant": 13.0,
+        "observed_fresh_mass_g": 56.8,
+        "predicted_fresh_mass_g": 45.19166666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat13",
+        "plant_id": "B36",
+        "days_after_transplant": 13.0,
+        "observed_fresh_mass_g": 48.5,
+        "predicted_fresh_mass_g": 45.19166666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat14",
+        "plant_id": "B35",
+        "days_after_transplant": 14.0,
+        "observed_fresh_mass_g": 66.3,
+        "predicted_fresh_mass_g": 51.64166666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat14",
+        "plant_id": "B36",
+        "days_after_transplant": 14.0,
+        "observed_fresh_mass_g": 55.5,
+        "predicted_fresh_mass_g": 51.64166666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat15",
+        "plant_id": "B35",
+        "days_after_transplant": 15.0,
+        "observed_fresh_mass_g": 76.5,
+        "predicted_fresh_mass_g": 59.21666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat15",
+        "plant_id": "B36",
+        "days_after_transplant": 15.0,
+        "observed_fresh_mass_g": 63.4,
+        "predicted_fresh_mass_g": 59.21666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat16",
+        "plant_id": "B35",
+        "days_after_transplant": 16.0,
+        "observed_fresh_mass_g": 87.5,
+        "predicted_fresh_mass_g": 67.96666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat16",
+        "plant_id": "B36",
+        "days_after_transplant": 16.0,
+        "observed_fresh_mass_g": 71.7,
+        "predicted_fresh_mass_g": 67.96666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat17",
+        "plant_id": "B35",
+        "days_after_transplant": 17.0,
+        "observed_fresh_mass_g": 98.1,
+        "predicted_fresh_mass_g": 76.625,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat17",
+        "plant_id": "B36",
+        "days_after_transplant": 17.0,
+        "observed_fresh_mass_g": 79.8,
+        "predicted_fresh_mass_g": 76.625,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat18",
+        "plant_id": "B35",
+        "days_after_transplant": 18.0,
+        "observed_fresh_mass_g": 105.9,
+        "predicted_fresh_mass_g": 82.98333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat18",
+        "plant_id": "B36",
+        "days_after_transplant": 18.0,
+        "observed_fresh_mass_g": 86.6,
+        "predicted_fresh_mass_g": 82.98333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat19",
+        "plant_id": "B35",
+        "days_after_transplant": 19.0,
+        "observed_fresh_mass_g": 118.3,
+        "predicted_fresh_mass_g": 91.78333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat19",
+        "plant_id": "B36",
+        "days_after_transplant": 19.0,
+        "observed_fresh_mass_g": 94.1,
+        "predicted_fresh_mass_g": 91.78333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat20",
+        "plant_id": "B35",
+        "days_after_transplant": 20.0,
+        "observed_fresh_mass_g": 127.1,
+        "predicted_fresh_mass_g": 99.0,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat20",
+        "plant_id": "B36",
+        "days_after_transplant": 20.0,
+        "observed_fresh_mass_g": 101.8,
+        "predicted_fresh_mass_g": 99.0,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat21",
+        "plant_id": "B35",
+        "days_after_transplant": 21.0,
+        "observed_fresh_mass_g": 136.8,
+        "predicted_fresh_mass_g": 106.94999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat21",
+        "plant_id": "B36",
+        "days_after_transplant": 21.0,
+        "observed_fresh_mass_g": 110.2,
+        "predicted_fresh_mass_g": 106.94999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat22",
+        "plant_id": "B35",
+        "days_after_transplant": 22.0,
+        "observed_fresh_mass_g": 145.1,
+        "predicted_fresh_mass_g": 112.84166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat22",
+        "plant_id": "B36",
+        "days_after_transplant": 22.0,
+        "observed_fresh_mass_g": 117.6,
+        "predicted_fresh_mass_g": 112.84166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat23",
+        "plant_id": "B35",
+        "days_after_transplant": 23.0,
+        "observed_fresh_mass_g": 151.7,
+        "predicted_fresh_mass_g": 118.69999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat23",
+        "plant_id": "B36",
+        "days_after_transplant": 23.0,
+        "observed_fresh_mass_g": 123.3,
+        "predicted_fresh_mass_g": 118.69999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat24",
+        "plant_id": "B35",
+        "days_after_transplant": 24.0,
+        "observed_fresh_mass_g": 160.0,
+        "predicted_fresh_mass_g": 124.63333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat24",
+        "plant_id": "B36",
+        "days_after_transplant": 24.0,
+        "observed_fresh_mass_g": 131.9,
+        "predicted_fresh_mass_g": 124.63333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat25",
+        "plant_id": "B35",
+        "days_after_transplant": 25.0,
+        "observed_fresh_mass_g": 168.5,
+        "predicted_fresh_mass_g": 131.74999999999997,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat25",
+        "plant_id": "B36",
+        "days_after_transplant": 25.0,
+        "observed_fresh_mass_g": 138.9,
+        "predicted_fresh_mass_g": 131.74999999999997,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat26",
+        "plant_id": "B35",
+        "days_after_transplant": 26.0,
+        "observed_fresh_mass_g": 177.9,
+        "predicted_fresh_mass_g": 138.64166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat26",
+        "plant_id": "B36",
+        "days_after_transplant": 26.0,
+        "observed_fresh_mass_g": 146.2,
+        "predicted_fresh_mass_g": 138.64166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat27",
+        "plant_id": "B35",
+        "days_after_transplant": 27.0,
+        "observed_fresh_mass_g": 182.8,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat27",
+        "plant_id": "B36",
+        "days_after_transplant": 27.0,
+        "observed_fresh_mass_g": 152.1,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat28",
+        "plant_id": "B35",
+        "days_after_transplant": 28.0,
+        "observed_fresh_mass_g": 174.4,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat28",
+        "plant_id": "B36",
+        "days_after_transplant": 28.0,
+        "observed_fresh_mass_g": 147.4,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat29",
+        "plant_id": "B35",
+        "days_after_transplant": 29.0,
+        "observed_fresh_mass_g": 182.6,
+        "predicted_fresh_mass_g": 145.45833333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat29",
+        "plant_id": "B36",
+        "days_after_transplant": 29.0,
+        "observed_fresh_mass_g": 154.3,
+        "predicted_fresh_mass_g": 145.45833333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B35_dat30",
+        "plant_id": "B35",
+        "days_after_transplant": 30.0,
+        "observed_fresh_mass_g": 186.3,
+        "predicted_fresh_mass_g": 149.725,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B36_dat30",
+        "plant_id": "B36",
+        "days_after_transplant": 30.0,
+        "observed_fresh_mass_g": 160.2,
+        "predicted_fresh_mass_g": 149.725,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat01",
+        "plant_id": "B45",
+        "days_after_transplant": 1.0,
+        "observed_fresh_mass_g": 1.9,
+        "predicted_fresh_mass_g": 3.3666666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat01",
+        "plant_id": "B46",
+        "days_after_transplant": 1.0,
+        "observed_fresh_mass_g": 2.8,
+        "predicted_fresh_mass_g": 3.3666666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat02",
+        "plant_id": "B45",
+        "days_after_transplant": 2.0,
+        "observed_fresh_mass_g": 6.2,
+        "predicted_fresh_mass_g": 7.95,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat02",
+        "plant_id": "B46",
+        "days_after_transplant": 2.0,
+        "observed_fresh_mass_g": 7.2,
+        "predicted_fresh_mass_g": 7.95,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat03",
+        "plant_id": "B45",
+        "days_after_transplant": 3.0,
+        "observed_fresh_mass_g": 8.0,
+        "predicted_fresh_mass_g": 9.583333333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat03",
+        "plant_id": "B46",
+        "days_after_transplant": 3.0,
+        "observed_fresh_mass_g": 9.1,
+        "predicted_fresh_mass_g": 9.583333333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat04",
+        "plant_id": "B45",
+        "days_after_transplant": 4.0,
+        "observed_fresh_mass_g": 9.3,
+        "predicted_fresh_mass_g": 10.108333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat04",
+        "plant_id": "B46",
+        "days_after_transplant": 4.0,
+        "observed_fresh_mass_g": 10.6,
+        "predicted_fresh_mass_g": 10.108333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat05",
+        "plant_id": "B45",
+        "days_after_transplant": 5.0,
+        "observed_fresh_mass_g": 11.8,
+        "predicted_fresh_mass_g": 12.666666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat05",
+        "plant_id": "B46",
+        "days_after_transplant": 5.0,
+        "observed_fresh_mass_g": 12.5,
+        "predicted_fresh_mass_g": 12.666666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat06",
+        "plant_id": "B45",
+        "days_after_transplant": 6.0,
+        "observed_fresh_mass_g": 14.4,
+        "predicted_fresh_mass_g": 15.350000000000001,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat06",
+        "plant_id": "B46",
+        "days_after_transplant": 6.0,
+        "observed_fresh_mass_g": 15.5,
+        "predicted_fresh_mass_g": 15.350000000000001,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat07",
+        "plant_id": "B45",
+        "days_after_transplant": 7.0,
+        "observed_fresh_mass_g": 17.4,
+        "predicted_fresh_mass_g": 18.266666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat07",
+        "plant_id": "B46",
+        "days_after_transplant": 7.0,
+        "observed_fresh_mass_g": 18.3,
+        "predicted_fresh_mass_g": 18.266666666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat08",
+        "plant_id": "B45",
+        "days_after_transplant": 8.0,
+        "observed_fresh_mass_g": 20.3,
+        "predicted_fresh_mass_g": 21.61666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat08",
+        "plant_id": "B46",
+        "days_after_transplant": 8.0,
+        "observed_fresh_mass_g": 21.2,
+        "predicted_fresh_mass_g": 21.61666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat09",
+        "plant_id": "B45",
+        "days_after_transplant": 9.0,
+        "observed_fresh_mass_g": 24.0,
+        "predicted_fresh_mass_g": 25.90833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat09",
+        "plant_id": "B46",
+        "days_after_transplant": 9.0,
+        "observed_fresh_mass_g": 24.6,
+        "predicted_fresh_mass_g": 25.90833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat10",
+        "plant_id": "B45",
+        "days_after_transplant": 10.0,
+        "observed_fresh_mass_g": 28.7,
+        "predicted_fresh_mass_g": 30.575000000000003,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat10",
+        "plant_id": "B46",
+        "days_after_transplant": 10.0,
+        "observed_fresh_mass_g": 28.8,
+        "predicted_fresh_mass_g": 30.575000000000003,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat11",
+        "plant_id": "B45",
+        "days_after_transplant": 11.0,
+        "observed_fresh_mass_g": 34.0,
+        "predicted_fresh_mass_g": 35.225,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat11",
+        "plant_id": "B46",
+        "days_after_transplant": 11.0,
+        "observed_fresh_mass_g": 33.7,
+        "predicted_fresh_mass_g": 35.225,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat12",
+        "plant_id": "B45",
+        "days_after_transplant": 12.0,
+        "observed_fresh_mass_g": 38.8,
+        "predicted_fresh_mass_g": 39.85833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat12",
+        "plant_id": "B46",
+        "days_after_transplant": 12.0,
+        "observed_fresh_mass_g": 37.7,
+        "predicted_fresh_mass_g": 39.85833333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat13",
+        "plant_id": "B45",
+        "days_after_transplant": 13.0,
+        "observed_fresh_mass_g": 44.8,
+        "predicted_fresh_mass_g": 45.19166666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat13",
+        "plant_id": "B46",
+        "days_after_transplant": 13.0,
+        "observed_fresh_mass_g": 42.9,
+        "predicted_fresh_mass_g": 45.19166666666666,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat14",
+        "plant_id": "B45",
+        "days_after_transplant": 14.0,
+        "observed_fresh_mass_g": 50.5,
+        "predicted_fresh_mass_g": 51.64166666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat14",
+        "plant_id": "B46",
+        "days_after_transplant": 14.0,
+        "observed_fresh_mass_g": 49.4,
+        "predicted_fresh_mass_g": 51.64166666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat15",
+        "plant_id": "B45",
+        "days_after_transplant": 15.0,
+        "observed_fresh_mass_g": 59.0,
+        "predicted_fresh_mass_g": 59.21666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat15",
+        "plant_id": "B46",
+        "days_after_transplant": 15.0,
+        "observed_fresh_mass_g": 56.8,
+        "predicted_fresh_mass_g": 59.21666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat16",
+        "plant_id": "B45",
+        "days_after_transplant": 16.0,
+        "observed_fresh_mass_g": 69.0,
+        "predicted_fresh_mass_g": 67.96666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat16",
+        "plant_id": "B46",
+        "days_after_transplant": 16.0,
+        "observed_fresh_mass_g": 65.6,
+        "predicted_fresh_mass_g": 67.96666666666667,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat17",
+        "plant_id": "B45",
+        "days_after_transplant": 17.0,
+        "observed_fresh_mass_g": 77.3,
+        "predicted_fresh_mass_g": 76.625,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat17",
+        "plant_id": "B46",
+        "days_after_transplant": 17.0,
+        "observed_fresh_mass_g": 74.5,
+        "predicted_fresh_mass_g": 76.625,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat18",
+        "plant_id": "B45",
+        "days_after_transplant": 18.0,
+        "observed_fresh_mass_g": 85.0,
+        "predicted_fresh_mass_g": 82.98333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat18",
+        "plant_id": "B46",
+        "days_after_transplant": 18.0,
+        "observed_fresh_mass_g": 80.7,
+        "predicted_fresh_mass_g": 82.98333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat19",
+        "plant_id": "B45",
+        "days_after_transplant": 19.0,
+        "observed_fresh_mass_g": 93.6,
+        "predicted_fresh_mass_g": 91.78333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat19",
+        "plant_id": "B46",
+        "days_after_transplant": 19.0,
+        "observed_fresh_mass_g": 88.4,
+        "predicted_fresh_mass_g": 91.78333333333332,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat20",
+        "plant_id": "B45",
+        "days_after_transplant": 20.0,
+        "observed_fresh_mass_g": 100.2,
+        "predicted_fresh_mass_g": 99.0,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat20",
+        "plant_id": "B46",
+        "days_after_transplant": 20.0,
+        "observed_fresh_mass_g": 97.0,
+        "predicted_fresh_mass_g": 99.0,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat21",
+        "plant_id": "B45",
+        "days_after_transplant": 21.0,
+        "observed_fresh_mass_g": 109.1,
+        "predicted_fresh_mass_g": 106.94999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat21",
+        "plant_id": "B46",
+        "days_after_transplant": 21.0,
+        "observed_fresh_mass_g": 104.1,
+        "predicted_fresh_mass_g": 106.94999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat22",
+        "plant_id": "B45",
+        "days_after_transplant": 22.0,
+        "observed_fresh_mass_g": 116.2,
+        "predicted_fresh_mass_g": 112.84166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat22",
+        "plant_id": "B46",
+        "days_after_transplant": 22.0,
+        "observed_fresh_mass_g": 110.7,
+        "predicted_fresh_mass_g": 112.84166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat23",
+        "plant_id": "B45",
+        "days_after_transplant": 23.0,
+        "observed_fresh_mass_g": 123.6,
+        "predicted_fresh_mass_g": 118.69999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat23",
+        "plant_id": "B46",
+        "days_after_transplant": 23.0,
+        "observed_fresh_mass_g": 116.1,
+        "predicted_fresh_mass_g": 118.69999999999999,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat24",
+        "plant_id": "B45",
+        "days_after_transplant": 24.0,
+        "observed_fresh_mass_g": 130.8,
+        "predicted_fresh_mass_g": 124.63333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat24",
+        "plant_id": "B46",
+        "days_after_transplant": 24.0,
+        "observed_fresh_mass_g": 121.7,
+        "predicted_fresh_mass_g": 124.63333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat25",
+        "plant_id": "B45",
+        "days_after_transplant": 25.0,
+        "observed_fresh_mass_g": 139.1,
+        "predicted_fresh_mass_g": 131.74999999999997,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat25",
+        "plant_id": "B46",
+        "days_after_transplant": 25.0,
+        "observed_fresh_mass_g": 128.8,
+        "predicted_fresh_mass_g": 131.74999999999997,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat26",
+        "plant_id": "B45",
+        "days_after_transplant": 26.0,
+        "observed_fresh_mass_g": 146.9,
+        "predicted_fresh_mass_g": 138.64166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat26",
+        "plant_id": "B46",
+        "days_after_transplant": 26.0,
+        "observed_fresh_mass_g": 134.7,
+        "predicted_fresh_mass_g": 138.64166666666665,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat27",
+        "plant_id": "B45",
+        "days_after_transplant": 27.0,
+        "observed_fresh_mass_g": 152.9,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat27",
+        "plant_id": "B46",
+        "days_after_transplant": 27.0,
+        "observed_fresh_mass_g": 138.5,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat28",
+        "plant_id": "B45",
+        "days_after_transplant": 28.0,
+        "observed_fresh_mass_g": 148.8,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat28",
+        "plant_id": "B46",
+        "days_after_transplant": 28.0,
+        "observed_fresh_mass_g": 133.8,
+        "predicted_fresh_mass_g": 141.28333333333333,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat29",
+        "plant_id": "B45",
+        "days_after_transplant": 29.0,
+        "observed_fresh_mass_g": 156.3,
+        "predicted_fresh_mass_g": 145.45833333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat29",
+        "plant_id": "B46",
+        "days_after_transplant": 29.0,
+        "observed_fresh_mass_g": 139.6,
+        "predicted_fresh_mass_g": 145.45833333333334,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B45_dat30",
+        "plant_id": "B45",
+        "days_after_transplant": 30.0,
+        "observed_fresh_mass_g": 161.5,
+        "predicted_fresh_mass_g": 149.725,
+        "supported": true
+      },
+      {
+        "observation_id": "zenodo17041810_B46_dat30",
+        "plant_id": "B46",
+        "days_after_transplant": 30.0,
+        "observed_fresh_mass_g": 144.3,
+        "predicted_fresh_mass_g": 149.725,
+        "supported": true
+      }
+    ]
+  },
+  "parameters": {
+    "ages_days_after_transplant": [
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0,
+      7.0,
+      8.0,
+      9.0,
+      10.0,
+      11.0,
+      12.0,
+      13.0,
+      14.0,
+      15.0,
+      16.0,
+      17.0,
+      18.0,
+      19.0,
+      20.0,
+      21.0,
+      22.0,
+      23.0,
+      24.0,
+      25.0,
+      26.0,
+      27.0,
+      28.0,
+      29.0,
+      30.0
+    ],
+    "fitted_fresh_mass_g": [
+      3.3666666666666667,
+      7.95,
+      9.583333333333334,
+      10.108333333333333,
+      12.666666666666666,
+      15.350000000000001,
+      18.266666666666666,
+      21.61666666666667,
+      25.90833333333333,
+      30.575000000000003,
+      35.225,
+      39.85833333333333,
+      45.19166666666666,
+      51.64166666666667,
+      59.21666666666667,
+      67.96666666666667,
+      76.625,
+      82.98333333333332,
+      91.78333333333332,
+      99.0,
+      106.94999999999999,
+      112.84166666666665,
+      118.69999999999999,
+      124.63333333333333,
+      131.74999999999997,
+      138.64166666666665,
+      141.28333333333333,
+      141.28333333333333,
+      145.45833333333334,
+      149.725
+    ],
+    "training_mean_fresh_mass_g": 70.53833333333334,
+    "training_plant_count_per_age": [
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12,
+      12
+    ]
+  },
+  "limitations": [
+    "Held-out plants share one growing cycle and environment with the training plants.",
+    "Plant holdout results are a within-cycle diagnostic, not independent-cycle or habitat validation.",
+    "The mass basis is retained from the source; unspecified fresh mass is not edible harvest yield.",
+    "Age-to-mass interpolation has no fitted water, electricity, disease or temperature response.",
+    "No predictions outside measured ages, cultivars or environments; no repeated-harvest assumption.",
+    "This research curve is separate from the planner's batch endpoint and disabled for hardware control."
+  ],
+  "profile": {
+    "crop_species": "Lactuca sativa",
+    "cultivar": "unspecified_butterhead",
+    "environment_id": "ucdavis_nft_two_tier_reference_cycle",
+    "mass_basis": "unspecified_fresh"
+  }
+}

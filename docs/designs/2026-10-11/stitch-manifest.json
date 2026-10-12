@@ -1,0 +1,55 @@
+{
+  "created": "2026-10-11",
+  "tool": "Google Stitch",
+  "projectId": "4810757081816229455",
+  "projectUrl": "https://stitch.withgoogle.com/projects/4810757081816229455",
+  "referenceUrl": "https://seds-web-mu.vercel.app/",
+  "selected": "C",
+  "status": "C Habitat selected, refined and implemented in the local React/FastAPI app",
+  "options": [
+    {
+      "key": "A",
+      "title": "A — Orbit",
+      "description": "SEDS-inspired near-black and violet dashboard.",
+      "screenName": "projects/4810757081816229455/screens/7eab873ebcc24931a65561c02bddd651",
+      "screenshotUrl": "https://lh3.googleusercontent.com/aida/AEtjO1U4BWBTOSzj84l0nMf-V0wfMF-VPzfI_j7X1NoLLd8ElsrVnGBRq-4fTzfbxuimkj1WQ-gRb4fpQKhVHTf2PY5Hdnt8tlR6ApS3jtAo5NfkbOahq3Xq2mwJ53U9iwlMa1d1ddda7-hDqoNatlJQeh9mWgHxXle7wMKwuaefsP5ARGPfQED_WbybV-ElOx5l62Mbz7e4HUcoAh__gDRwjGIsgi6UPXknKyVsS_BQcD7TV3IZ0NmgUDbK9Q=s0",
+      "htmlFile": "A-orbit.stitch.html",
+      "htmlSourceUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzcwN2ViMjk3NGNjMTQ3YTBiNjU3YjRkZmQ1YzQ5MTM0EgsSBxC7wZmvlBwYAZIBIwoKcHJvamVjdF9pZBIVQhM0ODEwNzU3MDgxODE2MjI5NDU1&filename=&opi=96797242"
+    },
+    {
+      "key": "B",
+      "title": "B — Flight deck",
+      "description": "Graphite and amber console with a prominent scenario workbench.",
+      "screenName": "projects/4810757081816229455/screens/d676c933302c45e4a960fd76c2e3f1bf",
+      "screenshotUrl": "https://lh3.googleusercontent.com/aida/AEtjO1U47kGlpxemVSL-ncT6UrIhqcLL1CpcLtIiLJKlZFc7o_cupJhLAOzkppBnj6dJhR2sg-X6gV9thM1glwMGd93YE5KKXugVAzY3RHWdgepxl3Mz3FKxmIW1jC1j1ggdBBtf_wLKqSmREjH9XIpwmUHFGz21jwWBwbv-sf2binZTeNgL_k-UsD1QEY0IY7fGukh3iAovLzZmHUjCU4OqQ1UtU5C7XwexYWt_xDHOTdn0Wd42Y4yFQOeEvPo=s0",
+      "htmlFile": "B-flight-deck.stitch.html",
+      "htmlSourceUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzQwOTUxYTMyY2M5MjRlOTliZWNiNTdiYjFiYjlmYzc3EgsSBxC7wZmvlBwYAZIBIwoKcHJvamVjdF9pZBIVQhM0ODEwNzU3MDgxODE2MjI5NDU1&filename=&opi=96797242"
+    },
+    {
+      "key": "C",
+      "title": "C — Habitat",
+      "description": "Forest-green dashboard with grow-tray imagery and the biological workflow.",
+      "screenName": "projects/4810757081816229455/screens/222756f1436d485a96a91b4757f6678b",
+      "screenshotUrl": "https://lh3.googleusercontent.com/aida/AEtjO1XoZZyjirP4jXlmqtCS8wLKySdrecupBPzjSX4w9AmghCazqQ_8Gcv95_bj-TXPuPzlyLwieVvh2hzslBjqokgnLOw33YucvpGcYN_M0ApKprxD6V9h6BAf6G36kjG3PVEfUL9TpXRfEG7kWbw9CVBQGaSbQvb7wbx-XaeMv4C5d6pCIZ3D7qlc28V5BvBgoalMr2fruomwi756cVwLdAs9NLI8Zss3Fh0aPZ79JlVh4jBsDP4qB5r6TDQ=s0",
+      "htmlFile": "C-habitat.stitch.html",
+      "htmlSourceUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2RmNjY0NjQ2YWVjMDQ1ZjRhYWZiMjQ3MjBjOWFjMzY1EgsSBxC7wZmvlBwYAZIBIwoKcHJvamVjdF9pZBIVQhM0ODEwNzU3MDgxODE2MjI5NDU1&filename=&opi=96797242"
+    }
+  ],
+  "refinement": {
+    "screenName": "projects/4810757081816229455/screens/2fd76ea8d8514cfeae2854c7488fb46d",
+    "title": "C — Habitat (refined)",
+    "toolTitle": "A — Habitat Overview (Grounded)",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AEtjO1WfsEu6rvSlMyV7S-LfO3lRJT-BwBLxY7tpGa5yu5YW5pyweL4JYu85P53rAksLO2yJYlqJfAPQsj_xUZwwDTprIYF47ncgTKx3ZTyMHYLjfjh8f5VxLIwMzDRHAmUFB6OVosEDCQOyxetDtvfpDgqXi-M82pV8uP_QLLk-cfuajWrARecSD3Fm5Q7AXE2U685T40saEptp3mlzwLi6DgocFp3s0EYwiGHuMECVrS4zwuPwpyIogobq1w=s0",
+    "htmlFile": "C-habitat-refined.stitch.html",
+    "htmlSourceUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzFhMDM5ZWFlZmIzZTRiZWJiZjA2ZjFhNDc2YTMyZThhEgsSBxC7wZmvlBwYAZIBIwoKcHJvamVjdF9pZBIVQhM0ODEwNzU3MDgxODE2MjI5NDU1&filename=&opi=96797242"
+  },
+  "implementation": {
+    "source": "frontend/src/HabitatOverview.jsx",
+    "theme": "frontend/src/style.css",
+    "localUrl": "http://127.0.0.1:8501/",
+    "primaryGroups": 6,
+    "externalDeployment": false,
+    "screenshots": ["habitat-preview.jpg", "habitat-desktop.jpg", "habitat-mobile.jpg"],
+    "verification": "21 frontend tests, production build, desktop/phone browser review and actual API-backed saved comparison passed"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "created": "2026-10-11",
+  "mode": "built-in image generation",
+  "project": "ASTRA-BIO",
+  "palette": "C Habitat forest / ivory / sage",
+  "selected": "D",
+  "status": "User selected Seed & Star; exact supplied image integrated into the product.",
+  "prompts": "PROMPTS.md",
+  "options": [
+    {
+      "key": "A",
+      "title": "AB Monogram",
+      "file": "A-ab-monogram.png",
+      "source": "C:\\Users\\sanja\\.codex\\generated_images\\01a11c44-5f9b-7423-a74f-e46bf9ed53e1\\exec-dcca743c-4a19-440c-8c7f-aaddcfb3b45d.png"
+    },
+    {
+      "key": "B",
+      "title": "Living Loop",
+      "file": "B-living-loop.png",
+      "source": "C:\\Users\\sanja\\.codex\\generated_images\\01a11c44-5f9b-7423-a74f-e46bf9ed53e1\\exec-1bee16e5-c285-433f-bddd-9d7c03c10863.png"
+    },
+    {
+      "key": "C",
+      "title": "Habitat Frame",
+      "file": "C-habitat-frame-v2.png",
+      "source": "C:\\Users\\sanja\\.codex\\generated_images\\01a11c44-5f9b-7423-a74f-e46bf9ed53e1\\exec-d3b231fb-597e-41ea-9cb5-a804eed0339e.png"
+    },
+    {
+      "key": "D",
+      "title": "Seed & Star",
+      "file": "D-seed-star.png",
+      "source": "C:\\Users\\sanja\\.codex\\generated_images\\01a11c44-5f9b-7423-a74f-e46bf9ed53e1\\exec-95c19ce5-aea7-46ba-a8bc-6277fcdcdaa0.png"
+    }
+  ],
+  "selection": {
+    "selected_on": "2026-10-11",
+    "asset": "frontend/src/assets/astra-bio-logo.png",
+    "sha256": "b696c95a1e317ea7cd5ca1b38c57721e43e8522111f01b796c732187314a21e8",
+    "source": "Exact user-supplied PNG; no raster editing or regeneration."
+  }
+}

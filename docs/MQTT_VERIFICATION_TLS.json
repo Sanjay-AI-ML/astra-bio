@@ -1,0 +1,73 @@
+{
+  "transport": "TLS with CA and hostname verification",
+  "hardware_attached": "not established; every observation published here is synthetic",
+  "checks": {
+    "synthetic_node_red_sqlite_delivery": {
+      "passed": true,
+      "puback": 0,
+      "collector_received": true,
+      "sqlite_row_id": 141
+    },
+    "anonymous_connection_denied": {
+      "passed": true,
+      "connack": 135
+    },
+    "wrong_password_connection_denied": {
+      "passed": true,
+      "connack": 135
+    },
+    "cross_device_publish_denied": {
+      "passed": true,
+      "puback": 135
+    },
+    "simulator_command_publish_denied": {
+      "passed": true,
+      "puback": 135
+    },
+    "collector_publish_denied": {
+      "passed": true,
+      "puback": 135
+    },
+    "device_own_telemetry_publish_allowed": {
+      "passed": true,
+      "puback": 0,
+      "payload": "Invalid sensor payload; broker permission test only."
+    },
+    "device_cross_device_publish_denied": {
+      "passed": true,
+      "puback": 135,
+      "payload": "Invalid sensor payload; broker permission test only."
+    },
+    "device_command_publish_denied": {
+      "passed": true,
+      "puback": 135,
+      "payload": "Invalid sensor payload; broker permission test only."
+    },
+    "device_wrong_topic_read_denied": {
+      "passed": true,
+      "suback": [
+        1
+      ],
+      "authorized_collector_received": true,
+      "unauthorized_device_received": false,
+      "enforcement": "delivery suppressed"
+    },
+    "retained_telemetry_rejected_by_ingestion": {
+      "passed": true,
+      "retained_puback": 0,
+      "later_nonretained_sqlite_row_id": 143,
+      "retained_sqlite_row_id": null
+    },
+    "automatic_reconnect_and_resubscribe": {
+      "passed": true,
+      "successful_connections": 2,
+      "collector_received_after_interruption": true
+    },
+    "hardware_permission_dummy_not_ingested": {
+      "passed": true,
+      "sqlite_rows": 0
+    }
+  },
+  "passed": true,
+  "checked_at_utc": "2026-10-10T19:10:41.475Z"
+}

@@ -1,0 +1,60 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Data underlying the publication: Plant Factories Are Heating Up: Hunting for the Best Combination of Light Intensity, Air Temperature and Root-Zone Temperature in Lettuce Production",
+  "identifier": "https://doi.org/10.4121/5a7472f0-8a67-4ec0-84c9-9d032990d654.v1",
+  "citation": "Meinen, Esther; Carotti, Laura; Graamans, Luuk; Puksic, Federico; Butturini, Michele et. al. (2025): Data underlying the publication: Plant Factories Are Heating Up: Hunting for the Best Combination of Light Intensity, Air Temperature and Root-Zone Temperature in Lettuce Production. Version 1. 4TU.ResearchData. dataset. https://doi.org/10.4121/5a7472f0-8a67-4ec0-84c9-9d032990d654.v1",
+  "version": 1,
+  "description": "&lt;p&gt;This study analyzed interactions among photon flux density (PPFD), air temperature, root-zone temperature for growth of lettuce with non-limiting water, nutrient, and CO2 concentration. We measured growth parameters in 48 combinations of a PPFD of 200, 400, and 750 \u03bcmol m\u20132 s\u20131 (16 h daylength), with air and root-zone temperatures of 20, 24, 28, and 32\u00b0C. Lettuce (Lactuca sativa cv. Batavia Othilie) was grown for four cycles (29 days after transplanting). Eight combinations with low root-zone (20 and 24\u00b0C), high air temperature (28 and 32\u00b0C) and high PPFD (400 and 750 \u03bcmol m\u20132 s\u20131) resulted in an excessive incidence of tip-burn and were not included in further analysis. Dry mass increased with increasing photon flux to a PPFD of 750 \u03bcmol m\u20132 s\u20131. &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;The effect of air temperature on fresh yield was linked to all leaf expansion processes. SLA, shoot mass allocation and water content of leaves showed the same trend for air temperature with a maximum around 24\u00b0C. The effect of root temperature was less prominent with an optimum around 28\u00b0C in nearly all conditions. With this combination of temperatures, market size (fresh weight shoot = 250 g) was achieved in 26, 20, and 18 days, at 200, 400, and 750 \u03bcmol m\u20132 s\u20131, respectively, with a corresponding shoot dry matter content of 2.6, 3.8, and 4.2%. In conclusion, three factors determine the \u201coptimal\u201d PPFD: capital and operational costs of light intensity vs the value of reducing cropping time, and the market value of higher dry matter contents.&lt;/p&gt;",
+  "publisher": {
+    "@type": "Organization",
+    "name": "4TU.ResearchData"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "keywords": [
+    "Lettuce",
+    "lettuce growth",
+    "light use efficiency",
+    "vertical farms"
+  ],
+  "creator": [
+    {
+      "@type": "Person",
+      "name": "Esther Meinen",
+      "sameAs": "https://orcid.org/"
+    },
+    {
+      "@type": "Person",
+      "name": "Laura Carotti",
+      "sameAs": "https://orcid.org/0000-0003-0022-0057"
+    },
+    {
+      "@type": "Person",
+      "name": "Luuk Graamans",
+      "sameAs": "https://orcid.org/0000-0003-2841-1357"
+    },
+    {
+      "@type": "Person",
+      "name": "Federico Puksic",
+      "sameAs": "https://orcid.org/"
+    },
+    {
+      "@type": "Person",
+      "name": "Michele Butturini",
+      "sameAs": "https://orcid.org/0000-0001-5618-9736"
+    },
+    {
+      "@type": "Person",
+      "name": "Cecilia Stanghellini",
+      "sameAs": "https://orcid.org/0000-0003-2281-8711"
+    }
+  ],
+  "spatialCoverage": "Wageningen, the Netherlands",
+  "temporalCoverage": "2018-2019",
+  "isAccessibleForFree": true,
+  "distribution": {
+    "@type": "DataDownload",
+    "contentUrl": "https://data.4tu.nl/ndownloader/items/5a7472f0-8a67-4ec0-84c9-9d032990d654/versions/1",
+    "encodingFormat": "application/zip"
+  }
+}

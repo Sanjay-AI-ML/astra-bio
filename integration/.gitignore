@@ -1,0 +1,5 @@
+.node-red/
+.verify/
+*.passwords
+*.acl.local
+mosquitto.lan.conf

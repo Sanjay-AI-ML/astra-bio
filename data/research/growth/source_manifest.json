@@ -1,0 +1,260 @@
+{
+  "retrieved_at_utc": "2026-10-11T13:06:04.984479+00:00",
+  "title": "Lettuce Dataset with RGB Canopy Images, Biomass, Nutrient Solution, and Environmental Variables for Machine Learning Model Development",
+  "creators": [
+    {
+      "name": "Karimzadeh, Saeed",
+      "affiliation": "University of California, Davis",
+      "orcid": "0000-0001-5727-8124"
+    },
+    {
+      "name": "Ahamed, Md Shamim",
+      "affiliation": "University of California, Davis",
+      "orcid": "0000-0003-1970-0050"
+    }
+  ],
+  "source_record": "https://zenodo.org/records/17041810",
+  "source_doi": "10.5281/zenodo.17041810",
+  "concept_doi": "10.5281/zenodo.16912088",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "archive": {
+    "url": "https://zenodo.org/api/records/17041810/files/Lettuce_growth.zip/content",
+    "bytes": 742925862,
+    "publisher_md5": "c8c60806f714dc065592b14eae570d16",
+    "whole_archive_checksum_verified": false,
+    "acquisition": "Selected original ZIP members by HTTP byte ranges; entry CRC verified."
+  },
+  "metadata_sha256": "0ce8d4bd1ad2f9f4e93bc1846f6d7d1b69db39043ee006ff7b662e56547c5a44",
+  "files": [
+    {
+      "archive_member": "Lettuce_growth/1_README_Lettuce_Dataset.txt",
+      "local_file": "1_README_Lettuce_Dataset.txt",
+      "bytes": 2756,
+      "zip_crc32": "22343a70",
+      "sha256": "6c23753c1b70dbde136d358031848cc37a1b0203447eecb8059ae4347fa35265"
+    },
+    {
+      "archive_member": "Lettuce_growth/4_Biomass.xlsx",
+      "local_file": "4_Biomass.xlsx",
+      "bytes": 18079,
+      "zip_crc32": "18ae3204",
+      "sha256": "9d68694bbb99178a28b7e4576d9f12532c6691346ec962f582f49a4a586f7546"
+    },
+    {
+      "archive_member": "Lettuce_growth/5_Environment_Solution.xlsx",
+      "local_file": "5_Environment_Solution.xlsx",
+      "bytes": 143185,
+      "zip_crc32": "00c074b2",
+      "sha256": "263ec21d7097c1c5a384e351040ef1c96c789eb5cf00e05580ed9fbc9a65a3f3"
+    },
+    {
+      "archive_member": "Lettuce_growth/2_Figure_1.png",
+      "local_file": "2_Figure_1.png",
+      "bytes": 3633429,
+      "zip_crc32": "dd240d10",
+      "sha256": "6c5e23d609b8a060789e52ccaa1a80241604772a9fde8825933f30e069e95f18",
+      "acquisition_note": "Retained unchanged in earlier same-run optional figure range acquisition; not training input."
+    },
+    {
+      "archive_member": "Lettuce_growth/3_Figure_2.png",
+      "local_file": "3_Figure_2.png",
+      "bytes": 3552450,
+      "zip_crc32": "9c778650",
+      "sha256": "e03a247637319fec484436a06acd3c3ec254db99cbd6685c5d5df231a8e81e04",
+      "acquisition_note": "Retained unchanged in earlier same-run optional figure range acquisition; not training input."
+    }
+  ],
+  "bytes_transferred": 243985,
+  "changes": "Original selected files unchanged; tabular normalization described separately.",
+  "independence": "One shared NFT lettuce cultivation cycle; plants and repeated days are not independent cultivation cycles.",
+  "limitations": [
+    "No spaceflight or ASTRA-BIO tray observations.",
+    "No randomized water/light/temperature stress intervention is documented in this dataset.",
+    "Fresh biomass basis must be preserved; never reinterpret it as edible yield."
+  ],
+  "normalization": {
+    "rows": 540,
+    "plant_ids": [
+      "B22",
+      "B23",
+      "B24",
+      "B25",
+      "B26",
+      "B27",
+      "B32",
+      "B33",
+      "B34",
+      "B35",
+      "B36",
+      "B37",
+      "B42",
+      "B43",
+      "B44",
+      "B45",
+      "B46",
+      "B47"
+    ],
+    "independent_cycle_ids": [
+      "ucdavis_nft_zenodo17041810_cycle_1"
+    ],
+    "observed_days_after_transplant": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30
+    ],
+    "cultivar_handling": "Source specifies butterhead lettuce, not a named cultivar; unspecified_butterhead preserves this uncertainty.",
+    "seedling_age_at_transplant_days": 14,
+    "mass_basis_handling": "Source describes non-destructive fresh biomass weighing; plant part is unspecified, so mass_basis=unspecified_fresh. Not edible yield.",
+    "missing_measurements": [
+      {
+        "source_reference": "4_Biomass.xlsx:B2!C32",
+        "plant_id": "B22",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B2!D32",
+        "plant_id": "B23",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B2!E32",
+        "plant_id": "B24",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B2!F32",
+        "plant_id": "B25",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B2!G32",
+        "plant_id": "B26",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B2!H32",
+        "plant_id": "B27",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B3!C32",
+        "plant_id": "B32",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B3!D32",
+        "plant_id": "B33",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B3!E32",
+        "plant_id": "B34",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B3!F32",
+        "plant_id": "B35",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B3!G32",
+        "plant_id": "B36",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B3!H32",
+        "plant_id": "B37",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B4!C32",
+        "plant_id": "B42",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B4!D32",
+        "plant_id": "B43",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B4!E32",
+        "plant_id": "B44",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B4!F32",
+        "plant_id": "B45",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B4!G32",
+        "plant_id": "B46",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      },
+      {
+        "source_reference": "4_Biomass.xlsx:B4!H32",
+        "plant_id": "B47",
+        "days_after_transplant": 31,
+        "reason": "No original biomass value; not interpolated or set to zero."
+      }
+    ],
+    "calendar_conflict": {
+      "source_readme_period": "2024-02-21 to 2024-03-23",
+      "raw_workbook_date_range": [
+        "2022-02-21",
+        "2022-03-23"
+      ],
+      "handling": "Preserve source Excel dates without silently correcting the year; fit only the explicit DAT column. One source cycle is retained without assuming a calendar year."
+    },
+    "normalization": "Unpivot original individual biomass cells from B2/B3/B4 sheets; exclude Sum columns and blank day31harvest mass. No interpolation, imputation, synthetic mass, or resource-response target generation.",
+    "output": {
+      "file": "growth_observations.csv",
+      "sha256": "13ec5bbe033c6854c979ffa25e4093f27b2b1e92f458c02c82e783848014a7b9"
+    }
+  }
+}
