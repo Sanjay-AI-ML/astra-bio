@@ -38,8 +38,9 @@ def build_overview(crop_species: str, leaf: dict | None, fruit: dict | None, *, 
             add("leaf.match", "overview", f"The leaf photograph tentatively resembles {condition}; the cause has not been confirmed.")
             add("care.review", "next_steps", "Inspect both leaf surfaces and the stem, record where symptoms appear, and request a crop specialist's review before treatment or removal.")
     else:
-        add("leaf.match", "overview", "Leaf condition could not be resolved from this photograph." if single_photo else "Leaf condition is unresolved: a leaf image is missing, ambiguous, rejected or unavailable.")
-        add("care.retake", "next_steps", "Retake a sharp, well-lit plant photo with a prominent leaf and unobstructed fruit where present, then repeat the plant overview." if single_photo else "Take a sharp, well-lit close-up of one leaf, including a second view of its underside, then repeat leaf screening.")
+        closeup = leaf.get("input_source") == "leaf_closeup"
+        add("leaf.match", "overview", "Leaf condition could not be resolved from this photograph." if single_photo else "Leaf condition is unresolved in the supplied close-up." if closeup else "Leaf condition is unresolved: a leaf image is missing, ambiguous, rejected or unavailable.")
+        add("care.retake", "next_steps", "Add a sharp, well-lit close-up of one leaf from this same plant; the leaf should fill most of the image. The original plant photo can still be used for fruit observations." if single_photo else "Take a sharp, well-lit close-up of one leaf, including a second view of its underside, then repeat leaf screening.")
     if fruit.get("status") == "observed":
         count = fruit.get("visible_count", 0)
         count = count if type(count) is int and count >= 0 else 0
@@ -65,6 +66,8 @@ def build_overview(crop_species: str, leaf: dict | None, fruit: dict | None, *, 
     if single_photo:
         limits[0] = "Both models analyze the same photograph. Only visible detail can support an observation; this is not a complete plant-health examination."
         limits.append("The leaf classifier processes the whole photo and does not locate individual leaves. Small, obscured leaves or a fruit-dominated view can give unreliable leaf-class matches.")
+    elif leaf.get("input_source") == "leaf_closeup":
+        limits.append("Leaf classification uses the supplied close-up; fruit detection uses the original plant photograph. Neither model verifies that the photographs show the same plant.")
     return {"mode": "local_evidence", "crop_species": crop_species,
         "headline": "One photograph, leaf and fruit observations" if single_photo else "Leaf and fruit observations combined",
         "brief_overview": " ".join(f["text"] for f in facts if f["category"] == "overview"),

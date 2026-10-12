@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import {apiUrl} from './api-url.js';
 
 export function packetIsFresh(data) {
   return !!data?.latest && Number.isFinite(data.age_seconds) && data.age_seconds >= -5 &&
@@ -14,7 +15,7 @@ export function useTelemetry(source = 'hardware', device = '') {
       controller?.abort();
       controller=new AbortController();
       try {
-        const response=await fetch('/api/telemetry?source='+encodeURIComponent(source)+(device?'&device_id='+encodeURIComponent(device):''),{signal:controller.signal});
+        const response=await fetch(apiUrl('/api/telemetry?source='+encodeURIComponent(source)+(device?'&device_id='+encodeURIComponent(device):'')),{signal:controller.signal});
         if (!response.ok) throw new Error('Device readings could not be refreshed.');
         const data=await response.json(), now=Date.now();
         if(active) setState({data,error:'',receivedAt:now,checkedAt:now});

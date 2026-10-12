@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react';
+import {apiUrl} from './api-url.js';
 
 const percent=value=>value==null?'Unavailable':(Math.round(value*1000)/10).toFixed(1)+'%';
 const number=value=>value==null?'Unavailable':Number(value).toLocaleString(undefined,{maximumFractionDigits:2});
@@ -28,7 +29,7 @@ export default function ModelEvidence({request,notify,setPlantModel,Chart,focus=
       {Chart&&evidence.growth.parameters&&<Chart data={evidence.growth.parameters.ages_days_after_transplant.map((day,i)=>({day,fresh_mass_g:evidence.growth.parameters.fitted_fresh_mass_g[i]}))} lines={[{key:'fresh_mass_g',name:'Fitted source fresh mass'}]} unit=" g" height={220} labelPrefix="Days after transplant"/>}
       <p className="muted">A source-specific age curve. Whole fresh mass is not confirmed edible yield. It does not replace the planner's harvest endpoint or establish a resource-stress response.</p>
       <h2 style={{marginTop:24}}>Environmental response calibration</h2><p className="muted">Status: {evidence.crop_response.status}. Real repeated cycles and matched environmental measurements are required before fitting a tray response.</p>
-      <button className="btn" onClick={async()=>{try{const response=await fetch('/api/models/crop-trial-template');if(!response.ok)throw new Error('Template could not be loaded');const blob=await response.blob();const url=URL.createObjectURL(blob);const anchor=document.createElement('a');anchor.href=url;anchor.download='astra-bio-crop-trials.csv';anchor.click();URL.revokeObjectURL(url);}catch(e){notify(e.message,true);}}}>Download blank crop-trial template</button>
+      <button className="btn" onClick={async()=>{try{const response=await fetch(apiUrl('/api/models/crop-trial-template'));if(!response.ok)throw new Error('Template could not be loaded');const blob=await response.blob();const url=URL.createObjectURL(blob);const anchor=document.createElement('a');anchor.href=url;anchor.download='astra-bio-crop-trials.csv';anchor.click();URL.revokeObjectURL(url);}catch(e){notify(e.message,true);}}}>Download blank crop-trial template</button>
       <p className="muted">Record actual cycle IDs, cultivar, environment, fresh mass, area, light, net makeup water and equipment power. Sensors provide exposures; harvest weights and independent cycles provide training ground truth.</p>
     </>}
   </details>;

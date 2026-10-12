@@ -49,6 +49,8 @@ class HabitatConfig:
     nutrient_upper_per_crew: dict[str, float] = field(default_factory=dict)
     max_total_food_kg_per_crew_day: float = 0.0
     input_provenance: dict[str, object] = field(default_factory=dict)
+    # Initial named roster; later reviewed rosters belong to dated events.
+    crew_profiles: list[dict[str, object]] = field(default_factory=list)
     # Absolute reviewed changes take effect on the specified mission day.
     # These preserve original conditions and already elapsed simulation rows.
     planning_events: list[dict[str, object]] = field(default_factory=list)
@@ -92,6 +94,11 @@ class HabitatConfig:
             raise ValueError("Planning events must be a list.")
         for event in self.planning_events:
             _validate_planning_event(event, self)
+        if not isinstance(self.crew_profiles, list):
+            raise ValueError("Initial crew profiles must be a list.")
+        if self.crew_profiles:
+            _validate_planning_event({"day": 1, "crew": self.crew,
+                "targets_per_crew": self.targets_per_crew, "crew_profiles": self.crew_profiles}, self)
         ids = [food.id for food in self.foods] + [crop.id for crop in self.crops]
         if any(not isinstance(item, str) or not item for item in ids) or len(ids) != len(set(ids)):
             raise ValueError("Food and crop identifiers must be unique and nonempty.")

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Activity, ArrowRight, ArrowUpRight, Beaker, Check, ChevronRight, CircleHelp, Layers3, Leaf, Menu, Radio, Search, Settings2, Sprout, Utensils, X } from 'lucide-react';
+import { Activity, ArrowRight, ArrowUpRight, Beaker, Check, ChevronRight, CircleHelp, Eye, Layers3, Leaf, Menu, Radio, Search, Settings2, Sprout, Utensils, X } from 'lucide-react';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceLine } from 'recharts';
 import NutritionPanel from './NutritionPanel.jsx';
 import HabitatOverview from './HabitatOverview.jsx';
@@ -11,18 +11,21 @@ import CameraImages from './CameraImages.jsx';
 import RecoveryPanel from './RecoveryPanel.jsx';
 import CropAdvisor from './CropAdvisor.jsx';
 import MissionChangePanel from './MissionChangePanel.jsx';
+import BioProduction from './BioProduction.jsx';
+import {validateCrewRoster} from './crew-roster.js';
+import {initialNutritionRoster, missionCrewContext} from './mission-crew.js';
 import { useTelemetry } from './useTelemetry.js';
 import astraLogo from './assets/astra-bio-logo.png';
 import './style.css';
+import {apiUrl, readApiResponse} from './api-url.js';
 
 export async function request(path, body) {
   const multipart = body instanceof FormData;
-  const response = await fetch('/api' + path, {method: body === undefined ? 'GET' : 'POST',
+  const url = apiUrl('/api' + path);
+  const response = await fetch(url, {method: body === undefined ? 'GET' : 'POST',
     headers: body === undefined || multipart ? {} : {'Content-Type': 'application/json'},
     body: body === undefined ? undefined : multipart ? body : JSON.stringify(body)});
-  const data = await response.json();
-  if (!response.ok) throw new Error(typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail || 'Request failed'));
-  return data;
+  return readApiResponse(response, url);
 }
 const copy = value => structuredClone(value);
 const pretty = value => value == null ? 'Unavailable' : typeof value === 'number' ? value.toLocaleString(undefined, {maximumFractionDigits: 2}) : String(value);
@@ -64,14 +67,14 @@ function Chart({data, lines, unit = '', height = 270, reference, focusDay, event
 }
 const NAV = [
   ['overview','Mission overview',Layers3],['crew','Crew & nutrition',Activity],
-  ['crops','Crops & food',Sprout],['simulator','What-if simulator',Settings2],
-  ['vision','Plant overview',Leaf],['telemetry','Live devices',Radio],
+  ['production','Biological production',Beaker],['crops','Crops & food',Sprout],['simulator','What-if simulator',Settings2],
+  ['leaf','Leaf screening',Leaf],['fruit','Fruit checking',Eye],['telemetry','Live devices',Radio],
 ];
 const SETTINGS = ['settings','Workspace settings',Settings2];
 const PAGE_GROUP = {inputs:'crew',pantry:'crops',models:'settings'};
 function currentPage() {
   const hash = location.hash.slice(1);
-  const aliases = {nutrition:'crew',research:'models',archive:'settings','crew-inputs':'inputs'};
+  const aliases = {nutrition:'crew',research:'models',archive:'settings','crew-inputs':'inputs',vision:'fruit'};
   const page = aliases[hash] || hash;
   return [...NAV,SETTINGS].some(([key]) => key === page) || page in PAGE_GROUP ? page : 'overview';
 }
@@ -81,13 +84,17 @@ function App() {
   const [planPolicy,setPlanPolicy] = useState('adaptive');
   const [missionDay,setMissionDay] = useState(1);
   const [crewProfiles,setCrewProfiles] = useState([]);
+  const [crewPlanningBusy,setCrewPlanningBusy] = useState(false);
   const [page,setPage] = useState(currentPage), [message,setMessage] = useState(null);
   const [initialError,setInitialError] = useState('');
   const [menuOpen,setMenuOpen] = useState(false);
   const [searchOpen,setSearchOpen] = useState(false);
   const menuToggle = useRef(null), navigationRef = useRef(null);
-  useEffect(() => { request('/bootstrap').then(data => {setBootstrap(data); updateConfig(data.config);if(data.last_run)setRun(data.last_run);}).catch(e => setInitialError(e.message)); }, []);
-  useEffect(()=>{if(run?.metadata?.config){updateConfig(run.metadata.config);setMissionDay(v=>run.metadata.continuation?Math.max(v,run.metadata.continuation.next_day):1);}},[run]);
+  useEffect(() => { request('/bootstrap').then(data => {setBootstrap(data); updateConfig(data.config);setCrewProfiles(initialNutritionRoster(data));if(data.last_run)setRun(data.last_run);}).catch(e => setInitialError(e.message)); }, []);
+  useEffect(()=>{if(run?.metadata?.config){updateConfig(run.metadata.config);setMissionDay(v=>run.metadata.continuation?Math.max(v,run.metadata.continuation.next_day):1);
+    const members=missionCrewContext(run,run.metadata.config,run.metadata.continuation?.next_day||1).members;
+    if(members.length)setCrewProfiles(members);
+  }},[run]);
   useEffect(() => { const change = () => {setPage(currentPage());setMenuOpen(false);}; window.addEventListener('hashchange', change); return () => window.removeEventListener('hashchange', change); }, []);
   useEffect(() => {document.documentElement.scrollTop=0;document.body.scrollTop=0;},[page]);
   useEffect(()=>{const shortcut=event=>{if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();setMenuOpen(false);setSearchOpen(v=>!v);}};window.addEventListener('keydown',shortcut);return()=>window.removeEventListener('keydown',shortcut);},[]);
@@ -113,14 +120,40 @@ function App() {
   const notify = (text, error = false) => setMessage({text,error});
   const setConfig = value => {updateConfig(value); setRun(null); notify('Inputs updated. Run the simulator to evaluate this configuration.');};
   const navigate = key => {location.hash = key;setPage(currentPage());if(menuOpen)document.getElementById('main-content')?.focus();setMenuOpen(false);};
+  async function applyNutritionCrew(profiles,{through_day=missionDay}={}) {
+    const error=validateCrewRoster(profiles);
+    if(error)throw new Error(error);
+    if(crewPlanningBusy)throw new Error('Wait for the current crew update to finish.');
+    setCrewPlanningBusy(true);
+    try {
+      const reviewed=profiles.map(profile=>({...copy(profile),name:profile.name.trim()}));
+      let result;
+      if(run?.metadata) {
+        result=await request('/plans/continue',{...(run.history_id?{run_id:run.history_id}:{metadata:run.metadata}),through_day,
+          mission_change:{crew_profiles:reviewed,replace_future_crew_changes:true,reason:'Reviewed crew roster and targets from Crew & nutrition'}});
+      } else {
+        const freshConfig={...copy(config),crew:reviewed.length,crew_profiles:[],planning_events:[]};
+        if(freshConfig.input_provenance){delete freshConfig.input_provenance.simulation_continuation;delete freshConfig.input_provenance.rolling_demo;}
+        const response=await request('/nutrition/apply-targets',{config:freshConfig,profiles:reviewed});
+        result=await request('/plans',{config:response.config,scenario:{...copy(bootstrap.presets.nominal),event_day:response.config.days+1,extra_crew:0,water_factor:1,power_factor:1,target_factors:{},failed_crop_ids:[],crop_yield_factors:{},name:'Named crew mission · no scheduled changes'}});
+      }
+      if(!result.metadata?.adaptive?.daily?.length)throw new Error('The crew plan did not complete. The previous saved plan remains available.');
+      setMissionDay(run?.metadata?through_day+1:1);
+      setCrewProfiles(reviewed);setRun(result);setPlanPolicy('adaptive');navigate('overview');
+      notify(result.history_warning || 'The mission now uses these '+reviewed.length+' crew profiles and their reviewed nutrient targets.',!!result.history_warning);
+      return result;
+    } finally {setCrewPlanningBusy(false);}
+  }
   if (!bootstrap || !config) return <main className="loading"><img className="loading-logo" src={astraLogo} alt="ASTRA-BIO" width={1536} height={1024}/><p>{initialError || 'Opening the planning workspace…'}</p>{initialError && <button onClick={() => location.reload()}>Retry connection</button>}</main>;
   const setPlantModel = plant_model => setBootstrap(v=>({...v,plant_model}));
-  const context = {config,setConfig,bootstrap,request,notify,run,setRun,navigate,planPolicy,setPlanPolicy,missionDay,setMissionDay,setPlantModel,crewProfiles,onProfilesChange:setCrewProfiles};
+  const activeCrewContext=missionCrewContext(run,config,missionDay);
+  const context = {config,setConfig,bootstrap,request,notify,run,setRun,navigate,planPolicy,setPlanPolicy,missionDay,setMissionDay,setPlantModel,crewProfiles,onProfilesChange:setCrewProfiles,
+    activeCrewContext,missionCrewProfiles:activeCrewContext.members,onApplyCrew:applyNutritionCrew,crewPlanningBusy};
   const group = PAGE_GROUP[page] || page;
   const current = [...NAV, SETTINGS].find(n => n[0] === group) || NAV[0];
   const mixedInputs = Object.keys(config.input_provenance || {}).length > 0;
   const tabs = group==='crew' ? [['crew','Nutrition & logs'],['inputs','Mission inputs']] : group==='crops' ? [['crops','Crop schedules'],['pantry','Food inventory']] : group==='settings' ? [['settings','Saved plans'],['models','Model settings']] : null;
-  const commandDetails={overview:'Explore saved results by mission day.',crew:'Review crew targets and recorded intake.',crops:'Inspect planting and harvest schedules.',simulator:'Prepare a disruption and compare policies.',vision:'Analyze leaves and visible fruit from one plant photo.',telemetry:'Inspect physical or synthetic device streams.',inputs:'Edit crew, nutrition and resource budgets.',pantry:'Review stored food and expiry policies.',settings:'Restore saved configurations and runs.',models:'Review crop references, calibration and model assumptions.'};
+  const commandDetails={overview:'Explore saved results by mission day.',crew:'Review crew targets and recorded intake.',production:'Compare microbial protein, assisted plants and catalyst research against mission resources.',crops:'Inspect planting and harvest schedules.',simulator:'Prepare a disruption and compare policies.',leaf:'Screen a close-up photograph of one leaf.',fruit:'Check visible fruit and maturity in a plant photograph.',telemetry:'Inspect physical or synthetic device streams.',inputs:'Edit crew, nutrition and resource budgets.',pantry:'Review stored food and expiry policies.',settings:'Restore saved configurations and runs.',models:'Review crop references, calibration and model assumptions.'};
   const commands=[...NAV.map(([id,label])=>({id,label})),{id:'inputs',label:'Mission inputs'},{id:'pantry',label:'Food inventory'},{id:'settings',label:'Saved plans'},{id:'models',label:'Model settings'}].map(command=>({...command,description:commandDetails[command.id],keywords:command.id==='pantry'?config.foods.map(f=>f.name).join(' '):command.id==='crops'?config.crops.map(c=>c.name).join(' '):command.id==='models'?'calibration references research assumptions':command.id==='telemetry'?'mqtt iot sensors hardware':'',onSelect:()=>navigate(command.id)}));
   return <div className={'app-shell'+(menuOpen?' menu-open':'')}>
     <CommandPalette commands={commands} open={searchOpen} onClose={()=>setSearchOpen(false)}/>
@@ -140,9 +173,11 @@ function App() {
         <section hidden={!['inputs','pantry'].includes(page)}><Inputs {...context} inventory={page==='pantry'}/></section>
         <section hidden={page !== 'crew'}><NutritionPanel {...context}/></section>
         {page === 'crops' && <Crops {...context}/>}
+        {page === 'production' && <BioProduction {...context}/>}
         {page === 'models' && <AdvancedSettings {...context}/>}
         {page === 'simulator' && <Simulator {...context}/>}
-        {page === 'vision' && <Vision {...context}/>}
+        {page === 'leaf' && <Vision {...context} mode="leaf"/>}
+        {page === 'fruit' && <Vision {...context} mode="fruit"/>}
         {page === 'telemetry' && <Telemetry {...context}/>}
         {page === 'settings' && <Saved {...context}/>}
       </main><footer>ASTRA-BIO <span>Terrestrial research references · Simulated mission inputs · No clinical diagnosis</span></footer>
@@ -155,7 +190,7 @@ function Title({eyebrow, children, description, action}) {
 function Inputs({config,setConfig,bootstrap,notify,inventory=false}) {
   const [draft,setDraft] = useState(copy(config)), [busy,setBusy] = useState(false);
   useEffect(()=>setDraft(copy(config)),[config]);
-  const set = (key,value) => setDraft(v => ({...v,[key]:value}));
+  const set = (key,value) => setDraft(v => ({...v,[key]:value,...(['crew','targets_per_crew'].includes(key)?{crew_profiles:[]}:{} )}));
   const food = (i,key,value) => setDraft(v => ({...v,foods:v.foods.map((f,index)=>index===i?{...f,[key]:value}:f)}));
   async function submit(e) {e.preventDefault(); setBusy(true);try {const result=await request('/config/validate',{config:draft});setConfig(result.config);}catch(e){notify(e.message,true);}finally{setBusy(false);}}
   return <><Title eyebrow={inventory?'FOOD AVAILABLE TODAY':'PLANNING INPUTS'} description={inventory?'Manage stored food, declared shelf life and reserve eligibility. Future harvests stay separate from food available today.':'Set crew, reviewed targets and resource budgets. Saving changes clears the previous comparison.'}>{inventory?'Food inventory':'Mission inputs'}</Title>
@@ -318,9 +353,10 @@ function AdvancedSettings({config,setConfig,bootstrap,notify}) {
       {sensitivity&&<DataTable rows={sensitivity.cases} columns={['case','status','shortfall_days','total_harvest_kg','total_water_l','total_power_kwh']}/>}</details>
   </>;
 }
-function Vision() {
-  return <><Title eyebrow="LOCAL PLANT ANALYSIS" description="One photograph brings leaf screening and visible-fruit observations into a single overview.">Plant overview</Title>
-    <PlantOverview request={request}/>
+function Vision({mode='fruit'}) {
+  const leaf=mode==='leaf';
+  return <><Title eyebrow={leaf?'LOCAL LEAF SCREENING':'LOCAL FRUIT CHECKING'} description={leaf?'Upload a sharp, well-lit close-up of one leaf. The model provides a tentative visual class, not a disease diagnosis.':'Upload a clear plant photograph with visible fruit. The model reports visible detections and maturity cues, not food safety.'}>{leaf?'Leaf screening':'Fruit checking'}</Title>
+    <PlantOverview request={request} mode={mode}/>
   </>;
 }
 function Telemetry({notify,request}) {

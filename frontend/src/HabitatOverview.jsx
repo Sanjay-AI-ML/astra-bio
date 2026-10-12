@@ -1,8 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Activity, ArrowRight, ArrowUpRight, ChevronRight, CircleHelp, Radio, Settings2} from 'lucide-react';
+import {Activity, ArrowRight, ArrowUpRight, Beaker, ChevronRight, CircleHelp, Radio, Settings2} from 'lucide-react';
 import {useTelemetry} from './useTelemetry.js';
 import MissionExplorer, {PlanComparison, scenarioCrewCanceled} from './MissionExplorer.jsx';
 import MissionChangePanel from './MissionChangePanel.jsx';
+import MissionCrew from './MissionCrew.jsx';
+import MissionCropSuggestions from './MissionCropSuggestions.jsx';
+import {missionCrewContext} from './mission-crew.js';
 
 const number = value => value == null || !Number.isFinite(Number(value)) ? '—' : Number(value).toLocaleString(undefined, {maximumFractionDigits:2});
 function Metric({label,value,unit,detail,warning=false}) {
@@ -43,12 +46,14 @@ export default function HabitatOverview({config,run,setRun,request,notify,crewPr
   const receipt=telemetry?.age_seconds==null?'receipt age unknown':telemetry.age_seconds< -5?'future timestamp; check clock':Math.max(0,Math.round(telemetry.age_seconds))+'s since receipt';
 
   return <div className="ops-overview">
-    <div className="ops-heading"><div><h1>Mission overview</h1><p>{savedConfig.crew} starting crew · {savedConfig.days} days · {number(savedConfig.area_m2)} m² growing area</p></div><div><button className="text-button" aria-label="Review mission inputs" onClick={()=>navigate('inputs')}>Review inputs <ArrowUpRight size={15}/></button><button className="btn primary" onClick={()=>navigate('simulator')}>Open what-if simulator <ArrowRight size={16}/></button></div></div>
+    <div className="ops-heading"><div><h1>Mission overview</h1><p>{savedConfig.crew} starting crew · {savedConfig.days} days · {number(savedConfig.area_m2)} m² growing area</p></div><div><button className="text-button" aria-label="Review mission inputs" onClick={()=>navigate('inputs')}>Review inputs <ArrowUpRight size={15}/></button><button className="btn" onClick={()=>navigate('production')}>Biological production <Beaker size={16}/></button><button className="btn primary" onClick={()=>navigate('simulator')}>Open what-if simulator <ArrowRight size={16}/></button></div></div>
 
     <div className="ops-run-status"><div><span className={'source-pill '+(mixed?'mixed':'demo')}>{mixed?'Mixed inputs':'Demo inputs'}</span><span>{plan?'Calculated result':'No saved result'}</span>{plan&&<span>{policyName} · {plan.status?.replaceAll('_',' ')}</span>}</div>{metadata?.created_at_utc&&<span>Submitted {new Date(metadata.created_at_utc).toLocaleString()}</span>}</div>
     {metadata?.scenario&&<p className="ops-footnote">Scenario: {metadata.scenario.name}{(metadata.continuation?.pending_scenario_crew_cancelled||scenarioCrewCanceled(metadata.scenario,savedConfig.planning_events))&&' · Original scheduled crew arrival replaced by the reviewed roster.'}</p>}
     <MissionExplorer plan={plan} scenario={metadata?.scenario} planningEvents={metadata?.config?.planning_events} policy={policy} selectedDay={selectedDay} onSelectDay={selectDay} navigate={navigate} onChangeCrew={changeCrew} editingCrew={editingCrew}/>
     {editingCrew&&<div className="overview-crew-editor" ref={crewEditor} tabIndex={-1}><div className="overview-crew-editor-status"><span>Simulation paused · edit the crew for the remaining mission</span><button className="btn" onClick={()=>setEditingCrew(false)}>Close crew editor</button></div><MissionChangePanel run={run} config={savedConfig} sampleProfiles={crewProfiles} missionDay={selectedDay} setMissionDay={selectDay} setRun={setRun} request={request} notify={notify}/></div>}
+    <MissionCrew context={missionCrewContext(run,savedConfig,selectedDay)} draft={crewProfiles} day={selectedDay} navigate={navigate}/>
+    {run?.metadata&&<MissionCropSuggestions run={run} day={selectedDay} request={request} navigate={navigate}/>}
     <section className="ops-metrics" aria-label="Saved plan totals">
       <Metric label="Days below tracked targets" value={metrics?.shortfall_days} detail="Energy, protein and vitamin C" warning={metrics?.shortfall_days>0}/>
       <Metric label="Calculated harvest" value={metrics?.total_harvest_kg} unit="kg" detail="Estimated edible crop mass"/>

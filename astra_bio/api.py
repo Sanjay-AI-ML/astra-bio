@@ -15,6 +15,8 @@ from fastapi import Body, FastAPI, File, HTTPException, Query, Request, UploadFi
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.cors import CORSMiddleware
+from .hosting import hosting_settings
 
 from .crop_growth import calibrate_harvests, load_observations, load_reference_crops, predict_growth
 from .explanations import explain_comparison, explain_with_ollama
@@ -40,14 +42,17 @@ DIST = ROOT / "frontend" / "dist"
 SOLVER_LOCK = threading.Lock()
 app = FastAPI(title="ASTRA-BIO", version="1.0.0", description="Local food, crop and resource planning research prototype.")
 app.include_router(plant_overview_router)
-app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]"])
+ALLOWED_HOSTS, ALLOWED_ORIGINS = hosting_settings()
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=ALLOWED_HOSTS)
+app.add_middleware(CORSMiddleware, allow_origins=sorted(ALLOWED_ORIGINS),
+                   allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
 
 
 @app.middleware("http")
 async def local_requests(request: Request, call_next):
     if request.url.path.startswith("/api") and request.method not in {"GET", "HEAD", "OPTIONS"}:
         origin = request.headers.get("origin")
-        if origin and origin not in {"http://127.0.0.1:8501", "http://localhost:8501", "http://127.0.0.1:5173", "http://localhost:5173"}:
+        if origin and origin not in ALLOWED_ORIGINS:
             return JSONResponse({"detail": "This local API accepts changes only from its own workspace."}, status_code=403)
     try:
         if int(request.headers.get("content-length", "0")) > 12 * 1024 * 1024:
@@ -203,13 +208,45 @@ def _saved_plan_source(payload):
 def crop_advice(payload: dict = Body(...)):
     from .crop_advisor import recommend_crops
     plan = None
+    scenario = None
     if payload.get("metadata") is not None or payload.get("run_id") is not None:
-        _, config, _, comparison = _saved_plan_source(payload)
+        _, config, scenario, comparison = _saved_plan_source(payload)
         plan = comparison.adaptive
     else:
         config = configuration(payload["config"])
     return recommend_crops(config, plan, day=payload.get("day", 1),
-        priority=payload.get("priority", "balanced"), area_m2=payload.get("area_m2", 1.0))
+        priority=payload.get("priority", "balanced"), area_m2=payload.get("area_m2", 1.0),
+        deadline_day=payload.get("deadline_day"), scenario=scenario)
+
+
+@app.get("/api/bioproduction/catalog")
+def biological_production_catalog():
+    from .bioproduction import bioproduction_catalog
+    return bioproduction_catalog()
+
+
+@app.post("/api/bioproduction/simulate")
+def biological_production_simulation(payload: dict = Body(...)):
+    """Compare additional biological production without changing saved meals."""
+    from .bioproduction import simulate_bioproduction
+    plan = None
+    scenario = None
+    earliest_start_day = 1
+    if payload.get("metadata") is not None or payload.get("run_id") is not None:
+        metadata, config, scenario, comparison = _saved_plan_source(payload)
+        plan = comparison.adaptive
+        continuation = metadata.get("continuation", {})
+        if isinstance(continuation, dict):
+            through = continuation.get("through_day")
+            if isinstance(through, int) and not isinstance(through, bool):
+                earliest_start_day = through + 1
+    else:
+        config = configuration(payload["config"])
+    simulation = {key: value for key, value in payload.items() if key not in {"config", "metadata", "run_id"}}
+    report = simulate_bioproduction(config, plan, simulation, scenario=scenario,
+        earliest_start_day=earliest_start_day)
+    report["source_run_id"] = payload.get("run_id")
+    return report
 
 
 @app.post("/api/plans/continue")
@@ -247,7 +284,7 @@ def continue_simulation(payload: dict = Body(...)):
         metadata["crew_profiles"] = source_metadata["crew_profiles"]
     from .crop_advisor import recommend_crops
     metadata["planning_advice"] = recommend_crops(config, comparison.adaptive,
-        day=details["next_day"], priority="balanced", area_m2=.25)
+        day=details["next_day"], priority="balanced", area_m2=.25,scenario=scenario)
     history_id, history_warning = None, None
     try:
         history_id = workspace.save_run(f"Continued after Day {details['through_day']}", metadata)

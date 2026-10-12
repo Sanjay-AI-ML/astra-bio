@@ -51,7 +51,7 @@ describe('Nutrient crop advisor', () => {
     fireEvent.change(screen.getByLabelText('Assumed planting area (m²)'), {target: {value: '2.5'}});
     fireEvent.click(screen.getByRole('button', {name: 'Suggest crops'}));
     await screen.findByRole('table', {name: 'Crop recommendation comparison'});
-    expect(request).toHaveBeenCalledWith('/crop-advisor', {metadata: run.metadata, config, day: 5, priority: 'protein', area_m2: 2.5});
+    expect(request).toHaveBeenCalledWith('/crop-advisor', {metadata: run.metadata, config, day: 5, priority: 'protein', area_m2: 2.5,deadline_day:30});
     expect(screen.getByRole('table', {name: 'Predicted nutrient gaps'}).textContent).toContain('Day 3');
     expect(screen.getByRole('region', {name: 'Crop details for Spinach'}).textContent).toContain('85.8 g');
     expect(screen.getByRole('table', {name: 'Crop recommendation comparison'}).textContent).toContain('2.86 g');

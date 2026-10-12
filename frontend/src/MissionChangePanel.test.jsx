@@ -49,7 +49,9 @@ describe('Mid-mission crew and resource changes', () => {
     const request = vi.fn(async () => response()), setRun = vi.fn(), notify = vi.fn(), setMissionDay = vi.fn();
     const original = structuredClone(run); setup({request, setRun, notify, setMissionDay});
     fireEvent.click(screen.getByRole('button', {name: 'Add crew member'}));
-    fireEvent.change(screen.getByLabelText('Protein target for Sample Crew 5'), {target: {value: '110'}});
+    const addedProtein = screen.getAllByLabelText(/^Protein target for /).at(-1);
+    const addedName = addedProtein.getAttribute('aria-label').replace('Protein target for ', '');
+    fireEvent.change(addedProtein, {target: {value: '110'}});
     expect(request).not.toHaveBeenCalled();
     review(); submit();
     await screen.findByRole('region', {name: 'Accepted mission change'});
@@ -60,7 +62,7 @@ describe('Mid-mission crew and resource changes', () => {
     expect(payload.through_day).toBe(30);
     expect(payload.metadata).toBeUndefined();
     expect(payload.mission_change.crew_profiles).toHaveLength(5);
-    expect(payload.mission_change.crew_profiles[4]).toMatchObject({name: 'Sample Crew 5', targets: {energy: 2200, protein: 110, vitamin_c: 100}, targets_reviewed: true});
+    expect(payload.mission_change.crew_profiles[4]).toMatchObject({name: addedName, targets: {energy: 2200, protein: 110, vitamin_c: 100}, targets_reviewed: true});
     expect(payload.mission_change.crew_profiles.every(profile => profile.targets_reviewed)).toBe(true);
     expect(payload.mission_change.crew_profiles[3].ferritin_ug_l).toBeUndefined();
     expect(payload.mission_change.initial_water_l).toBeUndefined();
@@ -111,12 +113,13 @@ describe('Mid-mission crew and resource changes', () => {
   it('uses the selected day’s actual crew count and gives added profiles unique stable identifiers', () => {
     const moreCrew = {...run, metadata: {...run.metadata, adaptive: {...run.metadata.adaptive, daily: [{...daily(30), crew: 7}, {...daily(31), crew: 7}]}}};
     setup({run: moreCrew});
-    expect(screen.getByLabelText('Protein target for Sample Crew 7')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', {name: 'Remove Sample Crew 7 from future crew'}));
+    const initialAddedName = screen.getAllByLabelText(/^Protein target for /).at(-1).getAttribute('aria-label').replace('Protein target for ', '');
+    expect(screen.getByLabelText(`Protein target for ${initialAddedName}`)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', {name: `Remove ${initialAddedName} from future crew`}));
     fireEvent.click(screen.getByRole('button', {name: 'Add crew member'}));
     const nameFields = screen.getAllByRole('textbox').filter(field => field.getAttribute('aria-label')?.startsWith('Name for'));
     expect(new Set(nameFields.map(field => field.getAttribute('aria-label'))).size).toBe(nameFields.length);
-    expect(screen.getByLabelText('Protein target for Sample Crew 7')).toBeTruthy();
+    expect(screen.getAllByLabelText(/^Protein target for /)).toHaveLength(7);
   });
 
   it('does not replace a newer mission with a late continuation result', async () => {
@@ -209,7 +212,7 @@ describe('Mid-mission crew and resource changes', () => {
     setup({run: {...run, metadata: {...run.metadata, adaptive: {...run.metadata.adaptive,
       daily: [{...daily(30), protein_target: 504}]}}}});
     fireEvent.click(screen.getByRole('button', {name: 'Add crew member'}));
-    expect(screen.getByLabelText('Protein target for Sample Crew 5').value).toBe('126');
+    expect(screen.getAllByLabelText(/^Protein target for /).at(-1).value).toBe('126');
   });
 
   it('does not advertise an already canceled scenario crew arrival as pending', () => {

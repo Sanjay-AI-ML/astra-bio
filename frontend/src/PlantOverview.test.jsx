@@ -14,7 +14,7 @@ describe('combined plant screening',()=>{
   it('accepts one photo without pairing confirmation and displays both model observations',async()=>{
     const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
     render(<PlantOverview request={request}/>);
-    expect(document.querySelectorAll('input[type=file]')).toHaveLength(1);
+    expect(document.querySelectorAll('input[type=file]')).toHaveLength(2);
     expect(screen.queryByRole('checkbox')).toBeNull();
     upload('Plant photograph','plant.jpg');
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
@@ -28,6 +28,68 @@ describe('combined plant screening',()=>{
     expect(screen.getByText(summary.brief_overview)).toBeTruthy();
     expect(screen.getByText('3 visible detections')).toBeTruthy();
     expect(screen.getByRole('button',{name:'Create brief Gemini overview'}).disabled).toBe(true);
+  });
+  it('uses an optional leaf close-up for leaf evidence while keeping the original fruit photograph',async()=>{
+    const paired={...report,input_mode:'plant_photo_with_leaf_closeup',leaf_input_source:'leaf_closeup',leaf:{...report.leaf,input_source:'leaf_closeup'}};
+    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false},leaf_model:{ready:true}}:clone(paired));
+    render(<PlantOverview request={request}/>);
+    upload('Plant photograph','plant.jpg');
+    upload('Leaf close-up (optional)','leaf.jpg');
+    fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
+    await screen.findByRole('region',{name:'Combined plant overview'});
+    const form=request.mock.calls.find(([path])=>path==='/plant-overview')[1];
+    expect(form.get('file').name).toBe('plant.jpg');
+    expect(form.get('leaf_file').name).toBe('leaf.jpg');
+    expect([...form.values()].filter(value=>value instanceof File)).toHaveLength(2);
+    expect(screen.getByRole('heading',{name:'Leaf close-up'})).toBeTruthy();
+    expect(screen.getByRole('heading',{name:'Fruit in plant photo'})).toBeTruthy();
+    expect(screen.getByText('3 visible detections')).toBeTruthy();
+    expect(screen.getByText('early blight')).toBeTruthy();
+  });
+  it('removing or replacing the main photograph clears the old leaf close-up and report',async()=>{
+    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
+    render(<PlantOverview request={request}/>);
+    upload('Plant photograph','plant.jpg');
+    upload('Leaf close-up (optional)','leaf.jpg');
+    fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
+    await screen.findByRole('region',{name:'Combined plant overview'});
+    upload('Plant photograph','new-plant.jpg');
+    expect(screen.queryByAltText('Leaf close-up for local screening')).toBeNull();
+    expect(screen.queryByRole('region',{name:'Combined plant overview'})).toBeNull();
+    expect(screen.getByLabelText('Leaf close-up (optional)').value).toBe('');
+    fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
+    await screen.findByRole('region',{name:'Combined plant overview'});
+    const form=request.mock.calls.filter(([path])=>path==='/plant-overview').at(-1)[1];
+    expect(form.get('file').name).toBe('new-plant.jpg');
+    expect(form.has('leaf_file')).toBe(false);
+  });
+  it('lets a supplied leaf close-up be removed without losing the original plant image',async()=>{
+    const request=vi.fn(async()=>({ai:{configured:false}}));
+    render(<PlantOverview request={request}/>);
+    upload('Plant photograph','plant.jpg');
+    upload('Leaf close-up (optional)','leaf.jpg');
+    fireEvent.click(screen.getByRole('button',{name:'Remove leaf close-up'}));
+    expect(screen.queryByAltText('Leaf close-up for local screening')).toBeNull();
+    expect(screen.getByAltText('Plant photograph for local analysis')).toBeTruthy();
+    expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false);
+  });
+  it.each(['uncertain','rejected','unavailable'])('keeps %s leaf matches unresolved while displaying visible fruit',async status=>{
+    const unresolved={...report,leaf:{status,reason:'Leaf evidence could not be resolved',predictions:[{condition:'late blight',score:.99}]}};
+    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(unresolved));
+    render(<PlantOverview request={request}/>);
+    upload('Plant photograph','plant.jpg');
+    fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
+    await screen.findByRole('region',{name:'Combined plant overview'});
+    expect(screen.queryByText('late blight')).toBeNull();
+    expect(screen.getByText('3 visible detections')).toBeTruthy();
+    expect(screen.getByText('Add a leaf close-up above and analyze again. Fruit counts can remain usable while leaf condition is unresolved.')).toBeTruthy();
+  });
+  it('reports unavailable leaf-model installation separately from the fruit observation',async()=>{
+    const request=vi.fn(async()=>({ai:{configured:false},leaf_model:{ready:false,reason:'Verified model file missing'}}));
+    render(<PlantOverview request={request}/>);
+    expect((await screen.findByRole('status')).textContent).toContain('Leaf screening is unavailable: Verified model file missing');
+    upload('Plant photograph','plant.jpg');
+    expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false);
   });
   it('a changed photograph clears the previous combined result',async()=>{
     const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
@@ -93,7 +155,7 @@ describe('combined plant screening',()=>{
     const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(marked));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
-    const image=screen.getByAltText('One photograph used for leaf and fruit analysis');
+    const image=screen.getByAltText('Plant photograph for local analysis');
     Object.defineProperties(image,{naturalWidth:{value:1000},naturalHeight:{value:600}});
     fireEvent.load(image);
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));

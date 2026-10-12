@@ -181,8 +181,85 @@ class FoodLogEntry:
 
 
 def default_profiles(config: HabitatConfig) -> list[CrewProfile]:
+    stored = getattr(config, "crew_profiles", [])
+    if stored:
+        return [CrewProfile(**{key: copy.deepcopy(row[key]) for key in CrewProfile.__dataclass_fields__ if key in row})
+            for row in stored]
     return [CrewProfile(f"crew-{index + 1}", f"Crew {index + 1}", dict(config.targets_per_crew))
         for index in range(config.crew)]
+
+
+def active_crew_context(config: HabitatConfig, day: int, daily_row: dict | None = None,
+                        scenario=None) -> dict:
+    """Resolve identities in mission order and match effective planning targets.
+
+    The initial roster and dated reviewed rosters describe who is present. A
+    count-only change cannot establish identities; unknown places remain
+    explicitly unnamed. Relative or independent target adjustments are shared
+    proportionally, preserving each member's reviewed target weights. These
+    are planning targets, never blood-derived diagnoses or personal meals.
+    """
+    from .model import Scenario
+    from .planner import _day_conditions
+    if isinstance(day, bool) or not isinstance(day, int) or day < 1:
+        raise ValueError("Crew context day must be a positive integer.")
+    scenario = scenario or Scenario("crew-context", "Reviewed mission inputs", event_day=config.days + 1)
+    roster = copy.deepcopy(getattr(config, "crew_profiles", []))
+    count = config.crew
+    source = "initial_reviewed_roster" if roster else "crew_count_only"
+    effective_from = 1
+    cancel_relative = any(event.get("cancel_scenario_crew") is True
+        and event["day"] <= scenario.event_day for event in config.planning_events)
+    timeline = [(scenario.event_day, -1, None)]
+    timeline.extend((event["day"], index, event) for index, event in enumerate(config.planning_events))
+    for effective_day, _, event in sorted(timeline):
+        if effective_day > day:
+            break
+        if event is None:
+            if not cancel_relative and scenario.extra_crew:
+                count += scenario.extra_crew
+                effective_from = effective_day
+        elif "crew_profiles" in event:
+            roster = copy.deepcopy(event["crew_profiles"])
+            count = event["crew"]
+            effective_from, source = effective_day, "dated_reviewed_roster"
+        elif "crew" in event:
+            if event["crew"] != count:
+                # A numeric reduction cannot tell us which named person left;
+                # an increase likewise does not establish a retained roster.
+                roster = []
+                effective_from, source = effective_day, "crew_count_only"
+            count = event["crew"]
+    reviewed_count, totals, _, _ = _day_conditions(config, scenario, day)
+    row = daily_row or {}
+    count = row.get("crew", reviewed_count)
+    totals = {n: row.get(f"{n}_target", total * count / reviewed_count) for n, total in totals.items()}
+    if len(roster) > count:
+        roster = []
+        source = "saved_count_without_matching_roster"
+    named_count = len(roster)
+    unnamed = max(0, count - named_count)
+    denominators = {n: sum(p["targets"].get(n, 0) for p in roster) for n in totals}
+    # An unnamed arrival receives the roster's average *planning* target for
+    # proportional arithmetic; no label, clinical profile or observation is
+    # invented for that person.
+    original_mean = {n: denominators[n] / named_count if named_count else config.targets_per_crew[n] for n in totals}
+    denominators = {n: amount + unnamed * original_mean[n] for n, amount in denominators.items()}
+    members, adjusted = [], False
+    for profile in roster:
+        member = copy.deepcopy(profile)
+        reviewed = copy.deepcopy(profile["targets"])
+        member["reviewed_targets"] = reviewed
+        member["targets"] = {n: reviewed.get(n, 0) * totals[n] / denominators[n]
+            if denominators[n] else 0.0 for n in totals}
+        adjusted |= any(abs(member["targets"][n] - reviewed.get(n, 0)) > 1e-6 for n in totals)
+        members.append(member)
+    return {"day": day, "crew_count": count, "members": members, "named_count": named_count,
+        "unnamed_count": unnamed, "aggregate_daily_targets": totals,
+        "effective_from_day": effective_from, "source": source, "targets_adjusted": adjusted,
+        "unnamed_daily_targets": {n: max(0.0, total - sum(member["targets"][n] for member in members))
+            for n, total in totals.items()},
+        "scope": "Reviewed roster and effective simulated daily planning targets; aggregate supply does not establish individual intake or clinical status."}
 
 
 def vitamin_c_reference(age: int | None, sex: str) -> dict | None:
@@ -265,7 +342,8 @@ def apply_profile_targets(config: HabitatConfig, profiles: Iterable[CrewProfile]
         "profiles": len(profiles), "all_targets_user_reviewed": all(profile.targets_reviewed for profile in profiles),
         "aggregation": "Arithmetic mean per crew member; planner still uses a shared daily target, not personal meal constraints.",
         "medical_validation": "Not established; no automatic astronaut energy/protein prescription."}
-    updated = replace(config, targets_per_crew=targets, nutrient_units=UNITS.copy(), input_provenance=provenance)
+    updated = replace(config, targets_per_crew=targets, crew_profiles=[asdict(profile) for profile in profiles],
+        nutrient_units=UNITS.copy(), input_provenance=provenance)
     updated.validate()
     return updated
 

@@ -1,4 +1,5 @@
 from io import BytesIO
+import hashlib
 import json
 
 from fastapi import FastAPI
@@ -49,8 +50,8 @@ def test_rejected_leaf_predictions_do_not_become_findings(status):
     assert any("does not mean there is no fruit" in text for text in result["possible_use"])
 
 
-@pytest.mark.parametrize("extra_field",["file", "fruit_file"])
-def test_multiple_photos_are_rejected_before_inference(client,monkeypatch,extra_field):
+@pytest.mark.parametrize("extra_field",["file", "fruit_file", "unknown_image"])
+def test_unexpected_or_duplicate_plant_photos_are_rejected_before_inference(client,monkeypatch,extra_field):
     called=[]
     monkeypatch.setattr(routes,"assess_image",lambda *args:called.append("leaf"))
     result=client.post('/api/plant-overview',data={"crop_species":"tomato"},files=[("file",('plant.jpg',b'plant','image/jpeg')),(extra_field,('another.jpg',b'another','image/jpeg'))])
@@ -68,14 +69,103 @@ def test_routes_join_real_inference_contracts_without_external_images(client,mon
     data=response.json()
     assert seen==[(b'plant','tomato'),(b'plant','tomato','tomato-ripeness-3')]
     assert data["plant_id"]=="Tray1plant2"
+    assert data["schema_version"]==3
     assert data["input_mode"]=="single_photo"
-    assert len(data["image_sha256"])==64
+    assert data["image_sha256"]==hashlib.sha256(b'plant').hexdigest()
+    assert data["leaf_image_sha256"]==data["image_sha256"]
+    assert data["leaf_input_source"]==data["leaf"]["input_source"]=="plant_photo"
     assert any("does not locate individual leaves" in text for text in data["overview"]["limitations"])
     assert data["images_uploaded_to_provider"] is False
     ai=client.post('/api/plant-overview/ai',json={"evidence_id":data["evidence_id"]}).json()
     assert ai["mode"]=="local_evidence"
     assert "No Gemini API key" in ai["fallback_reason"]
     assert client.post('/api/plant-overview/ai',json={"evidence_id":"forged"}).status_code==422
+
+
+@pytest.mark.parametrize(("mode", "expected"), [("leaf", "leaf"), ("fruit", "fruit")])
+def test_single_purpose_modes_only_run_the_requested_analysis(client,monkeypatch,mode,expected):
+    called=[]
+    monkeypatch.setattr(routes,"assess_image",lambda data,species:(called.append("leaf"),leaf())[1])
+    monkeypatch.setattr(routes,"assess_fruit_image",lambda data,species,model:(called.append("fruit"),fruit())[1])
+    response=client.post('/api/plant-overview',data={"crop_species":"tomato","screening_mode":mode},files={
+        "file":('plant.jpg',b'plant photograph','image/jpeg')})
+    assert response.status_code==200,response.text
+    result=response.json()
+    assert called==[expected]
+    assert result["screening_mode"]==mode
+    assert result["overview"] is None
+    assert result["leaf"]["status"]=="not_requested" if mode=="fruit" else result["leaf"]["status"]=="tentative"
+    assert result["fruit"]["status"]=="not_requested" if mode=="leaf" else result["fruit"]["status"]=="observed"
+
+
+def test_optional_leaf_closeup_uses_separate_model_inputs_and_evidence_hashes(client,monkeypatch):
+    seen=[]
+    monkeypatch.setattr(routes,"assess_image",lambda data,species:(seen.append(('leaf',data,species)),leaf())[1])
+    monkeypatch.setattr(routes,"assess_fruit_image",lambda data,species,model:(seen.append(('fruit',data,species,model)),fruit())[1])
+    response=client.post('/api/plant-overview',data={"crop_species":"tomato"},files={
+        "file":('plant.jpg',b'wide plant image','image/jpeg'),
+        "leaf_file":('closeup.jpg',b'leaf detail','image/jpeg')})
+    assert response.status_code==200,response.text
+    result=response.json()
+    assert seen==[('leaf',b'leaf detail','tomato'),('fruit',b'wide plant image','tomato','tomato-ripeness-3')]
+    assert result["schema_version"]==3
+    assert result["input_mode"]=="plant_photo_with_leaf_closeup"
+    assert result["leaf_input_source"]==result["leaf"]["input_source"]=="leaf_closeup"
+    assert result["image_sha256"]==hashlib.sha256(b'wide plant image').hexdigest()
+    assert result["leaf_image_sha256"]==hashlib.sha256(b'leaf detail').hexdigest()
+    assert "resembles early blight" in result["overview"]["brief_overview"]
+    assert any("Neither model verifies" in text for text in result["overview"]["limitations"])
+    assert result["images_uploaded_to_provider"] is False
+    assert result["automatic_action"] is False
+
+
+def test_duplicate_leaf_closeups_are_rejected_before_inference(client,monkeypatch):
+    called=[]
+    monkeypatch.setattr(routes,"assess_image",lambda *args:called.append('leaf'))
+    monkeypatch.setattr(routes,"assess_fruit_image",lambda *args:called.append('fruit'))
+    response=client.post('/api/plant-overview',files=[
+        ('file',('plant.jpg',b'plant','image/jpeg')),
+        ('leaf_file',('leaf.jpg',b'leaf','image/jpeg')),
+        ('leaf_file',('other.jpg',b'other','image/jpeg'))])
+    assert response.status_code==422
+    assert "at most one optional leaf" in response.json()["detail"]
+    assert not called
+
+
+@pytest.mark.parametrize("payload,status",[(b'',422),(b'123456789',413)])
+def test_empty_or_oversized_leaf_closeup_stops_both_models(client,monkeypatch,payload,status):
+    called=[]
+    monkeypatch.setattr(routes,"MAX_IMAGE_BYTES",8)
+    monkeypatch.setattr(routes,"assess_image",lambda *args:called.append('leaf'))
+    monkeypatch.setattr(routes,"assess_fruit_image",lambda *args:called.append('fruit'))
+    response=client.post('/api/plant-overview',files={
+        "file":('plant.jpg',b'plant','image/jpeg'),
+        "leaf_file":('leaf.jpg',payload,'image/jpeg')})
+    assert response.status_code==status
+    assert "leaf close-up" in response.json()["detail"]
+    assert not called
+
+
+@pytest.mark.parametrize("leaf_status",["uncertain","rejected","unavailable"])
+def test_unresolved_leaf_closeup_never_claims_condition_or_discards_fruit(client,monkeypatch,leaf_status):
+    monkeypatch.setattr(routes,"assess_image",lambda *args:{**leaf('late blight'),"status":leaf_status})
+    monkeypatch.setattr(routes,"assess_fruit_image",lambda *args:fruit())
+    response=client.post('/api/plant-overview',files={
+        "file":('plant.jpg',b'plant','image/jpeg'),"leaf_file":('leaf.jpg',b'leaf','image/jpeg')})
+    assert response.status_code==200
+    result=response.json()
+    assert result["leaf"]["status"]==leaf_status
+    assert "unresolved in the supplied close-up" in result["overview"]["brief_overview"]
+    assert "late blight" not in result["overview"]["brief_overview"]
+    assert result["fruit"]["visible_count"]==3
+
+
+def test_status_exposes_leaf_installation_state_without_loading_photos(client,monkeypatch):
+    monkeypatch.setattr(routes,"model_status",lambda:{"ready":False,"reason":"Model file missing"})
+    result=client.get('/api/plant-overview/status')
+    assert result.status_code==200
+    assert result.json()["leaf_model"]=={"ready":False,"reason":"Model file missing"}
+    assert result.json()["local_summary_available"] is True
 
 
 def test_unresolved_leaves_do_not_discard_fruit_observations(client,monkeypatch):

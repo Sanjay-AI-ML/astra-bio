@@ -154,6 +154,31 @@ def test_unknown_intake_is_not_a_zero_intake_diagnosis(client):
     assert vitamin["log_complete"] is False
 
 
+def test_named_nutrition_roster_persists_into_saved_mission_and_deadline_advice(client):
+    config = asdict(replace(default_config(), days=35))
+    profiles = client.get("/api/nutrition/sample?count=4").json()["profiles"]
+    profiles = [{**p, "targets_reviewed": True} for p in profiles]
+    applied = client.post("/api/nutrition/apply-targets", json={"config": config, "profiles": profiles})
+    assert applied.status_code == 200, applied.text
+    named_config = applied.json()["config"]
+    assert named_config["crew_profiles"] == profiles
+    response = client.post("/api/plans", json={"config": named_config,
+        "scenario": asdict(Scenario("named", "Named mission", event_day=36))})
+    assert response.status_code == 200, response.text
+    run = response.json()
+    restored = client.get("/api/bootstrap").json()
+    assert [p["name"] for p in restored["profiles"]] == [p["name"] for p in profiles]
+    advice = client.post("/api/crop-advisor", json={"run_id": run["history_id"], "day": 6,
+        "deadline_day": 19, "priority": "protein", "area_m2": .25})
+    assert advice.status_code == 200, advice.text
+    report = advice.json()
+    assert report["deadline_day"] == 19
+    assert [p["name"] for p in report["crew_context"]["members"]] == [p["name"] for p in profiles]
+    assert report["crew_context"]["aggregate_daily_targets"]["protein"] == 350
+    assert all(not p["actionable"] or p["harvest_day"] <= 19 for p in report["recommendations"])
+    assert client.post("/api/crop-advisor", json={"run_id": run["history_id"], "day": 6, "deadline_day": 5}).status_code == 422
+
+
 def test_named_sample_crew_has_traceable_intake_separate_blood_and_bounded_count(client):
     sample = client.get("/api/nutrition/sample?count=4").json()
     assert sample["sample_only"] is True

@@ -178,4 +178,8 @@ def continue_plan(config: HabitatConfig, scenario: Scenario, source: PlanResult,
         details["crew_profiles"] = profiles
     if "crew_count" in change:
         details["crew_target_scope"] = "Count-only change uses existing average planning targets; added individuals' requirements remain unspecified."
+    from .nutrition import active_crew_context
+    details["previous_crew_context"] = active_crew_context(config, through_day, source.daily[through_day - 1], scenario)
+    details["crew_context"] = active_crew_context(updated, start,
+        next((row for row in adaptive.daily if row["day"] == start), None), scenario)
     return updated, ComparisonResult(baseline, adaptive, scenario.name, delta), details

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {apiUrl} from './api-url.js';
 
 const SOURCE_LABELS = {hardware: 'Physical camera', synthetic: 'Synthetic test image'};
 const TRANSPORT_LABELS = {wifi_https: 'Wi-Fi → HTTPS gateway', serial_bridge: 'USB serial → laptop gateway'};
@@ -9,7 +10,7 @@ const localTime = value => {
 const contentPath = image => {
   if (typeof image?.id !== 'string' || !/^[a-f0-9]{24}$/i.test(image.id)) return null;
   const expected = '/api/camera-images/' + encodeURIComponent(image.id) + '/content';
-  return image.content_url === expected ? expected : null;
+  return image.content_url === expected ? apiUrl(expected) : null;
 };
 
 function receiptAge(image, checkedAt) {

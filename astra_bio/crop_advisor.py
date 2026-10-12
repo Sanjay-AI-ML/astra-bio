@@ -9,21 +9,21 @@ from __future__ import annotations
 from math import isclose
 
 from .model import HabitatConfig, Scenario
-from .nutrition import UNITS, composition_for_species, load_compositions, nonnegative
-from .planner import PlanResult, _day_area_capacity, _day_conditions
+from .nutrition import UNITS, active_crew_context, composition_for_species, load_compositions, nonnegative
+from .planner import PlanResult, _batch_factor, _day_area_capacity, _day_conditions
 
 PRIORITIES = ("balanced", "protein", "energy", "vitamin_c")
 EPS = 1e-6
 
 
-def _reviewed_conditions(config: HabitatConfig, day: int):
+def _reviewed_conditions(config: HabitatConfig, day: int, scenario: Scenario | None = None):
     """Known reviewed changes also apply when no saved row is available."""
     neutral = Scenario("advisor", "Reviewed planning inputs", event_day=config.days + 1)
-    return _day_conditions(config, neutral, day)
+    return _day_conditions(config, scenario or neutral, day)
 
 
-def _target_for_row(config: HabitatConfig, row: dict, day: int, nutrient: str) -> float:
-    crew, targets, _, _ = _reviewed_conditions(config, day)
+def _target_for_row(config: HabitatConfig, row: dict, day: int, nutrient: str, scenario=None) -> float:
+    crew, targets, _, _ = _reviewed_conditions(config, day, scenario)
     return row.get(f"{nutrient}_target", targets.get(nutrient, 0.0) * row.get("crew", crew) / crew)
 
 
@@ -54,37 +54,46 @@ def _composition_provenance(item, catalog) -> dict:
     return result
 
 
-def _forecast(config: HabitatConfig, rows: dict[int, dict], day: int) -> dict:
+def _forecast(config: HabitatConfig, rows: dict[int, dict], day: int, deadline: int, scenario=None) -> dict:
     result = []
     current = rows.get(day, {})
     for nutrient, unit in UNITS.items():
-        target = _target_for_row(config, current, day, nutrient)
+        target = _target_for_row(config, current, day, nutrient, scenario)
         gaps = []
         normalized_gap = 0.0
         for d, row in sorted(rows.items()):
-            if d < day:
+            if d < day or d > deadline:
                 continue
             gap = row.get("shortfall_units", {}).get(nutrient, row.get(f"{nutrient}_shortfall", 0.0))
-            daily_target = _target_for_row(config, row, d, nutrient)
+            daily_target = _target_for_row(config, row, d, nutrient, scenario)
             if gap > EPS:
                 gaps.append((d, gap))
                 if daily_target > 0:
                     normalized_gap += gap / daily_target
+        daily_forecast = []
+        for d, row in sorted(rows.items()):
+            if d < day or d > deadline:
+                continue
+            daily_forecast.append({"day": d,
+                "target": _target_for_row(config, row, d, nutrient, scenario),
+                "supply": row.get(f"{nutrient}_supply"),
+                "shortfall": row.get("shortfall_units", {}).get(nutrient, row.get(f"{nutrient}_shortfall"))})
         result.append({"nutrient": nutrient, "unit": unit,
             "current_target": target,
             "current_supply": current.get(f"{nutrient}_supply"),
             "current_shortfall": current.get("shortfall_units", {}).get(nutrient, current.get(f"{nutrient}_shortfall")),
             "earliest_gap_day": gaps[0][0] if gaps else None,
             "cumulative_future_shortfall": sum(gap for _, gap in gaps),
-            "normalized_future_gap": normalized_gap, "gap_days": len(gaps)})
-    return {"available": any(d >= day for d in rows), "nutrients": result,
+            "normalized_future_gap": normalized_gap, "gap_days": len(gaps), "daily": daily_forecast})
+    return {"available": any(day <= d <= deadline for d in rows), "nutrients": result,
+        "through_day": deadline,
         "scope": "Forecast of the saved plan from the requested planting day; not observed dietary intake."}
 
 
-def _headroom(config: HabitatConfig, plan: PlanResult | None, row: dict, day: int) -> dict:
+def _headroom(config: HabitatConfig, plan: PlanResult | None, row: dict, day: int, scenario=None) -> dict:
     crops = {crop.id: crop for crop in config.crops}
     active = [batch for batch in plan.planting if batch["day"] <= day < batch["harvest_day"]] if plan else []
-    reviewed_crew, _, available_water, available_power = _reviewed_conditions(config, day)
+    reviewed_crew, _, available_water, available_power = _reviewed_conditions(config, day, scenario)
     crew = row.get("crew", reviewed_crew)
     crew_water = crew * config.crew_water_l_per_day
     inferred_water = crew_water + sum(crops[b["crop_id"]].water_l_per_m2_day * b["area_m2"]
@@ -97,7 +106,7 @@ def _headroom(config: HabitatConfig, plan: PlanResult | None, row: dict, day: in
         "power_kwh": max(0.0, row.get("power_available_kwh", available_power)
             - row.get("power_kwh", inferred_power)),
         "area_m2": max(0.0, row.get("area_available_m2", _day_area_capacity(config,
-            Scenario("advisor", "Reviewed planning inputs", event_day=config.days + 1), day))
+            scenario or Scenario("advisor", "Reviewed planning inputs", event_day=config.days + 1), day))
             - row.get("area_m2", sum(b["area_m2"] for b in active))),
     }
 
@@ -123,20 +132,21 @@ def _unallocated_stores(config: HabitatConfig, rows: dict[int, dict], day: int) 
 
 
 def _harvest_help(config: HabitatConfig, plan: PlanResult | None, rows: dict[int, dict],
-                  crop, harvest_day: int, mass_kg: float, targets: dict, weights: dict) -> dict:
+                  crop, harvest_day: int, mass_kg: float, targets: dict, weights: dict, scenario=None,
+                  deadline: int | None = None) -> dict:
     """Credit a new batch only on its consumable harvest day.
 
     This is a marginal screening comparison, not a second nutrition solve. It
     preserves meals and harvests already allocated in the saved plan.
     """
     row = rows.get(harvest_day, {})
-    crew = row.get("crew", _reviewed_conditions(config, harvest_day)[0])
+    crew = row.get("crew", _reviewed_conditions(config, harvest_day, scenario)[0])
     eaten = plan.consumption.get(harvest_day, {}) if plan else {}
     crop_ids = {item.id for item in config.crops}
     existing_fresh = sum(max(0.0, eaten.get(item, 0.0)) for item in crop_ids)
     fresh_limit = crew * config.max_fresh_kg_per_crew_day
     fresh_remaining = max(0.0, fresh_limit - existing_fresh)
-    mass = min(mass_kg, fresh_remaining) if harvest_day <= config.days else 0.0
+    mass = min(mass_kg, fresh_remaining) if harvest_day <= (deadline or config.days) else 0.0
     if config.max_total_food_kg_per_crew_day:
         total_eaten = row.get("food_mass_kg", sum(eaten.values()))
         mass = min(mass, max(0.0, crew * config.max_total_food_kg_per_crew_day - total_eaten))
@@ -163,7 +173,7 @@ def _harvest_help(config: HabitatConfig, plan: PlanResult | None, rows: dict[int
 
 
 def _planned_actions(config: HabitatConfig, plan: PlanResult | None, rows: dict[int, dict],
-                     day: int) -> list[dict]:
+                     day: int, deadline: int, scenario=None) -> list[dict]:
     """Explain the saved solver's future plantings separately from extra trays."""
     if plan is None:
         return []
@@ -186,6 +196,9 @@ def _planned_actions(config: HabitatConfig, plan: PlanResult | None, rows: dict[
         # crop/day total and is deliberately not attributed to each batch.
         actions.append({"crop_id": crop.id, "name": crop.name, "day": batch["day"],
             "planting_day": batch["day"], "harvest_day": harvest, "area_m2": batch["area_m2"],
+            "harvest_deadline_day": deadline, "fits_deadline": harvest <= deadline,
+            "latest_planting_day": deadline - crop.grow_days,
+            "crew_context_at_harvest": active_crew_context(config, harvest, rows.get(harvest), scenario),
             "estimated_harvest_kg": mass, "predicted_harvest_kg": mass,
             "potential_nutrients_at_harvest": supply, "nutrients_at_harvest": supply,
             "forecast_daily_targets": targets, "planned_crop_day_consumption_kg": eaten_kg,
@@ -235,7 +248,8 @@ def _bridge_foods(config: HabitatConfig, plan: PlanResult | None, day: int, cata
 
 
 def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, day: int = 1,
-                    priority: str = "balanced", area_m2: float = 1.0) -> dict:
+                    priority: str = "balanced", area_m2: float = 1.0,
+                    deadline_day: int | None = None, scenario: Scenario | None = None) -> dict:
     """Rank additive crop candidates without changing the submitted simulation.
 
     ``day`` is the planting day. A crop's first harvest is ``day + grow_days``.
@@ -245,6 +259,11 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
     config.validate()
     if isinstance(day, bool) or not isinstance(day, int) or not 1 <= day <= config.days:
         raise ValueError("Crop planting day must be an integer within the planning horizon.")
+    deadline = config.days if deadline_day is None else deadline_day
+    if isinstance(deadline, bool) or not isinstance(deadline, int) or not day <= deadline <= config.days:
+        raise ValueError("Harvest deadline must be an integer from the planting day through the mission's final day.")
+    if scenario is not None:
+        scenario.validate(config)
     if not isinstance(priority, str) or priority not in PRIORITIES:
         raise ValueError("Crop priority must be balanced, protein, energy or vitamin_c.")
     area_m2 = nonnegative(area_m2, "Requested growing area")
@@ -254,7 +273,8 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
         raise ValueError(f"Set a positive {priority} target before choosing that priority.")
     catalog = load_compositions()
     rows = {row["day"]: row for row in plan.daily if 1 <= row["day"] <= config.days} if plan else {}
-    forecast = _forecast(config, rows, day)
+    forecast = _forecast(config, rows, day, deadline, scenario)
+    crew_context = active_crew_context(config, day, rows.get(day), scenario)
     targets = {row["nutrient"]: row["current_target"] for row in forecast["nutrients"]}
     if priority != "balanced":
         weights = {nutrient: float(nutrient == priority) for nutrient in UNITS}
@@ -265,22 +285,24 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
         tracked = sum(target > 0 for target in targets.values())
         weights = {n: gaps[n] / total if total > EPS else float(targets[n] > 0) / tracked if tracked else 0.0 for n in UNITS}
         weight_basis = "Shares of future shortfall divided by each day's crew target." if total > EPS else "Equal weights among configured nutrient targets; no future shortfalls are established."
-    headrooms = {d: _headroom(config, plan, rows.get(d, {}), d) for d in range(day, config.days + 1)}
+    headrooms = {d: _headroom(config, plan, rows.get(d, {}), d, scenario) for d in range(day, config.days + 1)}
     today = headrooms[day]
     stores = _unallocated_stores(config, rows, day)
-    complete_forecast = all(d in rows for d in range(day, config.days + 1))
+    complete_forecast = all(d in rows for d in range(day, deadline + 1))
     selected_gaps = sum(weights[n] * next(item["normalized_future_gap"]
         for item in forecast["nutrients"] if item["nutrient"] == n) for n in UNITS)
     use_gap_timing = complete_forecast and selected_gaps > EPS
     recommendations = []
     for crop in config.crops:
         harvest_day = day + crop.grow_days
-        kg = area_m2 * crop.yield_kg_per_m2
+        yield_factor = _batch_factor(scenario, crop.id, day, harvest_day) if scenario else 1.0
+        kg = area_m2 * crop.yield_kg_per_m2 * yield_factor
         nutrients = _amounts(crop.nutrients_per_kg, kg)
-        outputs = _amounts(crop.nutrients_per_kg, crop.yield_kg_per_m2 / crop.grow_days)
+        outputs = _amounts(crop.nutrients_per_kg, crop.yield_kg_per_m2 * yield_factor / crop.grow_days)
         harvest_row = rows.get(harvest_day, {})
-        harvest_crew = harvest_row.get("crew", _reviewed_conditions(config, harvest_day)[0])
-        harvest_targets = {n: _target_for_row(config, harvest_row, harvest_day, n) for n in UNITS}
+        harvest_context = active_crew_context(config, harvest_day, harvest_row, scenario)
+        harvest_crew = harvest_context["crew_count"]
+        harvest_targets = {n: _target_for_row(config, harvest_row, harvest_day, n, scenario) for n in UNITS}
         normalized = {n: (outputs[n] or 0.0) / harvest_targets[n] if harvest_targets[n] > 0 else 0.0 for n in UNITS}
         components = {n: weights[n] * normalized[n] for n in UNITS}
         growth_window = [headrooms[d] for d in range(day, min(harvest_day, config.days + 1))]
@@ -288,10 +310,12 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
         water = area_m2 * crop.water_l_per_m2_day
         power = area_m2 * crop.power_kwh_per_m2_day
         help_at_harvest = _harvest_help(config, plan, rows, crop, harvest_day, kg,
-            harvest_targets, weights)
+            harvest_targets, weights, scenario, deadline)
         blocked = []
         if harvest_day > config.days:
             blocked.append("First harvest is after the planning horizon.")
+        elif harvest_day > deadline:
+            blocked.append("First harvest is after the selected harvest deadline.")
         if area_m2 > minimum["area_m2"] + EPS:
             blocked.append("Insufficient free growing area while keeping the saved plantings.")
         if water > minimum["water_l"] + EPS:
@@ -313,9 +337,9 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
         if not any(weights[n] > 0 and (outputs[n] or 0.0) > 0 for n in UNITS):
             blocked.append("Configured crop supplies no nutrient used by the selected priority.")
         gaps_before = {n: sum(row.get("shortfall_units", {}).get(n, row.get(f"{n}_shortfall", 0.0))
-            for d, row in rows.items() if day <= d < harvest_day) for n in UNITS}
+            for d, row in rows.items() if day <= d < harvest_day and d <= deadline) for n in UNITS}
         gap_days_before = {n: sum(row.get("shortfall_units", {}).get(n, row.get(f"{n}_shortfall", 0.0)) > EPS
-            for d, row in rows.items() if day <= d < harvest_day) for n in UNITS}
+            for d, row in rows.items() if day <= d < harvest_day and d <= deadline) for n in UNITS}
         fresh_cap = harvest_crew * config.max_fresh_kg_per_crew_day
         warnings = ["Harvest nutrients are potential production, not guaranteed consumption or gap closure.",
             "A crop planted now supplies no food before its first harvest."]
@@ -335,6 +359,9 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
             "score_daily_targets": harvest_targets,
             "nutrient_output_per_m2_day": outputs, "estimated_harvest_kg": kg, "nutrients_at_harvest": nutrients,
             "harvest_day": harvest_day, "grow_days": crop.grow_days, "gaps_before_harvest": gaps_before,
+            "harvest_deadline_day": deadline, "latest_planting_day": deadline - crop.grow_days,
+            "fits_deadline": harvest_day <= deadline, "yield_factor": yield_factor,
+            "crew_context_at_harvest": harvest_context,
             "missed_gap_days_before_harvest": gap_days_before, **help_at_harvest,
             "harvest_day_fresh_limit_kg": fresh_cap,
             "resources": {"required_daily_water_l": water, "available_daily_water_l": today["water_l"],
@@ -368,12 +395,13 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
         selection_reason = {"type": "no_growing_capacity", "text": "No additional batch fits the remaining horizon, tray space and resource allocations. Review the saved plan's selected crop actions."}
     else:
         selection_reason = {"type": "no_timely_gap_help", "text": "Additional growing capacity exists, but these extra batches cannot reduce the selected forecast gaps on their harvest days while preserving saved meals and harvests. Review stored food, recovery options or a replan."}
-    return {"schema_version": 1, "day": day, "priority": priority, "area_m2": area_m2,
+    return {"schema_version": 1, "day": day, "deadline_day": deadline,
+        "crew_context": crew_context, "priority": priority, "area_m2": area_m2,
         "units": dict(UNITS), "weights": weights, "weight_basis": weight_basis,
         "scoring_basis": "With a complete saved forecast and selected nutrient gaps, score credits only the consumable extra harvest against that harvest day's remaining gaps, divided by that day's crew nutrient targets. Earlier or later gaps receive no credit. Otherwise score compares normalized nutrient production per m²/growth day. Production score breaks timing ties; no nutrient quantities with different units are added directly.",
         "score_mode": "harvest_day_gap_help" if use_gap_timing else "production_per_area_day",
-        "remaining_days": config.days - day + 1,
-        "planned_crop_actions": _planned_actions(config, plan, rows, day),
+        "remaining_days": deadline - day + 1, "mission_remaining_days": config.days - day + 1,
+        "planned_crop_actions": _planned_actions(config, plan, rows, day, deadline, scenario),
         "forecast": forecast, "recommendations": recommendations, "top_choice_crop_id": top,
         "selection_reason": selection_reason,
         "bridge_foods": _bridge_foods(config, plan, day, catalog, weights, targets),

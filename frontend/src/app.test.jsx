@@ -2,6 +2,7 @@ import React from 'react';
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
 import {act,cleanup,fireEvent,render,renderHook,screen,within} from '@testing-library/react';
 import fixture from './test-fixture.json';
+import crewSample from './crew-sample.fixture.json';
 import {App} from './main.jsx';
 import {packetIsFresh,useTelemetry} from './useTelemetry.js';
 
@@ -32,6 +33,7 @@ beforeEach(()=>{
     }
     else if(url==='/api/snapshots/config') data=savedConfigurations;
     else if(url==='/api/config/validate') data={config:JSON.parse(options.body).config};
+    else if(url==='/api/crop-advisor') {const payload=JSON.parse(options.body);data={day:payload.day,deadline_day:payload.deadline_day,recommendations:[],planned_crop_actions:[],forecast:{nutrients:[]},selection_reason:{text:'No additional batch fits these modeled limits.'}};}
     else if(url==='/api/growth') data={expected_harvest_kg:3,available_harvest_kg:3};
     else if(url==='/api/explain') data={mode:'deterministic',narrative:'Saved model facts retained.',fallback_reason:'Local Ollama unavailable; verified explanation retained.'};
     else if(url==='/api/plans') {
@@ -43,7 +45,7 @@ beforeEach(()=>{
     } else if(url==='/api/plans/continue') {
       const payload=JSON.parse(options.body),source=bootstrapData.last_run;
       const profiles=payload.mission_change.crew_profiles,nextDay=payload.through_day+1;
-      const daily=source.metadata.adaptive.daily.map(row=>row.day<=payload.through_day?row:{...row,crew:profiles.length});
+      const daily=source.metadata.adaptive.daily.map(row=>row.day<=payload.through_day?row:{...row,crew:profiles.length,...Object.fromEntries(['energy','protein','vitamin_c'].map(n=>[n+'_target',profiles.reduce((sum,profile)=>sum+profile.targets[n],0)]))});
       data={history_id:'interactive-continued',metadata:{...clone(source.metadata),
         config:{...clone(source.metadata.config),planning_events:[{day:nextDay,crew:profiles.length,crew_profiles:profiles}]},
         continuation:{through_day:payload.through_day,next_day:nextDay,mission_change:payload.mission_change,crew_profiles:profiles},
@@ -65,6 +67,26 @@ function savedCrewMission(){
 }
 
 describe('Mission planning workspace',()=>{
+  it('uses the exact nutrition draft names and targets in overview and its future crop advice',async()=>{
+    bootstrapData.last_run=savedCrewMission();bootstrapData.config=clone(bootstrapData.last_run.metadata.config);bootstrapData.crew_sample=clone(crewSample);
+    render(<App/>);await loadedOverview();
+    fireEvent.change(screen.getByLabelText('Explore mission day'),{target:{value:'47'}});
+    fireEvent.click(primaryLink('Crew & nutrition'));
+    fireEvent.change(screen.getByLabelText('Alias 1'),{target:{value:'Vishal edited'}});
+    fireEvent.change(screen.getByLabelText('Vishal edited protein target'),{target:{value:'111'}});
+    fireEvent.click(screen.getByRole('button',{name:'Mark all planning targets reviewed'}));
+    fireEvent.click(screen.getByRole('button',{name:'Use this crew & replan from Day 48'}));
+    await screen.findByRole('heading',{name:'Mission crew · Day 48'});
+    await act(async()=>{});
+    fireEvent.click(primaryLink('Mission overview'));
+    expect(within(await screen.findByRole('region',{name:'Mission crew · Day 48'})).getByText('Vishal edited',{exact:true})).toBeTruthy();
+    const payload=JSON.parse(calls.find(call=>call.url==='/api/plans/continue').options.body);
+    expect(payload.mission_change.crew_profiles[0].targets.protein).toBe(111);
+    expect(payload.mission_change.crew_profiles.map(profile=>profile.name)).toEqual(['Vishal edited','Shamyuktha','Sanjay','Vamshika']);
+    expect(payload.through_day).toBe(47);
+    await screen.findByText('No additional batch fits these modeled limits.');
+    expect(calls.some(call=>call.url==='/api/crop-advisor'&&JSON.parse(call.options.body).run_id==='interactive-continued'&&JSON.parse(call.options.body).day===49)).toBe(true);
+  });
   it('allows a crew change at an operator-selected day directly from the overview',async()=>{
     bootstrapData.last_run=savedCrewMission();bootstrapData.config=clone(bootstrapData.last_run.metadata.config);
     render(<App/>);await loadedOverview();
@@ -116,11 +138,11 @@ describe('Mission planning workspace',()=>{
     expect(screen.getByText('ESP32 Wi-Fi integration')).toBeTruthy();
   });
 
-  it('has six primary workspaces and truthful empty overview data',async()=>{
+  it('shows the separate leaf and fruit workspaces and truthful empty overview data',async()=>{
     render(<App/>);await loadedOverview();
     const navigation=screen.getByRole('navigation',{name:'Workspace navigation'});
     expect(within(navigation).getAllByRole('link').map(link=>link.textContent)).toEqual([
-      'Mission overview','Crew & nutrition','Crops & food','What-if simulator','Plant overview','Live devices',
+      'Mission overview','Crew & nutrition','Biological production','Crops & food','What-if simulator','Leaf screening','Fruit checking','Live devices',
     ]);
     expect(within(navigation).queryByRole('link',{name:/research|model|saved/i})).toBeNull();
     expect(settingsLink()).toBeTruthy();
@@ -284,16 +306,14 @@ describe('Mission planning workspace',()=>{
     expect(await screen.findByRole('heading',{name:'No measurements for this stream.'})).toBeTruthy();
   });
 
-  it('skips to content without changing the current workspace',async()=>{
-    render(<App/>);await loadedOverview();fireEvent.click(primaryLink('Plant overview'));
-    await screen.findByRole('heading',{name:'Plant overview'});
-    expect(screen.queryByRole('tab',{name:'Leaf screening'})).toBeNull();
-    expect(screen.queryByRole('tab',{name:'Fruit monitoring'})).toBeNull();
+  it('skips to content without changing the current leaf screening workspace',async()=>{
+    render(<App/>);await loadedOverview();fireEvent.click(primaryLink('Leaf screening'));
+    await screen.findByRole('heading',{name:'Leaf screening'});
     expect(document.querySelectorAll('input[type=file]')).toHaveLength(1);
     fireEvent.click(screen.getByRole('link',{name:'Skip to workspace'}));
     expect(document.activeElement.id).toBe('main-content');
-    expect(location.hash).toBe('#vision');
-    expect(screen.getByRole('heading',{name:'Plant overview'})).toBeTruthy();
+    expect(location.hash).toBe('#leaf');
+    expect(screen.getByRole('heading',{name:'Leaf screening'})).toBeTruthy();
   });
 
   it('keeps named configuration saving available under workspace settings',async()=>{

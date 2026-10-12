@@ -1,4 +1,35 @@
-# Single-photo plant overview
+# Plant overview: fruit photo and optional leaf close-up
+
+## Current flow — 13 October 2026
+
+Upload a **Plant photograph** and optionally a **Leaf close-up** from the same
+labeled plant, then choose **Analyze plant**. Fruit detection uses the original
+plant photo. Leaf classification uses the close-up when supplied, otherwise
+the original image. One leaf should fill most of the frame with sharp, even
+lighting. Tomato, potato and bell pepper retain the existing leaf coverage.
+
+The MobileNet classifier does not locate individual leaves in a wide scene.
+A fruit-dominated photo can therefore produce an uncertain or rejected leaf
+result while its fruit detections remain usable. Separate result badges and
+input-source labels make this explicit. Existing species/score safeguards are
+unchanged; no result is accepted merely to populate the interface.
+
+Schema v3 records the plant and leaf image hashes, leaf input source and input
+mode. Each upload is limited to 10 MiB; duplicate/unknown uploads, empty files
+and unsupported inputs are rejected. Photos remain in local inference. The
+optional Gemini action selects existing text facts; photographs are not sent
+and Gemini cannot override model findings.
+
+Actual CPU smoke checks used public images from different source plants: a
+wide tomato example returned uncertain leaf evidence; a separate leaf close-up
+returned a tentative healthy-class match. Original fruit observations were
+identical at 18 detections. This proves the input routing and installed-model
+execution, not paired biological validation or diagnosis. Browser automation
+could verify the upload controls, but its extension file-access setting blocked
+automated file selection; actual uploads/inference were verified through the
+local HTTP endpoint instead. See `docs/CREW_AND_LEAVES_VERIFICATION.json`.
+
+## Earlier single-photo implementation history
 
 The visible plant flow is now **Plant overview**, with no separate leaf-screening or fruit-monitoring tabs. Choose a plant/batch label and species, upload exactly one photo, and press **Analyze plant**. Both existing local models receive the same bytes. Tomato, bell pepper and potato retain their established model coverage. Multiple uploads are rejected; no pairing confirmation is needed.
 

@@ -1,5 +1,6 @@
 import React, {useEffect, useId, useRef, useState} from 'react';
 import {ArrowRight, Plus, UsersRound} from 'lucide-react';
+import {randomCrewName} from './crew-names.js';
 import './mission-change.css';
 
 const tracked = ['energy', 'protein', 'vitamin_c'];
@@ -25,7 +26,7 @@ export function missionChangeProfiles(run, config, sampleProfiles = [], day = 1)
   const count = Math.min(12, Math.max(1, row?.crew || active.crew || config?.crew || 4));
   const continuationEffective = run?.metadata?.continuation?.next_day;
   const saved = active.crew_profiles || (!continuationEffective || continuationEffective <= day
-    ? run?.metadata?.continuation?.crew_profiles || run?.metadata?.crew_profiles : null);
+    ? run?.metadata?.continuation?.crew_profiles || config?.crew_profiles || run?.metadata?.crew_profiles : config?.crew_profiles);
   const source = saved?.length ? saved : sampleProfiles;
   const currentTargets = Object.fromEntries(tracked.map(key => [key, numeric(row?.[key + '_target']) ? Number(row[key + '_target']) / count : config?.targets_per_crew?.[key]]));
   const profiles = Array.from({length: count}, (_, index) => {
@@ -126,11 +127,9 @@ export default function MissionChangePanel({run, config, sampleProfiles = [], mi
   }
   function addCrew() {
     if (profiles.length >= 12) return;
-    const used = new Set(profiles.map(profile => profile.name));
-    let number = profiles.length + 1;
-    while (used.has('Sample Crew ' + number)) number++;
+    const name = randomCrewName(profiles.map(profile => profile.name));
     const id = 'crew-added-' + nextProfile.current++;
-    edit(() => setProfiles(previous => [...previous, {profile_id: id, name: 'Sample Crew ' + number,
+    edit(() => setProfiles(previous => [...previous, {profile_id: id, name,
       targets: Object.fromEntries(tracked.map(key => [key, numeric(atBoundary?.[key + '_target']) && Number(atBoundary?.crew) > 0 ? Number(atBoundary[key + '_target']) / Number(atBoundary.crew) : planningConfig.targets_per_crew?.[key]])), targets_reviewed: false}]));
   }
 

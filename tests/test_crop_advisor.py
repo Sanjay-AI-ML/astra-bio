@@ -344,6 +344,83 @@ def test_reviewed_events_apply_to_candidate_cycle_even_without_saved_daily_rows(
     assert not quick["actionable"]
 
 
+def test_selected_deadline_includes_on_time_harvest_and_blocks_late_production():
+    report = recommend_crops(habitat(), day=3, deadline_day=13, priority="protein")
+    quick, dense = candidate(report, "quick"), candidate(report, "dense")
+    assert report["deadline_day"] == 13
+    assert report["remaining_days"] == 11
+    assert quick["fits_deadline"] and quick["latest_planting_day"] == 3
+    assert quick["actionable"]
+    assert not dense["fits_deadline"] and not dense["actionable"]
+    assert any("deadline" in reason for reason in dense["blocked_reasons"])
+    assert report["top_choice_crop_id"] == "quick"
+
+
+def test_deadline_excludes_later_gaps_and_credits_only_on_time_harvest():
+    plan = PlanResult("Full mission forecast", "simulated", daily=[daily(d,
+        protein_gap=10 if d == 11 else 0,
+        shortfall_units={"protein": 10 if d == 11 else 0,
+            "energy": 0, "vitamin_c": 50 if d == 81 else 0}) for d in range(1, 101)])
+    report = recommend_crops(habitat(), plan, deadline_day=20)
+    assert report["weights"] == {"energy": 0, "protein": 1, "vitamin_c": 0}
+    assert report["forecast"]["through_day"] == 20
+    assert report["forecast"]["nutrients"][2]["cumulative_future_shortfall"] == 0
+    assert candidate(report, "dense")["consumable_harvest_kg"] == 0
+    assert candidate(report, "dense")["weighted_gap_help_at_harvest"] == 0
+
+
+def test_advice_uses_named_roster_today_and_reviewed_roster_at_harvest():
+    from astra_bio.nutrition import CrewProfile, apply_profile_targets
+    config = apply_profile_targets(habitat(), [CrewProfile("sanjay", "Sanjay",
+        {"energy": 100, "protein": 10, "vitamin_c": 50}, targets_reviewed=True)])
+    profiles = [{"profile_id": "sanjay", "name": "Sanjay", "targets_reviewed": True,
+        "targets": {"energy": 100, "protein": 20, "vitamin_c": 50}},
+        {"profile_id": "vamshika", "name": "Vamshika", "targets_reviewed": True,
+        "targets": {"energy": 100, "protein": 30, "vitamin_c": 50}}]
+    config = replace(config, planning_events=[{"day": 5, "crew": 2,
+        "crew_profiles": profiles, "targets_per_crew": {"energy": 100, "protein": 25, "vitamin_c": 50}}])
+    report = recommend_crops(config, deadline_day=20, priority="protein")
+    assert [p["name"] for p in report["crew_context"]["members"]] == ["Sanjay"]
+    quick = candidate(report, "quick")
+    assert [p["name"] for p in quick["crew_context_at_harvest"]["members"]] == ["Sanjay", "Vamshika"]
+    assert quick["score_daily_targets"]["protein"] == 50
+    assert quick["crew_context_at_harvest"]["aggregate_daily_targets"]["protein"] == 50
+
+
+def test_scenario_loss_targets_and_resources_apply_without_saved_daily_rows():
+    from astra_bio.model import Scenario
+    scenario = Scenario("loss", "Known crop and resource loss", event_day=4,
+        extra_crew=2, target_factors={"protein": 2},
+        crop_yield_factors={"quick": .5}, water_factor=.5)
+    report = recommend_crops(habitat(), scenario=scenario, priority="protein")
+    quick = candidate(report, "quick")
+    assert quick["estimated_harvest_kg"] == 1
+    assert quick["yield_factor"] == .5
+    assert quick["nutrients_at_harvest"]["protein"] == 20
+    assert quick["score_daily_targets"]["protein"] == 60
+    assert quick["crew_context_at_harvest"]["unnamed_count"] == 3
+    assert quick["resources"]["min_available_water_l_in_cycle"] == 0
+    assert not quick["actionable"]
+
+
+def test_saved_solver_actions_show_deadline_and_harvest_roster_without_deleting_schedule():
+    plan = PlanResult("Saved crop schedule", "optimal", daily=[daily(d) for d in range(1, 101)],
+        planting=[{"crop_id": "quick", "day": 1, "harvest_day": 11, "area_m2": 1},
+            {"crop_id": "dense", "day": 1, "harvest_day": 81, "area_m2": 1}])
+    report = recommend_crops(habitat(), plan, deadline_day=20)
+    actions = {row["crop_id"]: row for row in report["planned_crop_actions"]}
+    assert len(actions) == 2
+    assert actions["quick"]["fits_deadline"]
+    assert not actions["dense"]["fits_deadline"]
+    assert actions["quick"]["crew_context_at_harvest"]["crew_count"] == 1
+
+
+@pytest.mark.parametrize("deadline", [True, 0, 1, 101, 10.5, float("nan")])
+def test_invalid_harvest_deadline_is_rejected(deadline):
+    with pytest.raises(ValueError, match="Harvest deadline"):
+        recommend_crops(habitat(), day=2, deadline_day=deadline)
+
+
 
 @pytest.mark.parametrize("changes", [{"day": True}, {"day": 0}, {"day": 101}, {"day": 1.5},
     {"priority": "iron"}, {"area_m2": True}, {"area_m2": -1}, {"area_m2": 0},

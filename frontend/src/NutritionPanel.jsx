@@ -1,69 +1,107 @@
 import React, {useEffect, useRef, useState} from 'react';
 import CrewHealthGraphs from './CrewHealthGraphs.jsx';
+import {crewNutrients, crewRosterSignature, validateCrewRoster} from './crew-roster.js';
+import {randomCrewName} from './crew-names.js';
+import './nutrition-roster.css';
 
 const clone=value=>structuredClone(value);
 const units={energy:'kcal',protein:'g',vitamin_c:'mg'};
 const number=value=>value==null?'Unknown':Number(value).toLocaleString(undefined,{maximumFractionDigits:2});
-export default function NutritionPanel({config,setConfig,bootstrap,request,notify,run,missionDay=1,onProfilesChange,navigate}) {
+export default function NutritionPanel({config,setConfig,bootstrap,request,notify,run,missionDay=1,crewProfiles,missionCrewProfiles,onProfilesChange,onApplyCrew,crewPlanningBusy=false,navigate}) {
   const seed=bootstrap.crew_sample;
   const [sample,setSample]=useState(seed?clone(seed):null);
-  const [profiles,setProfiles]=useState(clone((seed?.profiles||bootstrap.profiles).slice(0,config.crew))),[entries,setEntries]=useState(clone(seed?.entries||[])),[complete,setComplete]=useState(clone(seed?.complete_days||{})),[day,setDay]=useState(1),[person,setPerson]=useState((seed?.profiles||bootstrap.profiles)[0]?.profile_id||''),[food,setFood]=useState('oats'),[grams,setGrams]=useState(100),[assessment,setAssessment]=useState(seed?{rows:seed.assessments.filter(r=>r.day===1),contributions:[],scope:seed.scope}:null),[busy,setBusy]=useState(false),[inventory,setInventory]=useState({oats:0,lentils:0,peanut_butter:0}),[name,setName]=useState(seed?'SAMPLE · Named crew and dietary logs':'Crew intake log'),[snapshots,setSnapshots]=useState([]);
+  const controlled=Array.isArray(crewProfiles);
+  const initialProfiles=crewProfiles ?? (seed?.profiles||bootstrap.profiles||[]).slice(0,config.crew);
+  const [localProfiles,setLocalProfiles]=useState(()=>clone(initialProfiles)),[entries,setEntries]=useState(clone(seed?.entries||[])),[complete,setComplete]=useState(clone(seed?.complete_days||{})),[day,setDay]=useState(1),[person,setPerson]=useState(initialProfiles[0]?.profile_id||''),[food,setFood]=useState('oats'),[grams,setGrams]=useState(100),[assessment,setAssessment]=useState(seed&&crewRosterSignature(initialProfiles)===crewRosterSignature(seed.profiles)?{rows:seed.assessments.filter(r=>r.day===1),contributions:[],scope:seed.scope}:null),[busy,setBusy]=useState(false),[inventory,setInventory]=useState({oats:0,lentils:0,peanut_butter:0}),[name,setName]=useState(seed?'SAMPLE · Named crew and dietary logs':'Crew intake log'),[snapshots,setSnapshots]=useState([]),[applyError,setApplyError]=useState('');
+  const profiles=controlled?crewProfiles:localProfiles;
+  function setProfiles(value,notifyChange=true){const next=typeof value==='function'?value(profiles):value;previousProfiles.current=JSON.stringify(next);setLocalProfiles(next);if(notifyChange)onProfilesChange?.(next);}
   const revision=useRef(0);
   const activeCrew=run?.metadata?.adaptive?.daily?.find(row=>row.day===missionDay)?.crew||config.crew;
   const count=Math.min(12,activeCrew),previousCount=useRef(config.crew);
   const rosterEvents=(run?.metadata?.config?.planning_events||[]).filter(event=>event.day<=missionDay && event.crew_profiles?.length);
   const datedRoster=rosterEvents.at(-1)?.crew_profiles;
   const rosterKey=JSON.stringify(datedRoster||null),previousRoster=useRef('null');
-  useEffect(()=>{onProfilesChange?.(profiles);},[profiles,onProfilesChange]);
+  const activeRow=run?.metadata?.adaptive?.daily?.find(row=>row.day===missionDay);
+  const totals=Object.fromEntries(crewNutrients.map(nutrient=>[nutrient,profiles.reduce((sum,profile)=>sum+(Number(profile.targets?.[nutrient])||0),0)]));
+  const recordedRoster=missionCrewProfiles ?? datedRoster;
+  const rosterChanged=recordedRoster?crewRosterSignature(profiles)!==crewRosterSignature(recordedRoster):true;
+  const totalChanged=profiles.length!==activeCrew || crewNutrients.some(nutrient=>activeRow?.[nutrient+'_target']!=null && Math.abs(totals[nutrient]-activeRow[nutrient+'_target'])>0.001);
+  const lastCompleted=Number(run?.metadata?.continuation?.through_day)||0;
+  const canContinue=!!run?.metadata && missionDay<Number(run.metadata.config?.days ?? config.days) && missionDay>=lastCompleted;
+  const rosterBusy=busy||crewPlanningBusy;
+  const profilesKey=JSON.stringify(profiles),previousProfiles=useRef(profilesKey);
+  useEffect(()=>{
+    if(previousProfiles.current===profilesKey)return;
+    previousProfiles.current=profilesKey;
+    revision.current++;setAssessment(null);setBusy(false);setApplyError('');
+    setPerson(old=>profiles.some(profile=>profile.profile_id===old)?old:profiles[0]?.profile_id||'');
+  },[profilesKey]);
   useEffect(()=>()=>{revision.current++;},[]);
   useEffect(()=>{request('/snapshots/nutrition').then(setSnapshots).catch(e=>notify(e.message,true));},[]);
   async function task(fn){setBusy(true);try{await fn();}catch(e){notify(e.message,true);}finally{setBusy(false);}}
   function invalidate(){revision.current++;setAssessment(null);setBusy(false);}
-  const edit=(i,key,value)=>{setProfiles(v=>v.map((p,index)=>index===i?{...p,[key]:value}:p));invalidate();};
+  const edit=(i,key,value)=>{if(rosterBusy)return;setProfiles(v=>v.map((p,index)=>index===i?{...p,[key]:value,...(key==='targets'?{targets_reviewed:false}:{})}:p));invalidate();setApplyError('');};
   function addLog(e){e.preventDefault();if(!person||!food||!(grams>=0))return;setEntries(v=>[...v,{profile_id:person,day,food_key:food,grams}]);invalidate();}
-  function addProfile(){const id='crew-'+Date.now();setProfiles(v=>[...v,{profile_id:id,name:(sample?'Sample Crew ':'Crew ')+(v.length+1),targets:clone(config.targets_per_crew),age:null,sex:'unspecified',targets_reviewed:false}]);if(!person)setPerson(id);invalidate();}
-  const state={schema_version:1,profiles,entries,complete_days:complete,...(sample?{sample_context:{sample_only:true,fixture_version:1}}:{})};
+  function addProfile(){
+    if(rosterBusy||profiles.length>=12)return;
+    let id='crew-added-'+Date.now(),suffix=1;
+    while(profiles.some(profile=>profile.profile_id===id))id='crew-added-'+Date.now()+'-'+suffix++;
+    const targets=Object.fromEntries(crewNutrients.map(nutrient=>[nutrient,profiles.length?profiles.reduce((sum,profile)=>sum+(Number(profile.targets?.[nutrient])||0),0)/profiles.length:config.targets_per_crew[nutrient]]));
+    setProfiles(v=>[...v,{profile_id:id,name:randomCrewName(v.map(profile=>profile.name)),targets,age:null,sex:'unspecified',targets_reviewed:false}]);if(!person)setPerson(id);invalidate();setApplyError('');
+  }
+  // A roster may be changed outside this tab. Logs for departed profiles stay in
+  // local state but are omitted from the active assessment/snapshot payload.
+  const profileIds=new Set(profiles.map(profile=>profile.profile_id));
+  const state={schema_version:1,profiles,entries:entries.filter(entry=>profileIds.has(entry.profile_id)),complete_days:Object.fromEntries(Object.entries(complete).filter(([key])=>profileIds.has(key.split(':')[0]))),...(sample?{sample_context:{sample_only:true,fixture_version:1}}:{})};
   async function assessDay(value=day){
     const ticket=++revision.current;setDay(value);setAssessment(null);setBusy(true);
     try{const result=await request('/nutrition/assess',{...state,day:value});if(ticket===revision.current)setAssessment(result);}
     catch(error){if(ticket===revision.current)notify(error.message,true);}
     finally{if(ticket===revision.current)setBusy(false);}
   }
-  async function loadSample(number=count,merge=false){
+  async function loadSample(number=count,merge=false,notifyChange=true){
     const ticket=++revision.current;setBusy(true);
     try{
       const fixture=await request('/nutrition/sample?count='+number);
       if(ticket!==revision.current)return;
-      const nextProfiles=merge?fixture.profiles.map(p=>profiles.find(old=>old.profile_id===p.profile_id)||p):fixture.profiles;
+      const usedNames=profiles.map(profile=>profile.name);
+      const nextProfiles=merge?fixture.profiles.map(p=>{
+        const existing=profiles.find(old=>old.profile_id===p.profile_id);
+        if(existing)return existing;
+        const added={...p,name:randomCrewName(usedNames)};usedNames.push(added.name);return added;
+      }):fixture.profiles;
       const ids=new Set(nextProfiles.map(p=>p.profile_id)),oldIds=new Set(profiles.map(p=>p.profile_id));
       const nextEntries=merge?[...entries.filter(e=>ids.has(e.profile_id)),...fixture.entries.filter(e=>!oldIds.has(e.profile_id))]:fixture.entries;
       const nextComplete=merge?{...fixture.complete_days,...Object.fromEntries(Object.entries(complete).filter(([key])=>ids.has(key.split(':')[0])))}:fixture.complete_days;
       const selectedDay=Math.min(day,7);
       const result=await request('/nutrition/assess',{profiles:nextProfiles,entries:nextEntries,complete_days:nextComplete,day:selectedDay});
       if(ticket!==revision.current)return;
-      setSample(fixture);setProfiles(nextProfiles);setEntries(nextEntries);setComplete(nextComplete);setDay(selectedDay);setAssessment(result);
+      setSample(fixture);setProfiles(nextProfiles,notifyChange);setEntries(nextEntries);setComplete(nextComplete);setDay(selectedDay);setAssessment(result);
       setPerson(old=>ids.has(old)?old:nextProfiles[0]?.profile_id||'');setName('SAMPLE · Named crew and dietary logs');
       if(!merge)notify('Fictional named crew, food logs and blood examples loaded. Mission planning inputs are unchanged.');
     }catch(error){if(ticket===revision.current)notify(error.message,true);}
     finally{if(ticket===revision.current)setBusy(false);}
   }
   useEffect(()=>{
+    // The parent owns the shared draft in the application. Playback and remounts
+    // must never replace its names/targets with a fresh demonstration roster.
+    if(controlled)return;
     if(rosterKey!=='null' && previousRoster.current!==rosterKey){
       previousRoster.current=rosterKey;previousCount.current=count;
-      invalidate();setProfiles(clone(datedRoster));
+      invalidate();setProfiles(clone(datedRoster),false);
       setPerson(old=>datedRoster.some(p=>p.profile_id===old)?old:datedRoster[0]?.profile_id||'');
       return;
     }
     if(rosterKey!=='null'){previousCount.current=count;return;}
     if(previousRoster.current!=='null'){
       previousRoster.current='null';previousCount.current=count;
-      if(sample)loadSample(count,false);
+      if(sample)loadSample(count,false,false);
       return;
     }
     if(previousCount.current===count)return;
     previousCount.current=count;
-    if(sample)loadSample(count,true);
-  },[count,rosterKey]);
+    if(sample)loadSample(count,true,false);
+  },[count,rosterKey,controlled]);
   async function restoreSnapshot(identifier){
     const ticket=++revision.current;setBusy(true);
     try{
@@ -76,24 +114,43 @@ export default function NutritionPanel({config,setConfig,bootstrap,request,notif
     }catch(error){if(ticket===revision.current)notify(error.message,true);}
     finally{if(ticket===revision.current)setBusy(false);}
   }
+  async function applyCrew(){
+    if(busy||crewPlanningBusy)return;
+    const error=validateCrewRoster(profiles);
+    if(error){setApplyError(error);return;}
+    setApplyError('');
+    await task(async()=>onApplyCrew?.(clone(profiles),{through_day:missionDay}));
+  }
   return <>
-    <div className="page-heading"><div><span className="eyebrow">CREW · NUTRITION · BLOOD EXAMPLES</span><h1>Nutrition assessment</h1><p>Compare each crew member’s dietary intake with their planning targets, and view separate fictional blood-test examples.</p></div><button className="btn" disabled={busy} onClick={()=>loadSample()}>Load named sample crew</button></div>
-    <p className="muted">{profiles.length} profiles · {activeCrew} mission crew at simulated Day {missionDay}. Added sample profiles are numbered; missing blood tests remain unknown.</p>
-    {run?.metadata && navigate && <div className="actions"><button className="btn" onClick={()=>navigate('simulator')}>Change crew during this mission</button><span className="muted">Apply future needs from a chosen day while keeping completed mission history.</span></div>}
+    <div className="page-heading"><div><span className="eyebrow">CREW · NUTRITION · BLOOD EXAMPLES</span><h1>Nutrition assessment</h1><p>Compare each crew member’s dietary intake with their planning targets, and view separate fictional blood-test examples.</p></div><button className="btn" disabled={rosterBusy} onClick={()=>loadSample()}>Load named sample crew</button></div>
+    <p className="muted">{profiles.length} profiles · {activeCrew} mission crew at simulated Day {missionDay}. New members receive a unique randomly selected name; review their planning targets before applying the roster. Missing blood tests remain unknown.</p>
+    <section className="nutrition-roster-plan" aria-label="Shared crew planning roster">
+      <div className="nutrition-roster-summary"><div><span className="eyebrow">SHARED CREW ROSTER</span><h2>{profiles.length} crew · {run?.metadata?'selected mission Day '+missionDay:'planning draft'}</h2><p>{profiles.map(profile=>profile.name).join(' · ')||'Add a crew profile to begin.'}</p></div>
+        <dl className="nutrition-roster-totals">{crewNutrients.map(nutrient=><div key={nutrient}><dt>{nutrient.replaceAll('_',' ')}</dt><dd>{number(totals[nutrient])}<small>{units[nutrient]}/day</small></dd></div>)}</dl></div>
+      <p className="muted">Names and individual targets are shared with Mission overview. {run?.metadata?(rosterChanged||totalChanged?'This edited roster is pending. Replan to use it in the saved mission and crop recommendations.':'This roster matches the saved mission at the selected day.'):'These targets will be used when you start a mission.'} Blood examples do not generate dietary requirements.</p>
+      <div className="actions">
+        <button className="btn" disabled={rosterBusy||!!validateCrewRoster(profiles,false)||profiles.every(profile=>profile.targets_reviewed===true)} onClick={()=>{setProfiles(previous=>previous.map(profile=>({...profile,targets_reviewed:true})));setApplyError('');}}>Mark all planning targets reviewed</button>
+        {onApplyCrew&&<button className="btn primary" disabled={busy||crewPlanningBusy||(run?.metadata&&!canContinue)} onClick={applyCrew}>{busy||crewPlanningBusy?'Replanning…':run?.metadata?'Use this crew & replan from Day '+(missionDay+1):'Use this crew & start mission'}</button>}
+        {run?.metadata&&navigate&&<button className="text-button" onClick={()=>navigate('overview')}>Choose a mission day</button>}
+      </div>
+      {run?.metadata&&!canContinue&&<p className="muted">Choose a day with remaining mission time{lastCompleted?' at or after Day '+lastCompleted:''} to change future crew needs.</p>}
+      {applyError&&<p className="notice warning" role="alert">{applyError}</p>}
+    </section>
     <CrewHealthGraphs sample={sample} profiles={profiles} assessments={assessment?.rows||[]} day={day} onDayChange={value=>assessDay(value)}/>
     {!assessment&&<p className="notice">Food logs or targets changed. Assess recorded intake to refresh the nutrition graph; blood examples remain separate.</p>}
-    <details className="panel" open={!sample}><summary>Crew profiles and daily targets</summary><div className="section-heading"><h2>Edit crew profiles</h2><button className="btn" disabled={profiles.length>=12||busy} onClick={addProfile}>Add crew profile</button></div>
+    <details className="panel" open><summary>Crew profiles and daily targets</summary><div className="section-heading"><h2>Edit crew profiles</h2><button className="btn" disabled={profiles.length>=12||rosterBusy} onClick={addProfile}>Add crew profile</button></div>
       <div className="table-wrap"><table><thead><tr><th>Alias</th><th>Energy kcal</th><th>Protein g</th><th>Vitamin C mg</th><th>Age (optional)</th><th>Reference sex</th><th>Targets reviewed</th><th/></tr></thead><tbody>{profiles.map((p,i)=>
-        <tr key={p.profile_id}><td><input aria-label={'Alias '+(i+1)} value={p.name} onChange={e=>edit(i,'name',e.target.value)}/></td>
-          {Object.keys(units).map(n=><td key={n}><input aria-label={p.name+' '+n+' target'} type="number" min={0} step="any" value={p.targets[n]??''} onChange={e=>edit(i,'targets',{...p.targets,[n]:Number(e.target.value)})}/></td>)}
-          <td><input aria-label={p.name+' age'} type="number" min={0} step={1} value={p.age??''} onChange={e=>edit(i,'age',e.target.value===''?null:Number(e.target.value))}/></td>
-          <td><select aria-label={p.name+' reference sex'} value={p.sex} onChange={e=>edit(i,'sex',e.target.value)}><option value="unspecified">Unspecified</option><option value="male">Male</option><option value="female">Female</option></select></td>
-          <td><input aria-label={p.name+' reviewed targets'} type="checkbox" checked={p.targets_reviewed} onChange={e=>edit(i,'targets_reviewed',e.target.checked)}/></td>
-          <td><button className="text-button" onClick={()=>{setProfiles(v=>v.filter(row=>row.profile_id!==p.profile_id));setEntries(v=>v.filter(row=>row.profile_id!==p.profile_id));if(person===p.profile_id)setPerson(profiles.find(row=>row.profile_id!==p.profile_id)?.profile_id||'');invalidate();}}>Remove</button></td>
+        <tr key={p.profile_id}><td><input aria-label={'Alias '+(i+1)} value={p.name} disabled={rosterBusy} onChange={e=>edit(i,'name',e.target.value)}/></td>
+          {Object.keys(units).map(n=><td key={n}><input aria-label={p.name+' '+n+' target'} type="number" min={0} step="any" value={p.targets?.[n]??''} disabled={rosterBusy} onChange={e=>edit(i,'targets',{...p.targets,[n]:e.target.value===''?'':Number(e.target.value)})}/></td>)}
+          <td><input aria-label={p.name+' age'} type="number" min={0} step={1} value={p.age??''} disabled={rosterBusy} onChange={e=>edit(i,'age',e.target.value===''?null:Number(e.target.value))}/></td>
+          <td><select aria-label={p.name+' reference sex'} value={p.sex??'unspecified'} disabled={rosterBusy} onChange={e=>edit(i,'sex',e.target.value)}><option value="unspecified">Unspecified</option><option value="male">Male</option><option value="female">Female</option></select></td>
+          <td><input aria-label={p.name+' reviewed targets'} type="checkbox" checked={p.targets_reviewed===true} disabled={rosterBusy} onChange={e=>edit(i,'targets_reviewed',e.target.checked)}/></td>
+          <td><button className="text-button" aria-label={'Remove '+p.name} disabled={rosterBusy||profiles.length<=1} onClick={()=>{if(rosterBusy||profiles.length<=1)return;setProfiles(v=>v.filter(row=>row.profile_id!==p.profile_id));setEntries(v=>v.filter(row=>row.profile_id!==p.profile_id));if(person===p.profile_id)setPerson(profiles.find(row=>row.profile_id!==p.profile_id)?.profile_id||'');invalidate();setApplyError('');}}>Remove</button></td>
         </tr>)}</tbody></table></div>
       <div className="notice">Energy and protein targets are manually reviewed inputs. Optional NIH vitamin C healthy-adult references are 90 mg/day for men and 75 mg/day for women; the adult upper limit is 2,000 mg/day. These references exclude pregnancy, lactation and smoking and are not astronaut prescriptions. <a href="https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/" target="_blank" rel="noreferrer">Read NIH source</a></div>
-      <button className="btn" disabled={busy||profiles.length!==config.crew} onClick={()=>task(async()=>{const result=await request('/nutrition/apply-targets',{config,profiles});setConfig(result.config);})}>Apply mean reviewed targets to planner</button>
-      <p className="muted">Profile count ({profiles.length}) must match planner crew ({config.crew}). Applying mean targets retains shared crew allocations; it does not generate individual menus.</p>
+      {!run?.metadata&&<><button className="btn" disabled={rosterBusy||profiles.length!==config.crew||!!validateCrewRoster(profiles)} onClick={()=>task(async()=>{const result=await request('/nutrition/apply-targets',{config,profiles});setConfig(result.config);})}>Apply mean reviewed targets to planner</button>
+        <p className="muted">Profile count ({profiles.length}) must match planner crew ({config.crew}). Applying mean targets retains shared crew allocations; it does not generate individual menus.</p></>}
+      {run?.metadata&&<p className="muted">Use the replan action above to apply these names and targets from Day {missionDay+1}, keeping earlier results, remaining resources and growing crops.</p>}
     </details>
     <details className="panel" open={!sample}><summary>Food logs and dietary assessment</summary><h2>Food log</h2><form onSubmit={addLog}><div className="form-grid">
       <label className="field"><span>Assessment day</span><input type="number" value={day} min={1} max={180} step={1} onChange={e=>assessDay(Number(e.target.value))}/></label>
@@ -118,7 +175,7 @@ export default function NutritionPanel({config,setConfig,bootstrap,request,notif
     </details>
     <section className="panel"><h2>Save profiles and dietary logs locally</h2><div className="inline-form"><label className="field"><span>Snapshot name</span><input value={name} onChange={e=>setName(e.target.value)} maxLength={120}/></label>
       <button className="btn" disabled={busy} onClick={()=>task(async()=>{await request('/nutrition/save',{name,state});setSnapshots(await request('/snapshots/nutrition'));notify('Crew profiles and logs saved locally.');})}>Save intake snapshot</button></div>
-      {snapshots.map(s=><div className="archive-row" key={s.id}><div><strong>{s.name}</strong><small>{new Date(s.created_at_utc).toLocaleString()}</small></div><button className="btn" disabled={busy} onClick={()=>restoreSnapshot(s.id)}>Restore intake snapshot</button></div>)}
+      {snapshots.map(s=><div className="archive-row" key={s.id}><div><strong>{s.name}</strong><small>{new Date(s.created_at_utc).toLocaleString()}</small></div><button className="btn" disabled={rosterBusy} onClick={()=>restoreSnapshot(s.id)}>Restore intake snapshot</button></div>)}
     </section>
   </>;
 }
