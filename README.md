@@ -1,99 +1,218 @@
+<div align="center">
+  <img src="frontend/src/assets/astra-bio-logo.png" alt="ASTRA-BIO logo" width="240" />
+
 # ASTRA-BIO
 
-Local nutrition-aware food, crop and resource planning with a **React frontend and FastAPI backend**. Streamlit has been removed. Pyomo/HiGHS solves allocations; Recharts draws results; SQLite stores configurations, runs and dietary logs. ESP32 Wi-Fi telemetry and camera JPEG storage support **MongoDB Atlas** through a separate HTTPS gateway; SQLite telemetry remains available until MongoDB is configured.
+**Nutrition-aware biological production and resource planning for space habitats.**
 
-## Run
+Connect crew needs, food reserves, crop schedules and biological production in one mission workspace.
 
-Requires Python 3.12, uv and Node.js 24. From PowerShell:
+[Live demo](https://astra-bio.onrender.com/) · [API documentation](https://astra-bio-api.onrender.com/docs) · [Local setup](#quickstart) · [Documentation](#documentation)
 
-~~~powershell
-cd D:\Seds\astra-bio
+![Status: Research prototype](https://img.shields.io/badge/status-research_prototype-276B50)
+![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![React 19](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
+![License: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-blue)
+
+</div>
+
+## Overview
+
+Long-duration missions must coordinate dietary needs with limited food, growing area, water and electricity. A crop that supplies a useful nutrient may still arrive too late or consume resources the mission cannot spare.
+
+ASTRA-BIO is a research prototype that makes those tradeoffs visible. It combines mathematical optimization, crop reference data, experimental image models and hardware observations to help an operator compare plans. Its central workflow is:
+
+**Crew needs → nutrient targets → production options → resource constraints → revised mission plan**
+
+The broader vision is an adaptive biological ecosystem. The current product provides reviewed decision support: simulated output, reference estimates and physical measurements are identified separately.
+
+## What you can do
+
+| Workspace | Capabilities |
+| --- | --- |
+| **Mission overview** | Explore the saved mission day, crew roster, reserves, harvests and resource use; compare fixed and adaptive plans. |
+| **Crew & nutrition** | Edit individual dietary targets, record food intake, view nutrient graphs and apply reviewed roster changes during a mission. New sample crew members receive distinct generated names. |
+| **Crop recommendations** | Compare options against the whole crew's modeled needs, harvest deadline and available resources; inspect estimated energy, protein and vitamin C output. |
+| **Biological production** | Project literature-supported *Limnospira* and *Wolffia* output using reviewed capacity and resource inputs; compare disruption scenarios and inspect evidence for other candidate routes. |
+| **What-if simulator** | Test water or power shortages, crop losses, crew changes and revised targets. Continue from remaining stocks and active crop batches while preserving completed history. |
+| **Recovery planning** | Compare interventions, resource additions, reserve protection and harvest stress tests for a saved run. |
+| **Leaf screening** | Run experimental image classification for tomato, potato and bell pepper; withhold unsupported or ambiguous results. |
+| **Fruit checking** | Inspect tomato maturity or visible produce detections, bounding boxes, counts and model evidence. |
+| **Live devices** | Review hardware and synthetic telemetry separately; inspect freshness, device status and stored ESP32 camera images. |
+| **Workspace settings** | Save and restore configurations and plans, export data, inspect model provenance and apply reviewed crop calibration. |
+
+Recommendations use the accepted mission inputs. Live sensor readings and camera observations do not automatically replan the mission or command equipment.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Crew[Reviewed crew targets and food logs] --> UI[React mission workspace]
+    UI <--> API[FastAPI]
+    API --> Solver[Pyomo + HiGHS optimizer]
+    API --> Bio[Crop and biological production models]
+    API --> Vision[ONNX image inference]
+    API <--> Workspace[(SQLite workspace)]
+    API <--> Atlas[(MongoDB Atlas)]
+    Camera[ESP32-S3 camera] --> Gateway[Authenticated HTTPS gateway]
+    Gateway --> Atlas
+    Sensors[Device telemetry] --> MQTT[Mosquitto + Node-RED]
+    MQTT --> Telemetry[(Telemetry storage)]
+    API --> Telemetry
+```
+
+The frontend and API are deployed separately on Render. Mission configurations, nutrition snapshots and run history currently use SQLite; configured device observations and camera images use MongoDB Atlas. The local hardware gateway is a separate service, and its verified camera path does not establish cloud gateway deployment.
+
+| Layer | Technology |
+| --- | --- |
+| Interface | React 19, Vite, Recharts, Lucide |
+| API | Python, FastAPI, Uvicorn |
+| Planning | Pyomo, HiGHS |
+| Image inference | ONNX Runtime, NumPy, Pillow |
+| Persistence | SQLite; MongoDB Atlas for configured device data |
+| Hardware transport | HTTPS device gateway; optional Mosquitto, MQTT and Node-RED |
+| Optional explanations | Local Ollama; Gemini for the documented plant-overview explanation flow |
+
+The core planning workflow does not require a paid AI API.
+
+## Models and evidence
+
+ASTRA-BIO uses different methods for different tasks. The mission optimizer is a mathematical model; image classification is machine learning; food composition is reference data.
+
+| Component | Method / data | Current evidence |
+| --- | --- | --- |
+| Mission planning | Pyomo/HiGHS constrained optimization | Models food allocations, planting, harvest timing and resource limits; compares fixed and adaptive policies. |
+| Crop yield and duration | Ten terrestrial EDEN ISS / NASA RLSS crop profiles; endpoint calibration | Reference-based estimates. One held-out NASA lettuce trial had **46.94% yield error**, indicating limited transferability. |
+| Lettuce age–mass curve | 540 plant/day observations with held-out plants | **5.72 g/plant MAE within one growing cycle**. Daily records are not independent growing experiments. |
+| Food composition | Nine USDA food forms | Energy, protein and vitamin C calculations use reference composition, not measurements of our harvest. |
+| Leaf classifier | MobileNetV3, classifier fine-tuning on PlantDoc | **636 train / 160 validation / 80 test images**, ten represented classes. Held-out accuracy: **41.25%**, versus **28.75%** for original weights. Fixed safeguards accepted only six test images, four correctly classified. |
+| Fruit detectors | Four pretrained ONNX models | Local inference verified; no independent ASTRA-BIO fruit benchmark or fruit fine-tuning completed. |
+| Microbial / aquatic production | Matched literature coefficients for *Limnospira indica* and an eight-week *Wolffia globosa* growth sequence | Reviewed production projections; commissioning and resource limits are charged. Research-only candidates do not receive invented yield estimates. |
+| Environmental response fitting | Crop-cycle calibration workflow | Implemented, awaiting real repeated local crop cycles. |
+
+See [model training and results](docs/ML_FINE_TUNING.md), [crop evidence](docs/CROP_MODEL_EVIDENCE.md), [nutrition evidence](docs/NUTRITION_EVIDENCE.md) and [biological production](docs/BIOLOGICAL_PRODUCTION.md).
+
+### Interpretation boundaries
+
+- The mission food planner tracks **energy, protein and vitamin C**. It does not establish complete dietary adequacy or turn blood results into clinical diagnoses.
+- Default crew profiles, laboratory examples and mission scenarios are labeled sample data. They are not astronaut patient records.
+- Biological production is a prospective comparison. Projected biomass is not automatically added to inventory or credited as consumed nutrition. Catalyst and engineered-organism routes remain evidence-only where matched yield/composition data are missing.
+- Leaf and fruit images do not confirm pathogens, bacterial contamination or food safety. Model scores do not establish diagnostic certainty.
+- Terrestrial datasets and local inference checks do not validate spaceflight performance. There is no demonstrated capsule replacement or autonomous closed-loop habitat control.
+
+## Quickstart
+
+The scripted setup targets **Windows PowerShell** with **Python 3.12**, [uv](https://docs.astral.sh/uv/) and **Node.js 24**.
+
+```powershell
+git clone https://github.com/Sanjay-AI-ML/astra-bio.git
+cd astra-bio
 .\setup.ps1
 .\run.ps1
-~~~
+```
 
-Open [ASTRA-BIO](http://127.0.0.1:8501). Setup installs locked dependencies and builds React. The app, optimizer, evidence data and installed image model then run locally without a paid API. Ctrl+C stops the foreground app. API contracts are at /docs.
+Open **http://127.0.0.1:8501**. Interactive API documentation is at **http://127.0.0.1:8501/docs**. Press `Ctrl+C` to stop the foreground application.
 
-Frontend development: npm run dev --prefix frontend with the API running; Vite proxies API requests to8501. Production frontend update: npm run build --prefix frontend, then refresh the browser. Restart the app after backend source changes.
+Setup installs locked dependencies, initializes synthetic telemetry and builds the frontend. Model binaries and private device configuration require separate setup; they are not included in a fresh clone.
 
-## Workflows
+### Frontend development
 
-- **Mission overview:** explore a saved simulation day, with scenario, nominal-harvest and first-target-gap markers. Open crew, food-reserve, crop and resource nodes link to their related workflows; the selected day survives navigation. Nutrients, Water and Electricity chart views use saved daily values and budgets, with selected-day/scenario markers. A fixed-to-adaptive comparison shows signed absolute whole-run differences in target-gap days, harvest and water; these are calculated outcomes, not measured savings. Policy selection keeps related results together; chart-period filtering does not relabel whole-run totals. Review items link to assumptions, target gaps, sources and device status. The exact Seed & Star logo, white/sage palette and open spacing remain. Empty results remain empty; hardware observations refresh independently.
-- **Crew & nutrition:** Nutrition & logs provides nine USDA foods, crew profiles, food-form logs, complete/partial declarations, intake gaps, example crop contributions and local profile/log snapshots. Mission inputs provides reviewed targets, crew/resource budgets, reserves, whole planting increments and optional food-mass/upper nutrient bounds. Reviewed mean targets apply to the shared planner explicitly.
-- **Crops & food:** Crop schedules provides actual planting/harvest timelines and CSV export; editable coefficients sit under Crop profiles & assumptions. Food inventory provides stored stock, reserve eligibility, declared expiry and optional nutrient retention.
-- **What-if simulator:** fixed nominal plan versus a replan from the same event-day state. Five editable starters cover water shortage, crop loss, crew increase, dietary change and nominal conditions; choosing one requires an explicit **Run comparison** to solve. Water/power reduction, active-cohort loss, more crew and target changes preserve historical decisions. Every completed run saves its submitted inputs and both policies. Explanations use verified saved facts.
-- **Plant screening:** separate **Leaf screening** and **Fruit monitoring** tabs. Leaf screening uses local ONNX MobileNetV3 for tomato, potato and bell pepper; unsupported crops, invalid photos and weak/species-conflicting results are withheld. Fruit monitoring provides four pretrained local ONNX detectors: three- or six-stage tomato maturity, tomato detection only, and generic tomato/bell-pepper/exposed-potato detection. Uploaded photos show boxes, visible counts, source labels and model scores, with evidence JSON export. Manual screening uploads are processed transiently and are not sent to an external inference service. Device photographs stored through the separate camera gateway remain in Atlas. Neither workflow confirms pathogens or food safety; fruit observations do not credit inventory or trigger actions. See [fruit monitoring](docs/FRUIT_MONITORING.md).
-- **Live devices:** independent hardware/synthetic streams, collector health, last availability, packet freshness, missing sensors and CSV export. Stale/offline readings and refresh errors remain explicit. Camera images provides an independent physical/synthetic photo channel, device filter, original JPEG viewer, receipt/capture time, transport and checksum. The attached GC2145 camera has delivered real photographs over verified Wi-Fi HTTPS into Atlas, with exact readback and duplicate checks. Refresh never replans or actuates. See [camera setup and operation](docs/CAMERA_MONGODB.md).
-- **Workspace settings**, outside primary navigation: Saved plans contains named configuration snapshots, JSON import/export and run history restored without solving again. Model settings contains optional references, measured-profile setup, CSV calibration and yield sensitivity behind closed disclosures. Ten terrestrial EDEN ISS/NASA RLSS profiles and USDA composition connect explicitly to the planner.
+Keep the API running, then open another terminal:
 
-The six primary groups use tabs for related work. Navigation search finds ten destinations through the visible control or **Ctrl/Cmd K**, including food/crop keywords; it searches destinations, not stored records. Unsubmitted mission/inventory drafts and crew dietary logs survive navigation. The mobile drawer supports keyboard focus, Escape and route/desktop closing. There is no primary Research page; existing research bookmarks open Model settings.
+```powershell
+npm run dev --prefix frontend
+```
 
-## Evidence and calibration
+Vite proxies `/api` requests to the local backend on port 8501. To rebuild the frontend served by FastAPI:
 
-The **What-if simulator** now includes **Compare recovery options** for a saved run: ranked interventions, minimum additional stored food/daily water/electricity, optional hard reserve protection and fixed-policy lower-yield/delayed-harvest stress tests. Event-day relief preserves pre-event history. The analysis changes no inventory or equipment; results depend on the submitted coefficients. See [recovery planning](docs/RECOVERY_PLANNING.md).
+```powershell
+npm run build --prefix frontend
+```
 
-Default demo inputs remain synthetic until explicitly replaced. Source provenance distinguishes measurements from assumptions. Lighting electricity derives from reported PPFD/photoperiod with assumed efficacy/delivery; net makeup water and whole-system HVAC/pump energy are missing from the reference measurements. Applied irrigation is not net consumption.
+Leave `VITE_API_ORIGIN` unset for local hosting. For separate frontend/API deployments, set it to the public backend origin without `/api`.
 
-The crop model fits fresh edible batch endpoints, not intermediate biomass, microgravity response or mechanistic water-stress dynamics. Fitting NASA's first30-day lettuce trial and withholding its second gives **1.042kg/m² absolute error /46.94% error on one held-out trial**. This exposes limited transferability; it is not robust general accuracy. EDEN aggregate means are never expanded into invented individual cycles.
+### Image model setup
 
-~~~powershell
-.\.venv\Scripts\python.exe scripts\crop_calibrate.py
-~~~
-
-See [crop evidence](docs/CROP_MODEL_EVIDENCE.md), [nutrition evidence](docs/NUTRITION_EVIDENCE.md) and [plant model](docs/PLANT_VISION.md). Source bytes, identifiers, units, license notes and hashes are retained in data/research and runtime/plant-model/PROVENANCE.json.
-
-Fruit models need explicit setup on a fresh clone; their binaries remain Git-ignored. Run the following after normal setup. Downloads are pinned and hash-checked, export uses a separate ML environment, and subsequent inference runs locally on CPU without downloading artifacts. All four have executed locally, but no independent ASTRA-BIO fruit benchmark or fruit fine-tuning has been completed. [Setup, exact sources and observation limits](docs/FRUIT_MONITORING.md).
-
-~~~powershell
+```powershell
+.\scripts\setup-plant-model.ps1
 .\scripts\setup-fruit-models.ps1 -Action Full
 .\scripts\setup-fruit-models.ps1 -Action Status
-~~~
+```
 
-The first local image fine-tuning run is completed and selected: **41.25% held-out accuracy versus 28.75% for original weights**, across 80 PlantDoc images and ten represented classes. Accuracy remains low; fixed safeguards accept six images, with four correct. Measured lettuce growth now has a separate source-specific age curve fitted from 540 plant/day records, with **5.72 g/plant held-out MAE within one cycle**. Neither result validates your tray or spaceflight. Environmental-response fitting is implemented and awaits real repeated cycles. Model selection, metrics, the growth curve and a blank trial template are available through secondary model disclosures. See [fine-tuning results and commands](docs/ML_FINE_TUNING.md), [validation protocol](docs/ML_VALIDATION.md) and [crop-training guide](docs/CROP_TRAINING.md).
+These install the documented base/pretrained artifacts. Reproducing the fine-tuned leaf candidate requires the separate [fine-tuning workflow](docs/ML_FINE_TUNING.md). Downloads are pinned and verified; inference does not download weights on demand. Availability depends on the artifacts installed on each deployment.
 
-## ESP32 Wi-Fi and MongoDB Atlas
+## Hardware integration
 
-The current board choice is **ESP32-S3 WROOM**, with Atlas as the telemetry database. Read [the setup guide](docs/ESP32_MONGODB.md) for the Atlas database user, network allowlist and private connection URI.
+The physically verified configuration is an **ESP32-S3 N16R8 with a GC2145 camera**. It captures RGB565, encodes JPEG and uploads through an authenticated HTTPS gateway to Atlas. Stored-image readback and duplicate handling were verified with the attached board.
 
-~~~powershell
-.\setup-mongodb.ps1 -DeviceId tray-01
-.\.venv\Scripts\python.exe -m astra_bio.mongo_runtime check
-.\run-gateway.ps1
-~~~
+Additional environmental sensors, their calibration and autonomous actuation remain unfinished. MQTT software tests used generated packets; they do not establish physical sensor performance.
 
-Setup prompts for credentials privately and generates a device header with Wi-Fi details, its token and the gateway's public CA. The gateway exposes authenticated HTTPS numerical telemetry and bounded JPEG ingestion on the laptop's private Wi-Fi IP:8502. Atlas credentials stay on the backend. Device tokens reload on each request; restart the gateway after IP/port/certificate changes. The existing dashboard reads MongoDB when configured and reports outages without silently switching to SQLite.
+For camera and Atlas setup, follow [ESP32 + MongoDB](docs/ESP32_MONGODB.md), [camera integration](docs/CAMERA_MONGODB.md) and the [camera firmware guide](integration/esp32-camera-mongodb/README.md). For MQTT, use the [hardware quickstart](docs/MQTT_QUICKSTART.md).
 
-In a second terminal, `.\test-mongodb.ps1 -DeviceId tray-01` sends one explicitly synthetic reading, retries the identical sample and verifies one MongoDB record. It requires a configured Atlas connection and running gateway. The firmware source is under `integration/esp32-mongodb`; its release compile passed for a generic ESP32-S3 DevKitC-1 N8/no-PSRAM profile with placeholder credentials. The attached camera board was separately identified as ESP32-S3 N16R8 and flashed with [camera firmware](integration/esp32-camera-mongodb/README.md). Its GC2145 camera-to-Atlas Wi-Fi path is physically verified; additional sensor models, wiring, drivers and calibration remain required. Missing sensor values are omitted. No actuator control is added.
+Keep database credentials, Wi-Fi passwords, device tokens and certificates out of Git and frontend environment variables.
 
-The app now uses a white canvas, pale sage surfaces and dark green controls while preserving the supplied logo. Desktop/mobile theme checks and captures are under [white-mode verification](docs/designs/2026-10-12/white-mode/IMPLEMENTATION.md). **86 affected Python checks and 44 frontend checks passed; the production build passed.** These Python checks use controlled repositories for the MongoDB contract and do not establish a live Atlas write.
+## Deployment
 
-On 12 October 2026 the configured Atlas connection also passed a live software-path check: one synthetic `tray-01` sample was accepted through verified HTTPS, its identical retry was acknowledged without another record, and the dashboard read it from Atlas. [Credential-free verification report](docs/MONGODB_VERIFICATION.json). Cloud operations now allow eight seconds for a cold TLS/authentication connection; loopback MongoDB retains three seconds. Actual ESP32 Wi-Fi credentials, sensor drivers and physical flashing remain outstanding. Atlas network access was already working and was not changed.
+**Frontend:** [astra-bio.onrender.com](https://astra-bio.onrender.com/)
 
-## MQTT and hardware
+**Backend:** [astra-bio-api.onrender.com](https://astra-bio-api.onrender.com/api/health)
 
-~~~powershell
-npm ci --prefix runtime/node-red
-.\setup-mqtt.ps1
-.\provision-device.ps1 -DeviceId tray-01
-.\run-stack.ps1
-~~~
+The frontend is a Render Static Site built from `frontend`; the backend is a FastAPI web service. Configure the public API origin and explicit allowed hosts/origins using the [Render deployment guide](docs/RENDER_FRONTEND.md).
 
-The managed foreground stack runs authenticated Mosquitto, Node-RED and FastAPI when needed. Node-RED is localhost:1880; collector MQTT is authenticated localhost:1883; physical devices use CA-verified TLS on the laptop's private IPv4:8883. Credentials and builds are private and Git-ignored.
+Local camera verification, cloud API connectivity and deployed model availability are separate checks. Saved planning history needs durable storage for reliable cloud persistence. The hosted prototype does not currently provide user accounts or workspace isolation; use demonstration data in the public workspace.
 
-Use .\test-mqtt.ps1 -Tls for synthetic transport/ACL verification; .\simulate-device.ps1 -Count 0 -Tls publishes generated observations. ESP32-S3 firmware is compiled but **unflashed and uncalibrated**. Outputs are disabled. Stop the stack with .\stop-stack.ps1; see [hardware quickstart](docs/MQTT_QUICKSTART.md).
+## Verification
 
-## Verify
-
-~~~powershell
+```powershell
 .\.venv\Scripts\python.exe -m pytest -q
-npm test --prefix frontend
+npm test --prefix frontend -- --pool=threads --maxWorkers=1
 npm run build --prefix frontend
-~~~
+```
 
-Tests cover conservation, harvest timing, event-day continuity, expiry/retention, bounds/increments, source conversions, calibration leakage, missing intake, actual inference/abstention, snapshots, API workflows and MQTT/Node-RED contracts. The model work adds split/duplicate audits, confidence mathematics, candidate integrity/selection, measured age curves and environmental support guards. **193 Python tests and 13 subtests passed, with one Windows symlink test skipped; 43 frontend tests passed.** Checks include mission-day/event context, policy differences, resource chart fields, navigation search, editable presets, grouped navigation, explicit submission, retained drafts/logs, keyboard behavior, model evidence and missing/stale/error telemetry. Earlier product browser checks passed at 1280px, 1002px and 390×844: saved-day values and retention, policy/chart switching, search, editable presets without automatic solving, responsive layout and drawer closing. Warning/error logs were empty. See [product research](docs/designs/2026-10-11/product-experience/RESEARCH.md) and [verification/screenshots](docs/designs/2026-10-11/product-experience/IMPLEMENTATION.md) for that checked scope; this was not a full audit of every page.
+Latest full regression run, **13 October 2026**:
 
-## Scope
+| Check | Result |
+| --- | --- |
+| Backend | **589 passed**, 1 skipped; 13 subtests passed |
+| Frontend | **174 passed** across 15 test files |
+| Production frontend build | Passed |
 
-Only energy, protein and vitaminC are tracked. Crops supplement stored food. Fresh harvests are used/discarded the same day. Specified expiry/retention is sensitivity policy, not microbial-safety prediction. Crew allocations remain aggregate. Individual menus, cooking/preparation resources, full diet adequacy, crew work time, oxygen/CO₂ and waste recycling are outside this prototype. No clinical deficiency detector or autonomous device control is claimed.
+Coverage includes resource conservation, harvest timing, mid-mission continuity, input validation, crop advice, biological-production boundaries, image contracts, snapshots, telemetry and deployment configuration. Passing software tests do not establish biological accuracy; most transport/storage tests use controlled fixtures, with physical camera verification documented separately.
 
-Optional local Ollama fact selection has a bounded timeout and verified fallback; no daemon/model is required or installed. Grocy/Mealie remain optional references. The original Apache-2.0 starter license/Git origin are preserved. [UPSTREAM_SOURCES.json](UPSTREAM_SOURCES.json) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) document reuse and attribution.
+## Repository guide
+
+```text
+astra_bio/    API, optimizer, production models and storage
+frontend/     React application and UI tests
+integration/  ESP32 firmware, MQTT and gateway configuration
+scripts/      Model setup, calibration and reproducible workflows
+data/         Reference data, reports and labeled sample missions
+tests/        Backend regression tests
+docs/         Evidence, architecture, setup and verification notes
+```
+
+## Documentation
+
+- [Software overview](docs/PROJECT_OVERVIEW.md)
+- [Crew roster and planning](docs/CREW_ROSTER_PLANNING.md)
+- [Nutrient-aware crop advice](docs/NUTRIENT_CROP_ADVISOR.md)
+- [Biological production and primary sources](docs/BIOLOGICAL_PRODUCTION.md)
+- [Mid-mission changes](docs/ROLLING_MISSION_CHANGES.md) and [recovery planning](docs/RECOVERY_PLANNING.md)
+- [Leaf model](docs/PLANT_VISION.md), [fruit monitoring](docs/FRUIT_MONITORING.md) and [ML validation](docs/ML_VALIDATION.md)
+- [Crop training guide](docs/CROP_TRAINING.md)
+- [Render deployment](docs/RENDER_FRONTEND.md)
+
+## Roadmap
+
+- Validate image screening and crop predictions against independent local tray cycles.
+- Measure biological yield, nutrient composition and resource use in matched pilot batches.
+- Extend durable cloud persistence to mission snapshots and nutrition logs.
+- Integrate calibrated environmental sensors and reviewed sensor-to-planner inputs.
+- Add authentication and workspace isolation before supporting private user data.
+- Evaluate actuator control only after independent hardware safeguards and physical testing.
+
+## License and acknowledgements
+
+Repository code is distributed under [Apache License 2.0](LICENSE). Third-party datasets, model weights and reused projects retain their respective licenses and attribution requirements.
+
+See [third-party notices](THIRD_PARTY_NOTICES.md) and [upstream sources](UPSTREAM_SOURCES.json) for provenance. The original starter attribution is preserved.
