@@ -35,6 +35,24 @@ origin. If a POST returns 403, check `ASTRA_ALLOWED_ORIGINS`; if a request retur
 400 "Invalid host header", check `ASTRA_ALLOWED_HOSTS`. A 503 camera-storage
 response indicates backend storage configuration, not a frontend build failure.
 
+## Atlas access from Render
+
+Set `ASTRA_MONGODB_URI` on the backend service using the complete private Atlas
+URI. The backend reads `astra_bio` and the `observations`/`camera_images`
+collections by default. Do not put this URI in the frontend.
+
+In Render, open the backend's **Connect → Outbound** panel. Add all listed
+CIDR ranges to the cluster project's **Atlas → Network Access → IP Access List**.
+For the current service these are `74.220.48.0/24` and `74.220.56.0/24`.
+Keep existing gateway/laptop entries. Allowlisting only the laptop's address
+does not grant the hosted backend access. Recheck the panel if the service's
+region or outbound configuration changes; do not use its inbound DNS address.
+
+`GET /api/database/status` performs a read-only connection check and returns
+fixed error codes and next steps without credentials or raw driver errors.
+API health and model readiness are independent of database health. Confirm
+telemetry and camera reads after the access-list entries show Active.
+
 ## Screening models
 
 On Render, the API startup installs the versioned serving bundle declared in

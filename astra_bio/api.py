@@ -121,6 +121,20 @@ def health():
     return {"status": "ok", "service": "astra-bio-api", "frontend": "react", "frontend_built": (DIST / "index.html").exists()}
 
 
+@app.get("/api/database/status")
+def database_status():
+    """Read-only storage check, independent of sensor freshness and API health."""
+    try:
+        reader = mongo_runtime.telemetry_reader()
+        if reader is None:
+            return {"backend": "mongodb", "configured": False, "connected": False,
+                "error_code": "not_configured", "action": "Set ASTRA_MONGODB_URI on the backend service."}
+        return reader.status()
+    except (mongo_runtime.MongoConfigurationError, ValueError):
+        return {"backend": "mongodb", "configured": True, "connected": False,
+            "error_code": "invalid_configuration", "action": "Check the backend ASTRA_MONGODB_URI setting."}
+
+
 @app.get("/api/bootstrap")
 def bootstrap():
     config = default_config()

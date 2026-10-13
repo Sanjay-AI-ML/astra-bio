@@ -57,6 +57,8 @@ def load_settings(path: Path = SETTINGS) -> GatewaySettings | None:
         if not isinstance(raw, dict):
             raise ValueError()
         uri = os.environ.get("ASTRA_MONGODB_URI") or raw["uri"]
+        if isinstance(uri, str):
+            uri = uri.strip()
         database = raw.get("database", "astra_bio")
         collection = raw.get("collection", "observations")
         host = raw.get("lan_host", "127.0.0.1")

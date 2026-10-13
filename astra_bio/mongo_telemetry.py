@@ -25,6 +25,31 @@ UNAVAILABLE = "MongoDB telemetry is unavailable. Check the server database confi
 SAMPLE_ID_PATTERN = re.compile(r"[A-Za-z0-9_-]{1,96}")
 
 
+def connection_diagnosis(error: Exception) -> dict[str, str]:
+    """Return fixed troubleshooting text; never expose driver errors or a URI."""
+    chain = []
+    current = error
+    while current is not None and len(chain) < 4 and all(current is not item for item in chain):
+        chain.append(current)
+        current = current.__cause__ or current.__context__
+    text = " ".join(str(item).lower() for item in chain)
+    types = {type(item).__name__ for item in chain}
+    codes = {getattr(item, "code", None) for item in chain}
+    if 18 in codes or "authentication failed" in text or "bad auth" in text:
+        return {"error_code": "authentication_failed", "action": "Check the Atlas database user and password in the backend connection URI."}
+    if 13 in codes:
+        return {"error_code": "permission_denied", "action": "Give the database user the required access to the ASTRA-BIO database."}
+    if "certificate_verify_failed" in text or "certificate verify failed" in text:
+        return {"error_code": "tls_verification_failed", "action": "Check the server CA certificates. Keep TLS certificate verification enabled."}
+    if any(name in types for name in {"NXDOMAIN", "NoNameservers", "LifetimeTimeout"}) or "dns" in text or "nxdomain" in text:
+        return {"error_code": "dns_lookup_failed", "action": "Check the Atlas cluster hostname in the backend connection URI and its DNS resolution."}
+    if any(name in types for name in {"ServerSelectionTimeoutError", "NetworkTimeout", "ConnectionFailure", "AutoReconnect"}):
+        return {"error_code": "network_unreachable", "action": "Check Atlas cluster availability and allow the backend service's outbound IP ranges in Atlas Network Access."}
+    if "ConfigurationError" in types or "InvalidURI" in types:
+        return {"error_code": "invalid_configuration", "action": "Check the backend ASTRA_MONGODB_URI setting; use the complete Atlas connection URI."}
+    return {"error_code": "connection_failed", "action": "Check the backend database configuration and Atlas connection."}
+
+
 def _connection_options(uri: str) -> dict[str, Any]:
     """Require authenticated TLS verification away from a loopback database."""
     if not isinstance(uri, str) or not uri.startswith(("mongodb://", "mongodb+srv://")):
@@ -231,8 +256,9 @@ class MongoTelemetryStore:
         try:
             self._get_client().admin.command("ping")
             result["connected"] = True
-        except Exception:
+        except Exception as error:
             result["error"] = UNAVAILABLE
+            result.update(connection_diagnosis(error))
         return result
 
     def close(self) -> None:
