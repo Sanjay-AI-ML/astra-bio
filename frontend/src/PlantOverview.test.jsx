@@ -210,7 +210,7 @@ describe('independent screening modes',()=>{
     expect(screen.getByText('Model ran · review required')).toBeTruthy();
     expect(screen.getByText('early blight').closest('section').getAttribute('aria-label')).toBe('Unconfirmed model matches');
     expect(screen.queryByRole('region',{name:'Fruit checking result'})).toBeNull();
-    expect(screen.getByText('Take a clearer leaf photograph.')).toBeTruthy();
+    expect(screen.queryByText('Take a clearer leaf photograph.')).toBeNull();
   });
   it('explains ambiguous leaf scores without promoting the matches to a diagnosis',async()=>{
     const leaf={status:'uncertain',reason:'Scores are ambiguous.',predictions:[{condition:'early blight',score:.45},{condition:'late blight',score:.43},{condition:'healthy',score:.08},{condition:'leaf mold',score:.04}],screening_summary:{title:'No reliable match',summary:'The closest matches are too similar to distinguish.',checks:[{label:'Top model score',passed:false,actual:.45,required:.5,unit:'ratio'},{label:'Separation from second match',passed:false,actual:.02,required:.1,unit:'ratio'},{label:'Selected species agrees',passed:true,actual:true,required:true,unit:'boolean'}],next_steps:['Retake the leaf in even light.']}};
@@ -221,9 +221,9 @@ describe('independent screening modes',()=>{
     await waitFor(()=>expect(screen.getByRole('button',{name:'Screen leaf'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Screen leaf'}));
     await screen.findByRole('heading',{name:'Model prediction needs review'});
-    expect(screen.getByText('The closest matches are too similar to distinguish.')).toBeTruthy();
-    expect(screen.getByText('ASTRA-BIO fine-tuned model · plantdoc-20261011T142833Z')).toBeTruthy();
-    expect(screen.getByText('Retake the leaf in even light.')).toBeTruthy();
+    expect(screen.queryByText('The closest matches are too similar to distinguish.')).toBeNull();
+    expect(screen.queryByText('ASTRA-BIO fine-tuned model · plantdoc-20261011T142833Z')).toBeNull();
+    expect(screen.queryByText('Retake the leaf in even light.')).toBeNull();
     expect(screen.getByText('Why this result?').closest('details').open).toBe(true);
     expect(screen.getByText('0.450')).toBeTruthy();
     expect(screen.getByText('0.500')).toBeTruthy();
