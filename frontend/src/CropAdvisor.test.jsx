@@ -22,6 +22,16 @@ const custom = () => fireEvent.click(screen.getByRole('checkbox', {name: 'Use cu
 afterEach(cleanup);
 
 describe('Crew-driven food recommendations', () => {
+  it('replaces empty biological result cells with a useful setup link', async () => {
+    const response={...clone(report),response_plan:{production_options:[{id:'limnospira',name:'Limnospira protein photobioreactor',status:'needs_review',first_harvest_day:null,protein_g:null,reasons:['No saved reviewed production scenario.']}],scope:{matched_crew_count:0,unmatched_crew_names:['Sanjay','Vamshika']}}};
+    renderAdvisor({request:async()=>response});
+    await screen.findByRole('heading',{name:'Set up a production comparison'});
+    expect(screen.queryByRole('table',{name:'Biological production recommendations'})).toBeNull();
+    expect(screen.getByRole('link',{name:'Review biological production →'}).getAttribute('href')).toBe('#production');
+    expect(screen.getByText('Connect the crew roster to this mission')).toBeTruthy();
+    expect(screen.getByRole('link',{name:'Review crew & nutrition →'}).getAttribute('href')).toBe('#crew');
+    expect(screen.getByLabelText('Recommendation context').children).toHaveLength(3);
+  });
   it('shows immediate review separately from unqualified future microorganism output', async () => {
     const response={...clone(report),response_plan:{health_alerts:[{profile_id:'crew-4',name:'Vamshika',kind:'low_ferritin',severity:'review',sample_only:true,day:1,message:'Fictional example: request crew medical review.'}],immediate_support:[{kind:'supplement_review',title:'Supplement availability unconfirmed',message:'No available approved order is recorded.'}],production_options:[{id:'reactor',name:'Limnospira protein photobioreactor',status:'projected',first_harvest_day:5,first_harvest_protein_g:2.06,protein_g:12.36,reasons:['Food qualification is not established.']}],scope:{sample_only:true,missing_metrics:['Blood pressure']}}};
     renderAdvisor({request:async()=>response});

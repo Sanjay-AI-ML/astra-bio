@@ -305,6 +305,8 @@ def build_response_plan(config, plan, report, crew_state, biological_scenario, s
     sample_only = state.get("sample_only") is True
     context = report.get("crew_context") or active_crew_context(config, day, scenario=scenario)
     people = {person["profile_id"]: person for person in context.get("members", [])}
+    unmatched = [p.get("name", p.get("profile_id", "Crew member")) for p in _rows(state, "profiles")
+        if p.get("profile_id") not in people]
     # Explicit roster identities remain authoritative; sample measurements can
     # enrich only matching people and cannot add an absent crew member.
     for profile in _rows(state, "profiles"):
@@ -321,6 +323,8 @@ def build_response_plan(config, plan, report, crew_state, biological_scenario, s
         "crew_intake": intake,
         "production_options": _production(config, plan, report, biological_scenario, scenario, day),
         "scope": {"day": day, "sample_only": sample_only,
+            "matched_crew_count": len(people), "unmatched_crew_names": unmatched,
+            "roster_status": "matched" if people and not unmatched else "review_required",
             "measurement_records": lab_records + vital_records, "reference_context_missing": context_missing,
             "heart_rate_missing_profile_ids": sorted(set(people) - heart_rate_known),
             "pending_target_profile_ids": pending,

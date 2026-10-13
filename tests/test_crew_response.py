@@ -23,6 +23,16 @@ def test_sample_lab_review_and_complete_intake_are_not_prescriptions():
     assert all(r['usable_for_response'] for r in response['crew_intake'])
     assert not any(s['kind']=='approved_supplement' for s in response['immediate_support'])
     assert all(o['status']=='needs_review' and o['protein_g'] is None for o in response['production_options'])
+    assert response['scope']['matched_crew_count']==4
+    assert not response['scope']['unmatched_crew_names']
+
+
+def test_count_only_mission_explains_why_named_health_records_cannot_be_used():
+    config=replace(default_config(),planning_events=[],crew_profiles=[])
+    response=build_response_plan(config,None,recommend_crops(config,automatic=True),crew_sample(),None)
+    assert response['scope']['matched_crew_count']==0
+    assert response['scope']['unmatched_crew_names']==['Shree Ram Vishal','Shamyuktha','Sanjay','Vamshika']
+    assert not response['health_alerts']
 
 
 def test_current_urgent_symptoms_immediate_not_future_microbe_treatment():

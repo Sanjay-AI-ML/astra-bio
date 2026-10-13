@@ -74,7 +74,16 @@
 .crop-advisor-timed-help {margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line);}
 .crop-advisor-timed-help dl {display: flex; flex-wrap: wrap; gap: 24px;}
 .crop-advisor-timed-help dd {margin: 7px 0; font-size: 20px; font-weight: 600;}
-.crop-advisor-context {margin: 22px 0; color: var(--muted); line-height: 1.7;}
+.crop-advisor-context {display:flex; flex-wrap:wrap; gap:12px 26px; margin:22px 0; color:var(--muted); line-height:1.7;}
+.crop-advisor-context > span {display:inline-block;}
+.crop-advisor-context > span + span {border-left:1px solid var(--line); padding-left:26px;}
+.crop-advisor-stock {display:block; font-size:18px; font-weight:550; margin:12px 0;}
+.crop-advisor-support-title {margin-top:24px !important;}
+.crop-advisor-support small {display:block; color:var(--muted); line-height:1.7;}
+.crop-advisor-production-setup {border-left:3px solid var(--green); padding:16px 22px; background:var(--surface); max-width:920px; margin:22px 0;}
+.crop-advisor-production-setup p {font-size:13px; line-height:1.7;}
+.crop-advisor-production-setup details {margin-top:20px; font-size:12px;}
+@media(max-width:640px){.crop-advisor-context {flex-direction:column; gap:6px;}.crop-advisor-context > span + span {border-left:0; padding-left:0;}}
 .crop-advisor-advanced {margin: 20px 0 30px; font-size: 13px;}
 .crop-advisor-mode {display: flex; align-items: center; gap: 10px; margin: 20px 0;}
 .crop-advisor-response {padding: 28px 0; border-bottom: 1px solid var(--line); margin-bottom: 30px;}
