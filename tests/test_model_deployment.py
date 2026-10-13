@@ -86,6 +86,7 @@ def test_render_startup_is_enabled_and_local_startup_skips_install(monkeypatch):
     called = []
     monkeypatch.setattr(deployment, "install_models", lambda: called.append(True))
     monkeypatch.delenv("ASTRA_INSTALL_MODELS", raising=False)
+    monkeypatch.delenv("ASTRA_LEAF_MODEL", raising=False)
     monkeypatch.delenv("RENDER", raising=False)
     deployment.initialize_deployment_models()
     assert not called
@@ -95,3 +96,24 @@ def test_render_startup_is_enabled_and_local_startup_skips_install(monkeypatch):
     monkeypatch.setenv("ASTRA_INSTALL_MODELS", "0")
     deployment.initialize_deployment_models()
     assert called == [True]
+
+
+def test_fresh_cloud_install_selects_evaluated_candidate_and_preserves_later_choice(monkeypatch, tmp_path):
+    from astra_bio import plant_registry
+    selected = []
+    monkeypatch.setattr(deployment, "ROOT", tmp_path)
+    monkeypatch.setattr(deployment, "install_models", lambda: None)
+    monkeypatch.setattr(plant_registry, "select_model", selected.append)
+    monkeypatch.setenv("ASTRA_INSTALL_MODELS", "1")
+    monkeypatch.delenv("ASTRA_LEAF_MODEL", raising=False)
+    deployment.initialize_deployment_models()
+    assert selected == ["plantdoc-20261011T142833Z"]
+    active = tmp_path / "runtime/plant-active.json"
+    active.parent.mkdir()
+    active.write_text('{"candidate_id":"base"}')
+    selected.clear()
+    deployment.initialize_deployment_models()
+    assert not selected
+    monkeypatch.setenv("ASTRA_LEAF_MODEL", "base")
+    deployment.initialize_deployment_models()
+    assert selected == ["base"]

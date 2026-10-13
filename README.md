@@ -139,7 +139,7 @@ To install the verified serving bundle used by the hosted app:
 .\.venv\Scripts\python.exe -m astra_bio.model_deployment
 ```
 
-It includes base leaf weights, the evaluated fine-tuned candidate and four fruit detectors, with provenance and hash verification. The base selection is preserved; model selection stays explicit. Render installs this bundle automatically at API startup.
+It includes base leaf weights, the evaluated fine-tuned candidate and four fruit detectors, with provenance and hash verification. Render installs it at API startup and selects the evaluated candidate on fresh installations; existing operator selections are preserved. `ASTRA_LEAF_MODEL` provides an explicit startup override. Low-confidence results remain uncertain.
 
 For separate source downloads and local fruit export instead:
 

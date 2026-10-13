@@ -206,9 +206,58 @@ describe('independent screening modes',()=>{
     expect(form.get('screening_mode')).toBe('leaf');
     expect(form.get('file').name).toBe('leaf.jpg');
     expect(form.has('fruit_model_id')).toBe(false);
-    expect(screen.queryByText('early blight')).toBeNull();
+    expect(screen.getByRole('heading',{name:'No reliable match'})).toBeTruthy();
+    expect(screen.getByText('Model ran · review required')).toBeTruthy();
+    expect(screen.getByText('early blight').closest('details').open).toBe(false);
     expect(screen.queryByRole('region',{name:'Fruit checking result'})).toBeNull();
     expect(screen.getByText('Take a clearer leaf photograph.')).toBeTruthy();
+  });
+  it('explains ambiguous leaf scores without promoting the matches to a diagnosis',async()=>{
+    const leaf={status:'uncertain',reason:'Scores are ambiguous.',predictions:[{condition:'early blight',score:.45},{condition:'late blight',score:.43},{condition:'healthy',score:.08},{condition:'leaf mold',score:.04}],screening_summary:{title:'No reliable match',summary:'The closest matches are too similar to distinguish.',checks:[{label:'Top model score',passed:false,actual:.45,required:.5,unit:'ratio'},{label:'Separation from second match',passed:false,actual:.02,required:.1,unit:'ratio'},{label:'Selected species agrees',passed:true,actual:true,required:true,unit:'boolean'}],next_steps:['Retake the leaf in even light.']}};
+    const request=vi.fn(async path=>path==='/plant-overview/status'?{leaf_model:{ready:true}}:{...report,overview:null,leaf,fruit:{status:'not_requested'}});
+    render(<PlantOverview request={request} mode="leaf"/>);
+    upload('Leaf photograph','leaf.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Screen leaf'}).disabled).toBe(false));
+    fireEvent.click(screen.getByRole('button',{name:'Screen leaf'}));
+    await screen.findByRole('heading',{name:'No reliable match'});
+    expect(screen.getByText('The closest matches are too similar to distinguish.')).toBeTruthy();
+    expect(screen.getByText('Retake the leaf in even light.')).toBeTruthy();
+    expect(screen.getByText('Why this result?').closest('details').open).toBe(false);
+    expect(screen.getByText('45%')).toBeTruthy();
+    expect(screen.getByText('50%')).toBeTruthy();
+    expect(screen.getByText('2%')).toBeTruthy();
+    expect(screen.getAllByText('Yes')).toHaveLength(2);
+    expect(screen.getByText('early blight').closest('details').open).toBe(false);
+    expect(screen.queryByText('leaf mold')).toBeNull();
+    expect(screen.getByText(/Scores show visual similarity, not the probability of disease/)).toBeTruthy();
+    expect(screen.queryByText('Scores are ambiguous.')).toBeNull();
+  });
+  it('never exposes condition names when leaf evidence conflicts with the selected crop',async()=>{
+    const request=vi.fn(async path=>path==='/plant-overview/status'?{leaf_model:{ready:true}}:{...report,overview:null,leaf:{status:'rejected',reason_code:'species_conflict',reason:'The leaf model suggests another species.',predictions:[{condition:'late blight',score:.99}]},fruit:{status:'not_requested'}});
+    render(<PlantOverview request={request} mode="leaf"/>);
+    upload('Leaf photograph','leaf.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Screen leaf'}).disabled).toBe(false));
+    fireEvent.click(screen.getByRole('button',{name:'Screen leaf'}));
+    await screen.findByRole('heading',{name:'Crop mismatch · result withheld'});
+    expect(screen.queryByText('late blight')).toBeNull();
+    expect(screen.queryByText('Unconfirmed model matches')).toBeNull();
+    expect(screen.getByText(/Check the selected species and upload/)).toBeTruthy();
+  });
+  it('exports the original uncertain leaf scores without altering their status',async()=>{
+    const original={...report,overview:null,leaf:{status:'uncertain',reason:'Scores are ambiguous.',predictions:[{condition:'early blight',score:.45678}]},fruit:{status:'not_requested'}};
+    const request=vi.fn(async path=>path==='/plant-overview/status'?{leaf_model:{ready:true}}:clone(original));
+    const click=vi.spyOn(HTMLAnchorElement.prototype,'click').mockImplementation(()=>{});
+    try{
+      render(<PlantOverview request={request} mode="leaf"/>);
+      upload('Leaf photograph','leaf.jpg');
+      await waitFor(()=>expect(screen.getByRole('button',{name:'Screen leaf'}).disabled).toBe(false));
+      fireEvent.click(screen.getByRole('button',{name:'Screen leaf'}));
+      fireEvent.click(await screen.findByRole('button',{name:'Export screening evidence'}));
+      const blob=URL.createObjectURL.mock.calls.at(-1)[0];
+      const exported=await new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(JSON.parse(reader.result));reader.readAsText(blob);});
+      expect(exported).toEqual(original);
+      expect(click.mock.instances[0].download).toBe('astra-bio-leaf-screening.json');
+    }finally{click.mockRestore();}
   });
   it('offers only ready models supporting the crop, independently of leaf availability',async()=>{
     const available={default_model_id:'unavailable-model',models:[...catalog.models,{id:'unavailable-model',ready:false,species:['tomato'],labels:['tomato']},{id:'other-species',ready:true,species:['apple'],labels:['apple']}]};

@@ -64,8 +64,12 @@ present. `ASTRA_INSTALL_MODELS=0` explicitly disables startup installation.
 
 The bundle contains base leaf weights, the evaluated fine-tuned candidate,
 four fruit detectors, their class mappings, model cards and provenance. It
-preserves the current base leaf selection and any later deliberate operator
-selection. Training checkpoints, duplicate exports, sample photographs and
+selects the evaluated fine-tuned leaf candidate on a fresh cloud installation.
+Existing deliberate operator selections are preserved. Set `ASTRA_LEAF_MODEL`
+to `base` or `plantdoc-20261011T142833Z` to explicitly select a model at startup.
+The fine-tuned candidate improves the recorded source benchmark but remains
+experimental; uncertain photos remain unresolved under the same score rules.
+Training checkpoints, duplicate exports, sample photographs and
 datasets are excluded. Inference never downloads weights during an upload.
 
 For a local explicit install of the same serving bundle:

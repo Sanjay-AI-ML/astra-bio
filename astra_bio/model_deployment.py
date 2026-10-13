@@ -123,7 +123,15 @@ def initialize_deployment_models() -> None:
     enabled = os.getenv("ASTRA_INSTALL_MODELS", "1" if os.getenv("RENDER") == "true" else "0")
     if enabled == "1":
         LOG.info("Verifying cloud screening artifacts before application startup.")
+        active = ROOT / "runtime/plant-active.json"
+        previously_selected = active.exists()
         install_models()
+        requested = os.getenv("ASTRA_LEAF_MODEL", "").strip()
+        if not requested and not previously_selected:
+            requested = "plantdoc-20261011T142833Z"
+        if requested:
+            from .plant_registry import select_model
+            select_model(requested)
 
 
 if __name__ == "__main__":

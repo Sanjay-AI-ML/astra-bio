@@ -23,6 +23,17 @@
 .plant-overview-observations h3 { font-size:18px; margin:0 0 16px; }
 .plant-overview-observations li { margin-bottom:13px; }
 .plant-overview-evidence { display:flex; justify-content:space-between; gap:18px; padding:10px 0; border-bottom:1px solid var(--line-soft); font-size:13px; }
+.leaf-screening-evidence { max-width:850px; }
+.leaf-screening-summary { max-width:720px; line-height:1.65; }
+.leaf-screening-next { margin:24px 0; }
+.leaf-screening-next h3 { font-size:15px; margin:0 0 10px; }
+.leaf-screening-next ul { padding-left:20px; margin:0; max-width:700px; }
+.leaf-screening-next li { margin-bottom:8px; line-height:1.6; }
+.leaf-screening-details { padding:16px 0; border-top:1px solid var(--line-soft); }
+.leaf-screening-details summary { cursor:pointer; font-weight:500; }
+.leaf-screening-details .table-wrap { margin:15px 0 0; }
+.leaf-screening-details .muted { font-size:13px; max-width:680px; }
+.leaf-screening-evidence + .btn { margin-top:22px; }
 .plant-overview-ai { display:flex; align-items:center; justify-content:space-between; gap:35px; padding:28px 0; margin:20px 0; border-top:1px solid var(--line); }
 .plant-overview-ai p { max-width:780px; font-size:13px; }
 .plant-overview-ai button { flex-shrink:0; }

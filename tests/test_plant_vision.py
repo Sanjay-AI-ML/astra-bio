@@ -86,6 +86,32 @@ def test_weak_or_ambiguous_logits_abstain_without_calling_healthy_a_diagnosis():
         vision.classify_logits(np.full(15, np.nan), LABELS, "tomato")
 
 
+def test_uncertainty_explains_checks_without_lowering_thresholds():
+    logits = np.zeros(15)
+    logits[14], logits[7] = 8, 7.9
+    result = vision.classify_logits(logits, LABELS, "tomato")
+    assert result["status"] == "uncertain"
+    assert result["reason_code"] == "low_score_and_small_margin"
+    summary = result["screening_summary"]
+    assert summary["title"] == "No reliable leaf match"
+    assert summary["checks"][0]["required"] == .7
+    assert summary["checks"][1]["required"] == .15
+    assert summary["checks"][0]["passed"] is False
+    assert summary["checks"][1]["passed"] is False
+    assert summary["next_steps"]
+    assert result["predictions"][0]["score"] == pytest.approx(np.exp(8) / (np.exp(8) + np.exp(7.9) + 13))
+
+
+def test_species_conflict_has_review_guidance_without_condition_predictions():
+    logits = np.zeros(15)
+    logits[14] = 8
+    result = vision.classify_logits(logits, LABELS, "potato")
+    assert result["reason_code"] == "species_conflict"
+    assert result["predictions"] == []
+    assert result["screening_summary"]["title"] == "Crop selection needs review"
+    assert result["screening_summary"]["checks"][-1]["actual"] is False
+
+
 @pytest.mark.skipif(not (vision.DEFAULT_MODEL_DIR / "tomato-healthy-sample.jpg").is_file(), reason="Explicit optional model/sample setup not installed")
 def test_real_local_onnx_artifact_runs_on_attributed_plantvillage_sample(monkeypatch):
     monkeypatch.setattr(vision, "urlopen", lambda *args, **kwargs: pytest.fail("Inference attempted a network call"))

@@ -196,11 +196,30 @@ def classify_logits(logits, labels: list[str], crop_species: str) -> dict:
     second = float(probabilities[ranking[1]]) if len(ranking) > 1 else 0.0
     if _species(labels[global_top]) != species or mass < .5:
         status, reason = "rejected", "Image/model species evidence conflicts with the selected crop; result withheld."
+        reason_code = "species_conflict"
     elif first < .7 or first - second < .15:
         status, reason = "uncertain", "Scores are weak or ambiguous; retake a clear single-leaf photograph and request human review."
+        reason_code = "low_score_and_small_margin" if first < .7 and first - second < .15 else "low_score" if first < .7 else "small_margin"
     else:
         status, reason = "tentative", "Tentative visual match only; confirm with a crop specialist before any intervention."
+        reason_code = "tentative_match"
+    title = {"tentative": "Tentative visual match", "uncertain": "No reliable leaf match", "rejected": "Crop selection needs review"}[status]
+    summary = ("The image resembles a known leaf condition. This is a preliminary visual match." if status == "tentative" else
+               "The scores are too low or too close together to identify a leaf condition reliably." if status == "uncertain" else
+               "The image evidence does not agree with the selected crop. No condition is assigned.")
+    checks = [
+        {"label": "Top match score", "passed": first >= .7, "actual": first, "required": .7, "unit": "ratio"},
+        {"label": "Separation between matches", "passed": first - second >= .15, "actual": first - second, "required": .15, "unit": "ratio"},
+        {"label": "Selected crop score", "passed": mass >= .5, "actual": mass, "required": .5, "unit": "ratio"},
+        {"label": "Crop agreement", "passed": _species(labels[global_top]) == species,
+         "actual": _species(labels[global_top]) == species, "required": True, "unit": "boolean"},
+    ]
+    next_steps = (["Review the affected leaf with a crop specialist before any intervention."] if status == "tentative" else
+                  ["Confirm the crop species selected above.", "Fill the frame with one leaf, including the affected area.",
+                   "Retake in even light with the leaf in focus."])
     return {"status": status, "reason": reason, "crop_species": species,
+        "reason_code": reason_code,
+        "screening_summary": {"title": title, "summary": summary, "checks": checks, "next_steps": next_steps},
         "predictions": predictions if status != "rejected" else [], "selected_species_score": mass,
         "score_definition": "Original global softmax scores across all 15 classes; never renormalized within crop species.",
         "thresholds": {"minimum_score": .7, "minimum_margin": .15, "minimum_species_mass": .5,
