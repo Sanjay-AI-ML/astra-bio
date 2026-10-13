@@ -183,8 +183,8 @@ Latest full regression run, **13 October 2026**:
 
 | Check | Result |
 | --- | --- |
-| Backend | **624 passed**, 1 skipped; 13 subtests passed |
-| Frontend | **188 passed** across 16 test files |
+| Backend | **625 passed**, 1 skipped; 13 subtests passed |
+| Frontend | **189 passed** across 16 test files |
 | Production frontend build | Passed |
 
 Coverage includes resource conservation, harvest timing, mid-mission continuity, input validation, crop advice, biological-production boundaries, image contracts, snapshots, telemetry and deployment configuration. Passing software tests do not establish biological accuracy; most transport/storage tests use controlled fixtures, with physical camera verification documented separately.

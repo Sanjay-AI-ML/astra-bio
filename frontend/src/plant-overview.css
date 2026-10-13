@@ -25,6 +25,10 @@
 .plant-overview-evidence { display:flex; justify-content:space-between; gap:18px; padding:10px 0; border-bottom:1px solid var(--line-soft); font-size:13px; }
 .leaf-screening-evidence { max-width:850px; }
 .leaf-screening-summary { max-width:720px; line-height:1.65; }
+.leaf-screening-model {font-size:12px; color:var(--muted); padding:10px 0; border-bottom:1px solid var(--line-soft); overflow-wrap:anywhere;}
+.leaf-screening-matches {margin:24px 0; padding:20px 0; border-top:1px solid var(--line);}
+.leaf-screening-matches h3 {font-size:17px; margin:0 0 12px;}
+.leaf-screening-matches .muted {font-size:13px; line-height:1.7;}
 .leaf-screening-next { margin:24px 0; }
 .leaf-screening-next h3 { font-size:15px; margin:0 0 10px; }
 .leaf-screening-next ul { padding-left:20px; margin:0; max-width:700px; }
