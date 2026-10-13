@@ -35,6 +35,37 @@ origin. If a POST returns 403, check `ASTRA_ALLOWED_ORIGINS`; if a request retur
 400 "Invalid host header", check `ASTRA_ALLOWED_HOSTS`. A 503 camera-storage
 response indicates backend storage configuration, not a frontend build failure.
 
+## Screening models
+
+On Render, the API startup installs the versioned serving bundle declared in
+`data/models/deployment.json`. The release archive and every file are SHA256
+verified before installation; no PyTorch training/export packages are needed.
+Startup fails if the archive is missing or corrupt, rather than advertising
+working screening without weights. Subsequent starts reuse verified files when
+present. `ASTRA_INSTALL_MODELS=0` explicitly disables startup installation.
+
+The bundle contains base leaf weights, the evaluated fine-tuned candidate,
+four fruit detectors, their class mappings, model cards and provenance. It
+preserves the current base leaf selection and any later deliberate operator
+selection. Training checkpoints, duplicate exports, sample photographs and
+datasets are excluded. Inference never downloads weights during an upload.
+
+For a local explicit install of the same serving bundle:
+
+```powershell
+.\.venv\Scripts\python.exe -m astra_bio.model_deployment
+```
+
+Check `/api/plant-overview/status` for leaf readiness and `/api/fruit-models` for
+fruit availability. Fruit registry listing checks files without loading all
+detectors. The selected graph is validated before inference; one fruit session
+is cached and one fruit request is processed at a time to bound memory use.
+
+To rebuild a release from verified local artifacts, use
+`python scripts/package-models.py`, publish the generated archive and commit its
+manifest together with the deployment changes. Retain the bundled model cards
+and notices; artifact licenses remain separate from the application license.
+
 These settings enable deployment connectivity. They do not add user accounts or
 authentication. Anyone who can reach the hosted prototype may access its API;
 use demonstration crew data for a public deployment.

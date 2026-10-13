@@ -36,8 +36,9 @@ WARNINGS = [
     "Potato detections refer to exposed tubers; an RGB photograph cannot establish an underground tuber count.",
     "This observation does not update inventory, estimate harvest mass or trigger automatic actions.",
 ]
-_INFERENCE_SLOTS = threading.BoundedSemaphore(2)
+_INFERENCE_SLOTS = threading.BoundedSemaphore(1)
 _SESSION_LOCK = threading.Lock()
+_SESSION_KEY = None
 
 
 def normalize_species(value: str) -> str:
@@ -130,6 +131,7 @@ def _make_session(data: bytes):
     options = ort.SessionOptions()
     options.intra_op_num_threads = 2
     options.inter_op_num_threads = 1
+    options.enable_cpu_mem_arena = False
     # Loading verified bytes also avoids resolving external tensor file paths.
     return ort.InferenceSession(data, sess_options=options, providers=["CPUExecutionProvider"])
 
@@ -170,7 +172,7 @@ def _validate_session(session, size: tuple[int, int], labels: tuple[str, ...]) -
         raise ValueError("ONNX class metadata disagrees with the manifest's ordered labels.")
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=1)
 def _session(path: str, digest: str, size: tuple[int, int], labels: tuple[str, ...]):
     session = _make_session(_verified_bytes(Path(path), digest))
     _validate_session(session, size, labels)
@@ -178,11 +180,16 @@ def _session(path: str, digest: str, size: tuple[int, int], labels: tuple[str, .
 
 
 def _load(model_id: str, model_root: Path) -> tuple[dict, object]:
+    global _SESSION_KEY
     manifest, path = _manifest(model_id, model_root)
     # Verify current disk bytes even if the graph session is already cached.
     _verified_bytes(path, manifest["sha256"])
     with _SESSION_LOCK:
-        session = _session(str(path.resolve()), manifest["sha256"], tuple(manifest["input_size"]), tuple(manifest["labels"]))
+        key = (str(path.resolve()), manifest["sha256"], tuple(manifest["input_size"]), tuple(manifest["labels"]))
+        if key != _SESSION_KEY:
+            _session.cache_clear()
+        session = _session(*key)
+        _SESSION_KEY = key
     manifest = dict(manifest)
     artifact_license = session.get_modelmeta().custom_metadata_map.get("license")
     if isinstance(artifact_license, str) and artifact_license.strip():
@@ -194,16 +201,23 @@ def _provenance(manifest: dict) -> dict:
     return {key: manifest[key] for key in ("id", "name", "task", "species", "labels", "input_size", "sha256", "source_url", "revision", "license_declared", "artifact_license", "source_sha256", "framework_license", "validation", "export_parity", "capability", "export_environment", "preprocessing") if key in manifest}
 
 
-def model_status(model_id: str, model_root: Path | None = None) -> dict:
+def model_status(model_id: str, model_root: Path | None = None, *, validate_graph: bool = True) -> dict:
     spec = MODEL_SPECS.get(model_id)
     if spec is None:
         return {"id": model_id, "ready": False, "reason": "Unknown fruit model ID."}
     base = {"id": model_id, "name": spec["name"], "task": "detect", "species": list(spec["species"]),
         "labels": [], "input_size": None, "provenance": {}}
     try:
-        manifest, _ = _load(model_id, Path(model_root) if model_root is not None else DEFAULT_MODEL_ROOT)
+        root = Path(model_root) if model_root is not None else DEFAULT_MODEL_ROOT
+        if validate_graph:
+            manifest, _ = _load(model_id, root)
+        else:
+            manifest, path = _manifest(model_id, root)
+            _verified_bytes(path, manifest["sha256"])
         provenance = _provenance(manifest)
-        return {**base, **provenance, "ready": True, "reason": "Local ONNX hash, ordered classes and graph signature verified.", "provenance": provenance}
+        return {**base, **provenance, "ready": True,
+            "reason": "Model integrity and graph verified." if validate_graph else "Model files verified; graph checked before inference.",
+            "graph_validation": "verified" if validate_graph else "on_first_use", "provenance": provenance}
     except Exception as exc:
         # ONNX Runtime errors use several types; model failure must not break the registry.
         reason = str(exc) if isinstance(exc, (ValueError, OSError)) else f"Local model validation failed ({type(exc).__name__})."
@@ -212,7 +226,7 @@ def model_status(model_id: str, model_root: Path | None = None) -> dict:
 
 def fruit_registry_status(model_root: Path | None = None) -> dict:
     return {"default_model_id": DEFAULT_MODEL_ID,
-        "models": [model_status(model_id, model_root) for model_id in MODEL_SPECS],
+        "models": [model_status(model_id, model_root, validate_graph=False) for model_id in MODEL_SPECS],
         "local_only": True, "automatic_action": False, "inventory_updated": False}
 
 

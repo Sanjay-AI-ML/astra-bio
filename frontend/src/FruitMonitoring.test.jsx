@@ -180,7 +180,7 @@ describe('Fruit monitoring', () => {
 
   it('uses one plant photograph and runs only fruit checking on explicit submission', async () => {
     const fetch = vi.fn(async url => {
-      const data = url === '/api/bootstrap' ? fixture : url === '/api/plant-overview/status' ? {ai:{configured:false}} : url === '/api/plant-overview' ?
+      const data = url === '/api/bootstrap' ? fixture : url === '/api/fruit-models' ? catalog : url === '/api/plant-overview/status' ? {ai:{configured:false}} : url === '/api/plant-overview' ?
         {plant_id:'Plant 01',screening_mode:'fruit',input_mode:'single_photo',leaf:{status:'not_requested'},fruit:result,ai:{configured:false}} : [];
       return {ok: true, json: async () => data};
     });
@@ -191,9 +191,10 @@ describe('Fruit monitoring', () => {
     expect(document.querySelectorAll('input[type=file]')).toHaveLength(1);
     const file=photograph('whole-plant.jpg');
     fireEvent.change(screen.getByLabelText('Plant photograph'), {target: {files:[file]}});
-    expect(screen.getByRole('img', {name: 'Plant photograph for local analysis'})).toBeTruthy();
+    expect(screen.getByRole('img', {name: 'Selected plant photograph'})).toBeTruthy();
     expect(fetch.mock.calls.filter(([url]) => url === '/api/plant-overview')).toHaveLength(0);
     await waitFor(() => expect(fetch.mock.calls.filter(([url]) => /\/api\/(fruit|plant)-image/.test(url))).toHaveLength(0));
+    await waitFor(() => expect(screen.getByRole('button', {name:'Check fruit'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button', {name:'Check fruit'}));
     await screen.findByRole('region', {name:'Fruit checking result'});
     const form=fetch.mock.calls.find(([url])=>url==='/api/plant-overview')[1].body;

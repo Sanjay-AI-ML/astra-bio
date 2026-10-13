@@ -113,7 +113,7 @@ cd astra-bio
 
 Open **http://127.0.0.1:8501**. Interactive API documentation is at **http://127.0.0.1:8501/docs**. Press `Ctrl+C` to stop the foreground application.
 
-Setup installs locked dependencies, initializes synthetic telemetry and builds the frontend. Model binaries and private device configuration require separate setup; they are not included in a fresh clone.
+Setup installs locked dependencies, initializes synthetic telemetry and builds the frontend. Model binaries and private device configuration are not included in a fresh clone; model installation is described below.
 
 ### Frontend development
 
@@ -132,6 +132,16 @@ npm run build --prefix frontend
 Leave `VITE_API_ORIGIN` unset for local hosting. For separate frontend/API deployments, set it to the public backend origin without `/api`.
 
 ### Image model setup
+
+To install the verified serving bundle used by the hosted app:
+
+```powershell
+.\.venv\Scripts\python.exe -m astra_bio.model_deployment
+```
+
+It includes base leaf weights, the evaluated fine-tuned candidate and four fruit detectors, with provenance and hash verification. The base selection is preserved; model selection stays explicit. Render installs this bundle automatically at API startup.
+
+For separate source downloads and local fruit export instead:
 
 ```powershell
 .\scripts\setup-plant-model.ps1
@@ -173,8 +183,8 @@ Latest full regression run, **13 October 2026**:
 
 | Check | Result |
 | --- | --- |
-| Backend | **589 passed**, 1 skipped; 13 subtests passed |
-| Frontend | **174 passed** across 15 test files |
+| Backend | **600 passed**, 1 skipped; 13 subtests passed |
+| Frontend | **182 passed** across 16 test files |
 | Production frontend build | Passed |
 
 Coverage includes resource conservation, harvest timing, mid-mission continuity, input validation, crop advice, biological-production boundaries, image contracts, snapshots, telemetry and deployment configuration. Passing software tests do not establish biological accuracy; most transport/storage tests use controlled fixtures, with physical camera verification documented separately.

@@ -2,7 +2,11 @@
 .plant-overview-heading p { max-width:850px; }
 .plant-overview-heading h2 { font-size:29px; margin:8px 0 15px; }
 .plant-overview-controls { display:grid; grid-template-columns:1.1fr 1fr 1.2fr; gap:25px; margin:30px 0; }
+.plant-overview-controls-two { grid-template-columns:repeat(2,minmax(0,1fr)); max-width:850px; }
 .plant-overview-photos,.plant-overview-observations { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:30px 45px; }
+.plant-overview-single-photo { grid-template-columns:minmax(0,1fr); }
+.plant-overview-limits { margin-top:26px; max-width:850px; font-size:13px; }
+.plant-overview-limits details p { color:var(--muted); }
 .plant-overview-photo { margin:20px 0; }
 .plant-overview-upload { max-width:850px; }
 .plant-overview-upload > .muted { min-height:48px; font-size:13px; max-width:520px; }

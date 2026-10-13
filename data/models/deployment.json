@@ -1,0 +1,203 @@
+{
+  "archive_sha256": "12a16c69a7578fdc3fd5484ec30705815b0e54d73d0bb9d77b80c07a82b8dbdb",
+  "archive_size": 130820564,
+  "files": {
+    "runtime/fruit-models/produce-detection/MODEL_CARD.md": {
+      "sha256": "5c46a42471deda0f486fc351d696ce3893e31bb562874669e7379433e1925046",
+      "size": 1049
+    },
+    "runtime/fruit-models/produce-detection/manifest.json": {
+      "sha256": "ffd0e32622bc90667d5e849f1fd8dec9282828923001fd8f0808288ac750d8b9",
+      "size": 1985
+    },
+    "runtime/fruit-models/produce-detection/model.onnx": {
+      "sha256": "c80242774236dd33322fb4599f575f3876680b2bdf6091f22b97183770efcbeb",
+      "size": 80482558
+    },
+    "runtime/fruit-models/produce-detection/source-metadata.json": {
+      "sha256": "5b71f06d6ab3b9b6dc9c48ce52d857765cdf8dbf0c7348d1779536d85dcbc141",
+      "size": 391
+    },
+    "runtime/fruit-models/tomato-detection/MODEL_CARD.md": {
+      "sha256": "e8f18e13fc5ecfca56bc22eb7eead633dd6fc5743502628a69f47d5bfea9dce7",
+      "size": 1528
+    },
+    "runtime/fruit-models/tomato-detection/manifest.json": {
+      "sha256": "2475e35e3b92bf60e4dbf16bc1eef78f84b173ce23c08cf4323d28d3661fd690",
+      "size": 1288
+    },
+    "runtime/fruit-models/tomato-detection/model.onnx": {
+      "sha256": "993908fcb60285115a53a9f5e4a47d0bbe6e1ca312c17ca6e5a493ca3a7514bd",
+      "size": 10814128
+    },
+    "runtime/fruit-models/tomato-detection/source-metadata.json": {
+      "sha256": "bdd87f97ea4681d659c8ef1b838c0ef7b65ae5710f37772887e079c1145400eb",
+      "size": 314
+    },
+    "runtime/fruit-models/tomato-ripeness-3/MODEL_CARD.md": {
+      "sha256": "c5ffd050a48bc539b06c176642d64b50b5012e57a4a2d48030632132360c44f1",
+      "size": 2525
+    },
+    "runtime/fruit-models/tomato-ripeness-3/manifest.json": {
+      "sha256": "5006a55e2076dc6b9530af7e488be9e8d8788021f5fb133138d97cb04827fb1e",
+      "size": 1450
+    },
+    "runtime/fruit-models/tomato-ripeness-3/model.onnx": {
+      "sha256": "7b7d82f507fa9ed25ba1a546ed4871a79e5be13fa2a7c322ef635f192135e10e",
+      "size": 12240306
+    },
+    "runtime/fruit-models/tomato-ripeness-3/source-metadata.json": {
+      "sha256": "9a8e43aaae46bd28e731459e01440c37af185a5c820f36f7b4165f271dcb0d0c",
+      "size": 1457
+    },
+    "runtime/fruit-models/tomato-ripeness-6/MODEL_CARD.md": {
+      "sha256": "d54aef6f5925a99b30d74708657985ccd10f365e2bcde98892fb3acbb5c19d25",
+      "size": 4223
+    },
+    "runtime/fruit-models/tomato-ripeness-6/manifest.json": {
+      "sha256": "9715df89bc6392e0f8c254ac532b0924676347b43c86d4cffd3923e2e05c8704",
+      "size": 1487
+    },
+    "runtime/fruit-models/tomato-ripeness-6/model.onnx": {
+      "sha256": "ae112c9d481f33484289418ad5678726c93e5eec1d94c3f5d6105551c3cd4a41",
+      "size": 38158269
+    },
+    "runtime/fruit-models/tomato-ripeness-6/source-metadata.json": {
+      "sha256": "2ea9181d5abc2f0c824f4016b694a12ce42148f135dbf3e826389a48cea53046",
+      "size": 440
+    },
+    "runtime/model-deployment/BUNDLE_MANIFEST.json": {
+      "sha256": "405bf9bcae2e108d7a3cf79fcd00d06cf40b6bf127f6347d35157615c573afb5",
+      "size": 9117
+    },
+    "runtime/model-deployment/THIRD_PARTY_NOTICES.md": {
+      "sha256": "65f0783f460e7067266a08da075dd565937781a43e6f12d98ce30556de20760f",
+      "size": 7703
+    },
+    "runtime/plant-active.json": {
+      "sha256": "f338e01a2c8fc7847695cf0a2f47d354d307e84c1d102c20f0fc17b0428c1e80",
+      "size": 56
+    },
+    "runtime/plant-candidates/plantdoc-20261011T142833Z/class_names.json": {
+      "sha256": "b3aa75e345bfe50d41926d13fc82d49f760ed0642a2b76fba87f627997c1fa3c",
+      "size": 457
+    },
+    "runtime/plant-candidates/plantdoc-20261011T142833Z/manifest.json": {
+      "sha256": "8444b1ef1a63fca1fa30ed77b4eecb619f3647394be13b77e7703a1afd9c6def",
+      "size": 1659
+    },
+    "runtime/plant-candidates/plantdoc-20261011T142833Z/model.onnx": {
+      "sha256": "97c02d8fb1cefc994f59d52da3b8215545d23e7d3d3cffc18e8d536842e71e51",
+      "size": 6142547
+    },
+    "runtime/plant-candidates/plantdoc-20261011T142833Z/report.json": {
+      "sha256": "7a3860abce13a3c936f11007f84a568fc103e6a08ff6eccd7f65a1ae63887a21",
+      "size": 42430
+    },
+    "runtime/plant-model/PROVENANCE.json": {
+      "sha256": "e8688132c2f1d25e4ebc971370180733ec0f578f7b107d9e4cd4f2647dd7f5a7",
+      "size": 2140
+    },
+    "runtime/plant-model/README.md": {
+      "sha256": "c50e846478029621fe7d4526eab4334945298d0ca8abcd48d7045cf5325e02e2",
+      "size": 4119
+    },
+    "runtime/plant-model/class_names.json": {
+      "sha256": "75e9ab85f377dbee0719281946d0b8e6fee163b534512229742c93cd669a657a",
+      "size": 439
+    },
+    "runtime/plant-model/model.onnx": {
+      "sha256": "c6a962f699ddc820108231b23454b6a4e242407044c2c2514a0f6294d35428fc",
+      "size": 293463
+    },
+    "runtime/plant-model/model.onnx.data": {
+      "sha256": "c03d114add89db13d850e5bbe0a7c09040cf6caf1acfbbd489c21234fa6dcb5e",
+      "size": 6160384
+    },
+    "runtime/plant-model/training_config.json": {
+      "sha256": "01f811ac89185dda84c02001c35ff91b3107a96326644f9b3193c4579f06921d",
+      "size": 846
+    }
+  },
+  "notices": "runtime/model-deployment/THIRD_PARTY_NOTICES.md",
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "leaf-base",
+      "license_declared": "MIT (upstream model-card declaration)",
+      "model_card": "runtime/plant-model/README.md",
+      "provenance": "runtime/plant-model/PROVENANCE.json",
+      "revision": "d76fe187be1c4c3a5474f835a7a70cd08c7ab085",
+      "source_url": "https://huggingface.co/imaflower/plantvillage-mobilenetv3"
+    },
+    {
+      "changes": "ASTRA-BIO fine-tuning, ONNX export and validation-temperature fitting.",
+      "dataset_revision": "5467f6012d78d1c446145d5f582da6096f852ae8",
+      "dataset_source_url": "https://github.com/pratikkayal/PlantDoc-Dataset",
+      "evaluation": "runtime/plant-candidates/plantdoc-20261011T142833Z/report.json",
+      "id": "plantdoc-20261011T142833Z",
+      "license_declared": "Base model MIT; PlantDoc data CC-BY-4.0 (upstream declarations)",
+      "provenance": "runtime/plant-candidates/plantdoc-20261011T142833Z/manifest.json",
+      "revision": "d76fe187be1c4c3a5474f835a7a70cd08c7ab085",
+      "source_url": "https://huggingface.co/imaflower/plantvillage-mobilenetv3"
+    },
+    {
+      "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+      "changes": "ASTRA-BIO ONNX serving export and integrity/class-mapping manifest.",
+      "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+      "id": "tomato-ripeness-3",
+      "license_declared": "MIT (publisher declaration)",
+      "model_card": "runtime/fruit-models/tomato-ripeness-3/MODEL_CARD.md",
+      "provenance": "runtime/fruit-models/tomato-ripeness-3/manifest.json",
+      "revision": "244eb93615708602716b57f2d09da479e2d899d4",
+      "source_url": "https://huggingface.co/pablofntdz/yolov8-tomato-detection"
+    },
+    {
+      "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+      "changes": "ASTRA-BIO ONNX serving export and integrity/class-mapping manifest.",
+      "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+      "id": "tomato-ripeness-6",
+      "license_declared": "MIT (publisher declaration)",
+      "model_card": "runtime/fruit-models/tomato-ripeness-6/MODEL_CARD.md",
+      "provenance": "runtime/fruit-models/tomato-ripeness-6/manifest.json",
+      "revision": "318c3e91578a748fa7020da80cbef00a357002e3",
+      "source_url": "https://huggingface.co/afeefaazam/tomato-ripeness-detector"
+    },
+    {
+      "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+      "changes": "ASTRA-BIO ONNX serving export and integrity/class-mapping manifest.",
+      "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+      "id": "tomato-detection",
+      "license_declared": "MIT (publisher declaration; artifact declares AGPL-3.0)",
+      "model_card": "runtime/fruit-models/tomato-detection/MODEL_CARD.md",
+      "provenance": "runtime/fruit-models/tomato-detection/manifest.json",
+      "revision": "a228d44bdf24306cedec6d433da093242c4fb05d",
+      "source_url": "https://huggingface.co/AitorConS/tomatoACLv1"
+    },
+    {
+      "artifact_license": "AGPL-3.0 License (https://ultralytics.com/license)",
+      "changes": "ASTRA-BIO ONNX serving export and integrity/class-mapping manifest.",
+      "framework_license": "Ultralytics AGPL-3.0 / Enterprise; review upstream terms",
+      "id": "produce-detection",
+      "license_declared": "AGPL-3.0",
+      "model_card": "runtime/fruit-models/produce-detection/MODEL_CARD.md",
+      "provenance": "runtime/fruit-models/produce-detection/manifest.json",
+      "revision": "82c9865261175e778ba5641cf8560b5d10439ec6",
+      "source_url": "https://huggingface.co/Piyu12/fruit-veg-yolo11m-detector"
+    }
+  ],
+  "url": "https://github.com/Sanjay-AI-ML/astra-bio/releases/download/model-assets-20261013-v1/astra-bio-models-v1.tar.gz",
+  "verification": {
+    "active_leaf_id": "base",
+    "fruit_models": [
+      "tomato-ripeness-3",
+      "tomato-ripeness-6",
+      "tomato-detection",
+      "produce-detection"
+    ],
+    "leaf_base": "ready",
+    "leaf_candidate": "plantdoc-20261011T142833Z",
+    "leaf_candidate_eligible": true,
+    "scope": "Artifact integrity, graph signatures and retained evaluation evidence; not field accuracy."
+  }
+}

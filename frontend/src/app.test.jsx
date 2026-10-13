@@ -198,7 +198,8 @@ describe('Mission planning workspace',()=>{
     fireEvent.change(screen.getByLabelText('Daily water allowance (%)'),{target:{value:'40'}});
     expect(calls.filter(call=>call.url==='/api/plans')).toHaveLength(1);
     expect(screen.getByText('Model run: optimal').parentElement.textContent).toContain('water 60%');
-    fireEvent.click(screen.getByLabelText('Optional local Ollama fact selection'));
+    fireEvent.click(screen.getByText('Local AI explanation'));
+    fireEvent.click(screen.getByLabelText('Use an installed Ollama model'));
     fireEvent.click(screen.getByRole('button',{name:'Explain using verified facts'}));
     await screen.findByText('Saved model facts retained.');
     expect(JSON.parse(calls.find(call=>call.url==='/api/explain').options.body).ollama).toBe(true);
@@ -321,7 +322,7 @@ describe('Mission planning workspace',()=>{
     await screen.findByRole('heading',{name:'Saved workspace'});
     fireEvent.change(screen.getByLabelText('Configuration name'),{target:{value:'Habitat demonstration'}});
     fireEvent.click(screen.getByRole('button',{name:'Save configuration'}));
-    await screen.findByText('Configuration saved locally.');
+    await screen.findByText('Configuration saved.');
     expect(screen.getByText('Habitat demonstration')).toBeTruthy();
     const submitted=JSON.parse(calls.find(call=>call.url==='/api/snapshots/config'&&call.options.method==='POST').options.body);
     expect(submitted.name).toBe('Habitat demonstration');

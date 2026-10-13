@@ -1,22 +1,25 @@
 import React from 'react';
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
-import {act,cleanup,fireEvent,render,screen} from '@testing-library/react';
+import {act,cleanup,fireEvent,render,screen,waitFor} from '@testing-library/react';
 import PlantOverview from './PlantOverview.jsx';
 
 const summary={mode:'local_evidence',brief_overview:'Leaf evidence is tentative. Three visible tomatoes were detected.',next_steps:['Review the leaf underside.'],possible_use:['Inspect maturity before harvest.'],limitations:['Not a food-safety test.'],references:[]};
 const report={plant_id:'Plant 01',crop_species:'tomato',input_mode:'single_photo',evidence_id:'evidence-token',overview:summary,ai:{configured:false},leaf:{status:'tentative',reason:'Tentative leaf match',predictions:[{condition:'early blight',score:.8}]},fruit:{status:'observed',reason:'Visible produce only',visible_count:3,counts_by_stage:{unripe:2,'fully ripe':1}}};
 const clone=value=>structuredClone(value);
+const catalog={default_model_id:'tomato-ripeness-3',models:[{id:'tomato-ripeness-3',ready:true,species:['tomato'],labels:['unripe','semi-ripe','fully ripe']},{id:'produce-detection',ready:true,species:['tomato','bell pepper','potato'],labels:['tomato','bell pepper','potato']}]};
+const requestFor=responder=>vi.fn((path,...args)=>path==='/fruit-models'?Promise.resolve(clone(catalog)):responder(path,...args));
 const upload=(label,name)=>fireEvent.change(screen.getByLabelText(label),{target:{files:[new File(['image'],name,{type:'image/jpeg'})]}});
 beforeEach(()=>{vi.stubGlobal('URL',{createObjectURL:vi.fn(()=> 'blob:preview'),revokeObjectURL:vi.fn()});});
 afterEach(()=>{cleanup();vi.unstubAllGlobals();});
 
 describe('combined plant screening',()=>{
   it('accepts one photo without pairing confirmation and displays both model observations',async()=>{
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
     render(<PlantOverview request={request}/>);
     expect(document.querySelectorAll('input[type=file]')).toHaveLength(2);
     expect(screen.queryByRole('checkbox')).toBeNull();
     upload('Plant photograph','plant.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     const form=request.mock.calls.find(([path])=>path==='/plant-overview')[1];
@@ -27,14 +30,15 @@ describe('combined plant screening',()=>{
     expect(form.has('same_plant_confirmed')).toBe(false);
     expect(screen.getByText(summary.brief_overview)).toBeTruthy();
     expect(screen.getByText('3 visible detections')).toBeTruthy();
-    expect(screen.getByRole('button',{name:'Create brief Gemini overview'}).disabled).toBe(true);
+    expect(screen.queryByRole('button',{name:'Create brief Gemini overview'})).toBeNull();
   });
   it('uses an optional leaf close-up for leaf evidence while keeping the original fruit photograph',async()=>{
     const paired={...report,input_mode:'plant_photo_with_leaf_closeup',leaf_input_source:'leaf_closeup',leaf:{...report.leaf,input_source:'leaf_closeup'}};
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false},leaf_model:{ready:true}}:clone(paired));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:false},leaf_model:{ready:true}}:clone(paired));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
     upload('Leaf close-up (optional)','leaf.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     const form=request.mock.calls.find(([path])=>path==='/plant-overview')[1];
@@ -47,16 +51,18 @@ describe('combined plant screening',()=>{
     expect(screen.getByText('early blight')).toBeTruthy();
   });
   it('removing or replacing the main photograph clears the old leaf close-up and report',async()=>{
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
     upload('Leaf close-up (optional)','leaf.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     upload('Plant photograph','new-plant.jpg');
-    expect(screen.queryByAltText('Leaf close-up for local screening')).toBeNull();
+    expect(screen.queryByAltText('Selected leaf close-up')).toBeNull();
     expect(screen.queryByRole('region',{name:'Combined plant overview'})).toBeNull();
     expect(screen.getByLabelText('Leaf close-up (optional)').value).toBe('');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     const form=request.mock.calls.filter(([path])=>path==='/plant-overview').at(-1)[1];
@@ -64,20 +70,21 @@ describe('combined plant screening',()=>{
     expect(form.has('leaf_file')).toBe(false);
   });
   it('lets a supplied leaf close-up be removed without losing the original plant image',async()=>{
-    const request=vi.fn(async()=>({ai:{configured:false}}));
+    const request=requestFor(async()=>({ai:{configured:false}}));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
     upload('Leaf close-up (optional)','leaf.jpg');
     fireEvent.click(screen.getByRole('button',{name:'Remove leaf close-up'}));
-    expect(screen.queryByAltText('Leaf close-up for local screening')).toBeNull();
-    expect(screen.getByAltText('Plant photograph for local analysis')).toBeTruthy();
-    expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false);
+    expect(screen.queryByAltText('Selected leaf close-up')).toBeNull();
+    expect(screen.getByAltText('Selected plant photograph')).toBeTruthy();
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
   });
   it.each(['uncertain','rejected','unavailable'])('keeps %s leaf matches unresolved while displaying visible fruit',async status=>{
     const unresolved={...report,leaf:{status,reason:'Leaf evidence could not be resolved',predictions:[{condition:'late blight',score:.99}]}};
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(unresolved));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(unresolved));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     expect(screen.queryByText('late blight')).toBeNull();
@@ -85,27 +92,29 @@ describe('combined plant screening',()=>{
     expect(screen.getByText('Add a leaf close-up above and analyze again. Fruit counts can remain usable while leaf condition is unresolved.')).toBeTruthy();
   });
   it('reports unavailable leaf-model installation separately from the fruit observation',async()=>{
-    const request=vi.fn(async()=>({ai:{configured:false},leaf_model:{ready:false,reason:'Verified model file missing'}}));
+    const request=requestFor(async()=>({ai:{configured:false},leaf_model:{ready:false,reason:'Verified model file missing'}}));
     render(<PlantOverview request={request}/>);
-    expect((await screen.findByRole('status')).textContent).toContain('Leaf screening is unavailable: Verified model file missing');
+    expect(await screen.findByText(/Leaf screening is temporarily unavailable/)).toBeTruthy();
     upload('Plant photograph','plant.jpg');
-    expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false);
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
   });
   it('a changed photograph clears the previous combined result',async()=>{
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(report));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     upload('Plant photograph','another-plant.jpg');
     expect(screen.queryByRole('region',{name:'Combined plant overview'})).toBeNull();
-    expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false);
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
   });
   it('sends only an evidence identifier to Gemini on explicit click',async()=>{
     const enabled={...report,ai:{configured:true}};
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:true}}:path==='/plant-overview/ai'?{...summary,mode:'gemini_fact_selection'}:clone(enabled));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:true}}:path==='/plant-overview/ai'?{...summary,mode:'gemini_fact_selection'}:clone(enabled));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     expect(request.mock.calls.some(([path])=>path==='/plant-overview/ai')).toBe(false);
@@ -114,7 +123,7 @@ describe('combined plant screening',()=>{
     expect(request).toHaveBeenCalledWith('/plant-overview/ai',{evidence_id:'evidence-token'});
   });
   it('rejects an unsupported file without requesting inference',async()=>{
-    const request=vi.fn(async()=>({ai:{configured:false}}));
+    const request=requestFor(async()=>({ai:{configured:false}}));
     render(<PlantOverview request={request}/>);
     fireEvent.change(screen.getByLabelText('Plant photograph'),{target:{files:[new File(['bad'],'bad.pdf',{type:'application/pdf'})]}});
     expect(await screen.findByRole('alert')).toBeTruthy();
@@ -123,9 +132,10 @@ describe('combined plant screening',()=>{
   });
   it('never applies an older screening result after inputs change',async()=>{
     let finish;
-    const request=vi.fn(path=>path==='/plant-overview/status'?Promise.resolve({ai:{configured:false}}):new Promise(resolve=>{finish=resolve;}));
+    const request=requestFor(path=>path==='/plant-overview/status'?Promise.resolve({ai:{configured:false}}):new Promise(resolve=>{finish=resolve;}));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     fireEvent.change(screen.getByLabelText('Plant species'),{target:{value:'potato'}});
     await act(async()=>finish(clone(report)));
@@ -133,7 +143,7 @@ describe('combined plant screening',()=>{
     expect(screen.getByLabelText('Fruit observation model').value).toBe('produce-detection');
   });
   it('rejects multiple photographs instead of silently analyzing the first',async()=>{
-    const request=vi.fn(async()=>({ai:{configured:false}}));
+    const request=requestFor(async()=>({ai:{configured:false}}));
     render(<PlantOverview request={request}/>);
     fireEvent.change(screen.getByLabelText('Plant photograph'),{target:{files:[new File(['a'],'a.jpg',{type:'image/jpeg'}),new File(['b'],'b.jpg',{type:'image/jpeg'})]}});
     expect(await screen.findByRole('alert')).toHaveProperty('textContent','Choose one plant photograph.');
@@ -142,9 +152,10 @@ describe('combined plant screening',()=>{
   });
   it('withholds rejected leaf predictions while retaining visible fruit counts',async()=>{
     const rejected={...report,leaf:{status:'rejected',reason:'Species evidence conflicts',predictions:[{condition:'late blight',score:.99}]}};
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(rejected));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(rejected));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     expect(screen.queryByText('late blight')).toBeNull();
@@ -152,12 +163,13 @@ describe('combined plant screening',()=>{
   });
   it('draws valid fruit markers in the original photograph and clears them when the photo changes',async()=>{
     const marked={...report,fruit:{...report.fruit,detections:[{box:[.1,.2,.4,.6],stage:'unripe',score:.8},{box:[.7,.6,.5,.9],stage:'fully ripe',score:.7}]}};
-    const request=vi.fn(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(marked));
+    const request=requestFor(async path=>path==='/plant-overview/status'?{ai:{configured:false}}:clone(marked));
     render(<PlantOverview request={request}/>);
     upload('Plant photograph','plant.jpg');
-    const image=screen.getByAltText('Plant photograph for local analysis');
+    const image=screen.getByAltText('Selected plant photograph');
     Object.defineProperties(image,{naturalWidth:{value:1000},naturalHeight:{value:600}});
     fireEvent.load(image);
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Analyze plant'}).disabled).toBe(false));
     fireEvent.click(screen.getByRole('button',{name:'Analyze plant'}));
     await screen.findByRole('region',{name:'Combined plant overview'});
     const boxes=screen.getAllByTestId('plant-fruit-box');
@@ -168,5 +180,80 @@ describe('combined plant screening',()=>{
     expect(screen.getByRole('table',{name:'Fruit markers in the plant photograph',hidden:true})).toBeTruthy();
     upload('Plant photograph','replacement.jpg');
     expect(screen.queryByTestId('plant-fruit-box')).toBeNull();
+  });
+});
+
+describe('independent screening modes',()=>{
+  it('blocks leaf screening until its own model is ready without loading fruit models',async()=>{
+    const request=vi.fn(async()=>({leaf_model:{ready:false,reason:'Local model not installed'}}));
+    render(<PlantOverview request={request} mode="leaf"/>);
+    upload('Leaf photograph','leaf.jpg');
+    await screen.findByText(/Leaf screening is temporarily unavailable/);
+    expect(screen.getByRole('button',{name:'Screen leaf'}).disabled).toBe(true);
+    fireEvent.submit(screen.getByRole('button',{name:'Screen leaf'}).closest('form'));
+    expect(request.mock.calls.map(([path])=>path)).toEqual(['/plant-overview/status']);
+    expect(screen.queryByLabelText('Fruit observation model')).toBeNull();
+    expect(screen.queryByText(/Local model not installed/)).toBeNull();
+  });
+  it('sends only the leaf photograph and preserves uncertain matches without fruit UI',async()=>{
+    const request=vi.fn(async path=>path==='/plant-overview/status'?{leaf_model:{ready:true}}:{...report,overview:null,leaf:{status:'uncertain',reason:'Take a clearer leaf photograph.',predictions:[{condition:'early blight',score:.99}]},fruit:{status:'not_requested'}});
+    render(<PlantOverview request={request} mode="leaf"/>);
+    upload('Leaf photograph','leaf.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Screen leaf'}).disabled).toBe(false));
+    fireEvent.click(screen.getByRole('button',{name:'Screen leaf'}));
+    await screen.findByRole('region',{name:'Leaf screening result'});
+    const form=request.mock.calls.find(([path])=>path==='/plant-overview')[1];
+    expect(form.get('screening_mode')).toBe('leaf');
+    expect(form.get('file').name).toBe('leaf.jpg');
+    expect(form.has('fruit_model_id')).toBe(false);
+    expect(screen.queryByText('early blight')).toBeNull();
+    expect(screen.queryByRole('region',{name:'Fruit checking result'})).toBeNull();
+    expect(screen.getByText('Take a clearer leaf photograph.')).toBeTruthy();
+  });
+  it('offers only ready models supporting the crop, independently of leaf availability',async()=>{
+    const available={default_model_id:'unavailable-model',models:[...catalog.models,{id:'unavailable-model',ready:false,species:['tomato'],labels:['tomato']},{id:'other-species',ready:true,species:['apple'],labels:['apple']}]};
+    const request=vi.fn(async()=>clone(available));
+    render(<PlantOverview request={request} mode="fruit"/>);
+    upload('Plant photograph','fruit.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Check fruit'}).disabled).toBe(false));
+    expect(request.mock.calls.map(([path])=>path)).toEqual(['/fruit-models']);
+    const selector=screen.getByLabelText('Fruit observation model');
+    expect(Array.from(selector.options).map(option=>option.value)).toEqual(['tomato-ripeness-3','produce-detection']);
+    expect(selector.value).toBe('tomato-ripeness-3');
+    expect(screen.queryByText(/Leaf screening is/)).toBeNull();
+    fireEvent.change(screen.getByLabelText('Plant species'),{target:{value:'potato'}});
+    expect(Array.from(selector.options).map(option=>option.value)).toEqual(['produce-detection']);
+    expect(selector.value).toBe('produce-detection');
+  });
+  it('does not offer or submit a model with missing labels',async()=>{
+    const request=vi.fn(async()=>({models:[{id:'tomato-ripeness-3',ready:true,species:['tomato'],labels:[]}]}));
+    render(<PlantOverview request={request} mode="fruit"/>);
+    upload('Plant photograph','fruit.jpg');
+    await screen.findByText(/Fruit checking is unavailable for tomato/);
+    expect(screen.getByRole('button',{name:'Check fruit'}).disabled).toBe(true);
+    fireEvent.submit(screen.getByRole('button',{name:'Check fruit'}).closest('form'));
+    expect(request.mock.calls.map(([path])=>path)).toEqual(['/fruit-models']);
+  });
+  it('recovers availability on retry without reuploading a photograph',async()=>{
+    const request=vi.fn().mockRejectedValueOnce(new Error('Not Found')).mockResolvedValueOnce(clone(catalog));
+    render(<PlantOverview request={request} mode="fruit"/>);
+    upload('Plant photograph','fruit.jpg');
+    expect((await screen.findByRole('alert')).textContent).toBe('Could not check fruit model availability.');
+    expect(screen.getByRole('button',{name:'Check fruit'}).disabled).toBe(true);
+    fireEvent.click(screen.getByRole('button',{name:'Retry availability'}));
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Check fruit'}).disabled).toBe(false));
+    expect(request.mock.calls.map(([path])=>path)).toEqual(['/fruit-models','/fruit-models']);
+    expect(screen.getByRole('img',{name:'Selected plant photograph'})).toBeTruthy();
+  });
+  it('shows one photograph and visible zero counts without leaf-only warnings',async()=>{
+    const request=vi.fn(async path=>path==='/fruit-models'?clone(catalog):{...report,overview:null,fruit:{status:'no_detections',reason:'No visible produce detected.',visible_count:0,counts_by_stage:{},detections:[]}});
+    render(<PlantOverview request={request} mode="fruit"/>);
+    upload('Plant photograph','fruit.jpg');
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Check fruit'}).disabled).toBe(false));
+    fireEvent.click(screen.getByRole('button',{name:'Check fruit'}));
+    await screen.findByRole('region',{name:'Fruit checking result'});
+    expect(screen.getByText('0 visible detections')).toBeTruthy();
+    expect(screen.getAllByRole('img')).toHaveLength(1);
+    expect(screen.queryByText(/Leaf screening is/)).toBeNull();
   });
 });

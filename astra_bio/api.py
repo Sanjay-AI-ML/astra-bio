@@ -10,12 +10,14 @@ from io import StringIO
 from pathlib import Path
 import sqlite3
 import threading
+from contextlib import asynccontextmanager
 
 from fastapi import Body, FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.cors import CORSMiddleware
+from starlette.concurrency import run_in_threadpool
 from .hosting import hosting_settings
 
 from .crop_growth import calibrate_harvests, load_observations, load_reference_crops, predict_growth
@@ -40,7 +42,16 @@ from .crew_samples import crew_sample
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "frontend" / "dist"
 SOLVER_LOCK = threading.Lock()
-app = FastAPI(title="ASTRA-BIO", version="1.0.0", description="Local food, crop and resource planning research prototype.")
+
+
+@asynccontextmanager
+async def lifespan(app):
+    from .model_deployment import initialize_deployment_models
+    await run_in_threadpool(initialize_deployment_models)
+    yield
+
+
+app = FastAPI(title="ASTRA-BIO", version="1.0.0", description="Food, crop and resource planning prototype.", lifespan=lifespan)
 app.include_router(plant_overview_router)
 ALLOWED_HOSTS, ALLOWED_ORIGINS = hosting_settings()
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=ALLOWED_HOSTS)

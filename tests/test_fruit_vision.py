@@ -132,6 +132,16 @@ def test_model_metadata_and_input_signature_must_match_manifest(local_model):
     assert session.calls == []
 
 
+def test_registry_checks_files_without_loading_all_sessions(local_model, monkeypatch):
+    local_model()
+    monkeypatch.setattr(vision, "_make_session", lambda data: pytest.fail("Registry must not allocate detector sessions"))
+    status = vision.fruit_registry_status()
+    installed = next(row for row in status["models"] if row["id"] == vision.DEFAULT_MODEL_ID)
+    assert installed["ready"] is True
+    assert installed["graph_validation"] == "on_first_use"
+    assert vision._session.cache_info().currsize == 0
+
+
 def test_tomato_registry_rejects_unrelated_class_labels_even_if_graph_agrees(local_model):
     directory, manifest, session = local_model()
     manifest["labels"] = ["Apple", "Banana", "Orange"]
