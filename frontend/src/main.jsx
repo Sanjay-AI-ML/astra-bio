@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Activity, ArrowRight, ArrowUpRight, Beaker, Check, ChevronRight, CircleHelp, Eye, Layers3, Leaf, Menu, Radio, Search, Settings2, Sprout, Utensils, X } from 'lucide-react';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceLine } from 'recharts';
 import NutritionPanel from './NutritionPanel.jsx';
+import AstronautGuidance from './AstronautGuidance.jsx';
 import HabitatOverview from './HabitatOverview.jsx';
 import CommandPalette from './CommandPalette.jsx';
 import ModelEvidence from './ModelEvidence.jsx';
@@ -67,7 +68,7 @@ function Chart({data, lines, unit = '', height = 270, reference, focusDay, event
     </LineChart></ResponsiveContainer></div>;
 }
 const NAV = [
-  ['overview','Mission overview',Layers3],['crew','Crew & nutrition',Activity],
+  ['overview','Mission overview',Layers3],['crew','Crew & nutrition',Activity],['guidance','Astronaut guidance',CircleHelp],
   ['production','Biological production',Beaker],['crops','Crops & food',Sprout],['simulator','What-if simulator',Settings2],
   ['leaf','Leaf screening',Leaf],['fruit','Fruit checking',Eye],['telemetry','Live devices',Radio],
 ];
@@ -75,7 +76,7 @@ const SETTINGS = ['settings','Workspace settings',Settings2];
 const PAGE_GROUP = {inputs:'crew',pantry:'crops',models:'settings'};
 function currentPage() {
   const hash = location.hash.slice(1);
-  const aliases = {nutrition:'crew',research:'models',archive:'settings','crew-inputs':'inputs',vision:'fruit'};
+  const aliases = {nutrition:'crew',research:'models',archive:'settings','crew-inputs':'inputs',vision:'fruit','astronaut-guidance':'guidance'};
   const page = aliases[hash] || hash;
   return [...NAV,SETTINGS].some(([key]) => key === page) || page in PAGE_GROUP ? page : 'overview';
 }
@@ -161,7 +162,7 @@ function App() {
   const current = [...NAV, SETTINGS].find(n => n[0] === group) || NAV[0];
   const mixedInputs = Object.keys(config.input_provenance || {}).length > 0;
   const tabs = group==='crew' ? [['crew','Nutrition & logs'],['inputs','Mission inputs']] : group==='crops' ? [['crops','Crop schedules'],['pantry','Food inventory']] : group==='settings' ? [['settings','Saved plans'],['models','Model settings']] : null;
-  const commandDetails={overview:'Explore saved results by mission day.',crew:'Review crew targets and recorded intake.',production:'Compare microbial protein, assisted plants and catalyst research against mission resources.',crops:'Inspect planting and harvest schedules.',simulator:'Prepare a disruption and compare policies.',leaf:'Screen a close-up photograph of one leaf.',fruit:'Check visible fruit and maturity in a plant photograph.',telemetry:'Inspect physical or synthetic device streams.',inputs:'Edit crew, nutrition and resource budgets.',pantry:'Review stored food and expiry policies.',settings:'Restore saved configurations and runs.',models:'Review crop references, calibration and model assumptions.'};
+  const commandDetails={overview:'Explore saved results by mission day.',crew:'Review crew targets and recorded intake.',guidance:'Analyze each astronaut’s intake, nutrient goals and food options with optional AI explanation.',production:'Compare microbial protein, assisted plants and catalyst research against mission resources.',crops:'Inspect planting and harvest schedules.',simulator:'Prepare a disruption and compare policies.',leaf:'Screen a close-up photograph of one leaf.',fruit:'Check visible fruit and maturity in a plant photograph.',telemetry:'Inspect physical or synthetic device streams.',inputs:'Edit crew, nutrition and resource budgets.',pantry:'Review stored food and expiry policies.',settings:'Restore saved configurations and runs.',models:'Review crop references, calibration and model assumptions.'};
   const commands=[...NAV.map(([id,label])=>({id,label})),{id:'inputs',label:'Mission inputs'},{id:'pantry',label:'Food inventory'},{id:'settings',label:'Saved plans'},{id:'models',label:'Model settings'}].map(command=>({...command,description:commandDetails[command.id],keywords:command.id==='pantry'?config.foods.map(f=>f.name).join(' '):command.id==='crops'?config.crops.map(c=>c.name).join(' '):command.id==='models'?'calibration references research assumptions':command.id==='telemetry'?'mqtt iot sensors hardware':'',onSelect:()=>navigate(command.id)}));
   return <div className={'app-shell'+(menuOpen?' menu-open':'')}>
     <CommandPalette commands={commands} open={searchOpen} onClose={()=>setSearchOpen(false)}/>
@@ -180,6 +181,7 @@ function App() {
         {page === 'overview' && <HabitatOverview {...context} Chart={Chart}/>}
         <section hidden={!['inputs','pantry'].includes(page)}><Inputs {...context} inventory={page==='pantry'}/></section>
         <section hidden={page !== 'crew'}><NutritionPanel {...context}/></section>
+        {page === 'guidance' && <AstronautGuidance {...context}/>}
         {page === 'crops' && <Crops {...context}/>}
         {page === 'production' && <BioProduction {...context}/>}
         {page === 'models' && <AdvancedSettings {...context}/>}

@@ -53,6 +53,22 @@ def test_automatic_crop_advisor_connects_saved_crew_health_and_intake(client):
     assert {a['kind'] for a in report['response_plan']['health_alerts']}=={'low_hemoglobin','low_ferritin'}
 
 
+def test_astronaut_guidance_analyzes_each_profile_without_starting_a_plan(client,monkeypatch):
+    from astra_bio import astronaut_ai
+    from astra_bio.crew_samples import crew_sample
+    monkeypatch.setattr(astronaut_ai,'gemini_config',lambda:('','unused'))
+    response=client.post('/api/astronaut-guidance',json={'config':asdict(default_config()),
+        'crew_state':crew_sample(),'day':1,'focus_nutrient':'protein'})
+    assert response.status_code==200,response.text
+    report=response.json()
+    assert [m['name'] for m in report['members']]==['Shree Ram Vishal','Shamyuktha','Sanjay','Vamshika']
+    assert report['sample_only'] and not report['ai']['available']
+    summary=client.post('/api/astronaut-guidance/ai',json={'evidence_id':report['evidence_id'],'profile_id':'crew-4'})
+    assert summary.status_code==200 and summary.json()['mode']=='local_evidence'
+    assert workspace.list_snapshots('run')==[]
+    assert client.post('/api/astronaut-guidance',json={'config':asdict(default_config()),'crew_state':crew_sample(),'day':False}).status_code==422
+
+
 def test_reviewed_crew_event_saved_with_timely_advice_and_reloaded_roster(client):
     config=replace(default_config(),days=18,initial_water_l=300,initial_energy_kwh=80)
     source=client.post('/api/plans',json={'config':asdict(config),'scenario':asdict(Scenario('none','Nominal',event_day=18))}).json()

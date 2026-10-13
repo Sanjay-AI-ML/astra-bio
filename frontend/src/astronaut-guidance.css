@@ -1,0 +1,71 @@
+.astronaut-guidance {max-width: 1400px; margin-inline: auto;}
+.astronaut-guidance-header {display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; padding-bottom: 1.8rem;}
+.astronaut-guidance-header h1 {margin-top: .65rem;}
+.astronaut-guidance-header p {max-width: 48rem; margin-bottom: 0;}
+.astronaut-guidance-header > a {display: inline-flex; align-items: center; gap: .5rem; white-space: nowrap; margin-top: 1rem;}
+.astronaut-guidance-controls {display: grid; grid-template-columns: 1.1fr .65fr 1.5fr; gap: 1.6rem; padding: 1.5rem 0 2rem; border-block: 1px solid var(--line);}
+.astronaut-guidance-controls .field {margin: 0;}
+.astronaut-guidance-controls select, .astronaut-guidance-controls input {width: 100%;}
+.astronaut-person-heading {display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin: 2.5rem 0 1.5rem;}
+.astronaut-person-heading h2 {font-size: 27px; margin-top: .4rem;}
+.astronaut-target-source {display: block; margin-top: .25rem; font-size: .77rem; color: var(--muted);}
+.astronaut-guidance-badges {display: flex; flex-wrap: wrap; gap: .5rem;}
+.astronaut-guidance .source-pill.astronaut-unreviewed {color: var(--warning); border-color: var(--warning-line); background: var(--warning-bg);}
+.astronaut-data-note {display: flex; align-items: flex-start; gap: .65rem; background: var(--surface); padding: 1rem 1.15rem; color: var(--muted); font-size: .9rem; line-height: 1.6; margin-bottom: 2rem;}
+.astronaut-data-note svg {margin-top: .15rem; color: var(--green);}
+.astronaut-section-title {display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 1.25rem;}
+.astronaut-section-title > span {font-size: .8rem; color: var(--muted);}
+.astronaut-section-title h3 {display: flex; align-items: center; gap: .65rem; font-size: 1.1rem;}
+.astronaut-chart-legend {display: flex; gap: 1.5rem; color: var(--muted); font-size: .78rem; margin: -.5rem 0 1.5rem;}
+.astronaut-chart-legend span {display: flex; align-items: center; gap: .45rem;}
+.astronaut-chart-legend i {width: .85rem; height: .45rem; display: block;}
+.astronaut-chart-legend .target {background: var(--chart-budget);}
+.astronaut-chart-legend .intake {background: var(--green);}
+.astronaut-nutrient-rows {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 2.5rem;}
+.astronaut-nutrient-row {border-top: 2px solid var(--line); padding: 1rem 0;}
+.astronaut-nutrient-row.focused {border-top-color: var(--green);}
+.astronaut-nutrient-heading {display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.6rem; gap: .75rem;}
+.astronaut-nutrient-heading > strong {font-size: 1.1rem;}
+.astronaut-nutrient-heading > span {font-size: .75rem; color: var(--green);}
+.astronaut-bars {display: grid; gap: .85rem;}
+.astronaut-bar-line {display: grid; grid-template-columns: 2.6rem minmax(3rem, 1fr) auto; align-items: center; gap: .6rem;}
+.astronaut-bar-line > span {font-size: .75rem; color: var(--muted);}
+.astronaut-bar-line > b {min-width: 5.8rem; font-size: .82rem; font-weight: 550; text-align: right; font-variant-numeric: tabular-nums;}
+.astronaut-bar-track {height: .7rem; background: var(--line-soft);}
+.astronaut-bar-track i {height: 100%; display: block; max-width: 100%; background: var(--green);}
+.astronaut-bar-track i.target {background: var(--chart-budget);}
+.astronaut-gap {display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1.3rem; padding-top: .8rem; border-top: 1px solid var(--line-soft); color: var(--muted); font-size: .8rem;}
+.astronaut-gap strong {font-size: 1rem; color: var(--text); font-variant-numeric: tabular-nums;}
+.astronaut-guidance-actions {display: grid; grid-template-columns: 1fr 1fr; column-gap: 3rem; padding: 2rem 0 1rem; margin: 1.5rem 0 1rem; border-top: 1px solid var(--line);}
+.astronaut-guidance-actions ol {margin: 0; padding-left: 1.4rem;}
+.astronaut-guidance-actions ol li {padding-left: .35rem; margin-bottom: 1.2rem;}
+.astronaut-guidance-actions li p {margin: .3rem 0 0; font-size: .88rem; line-height: 1.7;}
+.astronaut-health-observations {padding: 0; list-style: none; margin: 0;}
+.astronaut-health-observations li {border-left: 3px solid var(--warning-line); padding: .2rem 0 .75rem 1rem; margin-bottom: 1rem;}
+.astronaut-health-observations .urgent {border-left-color: var(--error);}
+.astronaut-health-observations small {color: var(--muted); font-size: .75rem;}
+.astronaut-missing-metrics {display: grid; gap: .5rem; margin: 1rem 0; font-size: .8rem;}
+.astronaut-missing-metrics div {display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line-soft); padding-top: .5rem;}
+.astronaut-missing-metrics dt {color: var(--muted);}
+.astronaut-missing-metrics dd {margin: 0; font-variant-numeric: tabular-nums;}
+.astronaut-food-options {padding-block: 1.25rem 2rem;}
+.astronaut-food-options table {width: 100%;}
+.astronaut-food-options th {white-space: nowrap;}
+.astronaut-food-options td {font-variant-numeric: tabular-nums;}
+.astronaut-food-options td:first-child {width: 40%; min-width: 14rem;}
+.astronaut-food-options td strong, .astronaut-food-options td small {display: block;}
+.astronaut-food-options td small {font-size: .77rem; color: var(--muted); margin-top: .2rem;}
+.astronaut-food-options td a {font-size: .75rem; display: inline-block; margin-top: .35rem;}
+.astronaut-explanation {display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; border-block: 1px solid var(--line); padding: 1.7rem 0;}
+.astronaut-explanation > div:first-child {max-width: 41rem;}
+.astronaut-explanation h3 {font-size: 1.1rem; margin-top: .35rem;}
+.astronaut-explanation p {font-size: .82rem; margin: .5rem 0 0;}
+.astronaut-local-label {font-size: .78rem; color: var(--muted);}
+.astronaut-ai-summary, .astronaut-ai-message {flex-basis: 100%;}
+.astronaut-ai-summary {padding: 1.1rem 1.4rem; background: var(--surface);}
+.astronaut-ai-summary ul {padding-left: 1.3rem; margin: .75rem 0 0;}
+.astronaut-ai-summary small {display: block; margin-top: .75rem; color: var(--muted);}
+.astronaut-guidance-scope {margin-top: 1.5rem; color: var(--muted); font-size: .8rem;}
+.astronaut-guidance-scope p {max-width: 65rem; font-size: .8rem;}
+@media (max-width: 1150px) {.astronaut-nutrient-rows {grid-template-columns: 1fr;gap: 1rem;}.astronaut-bar-line {grid-template-columns: 3rem minmax(3rem, 1fr) 7rem;}.astronaut-nutrient-heading {margin-bottom: 1rem;}.astronaut-person-heading {align-items: flex-start;}.astronaut-guidance-badges {justify-content: flex-end;}.astronaut-guidance-actions {column-gap: 2rem;}}
+@media (max-width: 700px) {.astronaut-guidance-header {flex-direction: column; gap: .5rem;}.astronaut-guidance-header > a {margin-top: .5rem;}.astronaut-guidance-controls {grid-template-columns: 1fr 1fr;gap: 1rem;}.astronaut-guidance-controls label:last-child {grid-column: 1 / -1;}.astronaut-person-heading {flex-direction: column;gap: .75rem;}.astronaut-guidance-badges {justify-content: flex-start;}.astronaut-guidance-actions {grid-template-columns: 1fr;row-gap: 1.5rem;}.astronaut-section-title {flex-wrap: wrap;gap: .3rem;}.astronaut-explanation {gap: 1rem;}}

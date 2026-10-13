@@ -35,6 +35,7 @@ beforeEach(()=>{
     else if(url==='/api/snapshots/config') data=savedConfigurations;
     else if(url==='/api/config/validate') data={config:JSON.parse(options.body).config};
     else if(url==='/api/crop-advisor') {const payload=JSON.parse(options.body);data={day:payload.day,deadline_day:payload.deadline_day,recommendations:[],planned_crop_actions:[],forecast:{nutrients:[]},selection_reason:{text:'No additional batch fits these modeled limits.'}};}
+    else if(url==='/api/astronaut-guidance') {const payload=JSON.parse(options.body);data={day:payload.day,sample_only:payload.crew_state.sample_only,members:payload.crew_state.profiles.map(profile=>({...profile,target_source:'provided_profile',log_status:'missing',nutrients:['energy','protein','vitamin_c'].map(nutrient=>({nutrient,unit:{energy:'kcal',protein:'g',vitamin_c:'mg'}[nutrient],target:profile.targets[nutrient],intake:null,gap:null,log_complete:false})),actions:[],health_alerts:[],food_options:[]})),scope:{limitations:[]},ai:{available:false}};}
     else if(url==='/api/growth') data={expected_harvest_kg:3,available_harvest_kg:3};
     else if(url==='/api/explain') data={mode:'deterministic',narrative:'Saved model facts retained.',fallback_reason:'Local Ollama unavailable; verified explanation retained.'};
     else if(url==='/api/plans') {
@@ -68,6 +69,18 @@ function savedCrewMission(){
 }
 
 describe('Mission planning workspace',()=>{
+  it('opens the separate astronaut guidance tab with the shared current crew records',async()=>{
+    bootstrapData.crew_sample=clone(crewSample);
+    render(<App/>);await loadedOverview();
+    fireEvent.click(primaryLink('Astronaut guidance'));
+    await screen.findByRole('heading',{name:'Daily nutrient picture'});
+    expect(location.hash).toBe('#guidance');
+    expect(screen.getByRole('combobox',{name:'Astronaut'}).options).toHaveLength(4);
+    expect(calls.filter(call=>call.url==='/api/plans')).toHaveLength(0);
+    const payload=JSON.parse(calls.find(call=>call.url==='/api/astronaut-guidance').options.body);
+    expect(payload.crew_state.profiles.map(p=>p.name)).toEqual(crewSample.profiles.map(p=>p.name));
+    expect(payload.day).toBe(1);
+  });
   it('uses the exact nutrition draft names and targets in overview and its future crop advice',async()=>{
     bootstrapData.last_run=savedCrewMission();bootstrapData.config=clone(bootstrapData.last_run.metadata.config);bootstrapData.crew_sample=clone(crewSample);
     render(<App/>);await loadedOverview();
@@ -143,7 +156,7 @@ describe('Mission planning workspace',()=>{
     render(<App/>);await loadedOverview();
     const navigation=screen.getByRole('navigation',{name:'Workspace navigation'});
     expect(within(navigation).getAllByRole('link').map(link=>link.textContent)).toEqual([
-      'Mission overview','Crew & nutrition','Biological production','Crops & food','What-if simulator','Leaf screening','Fruit checking','Live devices',
+      'Mission overview','Crew & nutrition','Astronaut guidance','Biological production','Crops & food','What-if simulator','Leaf screening','Fruit checking','Live devices',
     ]);
     expect(within(navigation).queryByRole('link',{name:/research|model|saved/i})).toBeNull();
     expect(settingsLink()).toBeTruthy();

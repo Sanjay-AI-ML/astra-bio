@@ -439,6 +439,29 @@ def nutrition_assess(payload: dict = Body(...)):
     return {"rows": rows, "contributions": crop_contributions(gaps), "scope": "Recorded intake estimate; missing or incomplete logs do not diagnose nutritional deficiency."}
 
 
+@app.post("/api/astronaut-guidance")
+def astronaut_guidance(payload: dict = Body(...)):
+    from .astronaut_guidance import build_astronaut_guidance
+    from .astronaut_ai import guidance_ai_status, remember_guidance
+    source, scenario = None, None
+    if payload.get("metadata") is not None or payload.get("run_id") is not None:
+        _, config, scenario, comparison = _saved_plan_source(payload)
+        source = comparison.adaptive
+    else:
+        config = configuration(payload["config"])
+    report = build_astronaut_guidance(config, source, payload.get("crew_state"),
+        day=payload.get("day", 1), focus_nutrient=payload.get("focus_nutrient", "auto"), scenario=scenario)
+    report["ai"] = guidance_ai_status()
+    report["evidence_id"] = remember_guidance(report)
+    return report
+
+
+@app.post("/api/astronaut-guidance/ai")
+async def astronaut_guidance_ai(payload: dict = Body(...)):
+    from .astronaut_ai import explain_guidance
+    return await run_in_threadpool(explain_guidance, payload.get("evidence_id"), payload.get("profile_id"))
+
+
 @app.get("/api/nutrition/sample")
 def sample_crew(count: int = Query(4, ge=1, le=12)):
     return crew_sample(count)
