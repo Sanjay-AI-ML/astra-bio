@@ -450,7 +450,8 @@ def astronaut_guidance(payload: dict = Body(...)):
     else:
         config = configuration(payload["config"])
     report = build_astronaut_guidance(config, source, payload.get("crew_state"),
-        day=payload.get("day", 1), focus_nutrient=payload.get("focus_nutrient", "auto"), scenario=scenario)
+        day=payload.get("day", 1), focus_nutrient=payload.get("focus_nutrient", "auto"), scenario=scenario,
+        demo_intake=payload.get("demo_intake", False))
     report["ai"] = guidance_ai_status()
     report["evidence_id"] = remember_guidance(report)
     return report

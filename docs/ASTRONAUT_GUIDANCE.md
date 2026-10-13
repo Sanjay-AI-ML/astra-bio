@@ -2,6 +2,8 @@
 
 Open the **Astronaut guidance** workspace or `#guidance`. Select a person, mission day and optional nutrient focus. The page updates when the shared crew data changes and preserves person selection across valid refreshes.
 
+Dummy intake is enabled by default for the presentation preview. Distinct sample ingredient masses are calculated against reference food composition for each person on any mission day. Comparison targets are explicitly illustrative in this mode; no saved log, target or mission inventory is modified. Turn off **Use dummy intake for this preview** to analyze the recorded logs instead. Real clinical observations are excluded from the dummy preview to avoid mixing fictional intake with real health records.
+
 Each nutrient has its own target/intake chart and unit. Complete logs and operator-reviewed targets establish a difference to the planning target; missing or partial logs remain unknown. Targets edited in the current personal profile can be compared separately, while the saved mission continues using its accepted inputs until the roster changes are explicitly applied. This is a food-log calculation, not a prediction of blood nutrient levels or nutritional deficiency.
 
 Food examples give the energy, protein and vitamin C in a reference portion. USDA reference edible forms are shown explicitly. Dry ingredients are not ready-to-eat serving prescriptions. Matching stored-food composition and previous-day saved inventory determine modeled availability; future crop output does not become current stock. Stock is shared across the crew and is not allocated by this page.

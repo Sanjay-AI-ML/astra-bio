@@ -19,6 +19,19 @@ def fixture(reviewed=True):
     return config, state
 
 
+def test_dummy_intake_populates_all_named_profiles_on_any_mission_day_without_mutation():
+    config,state=fixture(reviewed=False)
+    before=deepcopy(state)
+    report=build_astronaut_guidance(config,None,state,day=48,demo_intake=True)
+    assert report['demo_intake'] and report['sample_only']
+    assert len(report['members'])==4
+    assert all(m['log_status']=='complete' for m in report['members'])
+    protein=[next(r for r in m['nutrients'] if r['nutrient']=='protein')['intake'] for m in report['members']]
+    assert all(value>0 for value in protein) and len(set(protein))==4
+    assert all(row['gap'] is not None for m in report['members'] for row in m['nutrients'])
+    assert state==before
+
+
 def member(report, index=0):
     return report["members"][index]
 

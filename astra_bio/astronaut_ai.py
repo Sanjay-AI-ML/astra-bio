@@ -67,6 +67,8 @@ def _anonymous_facts(report, member):
         {"id": "targets", "text": "Targets are " + ("operator-reviewed planning inputs." if member["targets_reviewed"] else "unreviewed provided inputs; review them before using this as intake guidance.")}]
     if report.get("sample_only"):
         facts.append({"id": "sample", "text": "This is a fictional crew demonstration, not measured astronaut health data."})
+    if report.get("demo_intake"):
+        next(f for f in facts if f["id"] == "targets")["text"] = "Targets are illustrative inputs for this dummy intake comparison; no clinical requirement or prescription is established."
     if member.get("health_alerts"):
         # Keep medical review mandatory, without sharing the measurement or its
         # identity. Actual urgent message remains independently on the local UI.

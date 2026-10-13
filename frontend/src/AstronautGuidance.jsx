@@ -54,6 +54,7 @@ export default function AstronautGuidance({config, run, crewState, crewProfiles,
   const day = Math.max(1, Math.min(horizon, Number(missionDay) || 1));
   const state = crewState || {profiles: crewProfiles || []};
   const [focus, setFocus] = useState('auto');
+  const [demoIntake, setDemoIntake] = useState(true);
   const [report, setReport] = useState(null);
   const [selectedId, setSelectedId] = useState('');
   const [busy, setBusy] = useState(false);
@@ -63,7 +64,7 @@ export default function AstronautGuidance({config, run, crewState, crewProfiles,
   const [aiError, setAiError] = useState('');
   const version = useRef(0), aiVersion = useRef(0), selection = useRef(selectedId);
   selection.current = selectedId;
-  const contextKey = JSON.stringify([planningConfig, run?.metadata, state, day, focus]);
+  const contextKey = JSON.stringify([planningConfig, run?.metadata, state, day, focus, demoIntake]);
   const activeContext = useRef(contextKey);
   activeContext.current = contextKey;
 
@@ -74,7 +75,7 @@ export default function AstronautGuidance({config, run, crewState, crewProfiles,
     aiVersion.current++;
     setBusy(true); setError(''); setReport(null); setExplanation(null); setAiError(''); setAiBusy(false);
     try {
-      const response = await request('/astronaut-guidance', {metadata: run?.metadata, config: planningConfig, crew_state: state, day, focus_nutrient: focus});
+      const response = await request('/astronaut-guidance', {metadata: run?.metadata, config: planningConfig, crew_state: state, day, focus_nutrient: focus, demo_intake: demoIntake});
       if (!current(token, context)) return;
       if (!Array.isArray(response?.members)) throw new Error('Individual guidance did not return usable crew records.');
       setReport(response);
@@ -118,12 +119,13 @@ export default function AstronautGuidance({config, run, crewState, crewProfiles,
       <label className="field"><span>Mission day</span><input type="number" min="1" max={horizon} step="1" value={day} disabled={!setMissionDay} onChange={event => {const value = Number(event.target.value); if (Number.isInteger(value) && value >= 1 && value <= horizon) setMissionDay?.(value);}}/></label>
       <label className="field"><span>Nutrient focus</span><select value={focus} onChange={event => setFocus(event.target.value)}><option value="auto">Automatic from this person’s data</option>{Object.entries(nutrientLabels).map(([key, label]) => <option value={key} key={key}>{label}</option>)}</select></label>
     </div>
+    <label className="astronaut-data-note"><input type="checkbox" checked={demoIntake} onChange={event=>setDemoIntake(event.target.checked)}/><span>Use dummy intake for this preview. Each person gets distinct sample food quantities; saved logs and mission resources stay unchanged.</span></label>
     {!planningConfig && <div className="empty-state"><h2>Load a mission to begin</h2><p>Individual guidance uses the current mission configuration and crew records.</p></div>}
     {busy && <p role="status">Reviewing crew records for Day {day}…</p>}
     {error && <div className="notice warning" role="alert"><p>{error}</p><button className="text-button" type="button" onClick={calculate}>Retry guidance</button></div>}
     {report && !member && <div className="empty-state"><h2>No named crew profile available</h2><p>Add or apply individual crew profiles in Crew & nutrition.</p><a href="#crew" onClick={() => navigate?.('crew')}>Open crew data →</a></div>}
     {member && <div className="astronaut-guidance-result" aria-live="polite">
-      <div className="astronaut-person-heading"><div><span className="eyebrow">DAY {report.day ?? day} · INDIVIDUAL REVIEW</span><h2>{member.name}</h2>{member.target_source && <small className="astronaut-target-source">{member.target_source === 'accepted_mission' ? 'Accepted mission targets' : 'Current personal profile targets'}</small>}</div><div className="astronaut-guidance-badges">{report.sample_only && <span className="source-pill">Sample crew data</span>}<span className={'source-pill ' + (member.targets_reviewed ? '' : 'astronaut-unreviewed')}>{member.targets_reviewed ? 'Reviewed targets' : 'Unreviewed targets'}</span><span className="source-pill">{logComplete ? 'Complete intake log' : 'Incomplete intake log'}</span></div></div>
+      <div className="astronaut-person-heading"><div><span className="eyebrow">DAY {report.day ?? day} · INDIVIDUAL REVIEW</span><h2>{member.name}</h2>{member.target_source && <small className="astronaut-target-source">{member.target_source === 'accepted_mission' ? 'Accepted mission targets' : 'Current personal profile targets'}</small>}</div><div className="astronaut-guidance-badges">{report.sample_only && <span className="source-pill">Sample crew data</span>}<span className={'source-pill ' + (member.targets_reviewed ? '' : 'astronaut-unreviewed')}>{report.demo_intake ? 'Demo comparison targets' : member.targets_reviewed ? 'Reviewed targets' : 'Unreviewed targets'}</span><span className="source-pill">{logComplete ? 'Complete intake log' : 'Incomplete intake log'}</span></div></div>
       {member.pending_target_change && <div className="notice warning">Target edits are pending. This personal analysis uses the provided target edits; the saved mission keeps its accepted targets until changes are applied.</div>}
       {member.mission_membership === 'not_matched' && <div className="astronaut-data-note"><Activity size={18}/><span>This profile is available for personal analysis and is not matched to the saved mission roster. Apply reviewed crew changes separately to include this person in resource planning.</span></div>}
       {!logComplete && <div className="astronaut-data-note"><Activity size={18}/><span>{member.log_status === 'missing' || member.log_status === 'missing_log' ? 'No intake was recorded for this day.' : 'This day’s food log is not complete.'} Missing intake is unknown; it is not counted as zero or diagnosed as a deficiency.</span></div>}

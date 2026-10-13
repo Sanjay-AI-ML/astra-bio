@@ -27,7 +27,7 @@ describe('Individual astronaut guidance', () => {
     renderGuidance({request, missionDay: 12});
     await ready();
     expect(request).toHaveBeenCalledTimes(1);
-    expect(request).toHaveBeenCalledWith('/astronaut-guidance', {metadata: run.metadata, config, crew_state: crewState, day: 12, focus_nutrient: 'auto'});
+    expect(request).toHaveBeenCalledWith('/astronaut-guidance', {metadata: run.metadata, config, crew_state: crewState, day: 12, focus_nutrient: 'auto', demo_intake: true});
     expect(screen.getByText('Sample crew data')).toBeTruthy();
     expect(screen.getByRole('img', {name: 'Protein: daily target 80 g, recorded intake 55 g, remaining to target'})).toBeTruthy();
     const table = screen.getByRole('table', {name: 'Individual food options'});

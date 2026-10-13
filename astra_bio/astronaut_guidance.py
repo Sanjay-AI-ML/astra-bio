@@ -7,7 +7,7 @@ inventory allocation. This function is read-only.
 from __future__ import annotations
 
 from copy import deepcopy
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from hashlib import sha256
 from math import isclose
 
@@ -121,7 +121,7 @@ def _fact(member_token, key, text):
     return {"id": f"astronaut-{member_token}-{key}", "text": text}
 
 
-def build_astronaut_guidance(config, plan, crew_state, *, day=1, focus_nutrient="auto", scenario=None):
+def build_astronaut_guidance(config, plan, crew_state, *, day=1, focus_nutrient="auto", scenario=None, demo_intake=False):
     """Analyze current workspace profiles without editing the saved mission.
 
     Missing/partial logs do not establish a daily shortage. ``focus_nutrient``
@@ -137,12 +137,33 @@ def build_astronaut_guidance(config, plan, crew_state, *, day=1, focus_nutrient=
     if crew_state.get("sample_only") is not None and not isinstance(crew_state["sample_only"], bool):
         raise ValueError("Sample provenance must be a boolean.")
     state = deepcopy(crew_state)
+    if not isinstance(demo_intake, bool):
+        raise ValueError("Dummy intake selection must be true or false.")
+    if demo_intake:
+        from .crew_samples import crew_sample
+        raw_profiles = _state_profiles(state)
+        if not 1 <= len(raw_profiles) <= 12:
+            raise ValueError("Choose one to twelve crew profiles for dummy intake.")
+        sample = crew_sample(len(raw_profiles))
+        ids = {row["profile_id"]: raw_profiles[index].profile_id for index, row in enumerate(sample["profiles"])}
+        source_day = (day - 1) % 7 + 1
+        state["entries"] = [{**row, "profile_id": ids[row["profile_id"]], "day": day}
+            for row in sample["entries"] if row["day"] == source_day]
+        state["complete_days"] = {f"{p.profile_id}:{day}": True for p in raw_profiles}
+        # Dummy intake must not mix fictional observations with real records.
+        if not state.get("sample_only"):
+            for field in ("blood_samples", "health_observations", "approved_supplements"):
+                state[field] = []
+        state["sample_only"] = True
+        state["scope"] = "Fictional intake demonstration; provided targets are illustrative comparison inputs. Any retained sample blood measurements are invented."
     profiles = _state_profiles(state)
     if len(profiles) > 12 or any(len(p.profile_id) > 200 or len(p.name) > 120 for p in profiles):
         raise ValueError("Personal guidance supports up to 12 profiles with short IDs and names.")
     if len(_rows(state, "entries")) > 50000:
         raise ValueError("Personal guidance supports up to 50,000 food-log entries.")
     selected, origins, mission_context = _selected_profiles(config, plan, profiles, day, scenario)
+    if demo_intake:
+        selected = [replace(p, targets_reviewed=True) for p in selected]
     complete = state.get("complete_days", {})
     if not isinstance(complete, dict) or any(not isinstance(key, str) or not isinstance(value, bool)
             for key, value in complete.items()):
@@ -249,6 +270,7 @@ def build_astronaut_guidance(config, plan, crew_state, *, day=1, focus_nutrient=
             "missing_metrics": response["scope"]["missing_metrics"],
             "measurement_context_missing": response["scope"]["reference_context_missing"]})
     return {"schema_version": 1, "day": day, "focus_nutrient": focus_nutrient,
+        "demo_intake": demo_intake,
         "sample_only": sample_only, "members": members,
         "scope": {"method": "Deterministic per-person USDA food-log comparison with manually entered targets.",
             "analyzed_profile_count": len(members), "mission_crew_count": mission_context["crew_count"],
