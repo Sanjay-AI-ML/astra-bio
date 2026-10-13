@@ -225,13 +225,15 @@ describe('independent screening modes',()=>{
     expect(screen.getByText('ASTRA-BIO fine-tuned model · plantdoc-20261011T142833Z')).toBeTruthy();
     expect(screen.getByText('Retake the leaf in even light.')).toBeTruthy();
     expect(screen.getByText('Why this result?').closest('details').open).toBe(true);
-    expect(screen.getByText('45%')).toBeTruthy();
-    expect(screen.getByText('50%')).toBeTruthy();
-    expect(screen.getByText('2%')).toBeTruthy();
+    expect(screen.getByText('0.450')).toBeTruthy();
+    expect(screen.getByText('0.500')).toBeTruthy();
+    expect(screen.getByText('0.020')).toBeTruthy();
     expect(screen.getAllByText('Yes')).toHaveLength(2);
     expect(screen.getByText('early blight').closest('section').getAttribute('aria-label')).toBe('Unconfirmed model matches');
     expect(screen.queryByText('leaf mold')).toBeNull();
-    expect(screen.getByText(/Scores show visual similarity, not the probability of disease/)).toBeTruthy();
+    expect(screen.queryByText(/The model ran successfully/)).toBeNull();
+    expect(screen.getByText('0.450 model score')).toBeTruthy();
+    expect(screen.queryByText('45% model score')).toBeNull();
     expect(screen.queryByText('Scores are ambiguous.')).toBeNull();
   });
   it('never exposes condition names when leaf evidence conflicts with the selected crop',async()=>{
