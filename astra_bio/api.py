@@ -239,9 +239,15 @@ def crop_advice(payload: dict = Body(...)):
         plan = comparison.adaptive
     else:
         config = configuration(payload["config"])
-    return recommend_crops(config, plan, day=payload.get("day", 1),
+    report = recommend_crops(config, plan, day=payload.get("day", 1),
         priority=payload.get("priority", "balanced"), area_m2=payload.get("area_m2", 1.0),
-        deadline_day=payload.get("deadline_day"), scenario=scenario)
+        deadline_day=payload.get("deadline_day"), scenario=scenario,
+        automatic=payload.get("automatic", False))
+    if report["automatic"] or "crew_state" in payload or "biological_scenario" in payload:
+        from .crew_response import build_response_plan
+        report["response_plan"] = build_response_plan(config, plan, report,
+            payload.get("crew_state"), payload.get("biological_scenario"), scenario)
+    return report
 
 
 @app.get("/api/bioproduction/catalog")

@@ -74,3 +74,21 @@
 .crop-advisor-timed-help {margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line);}
 .crop-advisor-timed-help dl {display: flex; flex-wrap: wrap; gap: 24px;}
 .crop-advisor-timed-help dd {margin: 7px 0; font-size: 20px; font-weight: 600;}
+.crop-advisor-context {margin: 22px 0; color: var(--muted); line-height: 1.7;}
+.crop-advisor-advanced {margin: 20px 0 30px; font-size: 13px;}
+.crop-advisor-mode {display: flex; align-items: center; gap: 10px; margin: 20px 0;}
+.crop-advisor-response {padding: 28px 0; border-bottom: 1px solid var(--line); margin-bottom: 30px;}
+.crop-advisor-response-heading {display: flex; align-items: baseline; flex-wrap: wrap; gap: 20px; justify-content: space-between;}
+.crop-advisor-response-heading h3 {font-size: 23px; margin: 12px 0 20px;}
+.crop-advisor-health-alert {padding: 18px 22px; margin: 14px 0; border-left: 3px solid var(--warning); background: var(--surface);}
+.crop-advisor-health-alert.urgent {border-color: #b42318;}
+.crop-advisor-health-alert > div {display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: baseline;}
+.crop-advisor-health-alert span {font-size: 12px; color: var(--muted);}
+.crop-advisor-health-alert p {margin: 10px 0 0; max-width: 90ch; font-size: 13px;}
+.crop-advisor-support {display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 22px 36px; margin: 26px 0;}
+.crop-advisor-support article {border-top: 1px solid var(--line); padding-top: 18px;}
+.crop-advisor-support p, .crop-advisor-record-scope {font-size: 13px; color: var(--muted); line-height: 1.7;}
+.crop-advisor-production-options {margin-top: 30px;}
+.crop-advisor-production-options td {white-space: normal; min-width: 120px;}
+.crop-advisor-production-options td:first-child {min-width: 220px;}
+.crop-advisor-production-options small {display:block; margin-top: 8px; color:var(--muted);}

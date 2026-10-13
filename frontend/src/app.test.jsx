@@ -15,6 +15,7 @@ const emptyTelemetry=()=>({source:'hardware',device_id:null,streams:[],latest:nu
 const response=data=>({ok:true,json:async()=>clone(data)});
 
 beforeEach(()=>{
+  sessionStorage.clear();
   calls=[];telemetryData=emptyTelemetry();telemetryFailure='';savedConfigurations=[];bootstrapData=clone(fixture);location.hash='overview';
   vi.stubGlobal('fetch',vi.fn(async(url,options={})=>{
     calls.push({url,options});

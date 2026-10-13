@@ -32,6 +32,35 @@ def candidate(report, crop_id):
     return next(row for row in report["recommendations"] if row["crop_id"] == crop_id)
 
 
+def test_automatic_sizes_batches_from_future_headroom_and_meal_capacity():
+    config = habitat(planting_increment_m2=.1)
+    plan = PlanResult("Occupied", "simulated", daily=[daily(1), daily(4, area_m2=4.8)])
+    report = recommend_crops(config, plan, automatic=True)
+    quick = candidate(report, "quick")
+    assert report["area_m2"] is None
+    assert quick["area_m2"] == pytest.approx(.2)
+    assert quick["estimated_harvest_kg"] == pytest.approx(.4)
+    assert quick["actionable"]
+
+
+def test_automatic_does_not_invent_unknown_finite_stores():
+    report = recommend_crops(habitat(initial_water_l=100), automatic=True)
+    assert report["top_choice_crop_id"] is None
+    assert all(not row["actionable"] and row["area_m2"] == 0 for row in report["recommendations"])
+
+
+def test_automatic_uses_accepted_whole_crew_targets_and_preserves_history():
+    config = habitat()
+    plan = PlanResult("Saved", "simulated", daily=[daily(d, protein_gap=5) for d in range(1,101)])
+    before = deepcopy(plan)
+    report = recommend_crops(config, plan, automatic=True, priority="energy", deadline_day=3)
+    assert report["priority"] == "balanced"
+    assert report["deadline_day"] == 100
+    assert report["weights"]["protein"] == 1
+    assert candidate(report,"quick")["area_m2"] == pytest.approx(.125)
+    assert plan == before
+
+
 def test_protein_priority_uses_cycle_output_and_keeps_preharvest_gap_visible():
     config = habitat()
     plan = PlanResult("Saved plan", "simulated", daily=[daily(1, protein_gap=5), daily(2)])

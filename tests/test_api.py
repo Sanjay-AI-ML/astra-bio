@@ -38,6 +38,21 @@ def test_bootstrap_serves_real_reference_and_private_config_never_appears(client
     assert client.get("/api/health").json()["frontend"] == "react"
 
 
+def test_automatic_crop_advisor_connects_saved_crew_health_and_intake(client):
+    from astra_bio.crew_samples import crew_sample
+    from astra_bio.nutrition import apply_profile_targets, CrewProfile
+    sample=crew_sample()
+    config=apply_profile_targets(replace(default_config(),planning_events=[]),
+        [CrewProfile(**p) for p in sample['profiles']])
+    response=client.post('/api/crop-advisor',json={'config':asdict(config),'automatic':True,'crew_state':sample})
+    assert response.status_code==200,response.text
+    report=response.json()
+    assert report['automatic'] and report['area_m2'] is None
+    assert len(report['crew_context']['members'])==4
+    assert len(report['response_plan']['crew_intake'])==12
+    assert {a['kind'] for a in report['response_plan']['health_alerts']}=={'low_hemoglobin','low_ferritin'}
+
+
 def test_reviewed_crew_event_saved_with_timely_advice_and_reloaded_roster(client):
     config=replace(default_config(),days=18,initial_water_l=300,initial_energy_kwh=80)
     source=client.post('/api/plans',json={'config':asdict(config),'scenario':asdict(Scenario('none','Nominal',event_day=18))}).json()

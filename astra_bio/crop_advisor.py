@@ -6,7 +6,7 @@ not change a planting, consume stored food, or infer nutrients from a photo.
 """
 from __future__ import annotations
 
-from math import isclose
+from math import floor, isclose
 
 from .model import HabitatConfig, Scenario
 from .nutrition import UNITS, active_crew_context, composition_for_species, load_compositions, nonnegative
@@ -249,7 +249,8 @@ def _bridge_foods(config: HabitatConfig, plan: PlanResult | None, day: int, cata
 
 def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, day: int = 1,
                     priority: str = "balanced", area_m2: float = 1.0,
-                    deadline_day: int | None = None, scenario: Scenario | None = None) -> dict:
+                    deadline_day: int | None = None, scenario: Scenario | None = None,
+                    automatic: bool = False) -> dict:
     """Rank additive crop candidates without changing the submitted simulation.
 
     ``day`` is the planting day. A crop's first harvest is ``day + grow_days``.
@@ -257,6 +258,11 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
     across the full growth window, including any future scenario changes.
     """
     config.validate()
+    if not isinstance(automatic, bool):
+        raise ValueError("Automatic crop selection must be true or false.")
+    if automatic:
+        priority = "balanced"
+        deadline_day = config.days
     if isinstance(day, bool) or not isinstance(day, int) or not 1 <= day <= config.days:
         raise ValueError("Crop planting day must be an integer within the planning horizon.")
     deadline = config.days if deadline_day is None else deadline_day
@@ -296,27 +302,56 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
     for crop in config.crops:
         harvest_day = day + crop.grow_days
         yield_factor = _batch_factor(scenario, crop.id, day, harvest_day) if scenario else 1.0
-        kg = area_m2 * crop.yield_kg_per_m2 * yield_factor
-        nutrients = _amounts(crop.nutrients_per_kg, kg)
-        outputs = _amounts(crop.nutrients_per_kg, crop.yield_kg_per_m2 * yield_factor / crop.grow_days)
         harvest_row = rows.get(harvest_day, {})
         harvest_context = active_crew_context(config, harvest_day, harvest_row, scenario)
         harvest_crew = harvest_context["crew_count"]
         harvest_targets = {n: _target_for_row(config, harvest_row, harvest_day, n, scenario) for n in UNITS}
-        normalized = {n: (outputs[n] or 0.0) / harvest_targets[n] if harvest_targets[n] > 0 else 0.0 for n in UNITS}
-        components = {n: weights[n] * normalized[n] for n in UNITS}
         growth_window = [headrooms[d] for d in range(day, min(harvest_day, config.days + 1))]
         minimum = {key: min(h[key] for h in growth_window) for key in today}
-        water = area_m2 * crop.water_l_per_m2_day
-        power = area_m2 * crop.power_kwh_per_m2_day
+        batch_area = area_m2
+        if automatic:
+            # Evaluate alternatives without spending any saved commitments.
+            caps = [minimum["area_m2"]]
+            for rate, resource in ((crop.water_l_per_m2_day, "water_l"),
+                    (crop.power_kwh_per_m2_day, "power_kwh")):
+                if rate > EPS:
+                    caps.append(minimum[resource] / rate)
+            for rate, resource in ((crop.water_l_per_m2_day, "water_l"),
+                    (crop.power_kwh_per_m2_day, "energy_kwh")):
+                store = stores[resource]
+                if rate > EPS and store["configured"]:
+                    caps.append(max(0.0, store["remaining"] or 0.0) / (rate * crop.grow_days))
+            batch_area = max(0.0, min(caps))
+            yield_per_area = crop.yield_kg_per_m2 * yield_factor
+            if yield_per_area > EPS:
+                help_limit = _harvest_help(config, plan, rows, crop, harvest_day,
+                    batch_area * yield_per_area, harvest_targets, weights, scenario, deadline)
+                mass_limit = help_limit["consumable_harvest_kg"]
+                if use_gap_timing:
+                    gap_masses = [help_limit["harvest_day_shortfalls"][n] / crop.nutrients_per_kg[n]
+                        for n in UNITS if weights[n] > EPS and crop.nutrients_per_kg.get(n, 0) > EPS
+                        and help_limit["harvest_day_shortfalls"].get(n) is not None]
+                    mass_limit = min(mass_limit, max(gap_masses, default=0.0))
+                batch_area = min(batch_area, mass_limit / yield_per_area)
+            if config.planting_increment_m2 > 0:
+                batch_area = floor((batch_area + EPS) / config.planting_increment_m2) * config.planting_increment_m2
+        kg = batch_area * crop.yield_kg_per_m2 * yield_factor
+        nutrients = _amounts(crop.nutrients_per_kg, kg)
+        outputs = _amounts(crop.nutrients_per_kg, crop.yield_kg_per_m2 * yield_factor / crop.grow_days)
+        normalized = {n: (outputs[n] or 0.0) / harvest_targets[n] if harvest_targets[n] > 0 else 0.0 for n in UNITS}
+        components = {n: weights[n] * normalized[n] for n in UNITS}
+        water = batch_area * crop.water_l_per_m2_day
+        power = batch_area * crop.power_kwh_per_m2_day
         help_at_harvest = _harvest_help(config, plan, rows, crop, harvest_day, kg,
             harvest_targets, weights, scenario, deadline)
         blocked = []
+        if automatic and batch_area <= EPS:
+            blocked.append("No useful additional batch fits unused growing resources and harvest-day meal capacity; keep or review the saved crop actions.")
         if harvest_day > config.days:
             blocked.append("First harvest is after the planning horizon.")
         elif harvest_day > deadline:
             blocked.append("First harvest is after the selected harvest deadline.")
-        if area_m2 > minimum["area_m2"] + EPS:
+        if batch_area > minimum["area_m2"] + EPS:
             blocked.append("Insufficient free growing area while keeping the saved plantings.")
         if water > minimum["water_l"] + EPS:
             blocked.append("Insufficient daily water after crew and saved crop allocations.")
@@ -327,10 +362,10 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
             store = stores[resource]
             if store["configured"] and required > EPS and store["remaining"] is None:
                 blocked.append(f"Remaining finite {description} stock is unknown; an additional batch cannot be confirmed.")
-            elif store["configured"] and required > max(0.0, store["remaining"]) + EPS:
+            elif store["configured"] and store["remaining"] is not None and required > max(0.0, store["remaining"]) + EPS:
                 blocked.append(f"Insufficient unallocated finite {description} stock after the saved mission's future allocations.")
-        if config.planting_increment_m2 > 0 and not isclose(area_m2 / config.planting_increment_m2,
-                round(area_m2 / config.planting_increment_m2), abs_tol=EPS, rel_tol=0):
+        if config.planting_increment_m2 > 0 and not isclose(batch_area / config.planting_increment_m2,
+                round(batch_area / config.planting_increment_m2), abs_tol=EPS, rel_tol=0):
             blocked.append("Requested area is not a multiple of the configured tray increment.")
         if any(weights[n] > 0 and outputs[n] is None for n in UNITS):
             blocked.append("Composition is missing a nutrient used by the selected priority.")
@@ -350,6 +385,7 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
         if not complete_forecast:
             warnings.append("The remaining daily forecast is incomplete; ranking uses production per area and growth day, without claiming timed gap closure.")
         recommendations.append({"crop_id": crop.id, "name": crop.name, "actionable": not blocked,
+            "area_m2": batch_area,
             "blocked_reasons": blocked,
             "score": help_at_harvest["weighted_gap_help_at_harvest"] if use_gap_timing else sum(components.values()),
             "score_components": help_at_harvest["timing_score_components"] if use_gap_timing else components,
@@ -366,7 +402,7 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
             "harvest_day_fresh_limit_kg": fresh_cap,
             "resources": {"required_daily_water_l": water, "available_daily_water_l": today["water_l"],
                 "required_daily_power_kwh": power, "available_daily_power_kwh": today["power_kwh"],
-                "required_area_m2": area_m2, "available_area_m2": today["area_m2"],
+                "required_area_m2": batch_area, "available_area_m2": today["area_m2"],
                 "cycle_water_l": water * crop.grow_days, "cycle_power_kwh": power * crop.grow_days,
                 "min_available_water_l_in_cycle": minimum["water_l"],
                 "min_available_power_kwh_in_cycle": minimum["power_kwh"],
@@ -396,7 +432,10 @@ def recommend_crops(config: HabitatConfig, plan: PlanResult | None = None, *, da
     else:
         selection_reason = {"type": "no_timely_gap_help", "text": "Additional growing capacity exists, but these extra batches cannot reduce the selected forecast gaps on their harvest days while preserving saved meals and harvests. Review stored food, recovery options or a replan."}
     return {"schema_version": 1, "day": day, "deadline_day": deadline,
-        "crew_context": crew_context, "priority": priority, "area_m2": area_m2,
+        "crew_context": crew_context, "priority": priority, "area_m2": None if automatic else area_m2,
+        "automatic": automatic,
+        "area_basis": "Each crop uses only unallocated growth-window resources and unused harvest-day meal capacity; size is capped to weighted harvest-day gaps when established, then rounded down to the configured tray increment. Candidates are alternatives, not simultaneous allocations."
+            if automatic else "User-entered comparison area, evaluated independently for each crop.",
         "units": dict(UNITS), "weights": weights, "weight_basis": weight_basis,
         "scoring_basis": "With a complete saved forecast and selected nutrient gaps, score credits only the consumable extra harvest against that harvest day's remaining gaps, divided by that day's crew nutrient targets. Earlier or later gaps receive no credit. Otherwise score compares normalized nutrient production per m²/growth day. Production score breaks timing ties; no nutrient quantities with different units are added directly.",
         "score_mode": "harvest_day_gap_help" if use_gap_timing else "production_per_area_day",

@@ -14,6 +14,7 @@ import MissionChangePanel from './MissionChangePanel.jsx';
 import BioProduction from './BioProduction.jsx';
 import {validateCrewRoster} from './crew-roster.js';
 import {initialNutritionRoster, missionCrewContext} from './mission-crew.js';
+import {currentCrewState, readNutritionDraft} from './crew-state.js';
 import { useTelemetry } from './useTelemetry.js';
 import astraLogo from './assets/astra-bio-logo.png';
 import './style.css';
@@ -84,16 +85,23 @@ function App() {
   const [planPolicy,setPlanPolicy] = useState('adaptive');
   const [missionDay,setMissionDay] = useState(1);
   const [crewProfiles,setCrewProfiles] = useState([]);
+  const [crewState,setCrewState] = useState(null);
   const [crewPlanningBusy,setCrewPlanningBusy] = useState(false);
   const [page,setPage] = useState(currentPage), [message,setMessage] = useState(null);
   const [initialError,setInitialError] = useState('');
   const [menuOpen,setMenuOpen] = useState(false);
   const [searchOpen,setSearchOpen] = useState(false);
-  const menuToggle = useRef(null), navigationRef = useRef(null);
-  useEffect(() => { request('/bootstrap').then(data => {setBootstrap(data); updateConfig(data.config);setCrewProfiles(initialNutritionRoster(data));if(data.last_run)setRun(data.last_run);}).catch(e => setInitialError(e.message)); }, []);
+  const menuToggle = useRef(null), navigationRef = useRef(null), bootstrapRun = useRef(null);
+  useEffect(() => { request('/bootstrap').then(data => {
+    const saved=readNutritionDraft(),profiles=saved?.profiles||initialNutritionRoster(data),sample=saved?saved.sample:data.crew_sample;
+    setBootstrap(data); updateConfig(data.config);setCrewProfiles(profiles);
+    setCrewState(currentCrewState({profiles,entries:saved?.entries||sample?.entries||[],complete_days:saved?.complete_days||sample?.complete_days||{},sample}));
+    if(data.last_run){bootstrapRun.current=data.last_run;setRun(data.last_run);}
+  }).catch(e => setInitialError(e.message)); }, []);
   useEffect(()=>{if(run?.metadata?.config){updateConfig(run.metadata.config);setMissionDay(v=>run.metadata.continuation?Math.max(v,run.metadata.continuation.next_day):1);
     const members=missionCrewContext(run,run.metadata.config,run.metadata.continuation?.next_day||1).members;
-    if(members.length)setCrewProfiles(members);
+    if(members.length&&run!==bootstrapRun.current)setCrewProfiles(members);
+    bootstrapRun.current=null;
   }},[run]);
   useEffect(() => { const change = () => {setPage(currentPage());setMenuOpen(false);}; window.addEventListener('hashchange', change); return () => window.removeEventListener('hashchange', change); }, []);
   useEffect(() => {document.documentElement.scrollTop=0;document.body.scrollTop=0;},[page]);
@@ -147,7 +155,7 @@ function App() {
   if (!bootstrap || !config) return <main className="loading"><img className="loading-logo" src={astraLogo} alt="ASTRA-BIO" width={1536} height={1024}/><p>{initialError || 'Opening the planning workspace…'}</p>{initialError && <button onClick={() => location.reload()}>Retry connection</button>}</main>;
   const setPlantModel = plant_model => setBootstrap(v=>({...v,plant_model}));
   const activeCrewContext=missionCrewContext(run,config,missionDay);
-  const context = {config,setConfig,bootstrap,request,notify,run,setRun,navigate,planPolicy,setPlanPolicy,missionDay,setMissionDay,setPlantModel,crewProfiles,onProfilesChange:setCrewProfiles,
+  const context = {config,setConfig,bootstrap,request,notify,run,setRun,navigate,planPolicy,setPlanPolicy,missionDay,setMissionDay,setPlantModel,crewProfiles,crewState,onProfilesChange:setCrewProfiles,onCrewStateChange:setCrewState,
     activeCrewContext,missionCrewProfiles:activeCrewContext.members,onApplyCrew:applyNutritionCrew,crewPlanningBusy};
   const group = PAGE_GROUP[page] || page;
   const current = [...NAV, SETTINGS].find(n => n[0] === group) || NAV[0];
@@ -290,7 +298,7 @@ function Simulator({config,bootstrap,run,setRun,notify,missionDay,setMissionDay,
       <div className="actions"><button className="btn" onClick={()=>download('astra-bio-run.json',run.metadata)}>Export complete run</button><button className="btn" onClick={()=>download('astra-bio-daily.csv',csv([...baseline.daily.map(r=>({policy:'fixed',...r})),...adaptive.daily.map(r=>({policy:'adaptive',...r}))]),'text/csv')}>Export daily CSV</button></div>
     </>}</>;
 }
-function Crops({config,setConfig,run,setRun,notify,navigate,missionDay,setMissionDay,crewProfiles,planPolicy:policy,setPlanPolicy:setPolicy}) {
+function Crops({config,setConfig,run,setRun,notify,navigate,missionDay,setMissionDay,crewProfiles,crewState,planPolicy:policy,setPlanPolicy:setPolicy}) {
   const [draft,setDraft]=useState(copy(config.crops)),[busy,setBusy]=useState(false);
   useEffect(()=>setDraft(copy(config.crops)),[config.crops]);
   const keys=['grow_days','yield_kg_per_m2','water_l_per_m2_day','power_kwh_per_m2_day'];
@@ -298,7 +306,7 @@ function Crops({config,setConfig,run,setRun,notify,navigate,missionDay,setMissio
   const plan=run?.metadata[policy];
   async function save(){setBusy(true);try{const provenance={...config.input_provenance};for(const crop of draft){if(JSON.stringify(crop)!==JSON.stringify(config.crops.find(c=>c.id===crop.id)))provenance['crop:'+crop.id+':user_edit']='User-edited endpoint/resource values override the loaded reference. Review these assumptions.';}const res=await request('/config/validate',{config:{...config,crops:draft,input_provenance:provenance}});setConfig(res.config);}catch(e){notify(e.message,true);}finally{setBusy(false);}}
   return <><Title eyebrow="HARVEST-AWARE SCHEDULING" description="Plan future food with explicit harvest delays. Fresh produce enters the food balance on its harvest day.">Crop schedules</Title>
-    <CropAdvisor config={config} setConfig={setConfig} run={run} missionDay={missionDay} setMissionDay={setMissionDay} setRun={setRun} request={request} notify={notify} showContinuation={false}/>
+    <CropAdvisor config={config} setConfig={setConfig} run={run} crewState={crewState} missionDay={missionDay} setMissionDay={setMissionDay} setRun={setRun} request={request} notify={notify} showContinuation={false}/>
     <MissionChangePanel run={run} config={config} sampleProfiles={crewProfiles} missionDay={missionDay} setMissionDay={setMissionDay} setRun={setRun} request={request} notify={notify} planningBusy={busy}/>
     <details className="panel"><summary>Crop profiles & assumptions</summary><div className="section-heading"><h2>Current crop coefficients</h2><button className="text-button" onClick={()=>navigate('models')}>Model settings <ArrowUpRight size={16}/></button></div>
       <div className="table-wrap"><table><thead><tr><th>Crop</th>{labels.map(l=><th key={l}>{l}</th>)}</tr></thead><tbody>{draft.map((c,i)=><tr key={c.id}><td>{c.name}</td>{keys.map(k=><td key={k}><input aria-label={c.name+' '+k} type="number" min={k==='grow_days'?1:0} step={k==='grow_days'?1:'any'} value={c[k]} onChange={e=>setDraft(v=>v.map((crop,index)=>index===i?{...crop,[k]:Number(e.target.value)}:crop))}/></td>)}</tr>)}</tbody></table></div>

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ArrowRight, Check, Sprout} from 'lucide-react';
+import {loadBioProductionScenario} from './bio-production-scenario.js';
 import './crop-advisor.css';
 
 const nutrients = ['protein', 'vitamin_c', 'energy'];
@@ -58,7 +59,24 @@ function CropDetail({crop, area}) {
   </section>;
 }
 
-export default function CropAdvisor({config, setConfig, run, missionDay = 1, setMissionDay, setRun, request, notify = () => {}, showContinuation = true}) {
+function CrewResponse({plan}) {
+  if (!plan) return null;
+  const alerts = plan.health_alerts || [], support = plan.immediate_support || [], options = plan.production_options || [];
+  const sampleOnly = plan.scope?.sample_only;
+  return <section className="crop-advisor-response" aria-labelledby="crew-response-title">
+    <div className="crop-advisor-response-heading"><div><span className="eyebrow">SUPPORT NOW · PRODUCE FOR LATER</span><h3 id="crew-response-title">Crew health and food response</h3></div>{sampleOnly && <span className="source-pill">Sample crew records</span>}</div>
+    {!!alerts.length && <div className="crop-advisor-health-alerts" aria-label="Crew health alerts">{alerts.map((alert, index)=><article key={(alert.profile_id || 'crew')+'-'+alert.kind+'-'+index} className={'crop-advisor-health-alert '+(alert.severity || '')}><div><strong>{alert.name || 'Crew member'}</strong><span>{alert.sample_only ? 'Sample record' : 'Recorded observation'}{alert.day != null ? ' · Day '+alert.day : ''}</span></div><p>{alert.message}</p></article>)}</div>}
+    {!alerts.length && <p className="crop-advisor-record-scope">No alert was generated from the available records. Missing or outdated measurements still need review.</p>}
+    {!!support.length && <div className="crop-advisor-support" aria-label="Immediate support">{support.map((item,index)=><article key={item.kind+'-'+index}><h4>{item.title}</h4><p>{item.message}</p></article>)}</div>}
+    {!!plan.crew_intake?.length && <details className="crop-advisor-notes"><summary>Recorded crew intake today</summary><p>Complete logs use the accepted mission targets. Partial or missing logs cannot establish a daily shortage.</p><div className="table-wrap"><table aria-label="Current crew intake"><thead><tr><th>Member</th><th>Nutrient</th><th>Logged intake</th><th>Accepted target</th><th>Daily gap</th></tr></thead><tbody>{plan.crew_intake.map(row=><tr key={row.profile_id+'-'+row.nutrient}><td>{row.person}</td><td>{labels[row.nutrient]}</td><td>{measure(row.intake,row.unit)}</td><td>{measure(row.target,row.unit)}</td><td>{row.usable_for_response ? measure(row.gap,row.unit) : 'Incomplete / unknown'}</td></tr>)}</tbody></table></div></details>}
+    {!!plan.scope?.pending_target_profile_ids?.length && <p className="notice warning">Crew target edits are pending. Apply them to the mission plan to update production suggestions.</p>}
+    {!!options.length && <div className="crop-advisor-production-options"><h4>Biological production to consider</h4><p>Growing is a future food option. It cannot replace support needed today.</p><div className="table-wrap"><table aria-label="Biological production recommendations"><thead><tr><th>Organism / module</th><th>First harvest</th><th>Protein at first harvest</th><th>Modeled protein total</th><th>Constraints</th></tr></thead><tbody>{options.map((option,index)=><tr key={(option.id || option.profile_id || 'option')+'-'+index}><td><strong>{option.name}</strong><small>{String(option.status || 'review').replaceAll('_',' ')}</small></td><td>{option.first_harvest_day != null ? 'Day '+option.first_harvest_day : 'Unavailable'}</td><td>{measure(option.first_harvest_protein_g,'g')}</td><td>{measure(option.protein_g,'g')}</td><td>{option.reasons?.length ? option.reasons.join(' ') : 'Review module assumptions before using this output.'}</td></tr>)}</tbody></table></div></div>}
+    <details className="crop-advisor-notes"><summary>Health record coverage and limits</summary>{!!plan.scope?.missing_metrics?.length && <p>Missing measurements: {plan.scope.missing_metrics.map(metric=>typeof metric==='string'?metric:metric.name || metric.metric || 'Unspecified measurement').join(', ')}.</p>}{(plan.scope?.limitations || []).map((text,index)=><p key={index}>{text}</p>)}<p>Heart rate and blood pressure alone cannot determine a nutrient deficiency. Supplement decisions need a clinician’s assessment and an approved supply.</p></details>
+  </section>;
+}
+
+export default function CropAdvisor({config, setConfig, run, missionDay = 1, setMissionDay, setRun, request, notify = () => {}, showContinuation = true, crewState, biologicalScenario}) {
+  const [automatic, setAutomatic] = useState(true);
   const [priority, setPriority] = useState('balanced');
   const [area, setArea] = useState(() => Math.min(1, Number((run?.metadata?.config || config)?.area_m2) || 1));
   const [targetChange, setTargetChange] = useState(0);
@@ -74,16 +92,16 @@ export default function CropAdvisor({config, setConfig, run, missionDay = 1, set
   const harvestDeadline = Math.max(day,Math.min(horizon,deadline));
   const lastCompleted = Number(run?.metadata?.continuation?.through_day) || 0;
   const pastBoundary = day < lastCompleted;
-  const contextKey = JSON.stringify([config, run?.history_id, run?.metadata, day, priority, area, targetChange,harvestDeadline]);
+  const reviewedBiologicalScenario = biologicalScenario === undefined ? loadBioProductionScenario(run) : biologicalScenario;
+  const contextKey = JSON.stringify([config, run?.history_id, run?.metadata, day, crewState, reviewedBiologicalScenario, automatic, ...(automatic ? [] : [priority, area, harvestDeadline])]);
   useEffect(()=>setDeadline(horizon),[horizon,run?.history_id]);
   const activeContext = useRef(contextKey);
   activeContext.current = contextKey;
   useEffect(()=>{const advice=run?.metadata?.planning_advice;if(advice){setArea(advice.area_m2);setPriority(advice.priority);}},[run?.history_id,run?.metadata?.created_at_utc]);
   useEffect(() => {
     version.current++;
-    const saved=run?.metadata?.planning_advice;
-    const advice=saved?.day===day && saved.priority===priority && saved.area_m2===area && (saved.deadline_day??horizon)===harvestDeadline && targetChange===0 ? saved : null;
-    setReport(advice); setSelectedId(advice?.top_choice_crop_id || advice?.recommendations?.[0]?.crop_id || ''); setError(''); setBusy('');
+    setReport(null); setSelectedId(''); setError(''); setBusy('');
+    if (automatic && planningConfig) void calculate();
   }, [contextKey]);
   useEffect(() => () => {version.current++;}, []);
 
@@ -94,12 +112,14 @@ export default function CropAdvisor({config, setConfig, run, missionDay = 1, set
   const current = (token, context) => version.current === token && activeContext.current === context;
 
   async function calculate(event) {
-    event.preventDefault();
-    if (!(area > 0) || !Number.isFinite(area)) {setError('Enter a positive planting area.'); return;}
+    event?.preventDefault();
+    if (!automatic && (!(area > 0) || !Number.isFinite(area))) {setError('Enter a positive planting area.'); return;}
     const token = ++version.current, context = contextKey;
     setBusy('recommend'); setError(''); setReport(null);
     try {
-      const response = await request('/crop-advisor', {metadata: run?.metadata, config: planningConfig, day, priority, area_m2: area,deadline_day:harvestDeadline});
+      const response = await request('/crop-advisor', {metadata: run?.metadata, config: planningConfig, day, automatic,
+        ...(crewState ? {crew_state: crewState} : {}), ...(reviewedBiologicalScenario ? {biological_scenario: reviewedBiologicalScenario} : {}),
+        ...(!automatic ? {priority, area_m2: area, deadline_day: harvestDeadline} : {})});
       if (!current(token, context)) return;
       if (!Array.isArray(response.recommendations)) throw new Error('Crop recommendations are unavailable. Review the planning inputs.');
       setReport(response);
@@ -151,24 +171,29 @@ export default function CropAdvisor({config, setConfig, run, missionDay = 1, set
   const gapRows = report?.forecast?.nutrients || [];
   const bridgeFoods = report?.bridge_foods || [];
   return <section className="crop-advisor" aria-labelledby="crop-advisor-title">
-    <div className="crop-advisor-heading"><div><span className="eyebrow"><Sprout size={15}/> NUTRITION → CROP CHOICE</span><h2 id="crop-advisor-title">What should we grow next?</h2><p>Compare crops by protein, vitamin C and energy, then check whether a new batch can fit the remaining mission.</p></div><span className="source-pill">Planning estimates</span></div>
-    <form className="crop-advisor-form" onSubmit={calculate}>
+    <div className="crop-advisor-heading"><div><span className="eyebrow"><Sprout size={15}/> CREW → NUTRITION → PRODUCTION</span><h2 id="crop-advisor-title">Crew-driven food recommendations</h2><p>Recommendations update from the crew’s reviewed needs, health records, remaining resources and time to harvest.</p></div><span className="source-pill">{automatic ? 'Updates automatically' : 'Custom comparison'}</span></div>
+    <div className="crop-advisor-context" aria-label="Recommendation context"><span><strong>Day {day}</strong> of {horizon}</span><span><strong>{horizon - day}</strong> days after today</span><span>{run?.metadata ? 'Saved simulation and remaining resources' : 'Current configuration · no saved simulation'}</span></div>
+    <details className="crop-advisor-advanced"><summary>Advanced comparison</summary><label className="crop-advisor-mode"><input type="checkbox" checked={!automatic} onChange={event=>{invalidate();setAutomatic(!event.target.checked);setTargetChange(0);}}/> Use custom nutrient priority, area and deadline</label>
+    {!automatic && <form className="crop-advisor-form" onSubmit={calculate}>
       <div className="crop-advisor-controls">
         <label className="field"><span>Nutrient priority</span><select value={priority} onChange={event => {invalidate(); setPriority(event.target.value);}}>{Object.entries(labels).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label>
         <label className="field"><span>Assumed planting area (m²)</span><input type="number" min="0.01" max="10000" step="0.01" value={area} onChange={event => {invalidate(); setArea(event.target.value === '' ? '' : Number(event.target.value));}}/></label>
         <label className="field"><span>Simulated mission day</span><input type="number" min="1" max={horizon} step="1" value={day} disabled={!setMissionDay} onChange={event => {const value = Number(event.target.value); if (Number.isInteger(value) && value >= 1 && value <= horizon) {invalidate(); setMissionDay?.(value);}}}/></label>
         <label className="field"><span>Harvest deadline (mission day)</span><input type="number" min={day} max={horizon} step="1" value={harvestDeadline} onChange={event=>{const value=Number(event.target.value);if(Number.isInteger(value)&&value>=day&&value<=horizon){invalidate();setDeadline(value);}}}/></label>
       </div>
-      <div className="crop-advisor-action"><button className="btn primary" type="submit" disabled={!!busy}>{busy === 'recommend' ? 'Comparing crops…' : 'Suggest crops'}<ArrowRight size={16}/></button><span>{run?.metadata ? 'Uses the saved plan and its remaining resources.' : 'Uses current configuration; run a simulation to forecast nutrient gaps.'}</span></div>
-    </form>
+      <div className="crop-advisor-action"><button className="btn primary" type="submit" disabled={!!busy}>{busy === 'recommend' ? 'Comparing crops…' : 'Compare custom inputs'}<ArrowRight size={16}/></button><span>Health alerts continue to use the crew records.</span></div>
+    </form>}
+    </details>
     {setConfig && <details className="crop-advisor-data"><summary>Crop nutrition data</summary><p>Recommendations use the loaded crop coefficients. Apply USDA edible-food references to matched crops for reference-based comparisons. Unmatched crops retain their labeled assumptions; crop growth, resources and stored-food inputs stay as configured. This resets the current comparison and requires a new simulation.</p><button className="btn" type="button" disabled={!!busy} onClick={loadCropNutrition}>{busy === 'sources' ? 'Applying crop references…' : 'Use USDA crop nutrition'}</button></details>}
-    {busy && <p role="status" className="muted">{busy === 'continue' ? 'Keeping simulated history and replanning the future…' : busy === 'sources' ? 'Matching configured crop profiles to USDA food forms…' : 'Comparing nutrient output, growing time and batch resource needs…'}</p>}
-    {error && <p role="alert" className="notice warning">{error}</p>}
+    {busy && <p role="status" className="muted">{busy === 'continue' ? 'Keeping simulated history and replanning the future…' : busy === 'sources' ? 'Matching configured crop profiles to USDA food forms…' : 'Reviewing crew needs, food options and time to harvest…'}</p>}
+    {error && <div role="alert" className="notice warning"><p>{error}</p>{automatic && <button type="button" className="text-button" disabled={!!busy} onClick={()=>calculate()}>Retry recommendations</button>}</div>}
     {report && <div className="crop-advisor-results" aria-live="polite">
+      <CrewResponse plan={report.response_plan}/>
       {report.crew_context&&<p className="crop-advisor-basis">Planning for {report.crew_context.members?.map(profile=>profile.name).join(', ')||'the recorded crew count'}{report.crew_context.unnamed_count>0?' · '+report.crew_context.unnamed_count+' unnamed positions':''}. Harvest deadline: Day {report.deadline_day} · {report.remaining_days} days in this growing window. Crew needs can change on later dated events.</p>}
       {!!report.planned_crop_actions?.length && <section className="crop-advisor-selected-plan" aria-labelledby="selected-crop-plan-title"><span className="eyebrow">ALREADY SELECTED BY THE REVISED SOLVER</span><h3 id="selected-crop-plan-title">Crops for the remaining mission</h3><p>These batches belong to the saved resource-constrained plan. Their dates reflect crew demand, existing food and the time left to harvest. Nutrient output below is potential harvest composition; meals may use less.</p><div className="table-wrap"><table aria-label="Selected crops for the remaining mission"><thead><tr><th>Crop</th><th>Plant → harvest</th><th>Area</th><th>Estimated edible harvest</th><th>Protein in harvest</th><th>Vitamin C in harvest</th></tr></thead><tbody>{report.planned_crop_actions.slice(0,12).map((action,index)=><tr key={action.crop_id+'-'+action.day+'-'+index}><td>{action.name}</td><td>Day {action.day} → {action.harvest_day}</td><td>{measure(action.area_m2,'m²')}</td><td>{measure(action.predicted_harvest_kg,'kg')}</td><td>{measure(action.nutrients_at_harvest?.protein,'g')}</td><td>{measure(action.nutrients_at_harvest?.vitamin_c,'mg')}</td></tr>)}</tbody></table></div>{report.planned_crop_actions.length>12 && <p className="muted">First 12 future batches shown; the complete schedule is below.</p>}</section>}
       <div className="crop-advisor-recommendation"><span className="eyebrow">{top ? 'ADDITIONAL CROP TO CONSIDER' : 'ADDITIONAL CROP COMPARISON'}</span><h3>{top ? top.name : report.selection_reason?.type==='no_timely_gap_help' ? 'Extra batches cannot help these gaps in time' : report.selection_reason?.type==='no_crops' ? 'No crops configured' : 'No additional batch fits the modeled limits'}</h3><p>{report.selection_reason?.text || (top ? 'Highest-ranked feasible batch for ' + labels[priority].toLowerCase() + ' at Day ' + report.day + '. Review harvest timing and food needed before it is ready.' : 'Review each crop’s timing and resource constraints below. Continue planning to evaluate a different crop mix under your reviewed targets.')}</p></div>
       <p className="crop-advisor-basis">{report.weight_basis || 'Rankings compare modeled nutrient output per growing area and day.'} One proposed batch is evaluated at a time; combinations need the mission solver.</p>
+      {report.automatic && report.area_basis && <p className="crop-advisor-basis">{report.area_basis}</p>}
       {report.recommendations.length > 0 ? <div className="crop-advisor-comparison table-wrap"><table aria-label="Crop recommendation comparison"><thead><tr><th>Rank / crop</th><th>Protein per 100 g</th><th>Vitamin C per 100 g</th><th>Energy per 100 g</th><th>Harvest timing</th><th>Estimated harvest</th><th>Limits</th><th/></tr></thead><tbody>{report.recommendations.map(crop => <tr key={crop.crop_id} className={selectedId === crop.crop_id ? 'selected' : ''}>
         <td><span className="crop-advisor-crop-name"><span>{crop.rank ?? '—'}</span><strong>{crop.name}</strong></span></td>
         {nutrients.map(nutrient => <td key={nutrient}>{measure(crop.nutrients_per_100g?.[nutrient], units[nutrient])}</td>)}
@@ -176,7 +201,7 @@ export default function CropAdvisor({config, setConfig, run, missionDay = 1, set
         <td>{crop.actionable ? <span className="crop-advisor-fits"><Check size={14}/> Fits</span> : <span className="crop-advisor-blocked">Blocked</span>}</td>
         <td><button className="text-button" type="button" aria-label={'Review ' + crop.name} aria-pressed={selectedId === crop.crop_id} onClick={() => setSelectedId(crop.crop_id)}>Review</button></td>
       </tr>)}</tbody></table></div> : <p>No crops are configured. Add crop profiles to compare their nutrient output.</p>}
-      {selected && <CropDetail crop={selected} area={report.area_m2}/>}
+      {selected && <CropDetail crop={selected} area={selected.resources?.required_area_m2 ?? report.area_m2}/>}
       <section className="crop-advisor-gaps" aria-labelledby="crop-advisor-gaps-title"><h3 id="crop-advisor-gaps-title">Can the crew wait for harvest?</h3>
         {report.forecast?.available ? <><p>These are intake gaps in the saved simulated plan. A crop planted now supplies no food before its harvest.</p><div className="table-wrap"><table aria-label="Predicted nutrient gaps"><thead><tr><th>Nutrient</th><th>Supply on Day {report.day}</th><th>Crew target that day</th><th>First future gap</th><th>Future gap days</th></tr></thead><tbody>{gapRows.map(row => <tr key={row.nutrient}><td>{labels[row.nutrient] || row.nutrient}</td><td>{measure(row.current_supply, row.unit || units[row.nutrient])}</td><td>{measure(row.current_target, row.unit || units[row.nutrient])}</td><td>{row.earliest_gap_day != null ? 'Day ' + row.earliest_gap_day : 'None in saved plan'}</td><td>{number(row.gap_days)}</td></tr>)}</tbody></table></div></> : <p>Run a mission simulation to inspect predicted nutrient gaps and remaining stored food.</p>}
         {bridgeFoods.length > 0 && <><h4>Stored food to consider before harvest</h4><p>Remaining stock can bridge a delay. This comparison does not allocate a meal or prove that all dietary targets can be met.</p><div className="table-wrap"><table aria-label="Food available before harvest"><thead><tr><th>Food / form</th><th>Remaining stock</th><th>Protein per 100 g now</th><th>Vitamin C per 100 g now</th><th>Energy per 100 g now</th><th>Status</th></tr></thead><tbody>{bridgeFoods.map(food => <tr key={food.food_id}><td>{food.name}<small>{food.provenance?.food_form || food.provenance?.composition?.food_form || 'Configured food form'}</small></td><td>{measure(food.stock_kg, 'kg')}<small>{food.stock_source}</small></td>{nutrients.map(nutrient => <td key={nutrient}>{measure(food.current_nutrients_per_100g?.[nutrient], units[nutrient])}{food.available && food.available_nutrients_in_stock?.[nutrient] != null && <small>{measure(food.available_nutrients_in_stock[nutrient], units[nutrient])} in remaining stock</small>}</td>)}<td>{food.expired ? 'Expired' : food.available ? food.is_reserve ? 'Reserve eligible' : 'Available' : 'Unavailable'}</td></tr>)}</tbody></table></div></>}

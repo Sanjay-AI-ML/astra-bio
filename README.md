@@ -32,7 +32,7 @@ The broader vision is an adaptive biological ecosystem. The current product prov
 | --- | --- |
 | **Mission overview** | Explore the saved mission day, crew roster, reserves, harvests and resource use; compare fixed and adaptive plans. |
 | **Crew & nutrition** | Edit individual dietary targets, record food intake, view nutrient graphs and apply reviewed roster changes during a mission. New sample crew members receive distinct generated names. |
-| **Crop recommendations** | Compare options against the whole crew's modeled needs, harvest deadline and available resources; inspect estimated energy, protein and vitamin C output. |
+| **Crop recommendations** | Automatically compare options against the accepted whole-crew needs, mission day and unused resources. Show estimated nutrients, current crew intake, health-review alerts, stored-food support and reviewed microorganism projections; custom comparison is optional. |
 | **Biological production** | Project literature-supported *Limnospira* and *Wolffia* output using reviewed capacity and resource inputs; compare disruption scenarios and inspect evidence for other candidate routes. |
 | **What-if simulator** | Test water or power shortages, crop losses, crew changes and revised targets. Continue from remaining stocks and active crop batches while preserving completed history. |
 | **Recovery planning** | Compare interventions, resource additions, reserve protection and harvest stress tests for a saved run. |
@@ -183,8 +183,8 @@ Latest full regression run, **13 October 2026**:
 
 | Check | Result |
 | --- | --- |
-| Backend | **600 passed**, 1 skipped; 13 subtests passed |
-| Frontend | **182 passed** across 16 test files |
+| Backend | **624 passed**, 1 skipped; 13 subtests passed |
+| Frontend | **188 passed** across 16 test files |
 | Production frontend build | Passed |
 
 Coverage includes resource conservation, harvest timing, mid-mission continuity, input validation, crop advice, biological-production boundaries, image contracts, snapshots, telemetry and deployment configuration. Passing software tests do not establish biological accuracy; most transport/storage tests use controlled fixtures, with physical camera verification documented separately.

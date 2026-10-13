@@ -2,17 +2,19 @@ import React, {useEffect, useRef, useState} from 'react';
 import CrewHealthGraphs from './CrewHealthGraphs.jsx';
 import {crewNutrients, crewRosterSignature, validateCrewRoster} from './crew-roster.js';
 import {randomCrewName} from './crew-names.js';
+import {currentCrewState, readNutritionDraft, saveNutritionDraft} from './crew-state.js';
 import './nutrition-roster.css';
 
 const clone=value=>structuredClone(value);
 const units={energy:'kcal',protein:'g',vitamin_c:'mg'};
 const number=value=>value==null?'Unknown':Number(value).toLocaleString(undefined,{maximumFractionDigits:2});
-export default function NutritionPanel({config,setConfig,bootstrap,request,notify,run,missionDay=1,crewProfiles,missionCrewProfiles,onProfilesChange,onApplyCrew,crewPlanningBusy=false,navigate}) {
-  const seed=bootstrap.crew_sample;
+export default function NutritionPanel({config,setConfig,bootstrap,request,notify,run,missionDay=1,crewProfiles,missionCrewProfiles,onProfilesChange,onCrewStateChange,onApplyCrew,crewPlanningBusy=false,navigate}) {
+  const [savedDraft]=useState(readNutritionDraft);
+  const seed=savedDraft?savedDraft.sample:bootstrap.crew_sample;
   const [sample,setSample]=useState(seed?clone(seed):null);
   const controlled=Array.isArray(crewProfiles);
-  const initialProfiles=crewProfiles ?? (seed?.profiles||bootstrap.profiles||[]).slice(0,config.crew);
-  const [localProfiles,setLocalProfiles]=useState(()=>clone(initialProfiles)),[entries,setEntries]=useState(clone(seed?.entries||[])),[complete,setComplete]=useState(clone(seed?.complete_days||{})),[day,setDay]=useState(1),[person,setPerson]=useState(initialProfiles[0]?.profile_id||''),[food,setFood]=useState('oats'),[grams,setGrams]=useState(100),[assessment,setAssessment]=useState(seed&&crewRosterSignature(initialProfiles)===crewRosterSignature(seed.profiles)?{rows:seed.assessments.filter(r=>r.day===1),contributions:[],scope:seed.scope}:null),[busy,setBusy]=useState(false),[inventory,setInventory]=useState({oats:0,lentils:0,peanut_butter:0}),[name,setName]=useState(seed?'SAMPLE · Named crew and dietary logs':'Crew intake log'),[snapshots,setSnapshots]=useState([]),[applyError,setApplyError]=useState('');
+  const initialProfiles=crewProfiles ?? savedDraft?.profiles ?? (seed?.profiles||bootstrap.profiles||[]).slice(0,config.crew);
+  const [localProfiles,setLocalProfiles]=useState(()=>clone(initialProfiles)),[entries,setEntries]=useState(clone(savedDraft?.entries||seed?.entries||[])),[complete,setComplete]=useState(clone(savedDraft?.complete_days||seed?.complete_days||{})),[day,setDay]=useState(1),[person,setPerson]=useState(initialProfiles[0]?.profile_id||''),[food,setFood]=useState('oats'),[grams,setGrams]=useState(100),[assessment,setAssessment]=useState(!savedDraft&&seed&&crewRosterSignature(initialProfiles)===crewRosterSignature(seed.profiles)?{rows:seed.assessments.filter(r=>r.day===1),contributions:[],scope:seed.scope}:null),[busy,setBusy]=useState(false),[inventory,setInventory]=useState({oats:0,lentils:0,peanut_butter:0}),[name,setName]=useState(seed?'SAMPLE · Named crew and dietary logs':'Crew intake log'),[snapshots,setSnapshots]=useState([]),[applyError,setApplyError]=useState('');
   const profiles=controlled?crewProfiles:localProfiles;
   function setProfiles(value,notifyChange=true){const next=typeof value==='function'?value(profiles):value;previousProfiles.current=JSON.stringify(next);setLocalProfiles(next);if(notifyChange)onProfilesChange?.(next);}
   const revision=useRef(0);
@@ -53,6 +55,15 @@ export default function NutritionPanel({config,setConfig,bootstrap,request,notif
   // local state but are omitted from the active assessment/snapshot payload.
   const profileIds=new Set(profiles.map(profile=>profile.profile_id));
   const state={schema_version:1,profiles,entries:entries.filter(entry=>profileIds.has(entry.profile_id)),complete_days:Object.fromEntries(Object.entries(complete).filter(([key])=>profileIds.has(key.split(':')[0]))),...(sample?{sample_context:{sample_only:true,fixture_version:1}}:{})};
+  const crewState=currentCrewState({profiles,entries,complete_days:complete,sample});
+  const crewStateKey=JSON.stringify(crewState),sharedStateRevision=useRef('');
+  useEffect(()=>{
+    // The signature avoids a parent-render loop when a callback changes identity.
+    if(sharedStateRevision.current===crewStateKey)return;
+    sharedStateRevision.current=crewStateKey;
+    saveNutritionDraft({profiles,entries,complete_days:complete,sample});
+    onCrewStateChange?.(clone(crewState));
+  },[crewStateKey,onCrewStateChange]);
   async function assessDay(value=day){
     const ticket=++revision.current;setDay(value);setAssessment(null);setBusy(true);
     try{const result=await request('/nutrition/assess',{...state,day:value});if(ticket===revision.current)setAssessment(result);}
@@ -70,11 +81,11 @@ export default function NutritionPanel({config,setConfig,bootstrap,request,notif
         if(existing)return existing;
         const added={...p,name:randomCrewName(usedNames)};usedNames.push(added.name);return added;
       }):fixture.profiles;
-      const ids=new Set(nextProfiles.map(p=>p.profile_id)),oldIds=new Set(profiles.map(p=>p.profile_id));
-      const nextEntries=merge?[...entries.filter(e=>ids.has(e.profile_id)),...fixture.entries.filter(e=>!oldIds.has(e.profile_id))]:fixture.entries;
-      const nextComplete=merge?{...fixture.complete_days,...Object.fromEntries(Object.entries(complete).filter(([key])=>ids.has(key.split(':')[0])))}:fixture.complete_days;
+      const ids=new Set(nextProfiles.map(p=>p.profile_id)),oldIds=new Set([...profiles.map(p=>p.profile_id),...entries.map(e=>e.profile_id)]);
+      const nextEntries=merge?[...entries,...fixture.entries.filter(e=>!oldIds.has(e.profile_id))]:fixture.entries;
+      const nextComplete=merge?{...fixture.complete_days,...complete}:fixture.complete_days;
       const selectedDay=Math.min(day,7);
-      const result=await request('/nutrition/assess',{profiles:nextProfiles,entries:nextEntries,complete_days:nextComplete,day:selectedDay});
+      const result=await request('/nutrition/assess',{profiles:nextProfiles,entries:nextEntries.filter(e=>ids.has(e.profile_id)),complete_days:Object.fromEntries(Object.entries(nextComplete).filter(([key])=>ids.has(key.split(':')[0]))),day:selectedDay});
       if(ticket!==revision.current)return;
       setSample(fixture);setProfiles(nextProfiles,notifyChange);setEntries(nextEntries);setComplete(nextComplete);setDay(selectedDay);setAssessment(result);
       setPerson(old=>ids.has(old)?old:nextProfiles[0]?.profile_id||'');setName('SAMPLE · Named crew and dietary logs');
@@ -145,7 +156,7 @@ export default function NutritionPanel({config,setConfig,bootstrap,request,notif
           <td><input aria-label={p.name+' age'} type="number" min={0} step={1} value={p.age??''} disabled={rosterBusy} onChange={e=>edit(i,'age',e.target.value===''?null:Number(e.target.value))}/></td>
           <td><select aria-label={p.name+' reference sex'} value={p.sex??'unspecified'} disabled={rosterBusy} onChange={e=>edit(i,'sex',e.target.value)}><option value="unspecified">Unspecified</option><option value="male">Male</option><option value="female">Female</option></select></td>
           <td><input aria-label={p.name+' reviewed targets'} type="checkbox" checked={p.targets_reviewed===true} disabled={rosterBusy} onChange={e=>edit(i,'targets_reviewed',e.target.checked)}/></td>
-          <td><button className="text-button" aria-label={'Remove '+p.name} disabled={rosterBusy||profiles.length<=1} onClick={()=>{if(rosterBusy||profiles.length<=1)return;setProfiles(v=>v.filter(row=>row.profile_id!==p.profile_id));setEntries(v=>v.filter(row=>row.profile_id!==p.profile_id));if(person===p.profile_id)setPerson(profiles.find(row=>row.profile_id!==p.profile_id)?.profile_id||'');invalidate();setApplyError('');}}>Remove</button></td>
+          <td><button className="text-button" aria-label={'Remove '+p.name} disabled={rosterBusy||profiles.length<=1} onClick={()=>{if(rosterBusy||profiles.length<=1)return;setProfiles(v=>v.filter(row=>row.profile_id!==p.profile_id));if(person===p.profile_id)setPerson(profiles.find(row=>row.profile_id!==p.profile_id)?.profile_id||'');invalidate();setApplyError('');}}>Remove</button></td>
         </tr>)}</tbody></table></div>
       <div className="notice">Energy and protein targets are manually reviewed inputs. Optional NIH vitamin C healthy-adult references are 90 mg/day for men and 75 mg/day for women; the adult upper limit is 2,000 mg/day. These references exclude pregnancy, lactation and smoking and are not astronaut prescriptions. <a href="https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/" target="_blank" rel="noreferrer">Read NIH source</a></div>
       {!run?.metadata&&<><button className="btn" disabled={rosterBusy||profiles.length!==config.crew||!!validateCrewRoster(profiles)} onClick={()=>task(async()=>{const result=await request('/nutrition/apply-targets',{config,profiles});setConfig(result.config);})}>Apply mean reviewed targets to planner</button>

@@ -3,6 +3,7 @@ import {afterEach,describe,expect,it,vi} from 'vitest';
 import {act,cleanup,fireEvent,render,screen} from '@testing-library/react';
 import NutritionPanel from './NutritionPanel.jsx';
 import {validateCrewRoster} from './crew-roster.js';
+import {readNutritionDraft} from './crew-state.js';
 import fixture from './test-fixture.json';
 import sample from './crew-sample.fixture.json';
 
@@ -14,9 +15,55 @@ const defaultRequest=async(path,body)=>{
   throw new Error('Unexpected request: '+path);
 };
 const props={config:{...fixture.config,crew:4},bootstrap,request:defaultRequest,notify:vi.fn(),setConfig:vi.fn()};
-afterEach(cleanup);
+afterEach(()=>{cleanup();sessionStorage.clear();});
 
 describe('Named sample crew in nutrition workspace',()=>{
+  it('shares current whole-crew logs and labelled blood evidence without applying targets',async()=>{
+    const onCrewStateChange=vi.fn();
+    const {rerender}=render(<NutritionPanel {...props} onCrewStateChange={onCrewStateChange}/>);
+    await act(async()=>{});
+    expect(onCrewStateChange).toHaveBeenLastCalledWith(expect.objectContaining({
+      profiles:sample.profiles,entries:sample.entries,complete_days:sample.complete_days,
+      blood_samples:sample.blood_samples,conditions:sample.conditions,sample_only:true,references:sample.references,
+    }));
+    fireEvent.click(screen.getByRole('button',{name:'Add food to log'}));
+    const shared=onCrewStateChange.mock.calls.at(-1)[0];
+    expect(shared.entries).toHaveLength(sample.entries.length+1);
+    expect(shared.entries.at(-1)).toEqual({profile_id:'crew-1',day:1,food_key:'oats',grams:100});
+    const count=onCrewStateChange.mock.calls.length;
+    rerender(<NutritionPanel {...props} onCrewStateChange={onCrewStateChange} missionDay={2}/>);
+    await act(async()=>{});
+    expect(onCrewStateChange).toHaveBeenCalledTimes(count);
+    expect(props.setConfig).not.toHaveBeenCalled();
+  });
+
+  it('preserves edited intake logs and sample provenance through a remount',async()=>{
+    const onCrewStateChange=vi.fn();
+    const {unmount}=render(<NutritionPanel {...props} onCrewStateChange={onCrewStateChange}/>);
+    fireEvent.change(screen.getByLabelText('Alias 1'),{target:{value:'Reviewed alias'}});
+    fireEvent.click(screen.getByRole('button',{name:'Add food to log'}));
+    unmount();
+    render(<NutritionPanel {...props} onCrewStateChange={onCrewStateChange}/>);
+    await act(async()=>{});
+    expect(screen.getByLabelText('Alias 1').value).toBe('Reviewed alias');
+    expect(onCrewStateChange.mock.calls.at(-1)[0].entries).toHaveLength(sample.entries.length+1);
+    expect(onCrewStateChange.mock.calls.at(-1)[0].sample_only).toBe(true);
+    expect(onCrewStateChange.mock.calls.at(-1)[0].blood_samples).toEqual(sample.blood_samples);
+  });
+
+  it('omits departed people from current advice while retaining their historical meal logs',async()=>{
+    const onCrewStateChange=vi.fn();
+    render(<NutritionPanel {...props} onCrewStateChange={onCrewStateChange}/>);
+    fireEvent.click(screen.getByRole('button',{name:'Remove Shree Ram Vishal'}));
+    await act(async()=>{});
+    const current=onCrewStateChange.mock.calls.at(-1)[0];
+    expect(current.profiles).toHaveLength(3);
+    expect(current.entries.some(row=>row.profile_id==='crew-1')).toBe(false);
+    expect(current.blood_samples.some(row=>row.profile_id==='crew-1')).toBe(false);
+    expect(current.conditions['crew-1']).toBeUndefined();
+    expect(readNutritionDraft().entries.filter(row=>row.profile_id==='crew-1')).toEqual(sample.entries.filter(row=>row.profile_id==='crew-1'));
+  });
+
   it('shares profile edits explicitly and adopts a dated active roster when used without a controlled parent',async()=>{
     const onProfilesChange=vi.fn();
     const reviewed=sample.profiles.map(p=>({...p,targets:{...p.targets,protein:120},targets_reviewed:true}));
@@ -206,10 +253,18 @@ describe('Named sample crew in nutrition workspace',()=>{
   it('never attaches fictional blood values when restoring an ordinary intake snapshot',async()=>{
     const manual={schema_version:1,profiles:[{...sample.profiles[0],name:'Manual alias'}],entries:[],complete_days:{}};
     const request=vi.fn(async(path,body)=>path==='/snapshots/nutrition'?[{id:'manual',name:'Manual log',created_at_utc:'2026-10-12T00:00:00Z'}]:path==='/snapshots/nutrition/manual'?manual:path==='/nutrition/assess'?{rows:[],contributions:[]}:defaultRequest(path,body));
-    render(<NutritionPanel {...props} request={request}/>);
+    const onCrewStateChange=vi.fn();
+    const {unmount}=render(<NutritionPanel {...props} request={request} onCrewStateChange={onCrewStateChange}/>);
     fireEvent.click(await screen.findByRole('button',{name:'Restore intake snapshot'}));
     await act(async()=>{});
     expect(screen.queryByRole('img',{name:/Fictional hemoglobin results/})).toBeNull();
     expect(request.mock.calls.some(([path])=>path.startsWith('/nutrition/sample?'))).toBe(false);
+    expect(onCrewStateChange.mock.calls.at(-1)[0]).toMatchObject({profiles:manual.profiles,entries:[],blood_samples:[],conditions:{},sample_only:false,references:{}});
+    unmount();
+    render(<NutritionPanel {...props} request={request} onCrewStateChange={onCrewStateChange}/>);
+    await act(async()=>{});
+    expect(screen.getByLabelText('Alias 1').value).toBe('Manual alias');
+    expect(onCrewStateChange.mock.calls.at(-1)[0].blood_samples).toEqual([]);
+    expect(screen.queryByRole('img',{name:/Fictional hemoglobin results/})).toBeNull();
   });
 });
